@@ -11,19 +11,19 @@
 
 			<!-- RIGHT PART -->
 			<div class="col-2 col-md-2 col-lg-2 col-xl-2">
-				
+
 				<!-- UPPER IMAGE -->
 				<div class="row" style="padding-top: 0!important; padding-bottom: 0!important;">
 					<div class="col-12" style="padding-left: 0!important;">
 						<img alt="Side Banner" src="<?php echo base_url('assets/images/banner-01.jpg');?>" style="width: 100%;" />
 					</div>
-				</div>	
+				</div>
 				<!-- LOWER IMAGE -->
 				<div class="row" style="padding-top: 0.5em!important;">
 					<div class="col-12" style="padding-left: 0!important;">
 						<img alt="Side Banner" src="<?php echo base_url('assets/images/banner-01.jpg');?>" style="width: 100%;" />
 					</div>
-				</div>	
+				</div>
 			</div>
 
 		</div>
@@ -62,20 +62,20 @@
 </div>
 
 <div class="main-container">
-	
+
 	<div class="row" style="width: 100%; margin-left: 0!important; margin-right: 0!important;">
-		
+
 		<!-- COMPONENT LEFT PART -->
 		<div class="custom-column-left header-desktop">
 			<div class="accordion" id="main-accordion">
 			<?php foreach($categories->result() as $data): ?>
 			<div class="card">
-				<div class="card-header" id="heading-<?php echo $data->ID; ?>" style="padding: 0!important;">
+				<div class="card-header" data-toggle="collapse" data-target="#collapse-<?php echo $data->ID; ?>" aria-expanded="false" aria-controls="collapse-<?php echo $data->ID; ?>" id="heading-<?php echo $data->ID; ?>" style="padding: 0!important;">
 					<p class=" categoryCardContainer">
-						<span class="categoryCardTitle" data-toggle="collapse" data-target="#collapse-<?php echo $data->ID; ?>" aria-expanded="false" aria-controls="collapse-<?php echo $data->ID; ?>">
+						<span class="categoryCardTitle">
 							<label style="font-size: 11px;"><?php echo $data->DESCRIPTION; ?></label>
 						</span>
-						<span class="float-right caret-container" data-toggle="collapse" data-target="#collapse-<?php echo $data->ID; ?>" aria-expanded="false" aria-controls="collapse-<?php echo $data->ID; ?>">
+						<span class="float-right caret-container">
 							<i class="fas fa-chevron-down"></i>
 						</span>
 					</p>
@@ -84,7 +84,7 @@
 					<div class="card-body">
 						<ul>
 							<?php $categoryQuery = $this->M_category->getChildCategory($data->ID); ?>
-							
+
 							<?php foreach($categoryQuery->result() as $list): ?>
 								<li class="category-list">
 									<a href="<?php echo base_url('home?category='.$data->ID.'&id='.ucfirst(strtolower($list->LINK)) );?>">&nbsp;<?php echo ucfirst(strtolower($list->NAME));?></a>
@@ -95,7 +95,7 @@
 				</div>
 			</div>
 			<?php endforeach; ?>
-			
+
 			<div class="card">
 				<span id="banner-sidebar">
 					<img alt="Side Banner" src="<?php echo base_url('assets/images/banner_bike.jpg');?>" style="width: 100%;" />
@@ -113,7 +113,11 @@
 				<!-- Category Part -->
 				<?php if($breadcrumb):?>
 					<div class="mb-3 pt-2" style="text-align: left;">
-						<span style="color: #333;"><span class="fa fa-home"></span> Home </span>
+						<span style="color: #333;">
+							<a href="<?php echo base_url(); ?>" style="color: black;">
+								<span class="fa fa-home"></span> Home
+							</a>
+						</span>
 						<span style="color: #333;"> -
 							<?php foreach($mainCategory->result() as $data): ?>
 								<?php echo $data->NAME; ?>
@@ -135,7 +139,7 @@
 			</div>
 
 			<div class="row" id="loader-icon">
-				
+
 				<div class="col-12 col-md-12 col-lg-12 col-xl-12">
 					<div class="d-flex justify-content-center">
 						<div class="lds-roller pt-4 pb-5">
@@ -152,10 +156,9 @@
 				</div>
 
 			</div>
-		
+
 		</div>
 
 	</div>
 
 </div>
-

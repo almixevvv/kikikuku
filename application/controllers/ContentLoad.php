@@ -1,5 +1,5 @@
 <?php if(!defined("BASEPATH")) exit("Hack Attempt");
-	
+
 	class ContentLoad extends CI_Controller {
 
 		public function __construct() {
@@ -26,7 +26,7 @@
 			foreach($obj['prslist'] as $list) {
 
 				//BROKEN IMAGE LINK FIX
-				if(substr($list['picture2'], 1, 1) != 'i' && substr($list['picture2'], 4, 1) != '/') {					
+				if(substr($list['picture2'], 1, 1) != 'i' && substr($list['picture2'], 4, 1) != '/') {
 					$newPath = 'http://img1.yiwugou.com/i000';
 				} else {
 	    		  	$newPath = 'http://img1.yiwugou.com/';
@@ -43,7 +43,7 @@
 									</div>
 									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
-									<span class="product-price">Price Negotiable</span>	
+									<span class="product-price">Price Negotiable</span>
 								</a>
 							</div>
 						</div>';
@@ -57,7 +57,7 @@
 									</div>
 									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
-									<span class="product-price">Price Negotiable</span>	
+									<span class="product-price">Price Negotiable</span>
 								</a>
 							</div>
 						</div>';
@@ -71,7 +71,7 @@
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
-								<span class="product-price">IDR '.number_format($list['sellPrice']).'</span>	
+								<span class="product-price">IDR '.number_format($list['sellPrice'], 2, ',', '.').'</span>	
 							</a>
 						</div>
 					</div>';
@@ -81,7 +81,7 @@
 			if($currentCounter >= 4) {
 				$output .= '<button onclick="manualLoad()" class="load-more-content" type="button" >Load More</button>';
 			}
-			
+
 			//ECHO THE FINAL GROUP OF OUTPUT
 			echo $output;
 
