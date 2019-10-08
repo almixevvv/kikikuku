@@ -1,0 +1,441 @@
+/*
+
+	INCUBE MEDIA QUERY BREAKPOINT CSS
+
+	1. Extra Small Devices Breakpoint
+		1.1 Header Part
+		1.2 Banner Part
+		1.3 Main Product Part
+		1.4 Footer Part 
+
+	2. Small Device Breakpoint
+	3. Medium Device Breakpoint
+	4. Large Device Breakpoint
+	5. Extra Large Device Breakpoint
+
+ */
+
+/*
+	1. Extra Small Breakpoint
+ */
+	@media only screen and (max-width: 479.98px) {
+
+		/* 1. HEADER PART */
+		.header-desktop {
+			display: none;
+		}
+
+		#navbar-upper {
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+
+		.navbar-text {
+			padding-left: 0;
+		}
+
+		.col-1 {
+			padding-left: 10px;
+		}
+
+		.mobile-icon {
+			font-size: 1.3em;
+			padding-left: 0.3em;
+    		padding-right: 0.3em;
+		}
+
+		.mobile-icon > i {
+			 padding-top: 0.8em!important;
+		}
+
+		/* 2. BANNER PART */
+		.banner-container {
+			padding: 0.5em;
+		}
+
+		/* 3. MAIN PRODUCT PART */
+		.custom-column-right {
+			width: 100%;
+			padding-right: 0.95em;
+    		padding-left: 0.95em;
+		}
+
+		.custom-product-list {
+			width: 50%;
+		}
+
+		.product-image {
+			width: 8em;
+	    	height: 8em;
+		}
+
+		.full-container {
+			margin-top: 7em!important;
+		}
+
+		.main-container {
+			padding-left: 0.1em;
+    		padding-right: 0.1em;
+    		padding-top: 1em;
+		}
+
+		.product-list {
+    		height: 16.6em;
+		}
+
+		/* 4. FOOTER PART */
+		.footer-container {
+		    padding-left: 1em;
+		    padding-right: 1em;
+		    padding-top: 0.5em;
+		    padding-bottom: 0.5em;
+		}
+
+
+	}
+
+/*
+	2. Small Breakpoint
+ */
+	@media only screen and (min-width: 480px) {
+
+		/* HEADER PART */
+		.header-mobile {
+			display: none;
+		}
+
+		#navbar-upper {
+			padding-left: 1em;
+			padding-right: 1em;
+		}
+
+		.navbar-container {
+			padding-left: 1em;
+			padding-right: 1em;
+		}
+
+		.navbar-brand {
+			margin-right: 0!important;
+		}
+
+		.main-logo {
+			width: 1.8em!important;
+		}
+
+		.list-inline {
+			padding-left: 0!important;
+		}
+
+		.list-inline-item {
+			margin-right: 0!important;
+		}
+
+		#main-search-box {
+			width: 100%!important;
+		}
+
+		#search-text {
+			display: none;
+		}
+
+		#navbar-shopping-cart {
+    		margin-top: 0.4em;
+    		padding-top: 0.5em;
+    		padding-bottom: 0.5em;
+    		padding-right: 0;
+    		border: none;
+		}
+
+		#navbar-login-button {
+			padding-left: 20px;
+    		padding-right: 20px;
+		}
+
+	}
+
+/*
+	3. Medium Device
+ */
+
+	@media only screen and (min-width: 768px) {
+
+		/* HEADER PART */
+		#search-text {
+			display: inline;
+			margin-left: -10px;
+    		padding-right: 10px;
+		}
+
+		#search-text > span {
+			font-size: 0.9em;
+		}
+
+		#navitem-right {
+			padding-left: 2em;
+		}
+
+		#navbar-login-button {
+    	    padding-left: 0.8em;
+    		padding-right: 0.8em;
+		}
+
+		#main-search-box {
+    		width: 89%!important;
+		}
+
+		/* MAIN PRODUCT PART */
+		.custom-column {
+			width: 12em;
+		}
+
+		.categoryCardTitle > label {
+			font-size: 1.5em!important;
+		}
+
+		.full-container {
+			margin-top: 8.5em!important;
+		}
+
+		.custom-column-left {
+		    width: 25%;
+		    padding-left: 0em;
+		}
+
+		#main-accordion {
+			width: 100%;
+		}
+
+		.custom-column-right {
+			width: 75%;
+			padding-right: 1em;
+    		padding-left: 1em;
+		}
+
+		.custom-product-list {
+			width: 25%;
+		}
+
+		.product-list {
+    		height: 15em;
+		}
+
+		.product-image {
+			width: 5em;
+			height: 5em;
+		}
+
+		.product-title {
+			font-size: 0.95em;
+		}
+
+		.product-label {
+			font-size: 0.75em;
+		}
+
+		.product-price {
+			font-size: 0.80em;
+		}
+
+		/* FOOTER PART */
+		.social-links {
+			font-size: 1em;
+			padding-left: 1em;
+    		padding-right: 1em;
+		}
+
+		.login-container {
+			padding-left: 2em;
+			padding-right: 2em;
+		}
+
+	}
+
+/*
+	4. Large Device 
+ */
+
+	@media only screen and (min-width: 992px) {
+
+		/* HEADER PART */
+		#search-text {
+			display: inline;
+			margin-left: -10px;
+    		padding-right: 10px;
+		}
+
+		#main-search-box {
+			width: 85%!important;
+		}
+
+		.main-logo {
+			width: 7.1em!important;
+		}
+
+		#navbar-shopping-cart {
+			border-width: 0 .5px 0 0;
+	    	border-color: #e0e0e0;
+	    	border-style: solid;
+	    	padding-right: 1.5em;
+		}
+
+		#navbar-login-button {
+			padding-left: 2em;
+    		padding-right: 2em;
+		}
+
+		#search-text > span {
+			font-size: 0.9em;
+		}
+
+		/* PRODUCT PART */
+
+		.custom-column-left {
+    		width: 20%;
+		}
+
+		.custom-column-right {
+    		width: 80%;
+			padding-right: 1em;
+    		padding-left: 2em;
+		}
+
+		.product-list {
+    		height: 18em;
+		}
+
+		.product-image {
+			width: 8em;
+    		height: 8em;
+		}
+
+		.product-title {
+			font-size: 1.1em;
+		}
+
+		.product-label {
+    		font-size: 0.95em;
+		}
+
+		.product-price {
+			font-size: 0.97em;
+		}
+
+	}
+
+/*
+	5. Extra Large Device
+ */
+
+	@media only screen and (min-width: 1200px) {
+
+		/* HEADER PART */
+		#navbar-upper {
+    		padding-left: 2em;
+    		padding-right: 2em;
+		}
+
+		.navbar-text {
+			font-size: 0.8em;
+		}
+
+		.navbar-container {
+    		padding-left: 2em;
+    		padding-right: 2em;
+		}
+
+		.main-logo {			  
+			width: 10em!important;
+    		background-size: 9em!important;
+		}
+		
+		#navbar-main {
+			height: 65px;
+		}
+
+		#search-box-container {
+			padding-top: 0.2em;
+		}
+
+		#search-text > span {
+			font-size: 1.1em;
+		}
+
+		#main-search-box {
+    		width: 90%!important;
+		}
+
+		#navbar-shopping-cart {
+			padding-right: 3em;
+		}
+
+		#navbar-shopping-cart > i { 
+			font-size: 1.5em;	
+		}
+
+		#navitem-right {
+			padding-top: 20px!important;
+		}
+
+		#navbar-login-button {
+			font-size: 1.1em;
+    		padding-left: 1.5em;
+    		padding-right: 2em;
+		}
+
+		#navbar-register-button {
+			font-size: 1em;
+		}
+		
+		/* MAIN PRODUCT PART */
+		.categoryCardTitle > label {
+    		font-size: 2em!important;
+		}
+
+		#main-accordion {
+			width: 92%;
+		}
+
+		.custom-column-left {
+    		width: 20%;
+		}
+
+		.custom-column-right {
+		    width: 80%;
+		    padding-left: 0;
+		}
+
+		.custom-product-list {
+    		width: 20%;
+		}
+
+		.product-list {
+			height: 18.5em;
+		}
+
+		.product-image {
+		    width: 10em;
+		    height: 10em;
+		}
+
+		.product-title {
+    		font-size: 1em;
+		}
+
+		.product-label {
+    		font-size: 1em;
+    		margin-top: -15px;
+		}
+
+		.product-price {
+			font-size: 1em;
+		}
+
+		/* FOOTER PART */
+		.social-links {
+			font-size: 1em;
+    		padding-left: 0.5em;
+    		padding-right: 0.5em;
+		}
+
+	}
+
