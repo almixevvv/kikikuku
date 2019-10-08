@@ -6,7 +6,7 @@
 		1.1 Header Part
 		1.2 Banner Part
 		1.3 Main Product Part
-		1.4 Footer Part 
+		1.4 Footer Part
 
 	2. Small Device Breakpoint
 	3. Medium Device Breakpoint
@@ -89,6 +89,11 @@
 		    padding-right: 1em;
 		    padding-top: 0.5em;
 		    padding-bottom: 0.5em;
+		}
+
+		#footer-logo-banner {
+			width: 50%;
+			padding-top: 1em;
 		}
 
 
@@ -251,7 +256,7 @@
 	}
 
 /*
-	4. Large Device 
+	4. Large Device
  */
 
 	@media only screen and (min-width: 992px) {
@@ -343,11 +348,11 @@
     		padding-right: 2em;
 		}
 
-		.main-logo {			  
+		.main-logo {
 			width: 10em!important;
     		background-size: 9em!important;
 		}
-		
+
 		#navbar-main {
 			height: 65px;
 		}
@@ -368,8 +373,8 @@
 			padding-right: 3em;
 		}
 
-		#navbar-shopping-cart > i { 
-			font-size: 1.5em;	
+		#navbar-shopping-cart > i {
+			font-size: 1.5em;
 		}
 
 		#navitem-right {
@@ -385,7 +390,7 @@
 		#navbar-register-button {
 			font-size: 1em;
 		}
-		
+
 		/* MAIN PRODUCT PART */
 		.categoryCardTitle > label {
     		font-size: 2em!important;
@@ -438,4 +443,3 @@
 		}
 
 	}
-

@@ -566,10 +566,13 @@
 	}
 
 	#footer-separator {
-
 		border-top: 1px solid #e0e0e0;
 		margin-top: 1.5em;
+	}
 
+	#footer-logo-banner {
+		width: 100%;
+		padding-top: 1.43em;
 	}
 
 	.social-links {
