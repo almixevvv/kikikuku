@@ -24,7 +24,7 @@
 	}
 
 	body {
-		-webkit-font-smoothing: antialiased;		
+		-webkit-font-smoothing: antialiased;
 	}
 
 	.no-padding-x {
@@ -66,7 +66,7 @@
 	}
 
 	.mobile-icon {
-		
+
 		color: #C1C1C1;
 		font-size: 1.5em;
     	padding-top: 0.5em;
@@ -233,7 +233,7 @@
 
 	#button-search-custom {
 
-		background: #EAEAEA; 
+		background: #EAEAEA;
 		border: 1px solid #ced4d9;
 
 	}
@@ -283,7 +283,7 @@
 	}
 
 	#navbar-register-button {
-    	
+
     	padding: 10px 10px;
     	font-size: 14px;
 	    color: #24ca9d;
@@ -310,13 +310,13 @@
 	}
 
 	#navbar-shopping-cart {
-		
+
 		border-width: 0 .5px 0 0;
 	    border-color: #e0e0e0;
 	    border-style: solid;
 		margin-top: 0.4em;
 		height: 43px;
-		
+
 		padding-top: 0.5em;
 	    padding-bottom: 0.5em;
 	    padding-right: 1.5em;
@@ -324,12 +324,12 @@
 	}
 
 /*
-	3. Banner Styles Part 
+	3. Banner Styles Part
  */
 
 
 /*
-	4. Categories Sidebar Part 
+	4. Categories Sidebar Part
  */
 
 	.categoryCardTitle {
@@ -350,7 +350,7 @@
 	}
 
 	.caret-container {
-		
+
 		font-size: 11px;
     	padding-top: 0.9em;
     	padding-right: 1.7em;
@@ -365,8 +365,8 @@
 	}
 
 	.col-9 {
-		
-		flex: 0 0 80%; 
+
+		flex: 0 0 80%;
 		max-width: 80%;
 
 	}
@@ -455,10 +455,11 @@
 
 	.load-more-content {
 		background: #24ca9d;
-	  	border-radius: 3px;
-	  	color: white;
-	  	display: inline-block;
-	  	padding: 10px 30px;
+		border: none;
+		border-radius: 3px;
+	  color: white;
+	  display: inline-block;
+	  padding: 10px 30px;
 		margin-top: 1em;
 		width: 100%;
 	}
@@ -565,16 +566,15 @@
 	}
 
 	#footer-separator {
-		
+
 		border-top: 1px solid #e0e0e0;
 		margin-top: 1.5em;
 
 	}
 
 	.social-links {
-		
+
 		padding-left: 0.5em;
     	padding-right: 0.5em;
 
 	}
-	
