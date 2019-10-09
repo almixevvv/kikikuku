@@ -641,6 +641,10 @@
     padding-bottom: 1.5em;
 	}
 
+	.detail-label {
+		font-size: 1em;
+	}
+
 	#btn-addcart {
 		width: 80%;
 	}

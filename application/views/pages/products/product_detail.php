@@ -249,7 +249,7 @@
             <?php $counter = 0; ?>
             <?php foreach($dataproduct['detail']['sdiProductsPriceList'] as $quantity): ?>
             <div class="row">
-              <div class="col-5">
+              <div class="col-6 col-md-5 col-lg-5 col-xl-5">
                 <?php if($quantity['endNumber'] == 0): ?>
                   <label class="detail-txt-color">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
                   <?php $finalNumber = $quantity['startNumber']; ?>
@@ -257,7 +257,7 @@
                     <label class="detail-txt-color font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
                 <?php endif; ?>
               </div>
-              <div class="col-5">
+              <div class="col-6 col-md-5 col-lg-5 col-xl-5">
                 <label class="detail-txt-color font-weight-bold">
                   <span class="detail-exw-color">IDR <?php echo number_format($quantity['conferPrice'] * CONVERT, 2);?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
                 </label>
@@ -275,8 +275,8 @@
           </div>
 
           <div class="row mt-4">
-            <div class="col-6">
-              <label>Estimated Price : </label>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+              <label class="detail-label">Estimated Price : </label>
               <?php //IF THE PRICE TOO LONG, SHOW PRICE NEGOTIABLE  ?>
               <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
               <span class="detail-exw-color">Price Negotiable</span>

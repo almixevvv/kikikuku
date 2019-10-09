@@ -137,6 +137,28 @@
 			margin-top: 7.5em;
 		}
 
+		.detail-inner-container {
+			padding-left: 0.5em;
+			padding-right: 0.5em;
+			padding-top: 0.3em;
+		}
+
+		.detail-txt-color {
+			font-size: 0.7em;
+		}
+
+		.exw-container {
+			padding: 0.5em;
+		}
+
+		.exw-container > label {
+			font-size: 0.7em;
+		}
+
+		.detail-label {
+			font-size: 0.8em;
+		}
+
 	}
 
 /*
