@@ -1,106 +1,150 @@
 <div class="detail-container">
 
   <?php
+
+    //DEFAULT IMAGE PATH
+    $newPath = 'http://img1.yiwugou.com/';
+
     //SETUP THE NEW URL FOR PRODUCT IMAGE IF THE LINK IS BROKEN
-    if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
-      $newPath = 'http://img1.yiwugou.com/i000';
-    } else if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
-      $newPath = 'http://img1.yiwugou.com/i000';
-    } else if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
-      $newPath = 'http://img1.yiwugou.com/i000';
-    } else if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
-      $newPath = 'http://img1.yiwugou.com/i000';
-    } else {
-      $newPath = 'http://img1.yiwugou.com/';
+    //CHECK IF THE STRING IS EMPTY OR NOT
+    if($dataproduct['detail']['productForApp']['picture'] != '') {
+      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
+      if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
+        $newPath = 'http://img1.yiwugou.com/i000';
+      }
     }
+
+    //CHECK IF THE STRING IS EMPTY OR NOT
+    if($dataproduct['detail']['productForApp']['picture1'] != '') {
+      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
+      if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
+        $newPath = 'http://img1.yiwugou.com/i000';
+      }
+    }
+
+    //CHECK IF THE STRING IS EMPTY OR NOT
+    if($dataproduct['detail']['productForApp']['picture2'] != '') {
+      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
+      if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
+        $newPath = 'http://img1.yiwugou.com/i000';
+      }
+    }
+
+    //CHECK IF THE STRING IS EMPTY OR NOT
+    if($dataproduct['detail']['productForApp']['picture3'] != '') {
+      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
+      if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
+        $newPath = 'http://img1.yiwugou.com/i000';
+      }
+    }
+
+    //CHECK IF THE STRING IS EMPTY OR NOT
+    if($dataproduct['detail']['productForApp']['picture4'] != '') {
+      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
+      if(substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture4'], 4, 1) != '/') {
+        $newPath = 'http://img1.yiwugou.com/i000';
+      }
+    }
+
   ?>
 
   <div class="row">
 
     <!-- PRODUCT LEFT PART -->
     <div class="col-1 col-md-1 col-lg-1 col-xl-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
+    <?php
+    //CHECK IF THE SDIPRODUCTPICLIST IS NOT EMPTY
+    if($dataproduct['detail']['sdiProductsPicList'] != null):
+      foreach($dataproduct['detail']['sdiProductsPicList'] as $images):
+    ?>
 
-      <?php //IF THERE'S MORE THAN ONE PICTURE, DISPLAY ALL THE PICTURE ?>
-      <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
-      <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $images): ?>
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
 
-        <!-- CHECK IF THE PICTURE EXIST -->
-        <?php if($images['picture'] != null): ?>
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture']; ?>"/>
-          </center>
-        </div>
-        <?php endif; ?>
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture1']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture1']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
 
-        <?php if($images['picture1'] != null): ?>
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture1']; ?>"/>
-          </center>
-        </div>
-        <?php endif; ?>
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture2']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture2']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
 
-        <?php if($images['picture2'] != null): ?>
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture2']; ?>"/>
-          </center>
-        </div>
-        <?php endif; ?>
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture3']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture3']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
 
-        <?php if($images['picture3'] != null): ?>
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture3']; ?>"/>
-          </center>
-        </div>
-        <?php endif; ?>
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture4']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture4']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
 
-        <?php if($images['picture4'] != null): ?>
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture4']; ?>"/>
-          </center>
-        </div>
-        <?php endif; ?>
+    <?php
+      //END SDI PRODUCT PIC LOOP
+      endforeach;
+    //CHECK IF THE SDIPRODUCTPICLIST IS EMPTY
+    else:
+    ?>
 
-        <?php endforeach; ?>
-        <?php else: ?>
+      <!-- PRINT ONLY THE SINGLE IMAGE -->
+      <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
+      <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
+      <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
+      <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
 
-        <?php endif;?>
+    <?php endif; ?>
     </div>
     <!-- END OF PRODUCT LEFT PART -->
 
@@ -285,7 +329,7 @@
               <label class="detail-label">Estimated Price :</label>
               <?php //IF THE PRICE TOO LONG, SHOW PRICE NEGOTIABLE  ?>
               <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
-              <span class="detail-exw-color detail-label">Price Negotiable</span>
+              <span class="detail-exw-color detail-label"></br class="d-none d-md-block d-lg-block d-xl-block">Price Negotiable</span>
                 <?php else: ?>
                 <span class="detail-exw-color detail-label font-weight-bold"></br class="d-none d-md-block d-lg-block d-xl-block">IDR <?php echo number_format($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT, 2);?></span>
               <?php endif; ?>
@@ -331,9 +375,9 @@
                   <button class="btn btn-danger" id="xminusone" type="button"><i class="fa fa-minus"></i></button>
                 </div>
                 <?php if($dataproduct['detail']['sdiProductsPriceList'] != null): ?>
-                <input type="number" class="form-control text-center" aria-describedby="basic-addon1" value="<?php echo $startingQuantity; ?>" style="text-align:right;" >
+                <input type="number" id="quantity" class="form-control text-center" aria-describedby="basic-addon1" value="<?php echo $startingQuantity; ?>" style="text-align:right;" >
                   <?php else: ?>
-                  <input type="number" class="form-control text-center" aria-describedby="basic-addon1" style="text-align:right;">
+                  <input type="number" id="quantity" class="form-control text-center" value="1" aria-describedby="basic-addon1" style="text-align:right;">
                 <?php endif; ?>
                 <div class="input-group-append">
                   <button class="btn btn-success" id="xplusone" type="button"><i class="fa fa-plus"></i></button>
@@ -356,7 +400,7 @@
 
           <div class="row" style="margin-top: 1.5em;">
 
-            <div class="col-lg-5">
+            <div class="col-7 col-md-10 col-lg-7">
               <button type="submit" class="btn btn-kku" id="btn-addcart">
                 Add To Cart&nbsp;<i class="fa fa-shopping-cart"></i>
               </button>
@@ -364,6 +408,42 @@
 
           </div>
 
+        <?php
+          //HIDDEN INPUT
+          $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+          $charactersLength = strlen($characters);
+          $randomString = '';
+
+          for ($i = 0; $i < 8; $i++) {
+              $randomString .= $characters[rand(0, $charactersLength - 1)];
+          }
+
+            $productID = array(
+              'type'  => 'hidden',
+              'name'  => 'product-id',
+              'id'    => 'hiddenQuantity',
+              'value' => $dataproduct['detail']['id']
+            );
+
+            $productName = array(
+              'type'  => 'hidden',
+              'name'  => 'product-name',
+              'id'    => 'hiddenQuantity',
+              'value' => $randomString
+            );
+
+            $productPrice = array(
+              'type'  => 'hidden',
+              'name'  => 'product-price',
+              'id'    => 'hiddenPrice',
+              'value' => $dataproduct['detail']['productForApp']['sellPrice']
+            );
+
+            echo form_input($productID);
+            echo form_input($productName);
+            echo form_input($productPrice);
+
+          ?>
 
           <?php echo form_close(); ?>
 
@@ -400,7 +480,7 @@
           <?php elseif($data['sellPrice'] > 9999999): ?>
             <span class="product-price">Price Negotiable</span>
           <?php else: ?>
-            <span class="product-price">IDR <?php echo number_format($data['sellPrice'], 2, ',', '.'); ?></span>
+            <span class="product-price">IDR <?php echo number_format($data['sellPrice'] * CONVERT, 2, ',', '.'); ?></span>
           <?php endif; ?>
         </a>
       </div>
@@ -416,6 +496,7 @@
 
   $(document).ready(function(){
 
+    var minimumValue = $('#quantity').val();
 
     //ZOOM KE GAMBAR
     $('.detail-main-images')
@@ -442,6 +523,31 @@
               .zoom();
           });
       });
+    });
+
+    $("#xplusone").click(function() {
+        var qty = parseInt($("#quantity").val());
+        var newqty = qty +1;
+        $("#quantity").val(newqty);
+        $("#quantity").val(newqty);
+    });
+
+    $("#xminusone").click(function() {
+        var qty = parseInt($("#quantity").val());
+
+        if(qty > minimumValue) {
+          console.log(qty);
+          var newqty = qty -1;
+          if (newqty < 1) {
+              $("#quantity").val(1);
+              return true;
+          }else if (newqty >= 1) {
+              $("#quantity").val(newqty);
+              return true;
+          } else {
+            return false;
+          }
+        }
     });
 
   });

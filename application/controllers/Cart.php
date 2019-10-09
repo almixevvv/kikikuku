@@ -1,14 +1,17 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 class Cart extends CI_Controller {
 
+	public function __construct() {
+						parent::__construct();
+
+						$this->load->library('cart');
+						$this->load->library('session');
+						$this->load->helper('form');
+						$this->load->model('M_product', 'product');
+						$this->output->enable_profiler(TRUE);
+	}
+
 	public function mycart(){
-
-		// $this->output->enable_profiler(TRUE);
-		$this->load->library('cart');
-		$this->load->model('M_product', 'product');
-
-		$page = 'mycart';
-	    if ( ! file_exists(APPPATH.'/views/pages/cart/'.$page.'.php')){ show_404(); }
 
 		$randomPage = mt_rand(1, 500);
 
@@ -35,9 +38,6 @@ class Cart extends CI_Controller {
 
 	public function addtocart(){
 
-		// $this->output->enable_profiler(TRUE);
-		$this->load->library('cart');
-
 		if($this->input->post('customer-notes') == null) {
 			$productNotes = '';
 		} else {
@@ -54,20 +54,15 @@ class Cart extends CI_Controller {
 		);
 
 		if($this->cart->insert($itemArray)) {
-			redirect('mycart');
+			// redirect('mycart');
 		} else {
-			redirect('mycart');
+			// redirect('mycart');
 		}
 	}
 
 	public function cartToSession() {
 
-		// $this->output->enable_profiler(TRUE);
-
 		//CHECK IF THERE'S A LOGIN SESSION OR NOT
-		$this->load->library('session');
-		$this->load->library('cart');
-		$this->load->helper('form');
 
 		$member_id = $this->session->userdata('USERID');
 
