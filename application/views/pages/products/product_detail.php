@@ -375,9 +375,9 @@
                   <button class="btn btn-danger" id="xminusone" type="button"><i class="fa fa-minus"></i></button>
                 </div>
                 <?php if($dataproduct['detail']['sdiProductsPriceList'] != null): ?>
-                <input type="number" id="quantity" class="form-control text-center" aria-describedby="basic-addon1" value="<?php echo $startingQuantity; ?>" style="text-align:right;" >
+                <input type="number" name="quantity" id="quantity" class="form-control text-center" aria-describedby="basic-addon1" value="<?php echo $startingQuantity; ?>" style="text-align:right;" >
                   <?php else: ?>
-                  <input type="number" id="quantity" class="form-control text-center" value="1" aria-describedby="basic-addon1" style="text-align:right;">
+                  <input type="number" name="quantity" id="quantity" class="form-control text-center" value="1" aria-describedby="basic-addon1" style="text-align:right;">
                 <?php endif; ?>
                 <div class="input-group-append">
                   <button class="btn btn-success" id="xplusone" type="button"><i class="fa fa-plus"></i></button>

@@ -8,7 +8,7 @@ class Cart extends CI_Controller {
 						$this->load->library('session');
 						$this->load->helper('form');
 						$this->load->model('M_product', 'product');
-						$this->output->enable_profiler(TRUE);
+						// $this->output->enable_profiler(TRUE);
 	}
 
 	public function mycart(){
@@ -31,7 +31,7 @@ class Cart extends CI_Controller {
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');
-		$this->load->view('pages/cart/mycart-tmp', $data);
+		$this->load->view('pages/cart/mycart', $data);
     $this->load->view('templates/footer');
 
 	}
@@ -54,9 +54,9 @@ class Cart extends CI_Controller {
 		);
 
 		if($this->cart->insert($itemArray)) {
-			// redirect('mycart');
+			redirect('mycart');
 		} else {
-			// redirect('mycart');
+			redirect('mycart');
 		}
 	}
 

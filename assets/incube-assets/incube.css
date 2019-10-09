@@ -62,9 +62,12 @@
 	}
 
 	.banner-container {
-
 		padding: 0.5em;
+	}
 
+	.swal2-popup {
+    width: 35em!important;
+    font-size: 1.7rem!important;
 	}
 
 	.mobile-icon > a {
@@ -84,6 +87,13 @@
 	.main-container {
 		width: 100%;
 		padding: 1em;
+	}
+
+	.cart-container {
+		width: 100%;
+		padding-left: 2em;
+		padding-right: 2em;
+		margin-top: 9em;
 	}
 
 	/* LOADER ANIMATION */
