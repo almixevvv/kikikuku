@@ -1,23 +1,4 @@
 
-<!-- LOGIN MODAL -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"  aria-labelledby="modalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document" style="height: 100%;">
-            <div class="modal-content" style="height: 50%;">
-            <form>
-                  <div class="row">
-                        <div class="col-12">
-                              <div class="d-flex justify-content-center">
-                                    <span class="float-left text-uppercase font-weight-bold pb-md-2 pb-lg-2 pb-xl-2 login-text-color">
-                                          Login Into Your Account
-                                    </span>
-                              </div>
-                        </div>
-                  </div>
-            </form>
-            </div>
-      </div>
-</div>
-<!-- LOGIN MODAL -->
 
 	</body>
 

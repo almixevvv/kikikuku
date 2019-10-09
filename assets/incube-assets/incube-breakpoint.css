@@ -7,6 +7,7 @@
 		1.2 Banner Part
 		1.3 Main Product Part
 		1.4 Footer Part
+		1.5 Login Part
 
 	2. Small Device Breakpoint
 	3. Medium Device Breakpoint
@@ -39,12 +40,12 @@
 		}
 
 		.mobile-icon {
-			font-size: 1.3em;
+			font-size: 0.9em;
 			padding-left: 0.3em;
     		padding-right: 0.3em;
 		}
 
-		.mobile-icon > i {
+		.mobile-icon > a > i {
 			 padding-top: 0.8em!important;
 		}
 
@@ -96,6 +97,38 @@
 			padding-top: 1em;
 		}
 
+		/* 5. LOGIN PART */
+		.login-container {
+			padding-left: 1.5em;
+    	padding-right: 1.5em;
+			margin-top: 7em;
+		}
+
+		.btn-kku {
+			width: 100%;
+		}
+
+		#login-separator {
+				border-top: solid 1.3px #bdbdbd;
+				border-left: none;
+		}
+
+		#facebook-button {
+			width: 75%;
+		}
+
+		#gmail-button {
+			width: 75%;
+		}
+
+		.registration-container {
+			padding-left: 1.5em;
+			padding-right: 1.5em;
+		}
+
+		#registration-inner-container {
+			padding: 0;
+		}
 
 	}
 
@@ -246,6 +279,17 @@
 			font-size: 1em;
 			padding-left: 1em;
     		padding-right: 1em;
+		}
+
+		.login-container {
+			padding-left: 2em;
+			padding-right: 2em;
+		}
+
+		/* REGISTRATION PART */
+		.registration-container {
+			padding-left: 2em;
+			padding-right: 2em;
 		}
 
 		.login-container {

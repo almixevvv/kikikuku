@@ -1,7 +1,7 @@
 <style type="text/css">
 
 	.main-logo {
-		
+
 		background: url(<?php echo base_url('assets/images/logo.png'); ?>) no-repeat center;
 		background-position: 1px 6px;
 	    width: 10em;
@@ -15,7 +15,7 @@
 	}
 
 	.main-logo-mobile {
-		
+
 		background: url(http://localhost/kikikuku-update/assets/images/logo.png) no-repeat center;
 	    background-position: 0px 8px;
 	    max-width: 2.4em;
@@ -74,10 +74,14 @@
 		</div>
 		<div class="col-3" style="padding-right: 0!important; padding-left: 0.3em!important;">
 			<span class="mobile-icon">
-				<i class="fas fa-shopping-cart"></i>
+				<a href="<?php echo base_url(); ?>">
+					<i class="fas fa-shopping-cart"></i>
+				</a>
 			</span>
 			<span class="mobile-icon">
-				<i class="fas fa-user" data-toggle="modal" data-target="#loginModal"></i>
+				<a href="<?php echo base_url('login'); ?>">
+					<i class="fas fa-user"></i>
+				</a>
 			</span>
 		</div>
 	</div>
@@ -88,7 +92,7 @@
 <header class="header-desktop" id="fixed-navbar">
 
 	<div class="row" style="width: 100%; margin-left: 0!important; margin-right: 0!important;">
-		<div id="header-separator"></div>	
+		<div id="header-separator"></div>
 	</div>
 
 	<div class="row" style="width: 100%; margin-left: 0!important; margin-right: 0!important;">
@@ -108,9 +112,9 @@
 	</div>
 
 	<div class="navbar-container" id="navbar-main">
-		
+
 		<div class="row" style="width: 100%; margin-left: 0!important; margin-right: 0!important;">
-			
+
 			<div class="col-1 col-md-1 col-lg-2 col-xl-2" style="padding-left: 0!important; padding-right: 0!important;">
 				<a class="navbar-brand" href="<?php echo base_url(); ?>">
 					<span class="main-logo"></span>
@@ -120,7 +124,7 @@
 			<div class="col-6 col-md-8 col-lg-7 col-xl-7" style="padding-right: 0!important;" id="search-box-container">
 
 				<ul class="list-inline">
-				   
+
 				   <li class="list-inline-item" id="search-text">
 					   	<span class="navbar-text" style="padding-top: 17px;">
 							Search
@@ -145,9 +149,9 @@
 			</div>
 
 			<div class="col-5 col-md-3 col-lg-3 col-xl-3" style="padding-right: 0!important;">
-				
+
 				<ul class="list-inline" id="navitem-right" style="padding-top: 10px; padding-bottom: 10px; padding-left: 3em;">
-					
+
 					<li class="list-inline-item">
 						<span id="navbar-shopping-cart">
 							<i class="fas fa-shopping-cart" style="color: #C1C1C1; "></i>

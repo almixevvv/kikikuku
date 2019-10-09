@@ -9,6 +9,7 @@
 	5. Product List Styles
 	6. Registration Page Styles
 	7. Footer Section Styles
+	8. Modal Section Styles
 */
 
 /*
@@ -65,12 +66,10 @@
 
 	}
 
-	.mobile-icon {
-
-		color: #C1C1C1;
+	.mobile-icon > a {
+		color: #C1C1C1!important;
 		font-size: 1.5em;
-    	padding-top: 0.5em;
-
+    padding-top: 0.5em;
 	}
 
 	.full-container {
@@ -85,7 +84,6 @@
 		width: 100%;
 		padding: 1em;
 	}
-
 
 	/* LOADER ANIMATION */
 	.lds-roller {
@@ -480,6 +478,7 @@
 		height: 2.5em;
 		color: white;
 		width: 60%;
+		border: none;
 	}
 
 	#facebook-button > i {
@@ -488,12 +487,13 @@
 
 	#gmail-button {
 		margin-top: 1.5em;
-    	background-color: #B23121;
-    	border-radius: 6px;
-    	color: white;
-    	height: 2.5em;
-    	width: 60%;
-    }
+    background-color: #B23121;
+    border-radius: 6px;
+    color: white;
+    height: 2.5em;
+    width: 60%;
+		border: none;
+  }
 
 	#gmail-button > i {
 		padding-right: 1em;
@@ -519,10 +519,18 @@
 		margin-bottom: 2em;
 	}
 
+	.login-font-size {
+		font-size: 0.9em;
+	}
+
+	#login-separator {
+		border-left: solid 1.3px #bdbdbd;
+	}
+
 	.registration-container {
 		width: 100%;
 		padding-left: 13em;
-    	padding-right: 13em;
+    padding-right: 13em;
 		margin-top: 9em;
 		margin-bottom: 2em;
 	}

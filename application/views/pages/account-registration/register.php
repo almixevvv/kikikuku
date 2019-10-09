@@ -5,11 +5,11 @@
 <div class="registration-container" >
 
 	<div class="row" id="registration-inner-container">
-		
+
 		<div class="col-12">
-			
+
 			<div class="row pb-md-2 pb-lg-2 pb-xl-2 pt-md-1 pt-lg-1 pt-xl-1">
-				<div class="col-12">
+				<div class="col-12 pt-3 pb-3 pt-md-0 pt-lg-0 pt-xl-0 pb-md-0 pb-lg-0 pb-xl-0">
 					<div class="d-flex justify-content-center">
 						<span class="text-uppercase font-weight-bold login-text-color">Registration</span>
 					</div>
@@ -18,16 +18,16 @@
 
 		</div>
 
-		<div class="col-6">
-			
+		<div class="col-12 col-md-6 col-lg-6 col-xl-6">
+
 			<div class="row">
-				<div class="col-6">
+				<div class="col-12 col-md-12 col-lg-6 col-xl-6">
 					<div class="form-group">
     					<label for="uFirstName">First Name</label>
     					<input type="text" class="form-control" id="uFirstName" placeholder="Enter Your First Name">
   					</div>
 				</div>
-				<div class="col-6">
+				<div class="col-12 col-md-12 col-lg-6 col-xl-6">
 					<div class="form-group">
     					<label for="uLastName">Last Name</label>
     					<input type="text" class="form-control" id="uLastName" placeholder="Enter Your Last Name">
@@ -66,8 +66,8 @@
 
 		</div>
 
-		<div class="col-6">
-			
+		<div class="col-12 col-md-6 col-lg-6 col-xl-6">
+
 			<div class="row">
 				<div class="col-12">
 					<div class="form-group">
@@ -108,7 +108,7 @@
 
 		</div>
 
-		<div class="col-12">
+		<div class="col-12 pb-4 pb-md-0 pb-lg-0 pb-xl-0">
 			<button type="submit" class="btn btn-kku" style="width:100%;">Register</button>
 		</div>
 
@@ -117,7 +117,7 @@
 </div>
 
 <script type="text/javascript">
-	
+
 	$('#datepicker').datepicker({
 		uiLibrary: 'bootstrap4'
 	});
