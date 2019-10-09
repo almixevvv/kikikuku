@@ -2,7 +2,13 @@
 
   <?php
     //SETUP THE NEW URL FOR PRODUCT IMAGE IF THE LINK IS BROKEN
-    if(substr($dataproduct['detail']['productForApp']['picture'], 1, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
+    if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
+      $newPath = 'http://img1.yiwugou.com/i000';
+    } else if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
+      $newPath = 'http://img1.yiwugou.com/i000';
+    } else if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
+      $newPath = 'http://img1.yiwugou.com/i000';
+    } else if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
       $newPath = 'http://img1.yiwugou.com/i000';
     } else {
       $newPath = 'http://img1.yiwugou.com/';
@@ -12,7 +18,7 @@
   <div class="row">
 
     <!-- PRODUCT LEFT PART -->
-    <div class="col-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
+    <div class="col-1 col-md-1 col-lg-1 col-xl-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
 
       <?php //IF THERE'S MORE THAN ONE PICTURE, DISPLAY ALL THE PICTURE ?>
       <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
@@ -235,7 +241,7 @@
     <!-- END OF PRODUCT CENTER PART -->
 
     <!-- PRODUCT RIGHT PART -->
-    <div class="col-12 order-3 order-md-3 order-lg-3 order-xl-3">
+    <div class="col-12 col-md-5 col-lg-5 col-xl-5 order-3 order-md-3 order-lg-3 order-xl-3">
       <div class="row detail-border ml-0 mr-0">
         <div class="detail-inner-container">
           <!-- Product Title Part -->
@@ -245,20 +251,20 @@
 
           <!-- Product EXW Price -->
           <div class="exw-container">
-            <label>EXW Price:</label>
+            <label class="detail-label">EXW Price:</label>
             <?php $counter = 0; ?>
             <?php foreach($dataproduct['detail']['sdiProductsPriceList'] as $quantity): ?>
             <div class="row">
-              <div class="col-6 col-md-5 col-lg-5 col-xl-5">
+              <div class="col-6 col-md-5 col-lg-5 col-xl-5" style="padding-right: 0!important;">
                 <?php if($quantity['endNumber'] == 0): ?>
-                  <label class="detail-txt-color">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
+                  <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
                   <?php $finalNumber = $quantity['startNumber']; ?>
                   <?php else: ?>
-                    <label class="detail-txt-color font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
+                    <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
                 <?php endif; ?>
               </div>
               <div class="col-6 col-md-5 col-lg-5 col-xl-5">
-                <label class="detail-txt-color font-weight-bold">
+                <label class="detail-txt-color detail-exw-size font-weight-bold">
                   <span class="detail-exw-color">IDR <?php echo number_format($quantity['conferPrice'] * CONVERT, 2);?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
                 </label>
               </div>
@@ -276,26 +282,26 @@
 
           <div class="row mt-4">
             <div class="col-12 col-md-6 col-lg-6 col-xl-6">
-              <label class="detail-label">Estimated Price : </label>
+              <label class="detail-label">Estimated Price :</label>
               <?php //IF THE PRICE TOO LONG, SHOW PRICE NEGOTIABLE  ?>
               <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
-              <span class="detail-exw-color">Price Negotiable</span>
+              <span class="detail-exw-color detail-label">Price Negotiable</span>
                 <?php else: ?>
-                <span class="detail-exw-color font-weight-bold">IDR <?php echo number_format($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT, 2);?></span>
+                <span class="detail-exw-color detail-label font-weight-bold"></br class="d-none d-md-block d-lg-block d-xl-block">IDR <?php echo number_format($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT, 2);?></span>
               <?php endif; ?>
             </div>
 
-            <div class="col-lg-6">
-              <label>Est. Weight : </label>
-              <span style="color: #f75c07;font-size: 17px;font-weight: bold;"><?php echo substr($dataproduct['detail']['productForApp']['weightetc'], 0, 4); ?></span> gr<br>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-6">
+              <label class="detail-label">Est. Weight :</label>
+              <span class="detail-exw-color font-weight-bold" id="detail-weight"><?php echo substr($dataproduct['detail']['productForApp']['weightetc'], 0, 4); ?> gr</span>
             </div>
           </div>
 
           <div class="row mt-2">
-            <div class="col-3">
-              <label>Description :</label>
+            <div class="col-12 col-md-5 col-lg-5 col-xl-5">
+              <label class="detail-label">Description :</label>
             </div>
-            <div class="col-9">
+            <div class="col-12 col-md-9 col-lg-9 col-xl-9">
               <span class="detail-txt-color">
                 <?php if($dataproduct['detail']['productForApp']['introduction'] != null): ?>
                 <label>
@@ -313,14 +319,14 @@
           <?php echo form_open('Cart/addtoCart'); ?>
           <div class="row mt-3">
             <div class="col-12">
-              <label for="quantity">Quantity</label>
+              <label class="detail-label">Quantity</label>
             </div>
           </div>
 
           <div class="row">
 
-            <div class="col-4">
-              <div class="input-group mb-3">
+            <div class="col-7 col-md-10 col-lg-7 col-xl-5">
+              <div class="input-group mb-3" id="btn-detail-quantity">
                 <div class="input-group-prepend">
                   <button class="btn btn-danger" id="xminusone" type="button"><i class="fa fa-minus"></i></button>
                 </div>
@@ -341,7 +347,7 @@
 
             <div class="col-12">
               <div class="form-group">
-                <label for="customer-notes">Inquiry</label>
+                <label class="detail-label" for="customer-notes">Inquiry</label>
                 <textarea type="text" name="customer-notes" class="form-control detail-text-box"/></textarea>
               </div>
             </div>
@@ -370,7 +376,7 @@
   <!-- RECOMENDATION PRODUCT PART -->
   <div class="row mt-4">
 
-    <div class="col-6">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-6">
       <span class="detail-txt-color">
         <label>You Might Also Like:</label>
       </span>
@@ -379,8 +385,8 @@
   </div>
 
   <div class="row mt-2">
-    <?php foreach($recomended['prslist'] as $data): ?>
 
+    <?php foreach($recomended['prslist'] as $data): ?>
     <div class="custom-product-list" >
       <div class="card product-list" id="prod_<?php echo $data['id']; ?>">
         <a href="<?php echo base_url(); ?>product_detail?id=<?php echo $data['id']; ?>" style="text-decoration: none;">
@@ -400,6 +406,7 @@
       </div>
     </div>
     <?php endforeach; ?>
+
   </div>
 
 </div>

@@ -144,19 +144,37 @@
 		}
 
 		.detail-txt-color {
-			font-size: 0.7em;
+			font-size: 1em;
 		}
 
 		.exw-container {
 			padding: 0.5em;
 		}
 
-		.exw-container > label {
-			font-size: 0.7em;
+		.detail-label {
+			font-size: 1em;
 		}
 
-		.detail-label {
+		.detail-exw-size {
 			font-size: 0.8em;
+		}
+
+		#btn-detail-quantity {
+			width: 90%;
+		}
+
+		#btn-addcart {
+			width: 100%;
+			margin-top: -1em;
+			font-size: 1em;
+		}
+
+		#detail-price {
+			font-size: 0.95em;
+		}
+
+		#detail-weight {
+			font-size: 0.95em;
 		}
 
 	}

@@ -645,6 +645,18 @@
 		font-size: 1em;
 	}
 
+	.detail-exw-size {
+		font-size: 1em;
+	}
+
+	#btn-detail-quantity {
+		width: 100%;
+	}
+
+	#detail-price {
+		font-size: 1em;
+	}
+
 	#btn-addcart {
 		width: 80%;
 	}
