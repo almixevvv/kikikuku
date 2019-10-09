@@ -9,18 +9,19 @@
     }
   ?>
 
+  <!-- Product Left Part -->
   <div class="row">
+    <!-- FLEXBOX CONTAINER -->
+    <div class="d-flex">
+    <?php //IF THERE'S MORE THAN ONE PICTURE, DISPLAY ALL THE PICTURE ?>
+    <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
 
-    <!-- PRODUCT LEFT PART -->
-    <div class="col-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
-
-      <?php //IF THERE'S MORE THAN ONE PICTURE, DISPLAY ALL THE PICTURE ?>
-      <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
+      <div class="col-1">
       <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $images): ?>
 
-        <!-- CHECK IF THE PICTURE EXIST -->
+        <!-- CHECK IF EACH PICTURE EXIST -->
         <?php if($images['picture'] != null): ?>
-        <div class="detail-border">
+        <div class="row detail-border">
           <center>
             <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture']; ?>"/>
           </center>
@@ -28,7 +29,7 @@
         <?php endif; ?>
 
         <?php if($images['picture1'] != null): ?>
-        <div class="detail-border">
+        <div class="row detail-border">
           <center>
             <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture1']; ?>"/>
           </center>
@@ -36,7 +37,7 @@
         <?php endif; ?>
 
         <?php if($images['picture2'] != null): ?>
-        <div class="detail-border">
+        <div class="row detail-border">
           <center>
             <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture2']; ?>"/>
           </center>
@@ -44,7 +45,7 @@
         <?php endif; ?>
 
         <?php if($images['picture3'] != null): ?>
-        <div class="detail-border">
+        <div class="row detail-border">
           <center>
             <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture3']; ?>"/>
           </center>
@@ -52,143 +53,65 @@
         <?php endif; ?>
 
         <?php if($images['picture4'] != null): ?>
-        <div class="detail-border">
+        <div class="row detail-border">
           <center>
             <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture4']; ?>"/>
           </center>
         </div>
         <?php endif; ?>
 
-        <?php endforeach; ?>
-        <?php else: ?>
-
-          <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-          <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-          <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-          <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-        <?php endif;?>
+      <?php endforeach; ?>
     </div>
-    <!-- END OF PRODUCT LEFT PART -->
 
-    <!-- IMAGE NAVIGATOR MOBILE -->
-    <div class="col-12 d-md-none d-lg-none-xl-none order-2">
-      <div class="d-flex flex-row">
+    <?php //IF THERE'S NO PICTURE, THEN DISPLAY ONLY ONE
+      else:
+    ?>
+    <div class="col-1">
 
-        <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
-        <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $images): ?>
+      <!-- CHECK IF EACH PICTURE EXIST -->
+      <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
+      <div class="row detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <!-- CHECK IF THE PICTURE EXIST -->
-          <?php if($images['picture'] != null): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
+      <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
+      <div class="row detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <?php if($images['picture1'] != null): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture1']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
+      <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
+      <div class="row detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
-          <?php if($images['picture2'] != null): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture2']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-          <?php if($images['picture3'] != null): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture3']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-          <?php if($images['picture4'] != null): ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture4']; ?>"/>
-            </center>
-          </div>
-          <?php endif; ?>
-
-          <?php endforeach; ?>
-          <?php else: ?>
-
-            <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
-              </center>
-            </div>
-            <?php endif; ?>
-
-            <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
-              </center>
-            </div>
-            <?php endif; ?>
-
-            <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
-              </center>
-            </div>
-            <?php endif; ?>
-
-            <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
-              </center>
-            </div>
-            <?php endif; ?>
-
-          <?php endif;?>
+      <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
+      <div class="row detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
 
       </div>
-    </div>
-    <!-- END OF MOBILE IMAGE NAVIGATOR -->
 
-    <!-- PRODUCT CENTER PART -->
-    <div class="col-12 col-md-5 col-lg-5 col-xl-5 order-1 order-md-2 order-lg-2 order-xl-3">
+    <!-- END OF FLEXBOX CONTAINER -->
+    </div>
+    <?php endif; ?>
+    <!-- End of Left Part -->
+
+    <!-- FLEX CONTAINER -->
+    <div class="d-flex">
+    <!-- PICTURE CENTER -->
+    <div class="col-5">
       <div class="detail-border">
       <? //IF PRODUCT LIST IMAGE IS NOT EMPTY, USE THAT AS SOURCE ?>
       <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
@@ -232,11 +155,13 @@
       </div>
     </div>
 
-    <!-- END OF PRODUCT CENTER PART -->
+    <!-- END OF FLEX CONTAINER -->
+    </div>
+    <!-- END OF PICTURE CENTER -->
 
     <!-- PRODUCT RIGHT PART -->
-    <div class="col-12 order-3 order-md-3 order-lg-3 order-xl-3">
-      <div class="row detail-border ml-0 mr-0">
+    <div class="col-6">
+      <div class="row detail-border">
         <div class="detail-inner-container">
           <!-- Product Title Part -->
           <span class="detail-title">

@@ -15,7 +15,7 @@ class Product_detail extends CI_Controller {
 
         $finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
 
-        $recURL  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=4&cpage=".$randomPage);
+        $recURL  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=5&cpage=".$randomPage);
     		$recomended 	= json_decode($recURL, TRUE);
 
         $json       = file_get_contents($finalUrl);
