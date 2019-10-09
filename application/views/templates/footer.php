@@ -1,6 +1,6 @@
 
 <!-- LOGIN MODAL -->
-<div class="modal" id="loginModal" tabindex="-1" role="dialog"  aria-labelledby="modalTitle" aria-hidden="true">
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"  aria-labelledby="modalTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document" style="height: 100%;">
             <div class="modal-content" style="height: 50%;">
             <form>

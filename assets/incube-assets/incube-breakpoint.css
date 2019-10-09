@@ -442,4 +442,10 @@
     		padding-right: 0.5em;
 		}
 
+		/* LOGIN PART */
+		.login-container {
+	    padding-left: 15em;
+	    padding-right: 15em;
+		}
+
 	}
