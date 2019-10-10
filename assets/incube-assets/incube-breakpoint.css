@@ -177,7 +177,23 @@
 			font-size: 0.95em;
 		}
 
+	/* SHOPPING CART */
+	.cart-container {
+		margin-top: 7em;
+		padding-left: 10px;
+		padding-right: 10px;
 	}
+
+	.cart-header-label {
+		font-size: 1em;
+	}
+
+	.custom-cart-container {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+}
 
 /*
 	2. Small Breakpoint

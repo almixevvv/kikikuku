@@ -11,6 +11,7 @@
 	7. Footer Section Styles
 	8. Modal Section Styles
 	9. Product Details Styles
+	10. Shopping Cart Styles
 */
 
 /*
@@ -670,3 +671,61 @@
 	#btn-addcart {
 		width: 80%;
 	}
+
+/*
+	10. Shopping Cart Styles
+*/
+
+#cart-content-separator {
+	border-bottom: 1px solid black;
+}
+
+#cart-header-border {
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	border-top: 1px solid #d0d0d0;
+	border-bottom: 1px solid #d0d0d0;
+}
+
+.cart-header-label {
+	font-size: 1.5em;
+}
+
+.custom-cart-container {
+	padding-left: 1.55em;
+	padding-right: 1.55em;
+	padding-top: 0.5em;
+}
+
+.no-item-list{
+	font-size: 17px;
+	color:#333;
+	text-transform: uppercase;
+	font-style: italic;
+	height: 100px;
+	text-align: center;
+	padding-top: 50px;
+	padding-bottom: 120px;
+}
+
+.img-list-order {
+	width: 100%;
+	border-radius: 5px;
+	border: 1px solid #d0d0d0;
+}
+
+.cart-product-separator {
+	border-bottom: 1px solid #d0d0d0;
+}
+
+.cart-exw {
+	width: 100%;
+}
+
+#cart-exw-container {
+	width: 100%;
+}
+
+.delete-item {
+	height: 100%;
+}

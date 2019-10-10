@@ -1,7 +1,6 @@
 <div class="detail-container">
 
   <?php
-
     //DEFAULT IMAGE PATH
     $newPath = 'http://img1.yiwugou.com/';
 
@@ -9,7 +8,8 @@
     //CHECK IF THE STRING IS EMPTY OR NOT
     if($dataproduct['detail']['productForApp']['picture'] != '') {
       //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
+      echo substr($dataproduct['detail']['productForApp']['picture'], 4, 1);
+      if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
         $newPath = 'http://img1.yiwugou.com/i000';
       }
     }
@@ -17,7 +17,7 @@
     //CHECK IF THE STRING IS EMPTY OR NOT
     if($dataproduct['detail']['productForApp']['picture1'] != '') {
       //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
+      if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
         $newPath = 'http://img1.yiwugou.com/i000';
       }
     }
@@ -25,7 +25,7 @@
     //CHECK IF THE STRING IS EMPTY OR NOT
     if($dataproduct['detail']['productForApp']['picture2'] != '') {
       //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
+      if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
         $newPath = 'http://img1.yiwugou.com/i000';
       }
     }
@@ -33,7 +33,7 @@
     //CHECK IF THE STRING IS EMPTY OR NOT
     if($dataproduct['detail']['productForApp']['picture3'] != '') {
       //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
+      if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
         $newPath = 'http://img1.yiwugou.com/i000';
       }
     }
@@ -41,7 +41,7 @@
     //CHECK IF THE STRING IS EMPTY OR NOT
     if($dataproduct['detail']['productForApp']['picture4'] != '') {
       //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != 'i' && substr($dataproduct['detail']['productForApp']['picture4'], 4, 1) != '/') {
+      if(substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture4'], 4, 1) != '/') {
         $newPath = 'http://img1.yiwugou.com/i000';
       }
     }
@@ -296,32 +296,43 @@
           <!-- Product EXW Price -->
           <div class="exw-container">
             <label class="detail-label">EXW Price:</label>
-            <?php $counter = 0; ?>
-            <?php foreach($dataproduct['detail']['sdiProductsPriceList'] as $quantity): ?>
-            <div class="row">
-              <div class="col-6 col-md-5 col-lg-5 col-xl-5" style="padding-right: 0!important;">
-                <?php if($quantity['endNumber'] == 0): ?>
-                  <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
-                  <?php $finalNumber = $quantity['startNumber']; ?>
-                  <?php else: ?>
-                    <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
-                <?php endif; ?>
+
+            <?php if($dataproduct['detail']['sdiProductsPriceList'] != null): ?>
+
+              <?php $counter = 0; ?>
+              <?php foreach($dataproduct['detail']['sdiProductsPriceList'] as $quantity): ?>
+              <div class="row">
+                <div class="col-6 col-md-5 col-lg-5 col-xl-5" style="padding-right: 0!important;">
+                  <?php if($quantity['endNumber'] == 0): ?>
+                    <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
+                    <?php $finalNumber = $quantity['startNumber']; ?>
+                    <?php else: ?>
+                      <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
+                  <?php endif; ?>
+                </div>
+                <div class="col-6 col-md-5 col-lg-5 col-xl-5">
+                  <label class="detail-txt-color detail-exw-size font-weight-bold">
+                    <span class="detail-exw-color">IDR <?php echo number_format($quantity['conferPrice'] * CONVERT, 2);?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
+                  </label>
+                </div>
               </div>
-              <div class="col-6 col-md-5 col-lg-5 col-xl-5">
-                <label class="detail-txt-color detail-exw-size font-weight-bold">
-                  <span class="detail-exw-color">IDR <?php echo number_format($quantity['conferPrice'] * CONVERT, 2);?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
-                </label>
-              </div>
-            </div>
-            <?php
-              //FOR PRICING PURPOSE ONLY
-              if($counter == count($dataproduct['detail']['sdiProductsPriceList']) - 1) {
-                $startingQuantity = $quantity['startNumber'];
-                $startingPrice = $quantity['conferPrice'] * CONVERT;
-              }
-            ?>
-            <?php $counter++; ?>
-            <?php endforeach; ?>
+              <?php
+                //FOR PRICING PURPOSE ONLY
+                if($counter == 0) {
+                  $startingQuantity = $quantity['startNumber'];
+                  $startingPrice = $quantity['conferPrice'] * CONVERT;
+                }
+                //if($counter == count($dataproduct['detail']['sdiProductsPriceList']) - 1) {
+                //  $startingQuantity = $quantity['startNumber'];
+                //  $startingPrice = $quantity['conferPrice'] * CONVERT;
+                //}
+              ?>
+              <?php $counter++; ?>
+              <?php endforeach; ?>
+
+            <?php else: ?>
+              <?php $startingPrice = $dataproduct['detail']['productForApp']['sellPrice'] * CONVERT; ?>
+            <?php endif; ?>
           </div>
 
           <div class="row mt-4">
@@ -331,7 +342,7 @@
               <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
               <span class="detail-exw-color detail-label"></br class="d-none d-md-block d-lg-block d-xl-block">Price Negotiable</span>
                 <?php else: ?>
-                <span class="detail-exw-color detail-label font-weight-bold"></br class="d-none d-md-block d-lg-block d-xl-block">IDR <?php echo number_format($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT, 2);?></span>
+                <span class="detail-exw-color detail-label font-weight-bold"></br class="d-none d-md-block d-lg-block d-xl-block">IDR <?php echo number_format($startingPrice, 2);?></span>
               <?php endif; ?>
             </div>
 

@@ -15,7 +15,7 @@ class Cart extends CI_Controller {
 
 		$randomPage = mt_rand(1, 500);
 
-		$url  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=4&cpage=".$randomPage);
+		$url  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=5&cpage=".$randomPage);
 		$obj 	= json_decode($url, TRUE);
 
 		$data['recomended'] = $obj;
