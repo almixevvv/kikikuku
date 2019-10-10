@@ -1,9 +1,10 @@
 <div class="cart-container">
 
-	<div class="row">
+	<div class="row d-none d-md-block d-lg-block d-xl-block">
 
+		<!-- CART BREADCRUMB -->
 		<div class="col-12 col-md-12 col-lg-12 col-xl-12">
-			<div class="mb-0 mb-md-3 mb-lg-3 mb-xl-3 pt-0 pt-md-2 pt-lg-2 pt-xl-2 pl-0 pl-md-4 pl-lg-4 pl-xl-4" style="text-align: left;">
+			<div class="mb-0 mb-md-3 mb-lg-3 mb-xl-3 pt-0 pt-md-2 pt-lg-2 pt-xl-2 pl-0 pl-md-1 pl-lg-4 pl-xl-4" style="text-align: left;">
 				<span style="color: #333;">
 					<a href="<?php echo base_url(); ?>" style="color: black;">
 						<span class="fa fa-home"></span> Home
@@ -14,55 +15,59 @@
 				</span>
 			</div>
 		</div>
+		<!-- END OF CART BREADCRUMB -->
 
 	</div>
 
+	<!-- CART TOTAL ITEMS -->
 	<div class="row">
-
 		<div class="col-12">
-			<label class="cart-header-label pl-0 pl-md-4 pl-lg-4 pl-xl-4"><?php echo $row = count($this->cart->contents()); ?> Item(s) in the Cart</label>
+			<label class="cart-header-label pl-0 pl-md-0 pl-lg-4 pl-xl-4"><?php echo $row = count($this->cart->contents()); ?> Item(s) in the Cart</label>
 		</div>
-
 	</div>
+	<!-- END OF CART TOTAL ITEMS -->
 
+	<!-- CART MAIN CONTAINER -->
 	<div class="custom-cart-container">
 
-		<div class="row">
+		<div class="row d-none d-md-block d-lg-block d-xl-block">
+			<div class="col-md-12 col-lg-12 col-xl-12">
 
-			<div class="col-12 d-none d-md-block d-lg-block d-xl-block">
 				<div class="row" id="cart-header-border">
-
 					<div class="col-6">Product Detail</div>
 					<div class="col-2">Estimated Price</div>
 					<div class="col-1">Qty</div>
 					<div class="col-1">Total</div>
 					<div class="col-1"></div>
-
 				</div>
+
 			</div>
+		</div>
 
-			<?php
+		<?php
 
-				if($row > 0):
-				//INITIAL TOTAL VARIABLE
-				$subqty = 0;
-				$subtotal = 0;
-				$i = 0;
+			if($row > 0):
+			//INITIAL TOTAL VARIABLE
+			$subqty = 0;
+			$subtotal = 0;
+			$i = 0;
 
-				foreach ($this->cart->contents() as $items):
+			foreach ($this->cart->contents() as $items):
 
-					$finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$items['id'];
+				$finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$items['id'];
 
-					$json = file_get_contents($finalUrl);
-					$obj = json_decode($json, true);
-			?>
+				$json = file_get_contents($finalUrl);
+				$obj = json_decode($json, true);
+		?>
 
+		<!-- START THE MAIN LOOP -->
+		<div class="row d-none d-md-block d-lg-block d-xl-block">
 			<div class="col-12 mt-4 mt-md-4 mt-lg-4 mt-xl-4 mb-4 mb-md-4 mb-lg-4 mb-xl-4">
+
 				<div class="row pb-4 cart-product-separator">
 
-					<!-- PRODUCT DETAIL SECTION -->
+					<!-- PRODUCT DETAIL PART -->
 					<div class="col-6">
-
 						<div class="row">
 
 							<div class="col-4">
@@ -93,15 +98,13 @@
 							</div>
 
 						</div>
-
 					</div>
-					<!-- END PRODUCT DETAIL SECTION -->
+					<!-- END OF PRODUCT DETAIL PART -->
 
 					<!-- ESTIMATED PRICE SECTION -->
 					<div class="col-2">
 
 						<div class="row">
-
 							<div class="col-12">
 
 								<!-- IF THE PRICE IS NEGOTIABLE -->
@@ -135,7 +138,7 @@
 											<?php $finalPrice = $quantity['conferPrice'] * CONVERT; ?>
 										<p><strong>IDR <?php echo number_format($finalPrice, 2); ?></strong></p>
 
-										<div class="exw-container" id="cart-exw-container">
+										<div class="exw-container d-md-none d-lg-block d-xl-block" id="cart-exw-container">
 
 											<div class="cart-exw">
 												<label>EXW Price:</label>
@@ -161,7 +164,6 @@
 								<?php endif; ?>
 
 							</div>
-
 						</div>
 
 					</div>
@@ -181,7 +183,6 @@
 						<?php else: ?>
 						<span class="font-weight-bold">IDR <?php echo number_format($finalPrice * $items['qty'], 2); ?></span>
 						<?php endif; ?>
-
 					</div>
 					<!-- END OF PRODUCT PRICE SECTION -->
 
@@ -192,78 +193,171 @@
 					<!-- END DELETE CART OPTIONS -->
 
 				</div>
+
+			</div>
+		</div>
+		<!-- END THE MAIN LOOP -->
+
+		<!-- MOBILE SHOPPING CART -->
+		<div class="row d-block d-md-none d-lg-none d-xl-none mt-1 mb-3 pl-2 pr-2">
+			<div class="col-12 cart-product-separator pb-4">
+
+				<div class="row">
+
+					<div class="col-4">
+						<a href="<?php echo base_url('product_detail?id='.$items['id'])?>">
+							<?php if($obj['detail']['productForApp']['picture'] == null): ?>
+							<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture2'];?>" />
+								<?php else: ?>
+									<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture'];?>" />
+							<?php endif; ?>
+						</a>
+					</div>
+
+					<div class="col-8">
+						<div class="row">
+							<div class="col-12">
+								<span class="font-weight-bold">Product Title</span>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-12">
+								<span><?php echo $obj['detail']['productForApp']['title']; ?></span>
+							</div>
+						</div>
+					</div>
+
 			</div>
 
-			<?php
-				//COUNT THE TOTAL OF ITEMS
-					$subqty += $items['qty'];
+			<div class="row">
 
-					if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0) {
-						$subtotal += 0;
-					} else {
-						$subtotal += ($finalPrice * $items['qty']);
-					}
-					$i++;
+				<div class="col-5">
 
-				//END OF CART CONTENT LOOP
-				endforeach;
-			?>
+					<div class="row">
+						<div class="col-12">
+							<span class="font-weight-bold">Product Price</span>
+						</div>
+					</div>
+
+					<div class="row mt-2">
+						<div class="col-12">
+							<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0): ?>
+							<span>Price Negotiable</span>
+							<?php else: ?>
+							<span>IDR <?php echo number_format($finalPrice * $items['qty'], 2); ?></span>
+							<?php endif; ?>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-3">
+
+					<div class="row">
+						<div class="col-12">
+							<span class="font-weight-bold">Quantity</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<span><?php echo $items['qty']; ?></span>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-2 offset-1">
+					<button type="button" class="btn btn-danger delete-item" title="Remove Item" data-id="<?php echo $items['rowid']; ?>">
+						<i class="fas fa-trash-alt"></i>
+					</button>
+				</div>
+
+			</div>
+
+				<!-- INQUIRY SECTION -->
+				<div class="row mt-2">
+					<div class="col-12">
+						<div class="form-group">
+							<label class="font-weight-bold" for="text-input-<?php echo $i; ?>">Inquiry</label>
+							<textarea class="form-control" id="text-input-<?php echo $i; ?>" type="text" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 100%; height: auto;"/><?php echo $items['notes'] ?></textarea>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<!-- END OF MOBILE SHOPPING CART -->
+
 		<?php
-			//IF THERE'S NOTHING IN THE CART
-			else:
+			//COUNT THE TOTAL OF ITEMS
+			$subqty += $items['qty'];
+
+			if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0) {
+				$subtotal += 0;
+			} else {
+				$subtotal += ($finalPrice * $items['qty']);
+			}
+			$i++;
+
+			endforeach;
 		?>
+
+		<div class="row">
+			<div class="col-5 col-md-3 col-lg-2 col-xl-2 offset-2 offset-md-6 offset-lg-7 offset-xl-8">
+				<span class="font-weight-bold text-uppercase">estimated price</span>
+			</div>
+			<div class="col-5 col-md-3 col-lg-2 col-xl-2 text-right">
+				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0">IDR <?php echo number_format($subtotal, 2, ",", "."); ?></span>
+			</div>
+		</div>
+
+		<div class="row cart-product-separator pb-3">
+			<div class="col-5 col-md-3 col-lg-2 col-xl-2 offset-2 offset-md-6 offset-lg-7 offset-xl-8">
+				<span class="font-weight-bold text-uppercase">total items</span>
+			</div>
+			<div class="col-3 col-md-2 col-lg-2 col-xl-2 offset-1 text-right">
+				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0"><?php echo $subqty; ?></span>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+
+			<div class="col-5 col-md-6 col-lg-6 col-xl-6">
+				<div class="d-flex justify-content-start">
+					<a href="<?php echo base_url(); ?>">
+						<button type="button" class="btn btn-warning" title="Continue Shoping" style="color: white;"><i class="fa fa-angle-left"></i>&nbsp;CONTINUE SHOPPING</button>
+					</a>
+				</div>
+			</div>
+
+			<div class="col-4 col-md-6 col-lg-6 col-xl-6 offset-3 offset-md-0 offset-lg-0 offset-xl-0">
+				<div class="d-flex justify-content-end">
+					<button type="submit" class="btn btn-success" id="btnCheckOut" title="Submit Inquiry">SUBMIT INQUIRY&nbsp;<i class="fa fa-angle-right"></i></button></p>
+				</div>
+			</div>
+
+		</div>
+
+
+
+		<!-- IF THE CART'S EMPTY, DISPLAY NOTHING -->
+		<?php else: ?>
 		<div class="col-12 col-md-12 col-lg-12 col-xl-12">
 			<div class="no-item-list">
 				NO ITEM IN CART
 			</div>
 		</div>
-
 		<?php endif; ?>
 
-		</div>
-
-			<div class="row">
-				<div class="col-2 offset-8">
-					<span class="font-weight-bold text-uppercase">estimated price</span>
-				</div>
-				<div class="col-2">
-					<span>IDR <?php echo number_format($subtotal, 2, ",", "."); ?></span>
-				</div>
-			</div>
-
-			<div class="row cart-product-separator pb-3">
-				<div class="col-2 offset-8">
-					<span class="font-weight-bold text-uppercase">total items</span>
-				</div>
-				<div class="col-2">
-					<span><?php echo $subqty; ?></span>
-				</div>
-			</div>
-
-			<div class="row mt-3">
-				<div class="col-6">
-					<div class="d-flex justify-content-start">
-						<a href="<?php echo base_url(); ?>">
-							<button type="button" class="btn btn-warning" title="Continue Shoping"><i class="fa fa-angle-left"></i>&nbsp;CONTINUE SHOPPING</button>
-						</a>
-					</div>
-				</div>
-				<div class="col-6">
-					<div class="d-flex justify-content-end">
-						<!-- DISABLED THE BUTTON IF THERE'S NO ITEM -->
-						<?php if($this->cart->total_items() < 1): ?>
-							<button disabled type="submit" class="btn btn-success" id="btnCheckOut" title="Submit Inquiry">SUBMIT INQUIRY&nbsp;<i class="fa fa-angle-right"></i></button></p>
-						<?php else: ?>
-							<button type="submit" class="btn btn-success" id="btnCheckOut" title="Submit Inquiry">SUBMIT INQUIRY&nbsp;<i class="fa fa-angle-right"></i></button></p>
-						<?php endif; ?>
-					</div>
-				</div>
-			</div>
-
 	</div>
+	<!-- END OF CART MAIN CONTAINER -->
+
 
 	<!-- RECOMENDATION PRODUCT PART -->
-  <div class="row mt-4">
+  <div class="row mt-3 mt-md-4 mt-lg-4 mt-xl-4">
 
     <div class="col-12 col-md-6 col-lg-6 col-xl-6">
       <span class="detail-txt-color">

@@ -727,5 +727,6 @@
 }
 
 .delete-item {
-	height: 100%;
+	height: auto;
+	width: 100%;
 }

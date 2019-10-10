@@ -360,6 +360,22 @@
 			padding-right: 2em;
 		}
 
+		/* SHOPPING CART SECTION */
+		.delete-item {
+			height: 100%;
+			width: auto;
+		}
+
+		.cart-container {
+			padding-left: 1em;
+			padding-right: 1em;
+		}
+
+		.custom-cart-container {
+			padding-left: 1em;
+    	padding-right: 1em;
+		}
+
 	}
 
 /*
