@@ -448,6 +448,12 @@
 			font-size: 0.97em;
 		}
 
+		/* SHOPPING CART SECTION */
+		.cart-container {
+			padding-left: 2em;
+			padding-right: 2em;
+		}
+
 	}
 
 /*
