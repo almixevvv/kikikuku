@@ -8,7 +8,7 @@ class Cart extends CI_Controller {
 						$this->load->library('session');
 						$this->load->helper('form');
 						$this->load->model('M_product', 'product');
-						// $this->output->enable_profiler(TRUE);
+						$this->output->enable_profiler(TRUE);
 	}
 
 	public function mycart(){
@@ -83,9 +83,8 @@ class Cart extends CI_Controller {
 		for($i = 0; $i < $counter; $i++) {
 			$this->session->set_userdata('item-price-'.$i, $this->input->post('total-price-'.$i));
 			$this->session->set_userdata('item-name-'.$i, $this->input->post('product-name-'.$i));
+			$this->session->set_userdata('item-notes-'.$i, $this->input->post('customer-notes-'.$i));
 		}
-
-		$productNotes = $this->input->post('customer-notes');
 
 		redirect('cart/checkout');
 

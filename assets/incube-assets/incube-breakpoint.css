@@ -21,6 +21,12 @@
  */
 	@media only screen and (max-width: 479.98px) {
 
+		/* SWEET ALERT CUSTOM SIZE */
+/* 		.swal2-popup {
+	    width: 35em;
+	    font-size: 1.7rem;
+} */
+
 		/* 1. HEADER PART */
 		.header-desktop {
 			display: none;
@@ -191,6 +197,10 @@
 	.custom-cart-container {
 		padding-left: 0;
 		padding-right: 0;
+	}
+
+	.text-cart-button {
+		font-size: 0.7em;
 	}
 
 }

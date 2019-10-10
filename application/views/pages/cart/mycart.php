@@ -27,6 +27,7 @@
 	</div>
 	<!-- END OF CART TOTAL ITEMS -->
 
+	<?php echo form_open('Cart/cartToSession'); ?>
 	<!-- CART MAIN CONTAINER -->
 	<div class="custom-cart-container">
 
@@ -61,7 +62,7 @@
 		?>
 
 		<!-- START THE MAIN LOOP -->
-		<div class="row d-none d-md-block d-lg-block d-xl-block">
+		<div class="row d-none d-md-block d-lg-block d-xl-block" id="rowcart_<?php echo $items['rowid']; ?>">
 			<div class="col-12 mt-4 mt-md-4 mt-lg-4 mt-xl-4 mb-4 mb-md-4 mb-lg-4 mb-xl-4">
 
 				<div class="row pb-4 cart-product-separator">
@@ -268,8 +269,8 @@
 
 				</div>
 
-				<div class="col-2 offset-1">
-					<button type="button" class="btn btn-danger delete-item" title="Remove Item" data-id="<?php echo $items['rowid']; ?>">
+				<div class="col-2 offset-1 pr-0">
+					<button type="button" class="btn btn-danger delete-item mt-3 mt-md-0 mt-lg-0 mt-xl-0" title="Remove Item" data-id="<?php echo $items['rowid']; ?>">
 						<i class="fas fa-trash-alt"></i>
 					</button>
 				</div>
@@ -291,6 +292,19 @@
 		</div>
 		<!-- END OF MOBILE SHOPPING CART -->
 
+		<!-- LOOP HIDDEN INPUTS PART -->
+		<!-- PRICING HIDDEN INPUT -->
+		<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0): ?>
+			<input type="hidden" name="total-price-<?php echo $i; ?>" value="0">
+		<?php else: ?>
+			<input type="hidden" name="total-price-<?php echo $i; ?>" value="<?php echo $finalPrice; ?>">
+		<?php endif; ?>
+
+		<!-- PRODUCT NAME HIDDEN INPUT -->
+		<input type="hidden" name="product-name-<?php echo $i; ?>" value="<?php echo $obj['detail']['productForApp']['title']; ?>">
+
+		<!-- END OF HIDDEN INPUT PART -->
+
 		<?php
 			//COUNT THE TOTAL OF ITEMS
 			$subqty += $items['qty'];
@@ -305,8 +319,13 @@
 			endforeach;
 		?>
 
+		<!-- HIDDEN INPUT FIELS FOR FORM PURPOSE -->
+		<input type="hidden" name="totalPrice" value="<?php echo $subtotal; ?>">
+		<input type="hidden" name="totalItems" value="<?php echo $subqty; ?>">
+		<input type="hidden" name="totalQty" value="<?php echo $i; ?>">
+
 		<div class="row">
-			<div class="col-5 col-md-3 col-lg-2 col-xl-2 offset-2 offset-md-6 offset-lg-7 offset-xl-8">
+			<div class="col-5 col-md-3 col-lg-3 col-xl-2 offset-2 offset-md-6 offset-lg-7 offset-xl-8">
 				<span class="font-weight-bold text-uppercase">estimated price</span>
 			</div>
 			<div class="col-5 col-md-3 col-lg-2 col-xl-2 text-right">
@@ -318,24 +337,24 @@
 			<div class="col-5 col-md-3 col-lg-2 col-xl-2 offset-2 offset-md-6 offset-lg-7 offset-xl-8">
 				<span class="font-weight-bold text-uppercase">total items</span>
 			</div>
-			<div class="col-3 col-md-2 col-lg-2 col-xl-2 offset-1 text-right">
+			<div class="col-3 col-md-2 col-lg-2 col-xl-2 offset-2 offset-md-1 offset-xl-0 text-right">
 				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0"><?php echo $subqty; ?></span>
 			</div>
 		</div>
 
 		<div class="row mt-3">
 
-			<div class="col-5 col-md-6 col-lg-6 col-xl-6">
+			<div class="col-6 col-md-6 col-lg-6 col-xl-6">
 				<div class="d-flex justify-content-start">
 					<a href="<?php echo base_url(); ?>">
-						<button type="button" class="btn btn-warning" title="Continue Shoping" style="color: white;"><i class="fa fa-angle-left"></i>&nbsp;CONTINUE SHOPPING</button>
+						<button type="button" class="btn btn-warning text-cart-button" title="Continue Shoping" style="color: white;"><i class="fa fa-angle-left"></i>&nbsp;CONTINUE SHOPPING</button>
 					</a>
 				</div>
 			</div>
 
-			<div class="col-4 col-md-6 col-lg-6 col-xl-6 offset-3 offset-md-0 offset-lg-0 offset-xl-0">
+			<div class="col-6 col-md-6 col-lg-6 col-xl-6">
 				<div class="d-flex justify-content-end">
-					<button type="submit" class="btn btn-success" id="btnCheckOut" title="Submit Inquiry">SUBMIT INQUIRY&nbsp;<i class="fa fa-angle-right"></i></button></p>
+					<button type="submit" class="btn btn-success text-cart-button" id="btnCheckOut" title="Submit Inquiry">SUBMIT INQUIRY&nbsp;<i class="fa fa-angle-right"></i></button></p>
 				</div>
 			</div>
 
@@ -354,6 +373,7 @@
 
 	</div>
 	<!-- END OF CART MAIN CONTAINER -->
+	<?php echo form_close(); ?>
 
 
 	<!-- RECOMENDATION PRODUCT PART -->

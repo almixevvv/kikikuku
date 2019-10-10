@@ -74,7 +74,7 @@
 		</div>
 		<div class="col-3" style="padding-right: 0!important; padding-left: 0.3em!important;">
 			<span class="mobile-icon">
-				<a href="<?php echo base_url(); ?>">
+				<a href="<?php echo base_url('mycart'); ?>">
 					<i class="fas fa-shopping-cart"></i>
 				</a>
 			</span>
@@ -153,9 +153,11 @@
 				<ul class="list-inline" id="navitem-right" style="padding-top: 10px; padding-bottom: 10px; padding-left: 3em;">
 
 					<li class="list-inline-item">
-						<span id="navbar-shopping-cart">
-							<i class="fas fa-shopping-cart" style="color: #C1C1C1; "></i>
-						</span>
+						<a href="<?php echo base_url('mycart'); ?>">
+							<span id="navbar-shopping-cart">
+								<i class="fas fa-shopping-cart" style="color: #C1C1C1; "></i>
+							</span>
+						</a>
 					</li>
 
 					<li class="list-inline-item">

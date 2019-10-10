@@ -29,6 +29,9 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/font-awesome-5/css/solid.min.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/font-awesome-5/css/v4-shims.min.css'); ?>">
 
+    <!-- SWEETALERT 2 LOADING -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/sweet-alert/sweetalert2.min.css'); ?>">
+
     <!-- WHITE SPACE DEBUG CSS -->
     <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/incube-assets/whitespace-debug.css'); ?>"> -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -36,5 +39,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="<?php echo base_url('assets/incube-assets/function.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('assets/sweet-alert/sweetalert2.all.min.js'); ?>" type="text/javascript"></script>
+
+    </script>
 </head>
 <body>
