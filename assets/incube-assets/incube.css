@@ -271,7 +271,6 @@
 	}
 
 	#navbar-register-button {
-
     	padding: 10px 10px;
     	font-size: 14px;
 	    color: #24ca9d;
@@ -279,26 +278,41 @@
 	    border-radius: 4px;
 	    border: solid 1px #24ca9d;
 	    font-weight: 400;
-			padding-left: 1em;
+		padding-left: 1em;
     	padding-right: 1em;
 	}
 
 	#navbar-login-button {
-
 		padding-left: 1.5em;
     	padding-right: 1.8em;
-	    font-size: 14px;
+	    font-size: 1em;
+	}
 
+	#navbar-profile-button {
+		color: #C1C1C1;
+		padding-left: 1.5em;
+    	padding-right: 1.8em;
+	    font-size: 1em;
+	}
+
+	#navbar-profile-button > i {
+		position: fixed;
+		font-size: 1.8em;
+		top: 2.3em;
+	}
+
+	#navbar-name-label {
+		position: fixed;
+    	top: 4.2em;
+    	right: 10em;
+    	color: #646464;
 	}
 
 	#navbar-login-button > a {
-
 		text-decoration: none;
-
 	}
 
 	#navbar-shopping-cart {
-
 		border-width: 0 .5px 0 0;
 	    border-color: #e0e0e0;
 	    border-style: solid;
@@ -308,7 +322,12 @@
 		padding-top: 0.5em;
 	    padding-bottom: 0.5em;
 	    padding-right: 1.5em;
+	}
 
+	#navbar-shopping-cart > i {
+		position: fixed;
+		font-size: 1.4em;
+		top: 0.8em;
 	}
 
 /*

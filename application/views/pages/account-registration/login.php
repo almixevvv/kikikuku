@@ -1,5 +1,7 @@
 <div class="login-container">
 
+	<?php echo form_open('Login/login_user'); ?>
+
 	<div class="row" id="login-inner-container">
 
 		<div class="col-12 col-md-6 col-lg-6 col-xl-6">
@@ -16,7 +18,7 @@
 					<div class="col-12">
 						<div class="form-group">
 							<label class="login-text-color login-font-size" for="exampleInputEmail1">Email address</label>
-							<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+							<input name="txt-email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
 						</div>
 					</div>
 				</div>
@@ -25,7 +27,7 @@
 					<div class="col-12">
 						<div class="form-group">
 	    					<label class="login-text-color login-font-size" for="exampleInputPassword1">Password</label>
-	    					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+	    					<input name="txt-password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
 	  					</div>
 					</div>
 				</div>
@@ -87,6 +89,8 @@
 		</div>
 
 	</div>
+
+	<?php echo form_close(); ?>
 
 
 </div>

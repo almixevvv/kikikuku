@@ -78,11 +78,19 @@
 					<i class="fas fa-shopping-cart"></i>
 				</a>
 			</span>
+			<?php if($this->session->LOGGED_IN != 1): ?>
 			<span class="mobile-icon">
 				<a href="<?php echo base_url('login'); ?>">
 					<i class="fas fa-user"></i>
 				</a>
 			</span>
+			<?php else: ?>
+			<span class="mobile-icon">
+				<a href="#">
+					<i class="fas fa-user-circle"></i>
+				</a>
+			</span>
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -150,7 +158,7 @@
 
 			<div class="col-5 col-md-3 col-lg-3 col-xl-3" style="padding-right: 0!important;">
 
-				<ul class="list-inline" id="navitem-right" style="padding-top: 10px; padding-bottom: 10px; padding-left: 3em;">
+				<ul class="list-inline" id="navitem-right">
 
 					<li class="list-inline-item">
 						<a href="<?php echo base_url('mycart'); ?>">
@@ -160,6 +168,8 @@
 						</a>
 					</li>
 
+					<!-- CHECK IF THERE'S A USER LOGGED IN OR NOT -->
+					<?php if($this->session->LOGGED_IN != 1): ?>
 					<li class="list-inline-item">
 						<span>
 							<a href="<?php echo base_url('login');?>" id="navbar-login-button">
@@ -175,6 +185,19 @@
 							</a>
 						</span>
 					</li>
+
+					<?php else: ?>
+					<li class="list-inline-item">
+						<span>
+							<a href="#" id="navbar-profile-button">
+								<i class="fas fa-user-circle"></i>
+								<span id="navbar-name-label">
+									<label><?php echo $this->session->FIRST_NAME; ?></label>
+								</span>
+							</a>
+						</span>
+					</li>
+					<?php endif; ?>
 
 				</ul>
 

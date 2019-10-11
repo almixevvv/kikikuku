@@ -8,8 +8,6 @@ class Login extends CI_Controller {
 			// $this->output->enable_profiler(TRUE);
 
 			$this->load->model('M_user', 'user');
-			$this->load->library('email');
-			$this->load->helper('form');
 
 			/* LOAD CUSTOM GOOGLE LIBRARY */
 			$this->load->library('google');
@@ -44,9 +42,6 @@ class Login extends CI_Controller {
 	}
 
 	public function login_user() {
-
-		$this->load->model('M_user', 'user');
-		$this->load->library('session');
 
 		$dataSess = array();
 
