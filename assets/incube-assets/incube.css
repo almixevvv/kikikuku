@@ -30,6 +30,10 @@
 		-webkit-font-smoothing: antialiased;
 	}
 
+	.contact-logo {
+    	width: 20%;
+  	}
+
 	.no-padding-x {
 		padding-left: 0!important;
 		padding-right: 0!important;
@@ -91,6 +95,23 @@
 		padding-right: 2em;
 		margin-top: 9em;
 	}
+
+	 .pages-container {
+      width: 100%;
+      padding-left: 2em;
+      padding-right: 2em;
+      margin-top: 9em;
+    }
+
+    .pages-inner-container {
+      border: 1px solid #34ca9d;
+      border-radius: 10px;
+      padding: 1em;
+    }
+
+    #how-to-logo {
+      width: 20%;
+    }
 
 	/* LOADER ANIMATION */
 	.lds-roller {

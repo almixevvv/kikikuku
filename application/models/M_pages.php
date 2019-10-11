@@ -37,8 +37,7 @@ Class M_pages extends CI_Model {
   }
 
 
-  function  CountBanner()
-  {
+  function  CountBanner() {
       //$this->db->set('join_date', 'NOW()', FALSE);
    $this->db->from('g_banner');
 
@@ -54,32 +53,27 @@ Class M_pages extends CI_Model {
 
   }
 
-   function  HowTo() {
-     $this->db->from('g_howto');
-     $this->db->order_by("REC_ID","asc");
+  function  HowTo() {
+    
+    $this->db->select('*');
+    $this->db->from('g_howto');
 
-     $query = $this->db->get();
+    $query = $this->db->get();
 
-    if ($query->num_rows() > 0) {
-      return $query->result();
-    } else {
-      return null;
-    }
-
+    return $query;
+    
   }
 
-    function  ContactUs() {
+  function  ContactUs() {
 
-      $this->db->from('g_contactus');
-      $this->db->order_by("REC_ID","asc");
-      $query = $this->db->get();
-      if ($query->num_rows() > 0) {
-        return $query->result();
-      } else {
-        return null;
-      }
+    $this->db->select('*');
+    $this->db->from('g_contactus');
 
-    }
+    $query = $this->db->get();
+
+    return $query; 
+    
+  }
 
     function Faq() {
 

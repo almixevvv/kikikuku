@@ -1,3 +1,29 @@
+
+<div class="pages-container">
+  <div class="pages-inner-container">
+
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="d-flex justify-content-center">
+          <h4 class="text-uppercase" style="color: #34ca9d">Frequently Ask Question</h4>
+        </div>
+      </div>    
+    </div>
+
+      <div class="row mt-md-4 mt-lg-4 mt-xl-4">
+        <div class="col-12">
+          
+        <?php foreach($about->result() as $data): ?>
+          <?php echo $data->CONTENT; ?>
+        <?php endforeach; ?>
+
+        </div>
+      </div>
+
+  </div>
+</div>
+
+
 <style type="text/css">
     #accordion label.col-sm-2.control-label {
     margin: 7px 0 0;
@@ -21,6 +47,8 @@
     #accordion .panel-title, .checkout-cart #accordion .panel-title > a { padding: 20px;}
     #accordion #collapse-shipping label.col-sm-2.control-label { padding: 0 15px;}
 </style>
+
+
 <script src="<?php echo base_url('assets/bootstrap/js/bootstrap.min.js');?>"></script>
 <div class="container">
   <div class="content gutter">

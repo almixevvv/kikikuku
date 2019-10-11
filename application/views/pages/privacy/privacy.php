@@ -1,27 +1,25 @@
 
-<style type="text/css">
-    .detail_prod{
-        width: 100%;
-        display: block;
-    }
-</style>
 
-<div class="container">
-  <div class="content gutter">
-      <section class="product-push homepage" data-module="productpush, view360" style="padding: 0px;background: #fff;padding-top: 30px;">
-          <div class="row" style="padding: 15px;">
-              <div class="col-lg-offset-1 col-md-offset-1 col-lg-10 col-md-10 col-sm-12 col-xs-12" style="padding-bottom: 15em;">
-              <img src="<?php echo base_url('assets/img/logo_light.png'); ?>" alt="Dotshop Logo" style="width: 20em; display: block; text-align: center; "><br/><br/>
-              <?php
-              foreach($privacy->result() as $data) {
-                echo $data->CONTENT;
-              }
-              ?>
-              </div>
-          </div>
-      </section>
+<div class="pages-container">
+  <div class="pages-inner-container">
+
+  	<div class="row">
+      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="d-flex justify-content-center">
+          <h4 class="text-uppercase" style="color: #34ca9d">Our Privacy Policy</h4>
+        </div>
+      </div>    
+    </div>
+
+      <div class="row mt-md-4 mt-lg-4 mt-xl-4">
+        <div class="col-12">
+          
+        <?php foreach($privacy->result() as $data): ?>
+          <?php echo $data->CONTENT; ?>
+        <?php endforeach; ?>
+
+        </div>
+      </div>
+
   </div>
 </div>
-<script type="text/javascript">
-
-</script>

@@ -27,6 +27,12 @@
 	    font-size: 1.7rem;
 } */
 
+		.pages-container {
+			padding-left: 10px;
+			padding-right: 10px;
+			margin-top: 8em;
+		}
+
 		/* 1. HEADER PART */
 		.header-desktop {
 			display: none;
@@ -210,6 +216,12 @@
  */
 	@media only screen and (min-width: 480px) {
 
+		.pages-container {
+			padding-left: 10px;
+			padding-right: 10px;
+			margin-top: 8em;
+		}
+
 		/* HEADER PART */
 		.header-mobile {
 			display: none;
@@ -269,6 +281,12 @@
  */
 
 	@media only screen and (min-width: 768px) {
+
+		.pages-container {
+			padding-left: 1em;
+			padding-right: 1em;
+			margin-top: 8em;
+		}
 
 		/* HEADER PART */
 		#search-text {
@@ -411,6 +429,12 @@
 
 	@media only screen and (min-width: 992px) {
 
+		.pages-container {
+			padding-left: 1em;
+			padding-right: 1em;
+			margin-top: 8em;
+		}
+
 		/* HEADER PART */
 		#search-text {
 			display: inline;
@@ -508,6 +532,11 @@
  */
 
 	@media only screen and (min-width: 1200px) {
+
+		.pages-container {
+			padding-left: 2em;
+			padding-right: 2em;
+		}
 
 		/* HEADER PART */
 		#navbar-upper {

@@ -1,25 +1,29 @@
 
-<style type="text/css">
-    .detail_prod{
-        width: 100%;
-        display: block;
-    }
-</style>
 
-<div class="container">
-  <div class="content gutter">
-      <section class="product-push homepage" data-module="productpush, view360" style="padding: 0px;background: #fff;padding-top: 30px;">
-          <div class="row" style="padding: 15px;">
-              <div class="col-lg-offset-1 col-md-offset-1 col-lg-10 col-md-10 col-sm-12 col-xs-12">
-              <img src="<?php echo base_url('assets/img/logo_light.png'); ?>" alt="Dotshop Logo" style="width: 20em; display: block; text-align: center; "><br/><br/>
-              </div>
+
+<div class="pages-container">
+  <div class="pages-inner-container">
+
+     <div class="row">        
+        <div class="col-6">
+          <img id="how-to-logo" alt="Kikikuku Logo" src="<?php echo base_url('assets/images/logo.png'); ?>">
+        </div>
+        <div class="col-6">
+          <div class="d-flex justify-content-center">
+            <h4 class="text-uppercase" style="color: #34ca9d">Terms and Conditions</h4>
           </div>
-          <?php foreach($terms->result() as $data): ?>
-            <?php echo $data->CONTENT; ?>
-          <?php endforeach; ?>
-      </section>
+        </div>
+      </div>
+
+      <div class="row mt-md-4 mt-lg-4 mt-xl-4">
+        <div class="col-12">
+          
+        <?php foreach($terms->result() as $data): ?>
+          <?php echo $data->CONTENT; ?>
+        <?php endforeach; ?>
+
+        </div>
+      </div>
+
   </div>
 </div>
-<script type="text/javascript">
-
-</script>

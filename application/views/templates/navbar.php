@@ -47,10 +47,10 @@
 			</div>
 			<div class="float-right">
 				<span class="navbar-text">
-					<a href="#">About KIKIKUKU</a>
+					<a href="<?php echo base_url('about-us'); ?>">About KIKIKUKU</a>
 				</span>
 				<span class="navbar-text" style="padding-left: 2em;">
-					<a href="#">Help Centre</a>
+					<a href="<?php echo base_url('how-to'); ?>">Help Centre</a>
 				</span>
 			</div>
 		</div>
@@ -63,14 +63,20 @@
 			</a>
 		</div>
 		<div class="col-8" style="padding-left: 1.5em!important; padding-right: 0!important;">
-			<div class="input-group mb-3" style="padding-top: 8px;">
-				<input type="text" class="form-control" placeholder="Products Keywords" aria-label="Recipient's username" aria-describedby="basic-addon2" style="margin-left: -3px;">
-				<div class="input-group-append">
-					<button class="btn btn-outline-secondary" type="button" id="button-search-custom">
-						<i class="fas fa-search"></i>
-					</button>
+			
+			<form action="<?php echo base_url('search'); ?>"  method="get">
+
+				<div class="input-group mb-3" style="padding-top: 8px;">
+					<input type="text" class="form-control" name="query" style="margin-left: -3px;">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="submit" id="button-search-custom">
+							<i class="fas fa-search"></i>
+						</button>
+					</div>
 				</div>
-			</div>
+
+			</form>
+
 		</div>
 		<div class="col-3" style="padding-right: 0!important; padding-left: 0.3em!important;">
 			<span class="mobile-icon">
@@ -110,10 +116,10 @@
 			</div>
 			<div class="float-right">
 				<span class="navbar-text">
-					<a href="#">About KIKIKUKU</a>
+					<a href="<?php echo base_url('about-us'); ?>">About KIKIKUKU</a>
 				</span>
 				<span class="navbar-text" style="padding-left: 2em;">
-					<a href="#">Help Centre</a>
+					<a href="<?php echo base_url('how-to'); ?>">Help Centre</a>
 				</span>
 			</div>
 		</div>
@@ -153,6 +159,7 @@
 							</div>
 
 						</div>
+
 					</form>
 
 				   </li>
