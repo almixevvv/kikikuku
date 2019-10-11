@@ -2,13 +2,10 @@
 class Cart extends CI_Controller {
 
 	public function __construct() {
-						parent::__construct();
+		parent::__construct();
 
-						$this->load->library('cart');
-						$this->load->library('session');
-						$this->load->helper('form');
-						$this->load->model('M_product', 'product');
-						$this->output->enable_profiler(TRUE);
+		$this->load->model('M_product', 'product');
+		// $this->output->enable_profiler(TRUE);
 	}
 
 	public function mycart(){
@@ -97,7 +94,7 @@ class Cart extends CI_Controller {
 		$data = array(
             'rowid' => $getRowID,
             'qty' => 0,
-    );
+    	);
 
 		if($this->cart->update($data)) {
 			echo 'sukses';
@@ -108,7 +105,6 @@ class Cart extends CI_Controller {
 	}
 
 	public function sendOrderDetails() {
-
 
 		$this->load->view('email-template/order-created');
 

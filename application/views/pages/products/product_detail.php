@@ -8,7 +8,6 @@
     //CHECK IF THE STRING IS EMPTY OR NOT
     if($dataproduct['detail']['productForApp']['picture'] != '') {
       //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      echo substr($dataproduct['detail']['productForApp']['picture'], 4, 1);
       if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
         $newPath = 'http://img1.yiwugou.com/i000';
       }
@@ -380,7 +379,7 @@
 
           <div class="row">
 
-            <div class="col-7 col-md-10 col-lg-7 col-xl-5">
+            <div class="col-7 col-md-10 col-lg-7 col-xl-6">
               <div class="input-group mb-3" id="btn-detail-quantity">
                 <div class="input-group-prepend">
                   <button class="btn btn-danger" id="xminusone" type="button"><i class="fa fa-minus"></i></button>

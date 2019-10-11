@@ -690,61 +690,92 @@
 	10. Shopping Cart Styles
 */
 
-#cart-content-separator {
-	border-bottom: 1px solid black;
-}
+	#cart-content-separator {
+		border-bottom: 1px solid black;
+	}
 
-#cart-header-border {
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	border-top: 1px solid #d0d0d0;
-	border-bottom: 1px solid #d0d0d0;
-}
+	#cart-header-border {
+		padding-top: 0.5em;
+		padding-bottom: 0.5em;
+		border-top: 1px solid #d0d0d0;
+		border-bottom: 1px solid #d0d0d0;
+	}
 
-.cart-header-label {
-	font-size: 1.5em;
-}
+	.cart-header-label {
+		font-size: 1.5em;
+	}
 
-.custom-cart-container {
-	padding-left: 1.55em;
-	padding-right: 1.55em;
-	padding-top: 0.5em;
-}
+	.custom-cart-container {
+		padding-left: 1.55em;
+		padding-right: 1.55em;
+		padding-top: 0.5em;
+	}
 
-.no-item-list{
-	font-size: 17px;
-	color:#333;
-	text-transform: uppercase;
-	font-style: italic;
-	height: 100px;
-	text-align: center;
-	padding-top: 50px;
-	padding-bottom: 120px;
-}
+	.no-item-list{
+		font-size: 17px;
+		color:#333;
+		text-transform: uppercase;
+		font-style: italic;
+		height: 100px;
+		text-align: center;
+		padding-top: 50px;
+		padding-bottom: 120px;
+	}
 
-.img-list-order {
-	width: 100%;
-	border-radius: 5px;
-	border: 1px solid #d0d0d0;
-}
+	.img-list-order {
+		width: 100%;
+		border-radius: 5px;
+		border: 1px solid #d0d0d0;
+	}
 
-.cart-product-separator {
-	border-bottom: 1px solid #d0d0d0;
-}
+	.cart-product-separator {
+		border-bottom: 1px solid #d0d0d0;
+	}
 
-.cart-exw {
-	width: 100%;
-}
+	.cart-exw {
+		width: 100%;
+	}
 
-#cart-exw-container {
-	width: 100%;
-}
+	#cart-exw-container {
+		width: 100%;
+	}
 
-.delete-item {
-	height: auto;
-	width: 100%;
-}
+	.delete-item {
+		height: auto;
+		width: 100%;
+	}
 
-.text-cart-button {
-	font-size: 1em;
-}
+	.text-cart-button {
+		font-size: 1em;
+	}
+
+	.checkout-container {
+		margin-top: 9em;
+	    padding-left: 2em;
+	    padding-right: 2em;
+	    width: 100%;
+	}
+
+	#checkout-inner-container {
+		border: solid #bdbdbd 1px;
+    	border-radius: 5px;
+    	padding: 1em;
+	}
+
+	.order-container {
+		width: 100%;
+		padding-left: 13em;
+		padding-right: 13em;
+		margin-top: 10em;
+		margin-bottom: 2em;
+	}
+
+	.order-inner-container {
+		border: 1px solid #34ca9d;
+		border-radius: 10px;
+		
+		padding-left: 1em;
+    	padding-top: 3em;
+    	padding-right: 1em;
+    	padding-bottom: 3em;
+	}
