@@ -5,7 +5,7 @@
 			
 				parent::__construct();
 
-				$this->output->enable_profiler(TRUE);
+				// $this->output->enable_profiler(TRUE);
 				
 				$this->load->model('M_pages', 'pages');
 				$this->load->model('M_home', 'home');
@@ -52,33 +52,33 @@
 			$this->load->view('templates/footer', $data);
     }
 
-		public function searchAutoload() {
-			$output = '';
+	public function searchAutoload() {
+		
+		$output = '';
 
-			//GET THE MARGIN PARAMETER
-			$marginParameter = $this->product->getMarginPrice();
+		//GET THE MARGIN PARAMETER
+		$marginParameter = $this->product->getMarginPrice();
 
-			//test
-			if(!isset($counter)||$counter==0){$counter=1;}
+		if(!isset($counter)||$counter==0){$counter=1;}
 
-			$industryID = $this->input->post('query');
+		$industryID = $this->input->post('query');
 
-			$randomPage = mt_rand(1, 500);
+		$randomPage = mt_rand(1, 500);
 
-			//HOW TO GET JSON DATA
-			$json = file_get_contents("http://en.yiwugo.com/ywg/searchproduct.html?account=Wien.suh@gmail.com&q=".$industryID."&pageSize=12&cpage=".$this->input->post('start')."");
+		//HOW TO GET JSON DATA
+		$json = file_get_contents("http://en.yiwugo.com/ywg/searchproduct.html?account=Wien.suh@gmail.com&q=".$industryID."&pageSize=12&cpage=".$this->input->post('start')."");
 
-			$obj = json_decode($json, true);
+		$obj = json_decode($json, true);
 
-			foreach($obj['prslist'] as $list) {
+		foreach($obj['prslist'] as $list) {
 
-				$list['productDetail']['productDetailVO']['sellPrice'] = ($list['productDetail']['productDetailVO']['sellPrice'] * 20.5363) * $marginParameter;
+			$list['productDetail']['productDetailVO']['sellPrice'] = ($list['productDetail']['productDetailVO']['sellPrice'] * 20.5363) * $marginParameter;
 
-				if(substr($dataproduct['productDetail']['productDetailVO']['picture2'], 0, 1) != 'i' && substr($dataproduct['productDetail']['productDetailVO']['picture2'], 4, 1) != '/') {
+			if(substr($dataproduct['productDetail']['productDetailVO']['picture2'], 0, 1) != 'i' && substr($dataproduct['productDetail']['productDetailVO']['picture2'], 4, 1) != '/') {
 					
-					$newPath = 'http://img1.yiwugou.com/i000';
+				$newPath = 'http://img1.yiwugou.com/i000';
 
-    			} else {
+    		} else {
 
       				$newPath = 'http://img1.yiwugou.com/';
 
@@ -169,32 +169,16 @@
 
 		public function search() {
 
-			$page = 'search-result';
-
 			$searchQuery = $this->input->get('query');
-
-			$randomPage = mt_rand(1, 500);
-
-			$json = file_get_contents("http://en.yiwugo.com/ywg/searchproduct.html?account=Wien.suh@gmail.com&cpage=".$randomPage."&q=".$searchQuery);
-
-			//CONVERT FROM JSON INTO OBJECT
-			$obj = json_decode($json, true);
-
-			// FOR DEBUGGING PURPOSE ONLY
-			// foreach($obj['prslist'] as $list) {
-			// 	echo $list['productDetail']['id']."</br>";
-			// 	echo $list['productDetail']['userId']."</br>";
-			// 	echo $list['productDetail']['productDetailVO']['title']."</br>"."</br>";
-			// }
-
-			//Sidebar Category
-			$data['dt'] = $obj;
-			$data['perpage'] = 18;
-			$data['breadcrumb'] = false;
+			
+			//GET PARENT CATEGORY TITLE
+			$data['categories'] = $this->M_category->getParentCategory();
+			$data['searchQuery'] = $searchQuery;
 
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar', $data);
-			$this->load->view('pages/home/'.$page, $data);
+			$this->load->view('pages/home/search-result', $data);
+			$this->load->view('pages/home/autoload-search');
 			$this->load->view('templates/footer', $data);
 		}
 

@@ -141,14 +141,19 @@
 
 				   <li class="list-inline-item" id="main-search-box" style="width: 90%;">
 
+					<form action="<?php echo base_url('search'); ?>"  method="get">
+				   		
 				   		<div class="input-group mb-3" style="padding-top: 8px;">
-							<input type="text" class="form-control" placeholder="Products Keywords" aria-label="Recipient's username" aria-describedby="basic-addon2">
+							<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query">
+							
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="button" id="button-search-custom">
+								<button class="btn btn-outline-secondary" type="submit" id="button-search-custom">
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
+
 						</div>
+					</form>
 
 				   </li>
 
@@ -194,6 +199,14 @@
 								<span id="navbar-name-label">
 									<label><?php echo $this->session->FIRST_NAME; ?></label>
 								</span>
+							</a>
+						</span>
+					</li>
+
+					<li class="list-inline-item">
+						<span>
+							<a href="<?php echo base_url('logout');?>" id="navbar-register-button" style="padding-left: 1em;">
+								<span style="color: rgba(0,0,0,.7);">Logout</span>
 							</a>
 						</span>
 					</li>

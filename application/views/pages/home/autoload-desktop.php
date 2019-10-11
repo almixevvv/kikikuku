@@ -105,23 +105,23 @@
 		}
 	};
 
-		var tech = getUrlParameter('id');
+	var tech = getUrlParameter('id');
 
-		$.ajax({
-			url:"<?php echo base_url('ContentLoad/autoloadHome'); ?>",
-			method:"POST",
-			data: { limit:limit, start:start, id:tech, counter: loadCounter },
-			cache: false,
-			success:function(data) {
-				if(data == '') {
-					$('#loader-icon').html('<h3>No More Result Found</h3>');
-						action = 'active';
-				} else {
-					$('#product-main-list').append(data);
-					action = 'inactive';
-				}
+	$.ajax({
+		url:"<?php echo base_url('ContentLoad/autoloadHome'); ?>",
+		method:"POST",
+		data: { limit:limit, start:start, id:tech, counter: loadCounter },
+		cache: false,
+		success:function(data) {
+			if(data == '') {
+				$('#loader-icon').html('<h3>No More Result Found</h3>');
+				action = 'active';
+			} else {
+				$('#product-main-list').append(data);
+				action = 'inactive';
 			}
-		});
+		}
+	});
 	}
 	
 </script>

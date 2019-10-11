@@ -58,8 +58,8 @@ $route['default_controller'] = 'Home/index';
 $route['search'] = "Home/search";
 
 /* Account Registration & Login */
-$route['login'] = 'login';
-$route['logout'] = 'login/logout';
+$route['login'] = 'Login';
+$route['logout'] = 'Login/logout';
 $route['register'] = 'Register';
 $route['account'] = 'account/view';
 $route['register/verification'] = 'register/input';
