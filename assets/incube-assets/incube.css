@@ -73,7 +73,7 @@
 	.mobile-icon > a {
 		color: #C1C1C1!important;
 		font-size: 1.5em;
-    padding-top: 0.5em;
+    	padding-top: 0.5em;
 	}
 
 	.full-container {
@@ -111,6 +111,51 @@
 
     #how-to-logo {
       width: 20%;
+    }
+
+    #login-list-container {
+    	padding-top: 0;
+    }
+
+    #navitem-right {
+		padding-top: 1.1em;
+    }
+
+    #main-logo {
+	    width: 86%;
+		padding-top: 0.15em;
+	}
+
+	.account-position-fix {
+		position: relative;
+    	top: -2px;
+	}
+
+	.navbar-column-logo {
+		width: 15%;
+		height: 100%;
+	}
+
+	.navbar-column-searchbox {
+		width: 50%;
+		height: 100%;
+    	padding-left: 2em;
+    	padding-right: 2em;
+	}
+	
+	.navbar-column-account {
+		width: 25%;
+    	height: 100%;
+    	padding-left: 2em;
+	}
+
+    .mobile-list-inline {
+    	padding-right: 0.5em;
+    	padding-left: 0.5em;
+    }
+
+    .list-inline-item:not(:last-child) {
+    	margin-right: 0;
     }
 
 	/* LOADER ANIMATION */
@@ -333,28 +378,26 @@
 		text-decoration: none;
 	}
 
-	#navbar-shopping-cart {
-		border-width: 0 .5px 0 0;
+	#account-left {
+	    border-width: 0 .5px 0 0;
 	    border-color: #e0e0e0;
 	    border-style: solid;
-		margin-top: 0.4em;
-		height: 43px;
-
-		padding-top: 0.5em;
-	    padding-bottom: 0.5em;
+	    margin-top: 0.4em;
+	    height: 43px;
 	    padding-right: 1.5em;
+	    padding-top: 0.5em;
+	    padding-bottom: 0.5em;
 	}
 
-	#navbar-shopping-cart > i {
-		position: fixed;
-		font-size: 1.4em;
-		top: 0.8em;
+	#account-left > i {
+		font-size: 1.5em;
 	}
 
-/*
-	3. Banner Styles Part
- */
-
+	#icon-shopping-cart {
+		color: #C1C1C1;
+    	padding-top: 0.9em;
+    	font-size: 1.5em;
+	}
 
 /*
 	4. Categories Sidebar Part

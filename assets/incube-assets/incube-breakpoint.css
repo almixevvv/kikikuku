@@ -43,12 +43,28 @@
 			padding-right: 10px;
 		}
 
+		#main-logo {
+			width: 85%;
+    		padding-top: 0.3em;
+		}
+
 		.navbar-text {
 			padding-left: 0;
 		}
 
-		.col-1 {
+		.navbar-column-logo {
 			padding-left: 10px;
+    		width: 15%;
+		}
+
+		.navbar-column-searchbox {
+    		padding-left: 0.5em;
+    		padding-right: 0.5em;
+    		width: 60%;
+		}
+
+		.navbar-column-account {
+			padding-left: 0;
 		}
 
 		.mobile-icon {
@@ -60,6 +76,29 @@
 		.mobile-icon > a > i {
 			 padding-top: 0.8em!important;
 		}
+
+		.mobile-list-inline {
+    		padding-right: 0.1em;
+    		padding-left: 0.1em;
+    		padding-top: 0.8em;
+    	}
+
+		#account-left {
+			padding-right: 1em;
+			padding-left: 1em;
+			border: none;
+		}
+
+		.account-position-fix {
+			top: 0px;
+		}
+
+    	#navbar-register-button {
+    		padding-left: 1em;
+    		padding-right: 1em;
+    		padding-top: 10px;
+    		padding-bottom: 9px;
+    	}
 
 		/* 2. BANNER PART */
 		.banner-container {
@@ -253,20 +292,21 @@
 			margin-right: 0!important;
 		}
 
-		#main-search-box {
-			width: 100%!important;
-		}
+		.mobile-list-inline {
+    		padding-right: 2em;
+    		padding-left: 2em;
+    		padding-top: 1em;
+    	}
+
+    	#navbar-register-buttom {
+    		padding-left: 1em;
+    		padding-right: 1em;
+    		padding-top: 10px;
+    		padding-bottom: 9px;
+    	}
 
 		#search-text {
 			display: none;
-		}
-
-		#navbar-shopping-cart {
-    		margin-top: 0.4em;
-    		padding-top: 0.5em;
-    		padding-bottom: 0.5em;
-    		padding-right: 0;
-    		border: none;
 		}
 
 		#navbar-login-button {
@@ -289,9 +329,37 @@
 		}
 
 		/* HEADER PART */
+
+		.navbar-column-logo {
+			width: 20%;
+		}
+
+
+		#main-search-box {
+			width: 83%;
+		}
+
+		.navbar-column-searchbox {
+			padding-left: 0.5em;
+			padding-right: 0.5em;
+		}
+
+		.navbar-column-account {
+			width: 30%;
+			padding-left: 0.5em;
+		}
+
+		#icon-shopping-cart {
+			padding-top: 0.6em;
+		}
+
+		#main-logo {
+			padding-top: 0.25em;
+			width: 100%;
+		}
+
 		#search-text {
 			display: inline;
-			margin-left: -10px;
     		padding-right: 10px;
 		}
 
@@ -299,24 +367,13 @@
 			font-size: 0.9em;
 		}
 
-		#navbar-shopping-cart > i {
-
-		    position: absolute;
-			font-size: 1.4em;
-    		top: 0.75em;
-		}
-
-		#navitem-right {
-			padding-left: 2em;
+		#login-list-container {
+			padding-top: 0;
 		}
 
 		#navbar-login-button {
-    	    padding-left: 0.8em;
+			padding-left: 0.8em;
     		padding-right: 0.8em;
-		}
-
-		#main-search-box {
-    		width: 89%!important;
 		}
 
 		#navbar-profile-button > i {
@@ -436,30 +493,23 @@
 		}
 
 		/* HEADER PART */
-		#search-text {
-			display: inline;
-			margin-left: -10px;
-    		padding-right: 10px;
+		.navbar-column-logo {
+			width: 15%;
+		}
+
+		.navbar-column-searchbox {
+			padding-left: 1.5em;
+			padding-right: 0.5em;
+			width: 55%;
 		}
 
 		#main-search-box {
-			width: 85%!important;
+			width: 88%;
 		}
 
-		.main-logo {
-			width: 7.1em!important;
-		}
-
-		#navitem-right {
-			padding-top: 1em;
-			padding-left: 0;
-		}
-
-		#navbar-shopping-cart {
-			border-width: 0 .5px 0 0;
-	    	border-color: #e0e0e0;
-	    	border-style: solid;
-	    	padding-right: 1.5em;
+		#search-text {
+			display: inline;
+    		padding-right: 10px;
 		}
 
 		#navbar-login-button {
@@ -469,11 +519,6 @@
 
 		#search-text > span {
 			font-size: 0.9em;
-		}
-
-		#navbar-shopping-cart > i {
-			top: 0.75em;
-    		left: -0.5em;
 		}
 
 		#navbar-profile-button > i {
@@ -553,9 +598,12 @@
     		padding-right: 2em;
 		}
 
-		.main-logo {
-			width: 10em!important;
-    		background-size: 9em!important;
+		#icon-shopping-cart {
+			padding-top: 0.8em;
+		}
+
+		.navbar-column-account {
+			padding-left: 1.5em;
 		}
 
 		#navbar-main {
@@ -570,19 +618,6 @@
 			font-size: 1.1em;
 		}
 
-		#main-search-box {
-    		width: 90%!important;
-		}
-
-		#navbar-shopping-cart {
-			padding-right: 3em;
-		}
-
-		#navbar-shopping-cart > i {
-			top: 1em;
-    		left: 0.5em;
-		}
-
 		#navbar-profile-button > i {
 			top: 2.4em;
     		right: 8em;
@@ -591,10 +626,6 @@
 		#navbar-name-label { 
 			top: 4.4em;
     		right: 11em;
-		}
-
-		#navitem-right {
-			padding-top: 20px;
 		}
 
 		#navbar-login-button {
