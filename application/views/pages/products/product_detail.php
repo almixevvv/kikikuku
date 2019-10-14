@@ -321,10 +321,6 @@
                   $startingQuantity = $quantity['startNumber'];
                   $startingPrice = $quantity['conferPrice'] * CONVERT;
                 }
-                //if($counter == count($dataproduct['detail']['sdiProductsPriceList']) - 1) {
-                //  $startingQuantity = $quantity['startNumber'];
-                //  $startingPrice = $quantity['conferPrice'] * CONVERT;
-                //}
               ?>
               <?php $counter++; ?>
               <?php endforeach; ?>
@@ -379,7 +375,7 @@
 
           <div class="row">
 
-            <div class="col-7 col-md-10 col-lg-7 col-xl-6">
+            <div class="col-7 col-md-10 col-lg-7 col-xl-5">
               <div class="input-group mb-3" id="btn-detail-quantity">
                 <div class="input-group-prepend">
                   <button class="btn btn-danger" id="xminusone" type="button"><i class="fa fa-minus"></i></button>
@@ -410,7 +406,7 @@
 
           <div class="row" style="margin-top: 1.5em;">
 
-            <div class="col-7 col-md-10 col-lg-7">
+            <div class="col-7 col-md-10 col-lg-7 col-xl-8">
               <button type="submit" class="btn btn-kku" id="btn-addcart">
                 Add To Cart&nbsp;<i class="fa fa-shopping-cart"></i>
               </button>

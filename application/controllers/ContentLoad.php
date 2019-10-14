@@ -66,7 +66,7 @@
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
-								<span class="product-price">IDR '.number_format($list['sellPrice'], 2, ',', '.').'</span>	
+								<span class="product-price">IDR '.number_format($list['sellPrice'] * CONVERT, 2, ',', '.').'</span>	
 							</a>
 						</div>
 					</div>';
@@ -142,7 +142,7 @@
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['productDetail']['productDetailVO']['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
-								<span class="product-price">IDR '.number_format($list['productDetail']['productDetailVO']['sellPrice'], 2, ',', '.').'</span>	
+								<span class="product-price">IDR '.number_format($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT, 2, ',', '.').'</span>	
 							</a>
 						</div>
 					</div>';

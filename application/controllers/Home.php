@@ -124,7 +124,7 @@
 									</div>
 									<p class="mt-2">'.$list['productDetail']['productDetailVO']['title'].'</p>
 									<label>Estimated Price : </label>
-									<span style="color: #f75c07;font-size: 14px;font-weight: bold;">IDR '.number_format($list['productDetail']['productDetailVO']['sellPrice'], 2).'</span>
+									<span style="color: #f75c07;font-size: 14px;font-weight: bold;">IDR '.number_format($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT, 2).'</span>
 								</a>
 						</div>
 						</div>
