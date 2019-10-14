@@ -41,7 +41,7 @@
 					<input type="text" class="form-control" name="query" placeholder="Product Keywords" style="margin-left: -3px;">
 					<?php endif; ?>
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="submit" id="button-search-custom">
+						<button class="btn btn-outline-secondary button-search-custom" type="submit">
 							<i class="fas fa-search"></i>
 						</button>
 					</div>
@@ -60,12 +60,12 @@
 			</span>
 			
 			<?php if($this->session->LOGGED_IN != null): ?>
-			<span class="mobile-icon account-position-fix dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10, 10">
+			<span class="mobile-icon account-position-fix dropdown-toggle" id="dropdown-account-mobile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10, 10">
 				<a href="<?php echo base_url(); ?>">
 					<i class="fas fa-user-circle"></i>
 				</a>
 			</span>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+			<div class="dropdown-menu" aria-labelledby="dropdown-account-mobile" >
 				<a class="dropdown-item" href="#">Dashboard</a>
 				<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 			</div>
@@ -131,7 +131,7 @@
 								<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query">
 							<?php endif; ?>
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary" type="submit" id="button-search-custom">
+								<button class="btn btn-outline-secondary button-search-custom" type="submit">
 									<i class="fas fa-search"></i>
 								</button>
 							</div>
@@ -152,7 +152,7 @@
 				</span>
 
 				<?php if($this->session->LOGGED_IN != null): ?>
-				<span class="account-position-fix dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15">
+				<span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15">
 					<a href="<?php echo base_url('login');?>" style="color: #C1C1C1;">
 						<i class="fas fa-user-circle" id="navbar-account-logo"></i>
 							<span style="color: black;">
@@ -160,13 +160,17 @@
 							</span>
 					</a>
 				</span>
+				<div class="dropdown-menu" aria-labelledby="dropdown-account" >
+					<a class="dropdown-item" href="#">Dashboard</a>
+					<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
+				</div>
 				<?php else: ?>
-				<span class="account-position-fix">
+				<span class="account-position-fix-no-pad">
 					<a href="<?php echo base_url('login');?>" id="navbar-login-button">
 						<span style="color: rgba(0,0,0,.7);">Login</span>
 					</a>
 				</span>
-				<span class="account-position-fix">
+				<span class="account-position-fix-no-pad">
 					<a href="<?php echo base_url('register');?>" id="navbar-register-button">
 						<span>Register</span>
 					</a>

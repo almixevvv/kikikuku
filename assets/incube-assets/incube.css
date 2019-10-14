@@ -53,6 +53,11 @@
 		padding-left: 2em;
 	}
 
+	.account-position-fix-no-pad {
+		position: relative;
+    	top: -2px;
+	}
+
 	.navbar-column-logo {
 		width: 15%;
 		height: 100%;
@@ -321,7 +326,7 @@
 
 	}
 
-	#button-search-custom {
+	.button-search-custom {
 
 		background: #EAEAEA;
 		border: 1px solid #ced4d9;

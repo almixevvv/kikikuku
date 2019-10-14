@@ -17,8 +17,21 @@
 				<div class="row">
 					<div class="col-12">
 						<div class="form-group">
-							<label class="login-text-color login-font-size" for="exampleInputEmail1">Email address</label>
+							<label class="login-text-color login-font-size" for="exampleInputEmail1">Email adddawdaress</label>
 							<input name="txt-email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+							<?php if($this->input->get('error') == 2): ?>
+							<div class="alert alert-danger mt-2" role="alert">
+  								Wrong password/email combination. Please try again.
+							</div>
+							<?php elseif($this->input->get('error') == 1): ?>
+							<div class="alert alert-danger mt-2" role="alert">
+  								Wrong password. Please try again.
+							</div>
+							<?php elseif($this->input->get('error') == 3): ?>
+							<div class="alert alert-danger mt-2" role="alert">
+  								This account is not verified. Please verify your account and try again.
+							</div>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>

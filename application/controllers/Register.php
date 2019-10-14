@@ -11,7 +11,7 @@ class Register extends CI_Controller {
 		}
 
     $this->load->view('templates/header');
-		$this->load->view('templates/navbar');
+	$this->load->view('templates/navbar');
     $this->load->view('pages/account-registration/'.$page);
     $this->load->view('templates/footer');
 
@@ -23,7 +23,7 @@ class Register extends CI_Controller {
 
 		$this->load->model('M_user', 'user');
 
-		$userEmail = $this->input->post('email');
+		$userEmail = $this->input->get('email');
 
 		$userQuery = $this->user->checkExistingEmail($userEmail);
 

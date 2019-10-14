@@ -4,6 +4,7 @@
 
 <div class="registration-container" >
 
+	<form action="<?php echo base_url('Register/input'); ?>" class="needs-validation" novalidate>
 	<div class="row" id="registration-inner-container">
 
 		<div class="col-12">
@@ -24,7 +25,10 @@
 				<div class="col-12 col-md-12 col-lg-6 col-xl-6">
 					<div class="form-group">
     					<label for="uFirstName">First Name</label>
-    					<input type="text" class="form-control" id="uFirstName" placeholder="Enter Your First Name">
+    					<input type="text" class="form-control" id="uFirstName" placeholder="Enter Your First Name" required>
+      					<div class="invalid-feedback">
+        					First name is required
+      					</div>
   					</div>
 				</div>
 				<div class="col-12 col-md-12 col-lg-6 col-xl-6">
@@ -39,31 +43,27 @@
 				<div class="col-12">
 					<div class="form-group">
     					<label for="uEmail">Email Address</label>
-    					<input type="email" class="form-control" id="uEmail" aria-describedby="emailHelp" placeholder="something@mail.com">
+    					<input type="email" class="form-control" id="uEmail" aria-describedby="emailHelp" placeholder="something@mail.com" onblur="checkExistingEmail()" required>
 						<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
   					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-12">
+				<div class="col-6">
 					<div class="form-group">
     					<label for="uEmail">Phone Number</label>
-    					<input type="number" class="form-control" id="uPhone" aria-describedby="numberHelp" placeholder="08XXXXXXXXX">
+    					<input type="number" class="form-control" id="uPhone" aria-describedby="numberHelp" placeholder="08XXXXXXXXX" required>
     					    <small id="numberHelp" class="form-text text-muted">We'll never share your phone number with anyone else.</small>
   					</div>
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-12">
+				<div class="col-6">
 					<div class="form-group">
     					<label for="uEmail">Birthdate</label>
-    					<input id="datepicker" class="form-control">
+    					<input id="datepicker" class="form-control" required>
   					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div class="col-12 col-md-6 col-lg-6 col-xl-6">
@@ -72,7 +72,7 @@
 				<div class="col-12">
 					<div class="form-group">
     					<label for="uAddress1">Address</label>
-    					<input type="text" class="form-control" id="uAddress1" aria-describedby="addressHelp" placeholder="Address">
+    					<input type="text" class="form-control" id="uAddress1" aria-describedby="addressHelp" placeholder="Address" required>
 						<small id="addressHelp" class="form-text text-muted">We'll never share your address with anyone else.</small>
   					</div>
 				</div>
@@ -91,7 +91,7 @@
 				<div class="col-12">
 					<div class="form-group">
     					<label for="uPass">Password</label>
-    					<input type="password" class="form-control" id="uPass" aria-describedby="passHelp" placeholder="Password">
+    					<input type="password" class="form-control" id="uPass" aria-describedby="passHelp" placeholder="Password" onblur="checkPassword()" required>
     					<small id="passHelp" class="form-text text-muted">Your password must include a capital letter and a number.</small>
   					</div>
 				</div>
@@ -101,18 +101,19 @@
 				<div class="col-12">
 					<div class="form-group">
     					<label for="uPass2">Confirm Password</label>
-    					<input type="password" class="form-control" id="uPass2" aria-describedby="passHelp">
+    					<input type="password" class="form-control" id="uPass2" onfocus="resetValidation()" onblur="matchPassword()" aria-describedby="passHelp" required>
   					</div>
 				</div>
 			</div>
 
 		</div>
 
-		<div class="col-12 pb-4 pb-md-0 pb-lg-0 pb-xl-0">
+		<div class="col-5 col-md-3 col-lg-2 col-xl-2 pb-4 pb-md-0 pb-lg-0 pb-xl-0">
 			<button type="submit" class="btn btn-kku" style="width:100%;">Register</button>
 		</div>
 
 	</div>
+	</form>
 
 </div>
 
@@ -121,5 +122,77 @@
 	$('#datepicker').datepicker({
 		uiLibrary: 'bootstrap4'
 	});
+
+	function resetValidation() {
+		$(".needs-validation").removeClass("was-validated");
+		console.log('validation reset');
+	}
+
+	function checkPassword() {
+
+		var upperCase= new RegExp('[A-Z]');
+		var lowerCase= new RegExp('[a-z]');
+		var numbers = new RegExp('[0-9]');
+
+		var input = $('#uPass').val();
+
+		if(input.match(upperCase) && input.match(lowerCase) && input.match(numbers)) {
+			$("#uPass").removeClass("is-invalid").addClass("is-valid");
+		} else {
+			$('#uPass').addClass("is-invalid");
+		}
+
+	}
+
+	function matchPassword() {
+
+		var password = $('#uPass').val();
+		var confirmPassword = $('#uPass2').val();
+
+		if(password.match(confirmPassword)) {
+			$("#uPass2").removeClass("is-invalid").addClass("is-valid");
+		} else {
+			$('#uPass2').addClass("is-invalid");
+		}
+
+	}
+
+	function checkExistingEmail() {
+
+		var email = $('#uEmail').val();
+
+		$.ajax({
+			url: "<?php echo base_url('Register/checkExistingEmail'); ?>",
+			type: "GET",
+			data: { email:email }, 
+			success: function(result){
+		    	if(result === 'existing') {
+		    		$('#uEmail').addClass("is-invalid");
+		    	} else {
+		    		$("#uEmail").removeClass("is-invalid").addClass("is-valid");
+		    	}
+		  	}
+		 });
+
+	}
+
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(function() {
+	  'use strict';
+	  window.addEventListener('load', function() {
+	    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	    var forms = document.getElementsByClassName('needs-validation');
+	    // Loop over them and prevent submission
+	    var validation = Array.prototype.filter.call(forms, function(form) {
+	      form.addEventListener('submit', function(event) {
+	        if (form.checkValidity() === false) {
+	          event.preventDefault();
+	          event.stopPropagation();
+	        }
+	        form.classList.add('was-validated');
+	      }, false);
+	    });
+	  }, false);
+	})();
 
 </script>
