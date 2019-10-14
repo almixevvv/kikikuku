@@ -303,8 +303,10 @@
 
               <?php 
                 //FORMAT THE PRICE 
-                // $price = ceil($quantity['conferPrice'] * CONVERT) * $marginParameter;
-                $price = ceil(($quantity['conferPrice'] * CONVERT) + (($quantity['conferPrice'] * CONVERT) * $marginParameter));
+                $convertPrice = $quantity['conferPrice'] * CONVERT;
+                $price = $convertPrice * $marginParameter;
+
+                $price = ceil($price);
               ?>
               
               <div class="row">
@@ -334,7 +336,13 @@
               <?php endforeach; ?>
 
             <?php else: ?>
-              <?php $startingPrice = ceil(($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT) + (($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT) * $marginParameter)); ?>
+              <?php 
+                //FORMAT THE PRICE 
+                $convertPrice = $dataproduct['detail']['productForApp']['sellPrice'] * CONVERT;
+                $price = $convertPrice * $marginParameter;
+
+                $startingPrice = ceil($price);
+              ?>
             <?php endif; ?>
           </div>
 
@@ -500,7 +508,7 @@
           <?php elseif($data['sellPrice'] > 9999999): ?>
             <span class="product-price">Price Negotiable</span>
           <?php else: ?>
-            <span class="product-price">IDR <?php echo number_format($price, 2, ',', '.'); ?></span>
+            <span class="product-price">IDR <?php echo number_format($price, 2, '.', ','); ?></span>
           <?php endif; ?>
         </a>
       </div>
