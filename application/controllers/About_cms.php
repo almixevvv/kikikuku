@@ -13,6 +13,9 @@ class About_cms extends CI_Controller {
 
 		$data['page'] = 'About Us';
 		$data['about'] = $this->M_cms->select_about();
+
+		$data['new_order'] = $this->M_cms->select_order_new();
+		$data['unview_order'] = $this->M_cms->select_order_unview();
 	    
 	    $this->load->view('templates-cms/header', $data);
         $this->load->view('templates-cms/navbar');

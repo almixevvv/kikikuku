@@ -24,9 +24,12 @@ class Form_terms_cms extends CI_Controller {
 	
 	function update(){
 		//echo 'mashoook pak';
-		$text = $this->input->post('text-terms');
+		$this->load->model('M_cms', 'cms');
 
-		$result=$this->M_cms->update_terms($text);
+		$text = $this->input->post('text-terms');
+		$id = $this->input->post('rec_id');
+
+		$this->cms->update_terms($text,$id);
 
 		redirect(site_url('cms/terms'));
 		// $id = $this->input->post("id",TRUE);

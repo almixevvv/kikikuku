@@ -18,10 +18,15 @@ class Orders_cms extends CI_Controller {
     }
 
 		//$this->output->enable_profiler(TRUE);
-		$data['page'] = 'ORDER MANAGEMENT';
+		$data['page'] = 'Order Management';
 
 		$this->load->model('M_cms', 'cms');
 		$data['content'] = $this->cms->select_order();
+		$data['new_order'] = $this->cms->select_order_new();
+		$data['updated_order'] = $this->M_cms->select_order_updated();
+		$data['confirmed_order'] = $this->M_cms->select_order_confirmed();
+		$data['paid_order'] = $this->M_cms->select_order_paid();
+		$data['unview_order'] = $this->cms->select_order_unview();
 
 		$this->load->view('templates-cms/header', $data);
   		$this->load->view('templates-cms/navbar');
@@ -31,7 +36,7 @@ class Orders_cms extends CI_Controller {
 	}
 
 	public function status() {
-$data['page'] = 'ORDER MANAGEMENT';
+	$data['page'] = 'ORDER MANAGEMENT';
 		// $this->output->enable_profiler(TRUE);
 
 		$this->load->model("M_cms");
@@ -42,7 +47,7 @@ $data['page'] = 'ORDER MANAGEMENT';
 		// $userEmail	 = $this->session->userdata('EMAIL');
 
 		//SET EACH PARAMETER TO MATCH THE DATABASE
-		if($searchQuery == 'created') {
+		if($searchQuery == 'new') {
 				$searchQuery = 'NEW ORDER';
 				$data['content'] = $this->M_cms->getOrderMasterDataFromQuery($searchQuery);
 		} elseif($searchQuery == 'all') {
@@ -51,6 +56,12 @@ $data['page'] = 'ORDER MANAGEMENT';
 			strtolower($searchQuery);
 			$data['content'] = $this->M_cms->getOrderMasterDataFromQuery($searchQuery);
 		}
+		$data['new_order'] = $this->M_cms->select_order_new();
+		$data['updated_order'] = $this->M_cms->select_order_updated();
+		$data['confirmed_order'] = $this->M_cms->select_order_confirmed();
+		$data['paid_order'] = $this->M_cms->select_order_paid();
+		$data['unview_order'] = $this->M_cms->select_order_unview();
+
 
 		// $data['userHistory'] = $this->M_cms->getOrderHistoryFromQuery($searchQuery);
 		// $data['content'] = $this->M_cms->getOrderMasterDataFromQuery($searchQuery);
@@ -71,7 +82,13 @@ $data['page'] = 'ORDER MANAGEMENT';
 
 		$this->load->model('M_cms', 'cms');
 
+		  $data_update = array('VIEW_FLAG'  => '1');
+
+            $this->db->where('ORDER_NO',  $orderNo);
+            $this->db->update('g_order_master', $data_update);
+
 		$data['details'] = $this->cms->singleOrder($orderNo);
+		$data['internal'] = $this->cms->singleOrder($orderNo);
 		$data['messages'] = $this->cms->getOrderMessages($orderNo);
 
  		$this->load->view('pages-cms/modal-orders', $data);
@@ -104,6 +121,8 @@ $data['page'] = 'ORDER MANAGEMENT';
 		$prevstatus = $this->input->post('prev_status');
 		$finalPrice = $this->input->post('final_price');
 		$importCost = $this->input->post('import_cost');
+		$spc_instruction = $this->input->post('spc_instruction');
+		$internal_notes = $this->input->post('internal_notes');
 		$updated = date('Y-m-d H:i:s');
 		// $quantity = $this->input->post('txt_quantity');
 
@@ -119,7 +138,7 @@ $data['page'] = 'ORDER MANAGEMENT';
 			// echo 'satu beres';
 		}
 
-		$this->cms->updateOrderStatus($orderNo, $status, $importCost, $updated);
+		$this->cms->updateOrderStatus($orderNo, $status, $importCost, $updated, $spc_instruction, $internal_notes);
 		 // $this->load-> AutoSendInvoice($orderNo);
 
 	    if($status == 'UPDATED' && $prevstatus == 'NEW ORDER'){

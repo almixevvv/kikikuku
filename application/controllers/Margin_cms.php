@@ -10,7 +10,11 @@ class Margin_cms extends CI_Controller {
 		$this->load->helper('form');
 		
 		$data['content'] = $this->cms->select_margin();
-		$data['page'] = 'MARGIN PARAMETER';
+		$data['page'] = 'Margin Parameter';
+
+		$data['new_order'] = $this->cms->select_order_new();
+		$data['unview_order'] = $this->cms->select_order_unview();
+
 
         $this->load->view('templates-cms/header', $data);
         $this->load->view('templates-cms/navbar');

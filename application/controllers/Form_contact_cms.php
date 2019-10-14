@@ -24,9 +24,11 @@ class Form_contact_cms extends CI_Controller {
 	}
 	
 	function update(){
-	   $text = $this->input->post('text-contact');
+	   	$id = $this->input->post('contact_id');
+	   	$title = $this->input->post('contact_title');
+	   	$desc = $this->input->post('contact_desc');
 
-		$result=$this->M_cms->update_contact($text);
+		$result=$this->M_cms->update_contact($id,$title,$desc);
 
 		redirect(site_url('cms/contact'));
 		

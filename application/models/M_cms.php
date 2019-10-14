@@ -125,14 +125,13 @@
             return $this->db->get('g_terms');
 
         }
-        function update_terms($terms){
+        function update_terms($terms,$id){
              $data = array(
-                    'CONTENT' => $terms,
-                    'UPDATED'  => date('Y-m-d h:i:s')
+                    'CONTENT' => $terms
 
             );
-
-            $this->db->replace('g_terms', $data);
+            // $this->db->where('REC_ID', $id);
+            $this->db->update('g_terms', $data);
          }
 //-------------------------------------------------------------------------------------------------------------------  TERMS
 
@@ -152,12 +151,11 @@
         }
         function update_faq($faq){
             $data = array(
-                    'CONTENT' => $faq,
-                    'UPDATED'  => date('Y-m-d h:i:s')
+                    'CONTENT' => $faq
 
             );
 
-            $this->db->replace('g_faq', $data);
+            $this->db->update('g_faq', $data);
          }
 //-------------------------------------------------------------------------------------------------------------------  FAQ
 
@@ -177,18 +175,12 @@
 
         }
         function update_privacy($privacy){
-           // $data = array(
-           //          'CONTENT' => $privacy,
-           //          'UPDATED'  => date('Y-m-d h:i:s')
+           $data = array(
+                    'CONTENT' => $privacy
 
-           //  );
+            );
 
-            // $this->db->replace('g_privacy', $data);
-
-           return $this->db->query("update g_privacy set
-                                    CONTENT='".$privacy."',
-                                    UPDATED='".date('Y-m-d h:i:s')."'
-                                    where REC_ID=1");
+            $this->db->update('g_privacy', $data);
          }
 //-------------------------------------------------------------------------------------------------------------------  PRIVACY
 
@@ -265,14 +257,14 @@
             return $this->db->get('g_contactus');
 
         }
-        function update_contact($contact){
+        function update_contact($id,$title,$desc){
            $data = array(
-                    'TITLE' => $contact,
-                    'UPDATED'  => date('Y-m-d h:i:s')
+                    'TITLE' => $title,
+                    'DESCRIPTION' => $desc
 
             );
-
-            $this->db->replace('g_contactus', $data);
+            $this->db->where('REC_ID', $id);
+            $this->db->update('g_contactus', $data);
         }
 //-------------------------------------------------------------------------------------------------------------------  CONTACT
 
@@ -281,6 +273,61 @@
             $this->db->select('*');
             $this->db->from('v_g_order_master');
             $this->db->order_by('ORDER_DATE', 'DESC');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_order_new(){
+            $this->db->select('COUNT(*) as new_order');
+            $this->db->from('v_g_order_master');
+            $this->db->where('STATUS_ORDER','NEW ORDER');
+            // $this->db->order_by('ORDER_DATE', 'DESC');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_order_updated(){
+            $this->db->select('COUNT(*) as updated_order');
+            $this->db->from('v_g_order_master');
+            $this->db->where('STATUS_ORDER','UPDATED');
+            // $this->db->order_by('ORDER_DATE', 'DESC');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_order_confirmed(){
+            $this->db->select('COUNT(*) as confirmed_order');
+            $this->db->from('v_g_order_master');
+            $this->db->where('STATUS_ORDER','CONFIRMED');
+            // $this->db->order_by('ORDER_DATE', 'DESC');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_order_paid(){
+            $this->db->select('COUNT(*) as paid_order');
+            $this->db->from('v_g_order_master');
+            $this->db->where('STATUS_ORDER','PAID');
+            // $this->db->order_by('ORDER_DATE', 'DESC');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_order_unview(){
+            $this->db->select('COUNT(*) as unview_order');
+            $this->db->from('v_g_order_master');
+            $this->db->where('VIEW_FLAG','0');
+            // $this->db->order_by('ORDER_DATE', 'DESC');
 
             $query = $this->db->get();
 
@@ -310,12 +357,14 @@
 
         }
 
-        function updateOrderStatus($orderNo,$status,$importCost,$updated){
+        function updateOrderStatus($orderNo,$status,$importCost,$updated, $spc_instruction, $internal_notes){
 
             $data = array(
 
                 'STATUS'  => $status,
                 'TOTAL_POSTAGE' => $importCost,
+                'SPC_INSTRUCTION' => $spc_instruction,
+                'INTERNAL_NOTES' => $internal_notes,
                 'UPDATED' => $updated
             );
 

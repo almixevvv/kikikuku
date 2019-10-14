@@ -17,6 +17,9 @@ class Terms_cms extends CI_Controller {
 
 		$data['page'] = 'Terms & Condition';
 		$data['terms'] = $this->M_cms->select_terms();
+
+		$data['new_order'] = $this->M_cms->select_order_new();
+		$data['unview_order'] = $this->M_cms->select_order_unview();
 	    
 
 	    $this->load->view('templates-cms/header', $data);

@@ -10,7 +10,10 @@ class Member_cms extends CI_Controller {
 		$this->load->helper('form');
 		
 		$data['content'] = $this->cms->select_member();
-		$data['page'] = 'MEMBER LIST';
+		$data['page'] = 'Member List';
+
+		$data['new_order'] = $this->cms->select_order_new();
+		$data['unview_order'] = $this->cms->select_order_unview();
 
         $this->load->view('templates-cms/header', $data);
         $this->load->view('templates-cms/navbar');
@@ -50,7 +53,7 @@ class Member_cms extends CI_Controller {
 
 		$this->cms->updateMember($id, $email, $phone, $add1, $add2, $country, $province);
 
-		// redirect('cms/member');
+		redirect('cms/member');
 	}
 
 	public function resetPassword(){

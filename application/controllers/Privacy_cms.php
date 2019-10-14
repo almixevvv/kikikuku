@@ -15,10 +15,13 @@ class Privacy_cms extends CI_Controller {
 		//$this->output->enable_profiler(TRUE);
 
 
-		$data['page'] = 'PRIVACY';
+		$data['page'] = 'Privacy';
 		$data['privacy'] = $this->M_cms->select_privacy();
 	    
 
+		$data['new_order'] = $this->M_cms->select_order_new();
+		$data['unview_order'] = $this->M_cms->select_order_unview();
+		
 	    $this->load->view('templates-cms/header', $data);
         $this->load->view('templates-cms/navbar');
         $this->load->view('pages-cms/privacy', $data);

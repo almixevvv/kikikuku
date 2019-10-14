@@ -71,14 +71,19 @@
 		public function dashboard() {
 
 			$this->load->library('session');
+			$this->load->model('M_cms', 'cms');
+			
 			$this->load->helper('form');
 
-			$data['page'] = "DASHBOARD";
+			$data['page'] = "Dashboard";
+
+			$data['new_order'] = $this->cms->select_order_new();
+			$data['unview_order'] = $this->cms->select_order_unview();
 
 			$this->load->view('templates-cms/header', $data);
 			$this->load->view('templates-cms/navbar');
 			$this->load->view('pages-cms/dashboard');
-      $this->load->view('templates-cms/footer');
+      		$this->load->view('templates-cms/footer');
 
 		}
 }

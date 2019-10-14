@@ -297,8 +297,6 @@
             <label class="detail-label">EXW Price:</label>
 
             <?php if($dataproduct['detail']['sdiProductsPriceList'] != null): ?>
-
-              <?php $counter = 0; ?>
               <?php foreach($dataproduct['detail']['sdiProductsPriceList'] as $quantity): ?>
 
               <?php 
@@ -327,12 +325,11 @@
 
               <?php
                 //FOR PRICING PURPOSE ONLY
-                if($counter == 0) {
+                if($quantity['endNumber'] == 0) {
                   $startingQuantity = $quantity['startNumber'];
                   $startingPrice = $price;
                 }
               ?>
-              <?php $counter++; ?>
               <?php endforeach; ?>
 
             <?php else: ?>
@@ -557,25 +554,18 @@
         var qty = parseInt($("#quantity").val());
         var newqty = qty +1;
         $("#quantity").val(newqty);
-        $("#quantity").val(newqty);
     });
 
     $("#xminusone").click(function() {
         var qty = parseInt($("#quantity").val());
-
-        if(qty > minimumValue) {
-          console.log(qty);
-          var newqty = qty -1;
-          if (newqty < 1) {
-              $("#quantity").val(1);
-              return true;
-          }else if (newqty >= 1) {
-              $("#quantity").val(newqty);
-              return true;
-          } else {
-            return false;
-          }
-        }
+        var newqty = qty -1;
+        if (newqty < 1) {
+          $("#quantity").val(1);
+          return true;
+        } else if (newqty >= 1) {
+          $("#quantity").val(newqty);
+          return true;
+        } 
     });
 
   });
