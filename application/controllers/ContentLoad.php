@@ -31,7 +31,7 @@
 				}
 
 				//FORMAT THE PRICE 
-				$price = ceil($list['sellPrice'] * CONVERT * $marginParameter);
+				$price = ceil(($list['sellPrice'] * CONVERT) + (($list['sellPrice'] * CONVERT) * $marginParameter));
 
 				//FILL THE TEMPLATE WITH OUTPUT DATA
 				if($list['sellPrice'] == 0) {
@@ -104,7 +104,7 @@
 			foreach($obj['prslist'] as $list) {
 
 				//FORMAT THE PRICE 
-				$price = ceil($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT * $marginParameter);
+				$price = ceil($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT + (($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT) * $marginParameter));
 
 				//BROKEN IMAGE LINK FIX
 				if(substr($list['productDetail']['productDetailVO']['picture2'], 1, 1) != 'i' && substr($list['productDetail']['productDetailVO']['picture2'], 4, 1) != '/') {

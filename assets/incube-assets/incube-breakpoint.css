@@ -39,7 +39,7 @@
 
 		#main-logo {
 			width: 85%;
-			padding-top: 0.5em;
+			padding-top: 0.4em;
 		}
 
 		.navbar-text {
@@ -229,8 +229,16 @@
 		padding-right: 10px;
 	}
 
+	.delete-item {
+		width: 100%;
+	}
+
 	.cart-header-label {
 		font-size: 1em;
+	}
+
+	#cart-label-separator {
+		border-bottom: solid 1.3px #bdbdbd;
 	}
 
 	.custom-cart-container {
@@ -248,6 +256,11 @@
 	2. Small Breakpoint
  */
 	@media only screen and (min-width: 480px) {
+
+
+		.delete-item {
+			width: 100%;
+		}
 
 		.pages-container {
 			padding-left: 10px;
@@ -306,6 +319,10 @@
 		#navbar-login-button {
 			padding-left: 20px;
     		padding-right: 20px;
+		}
+
+		#cart-label-separator {
+			border: none;
 		}
 
 	}
@@ -458,8 +475,7 @@
 
 		/* SHOPPING CART SECTION */
 		.delete-item {
-			height: 100%;
-			width: auto;
+			width: 25%;
 		}
 
 		.cart-container {
@@ -469,7 +485,11 @@
 
 		.custom-cart-container {
 			padding-left: 1em;
-    	padding-right: 1em;
+    		padding-right: 1em;
+		}
+
+		#cart-label-separator {
+			border: none;
 		}
 
 	}
@@ -526,6 +546,9 @@
 		}
 
 		/* PRODUCT PART */
+		.delete-item {
+			width: 90%;
+		}
 
 		.custom-column-left {
     		width: 20%;
@@ -562,6 +585,10 @@
 		.cart-container {
 			padding-left: 2em;
 			padding-right: 2em;
+		}
+
+		#cart-label-separator {
+			border: none;
 		}
 
 	}
@@ -674,6 +701,14 @@
 
 		.product-price {
 			font-size: 1em;
+		}
+
+		#cart-label-separator {
+			border: none;
+		}
+
+		.delete-item {
+			width: 50%;
 		}
 
 		/* FOOTER PART */

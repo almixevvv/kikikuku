@@ -5,8 +5,6 @@ class Product_detail extends CI_Controller {
 
        $this->load->helper('form');
 
-       $page = 'product_detail';
-
         // $this->output->enable_profiler(TRUE);
         $this->load->model('M_product', 'product');
 
@@ -16,7 +14,7 @@ class Product_detail extends CI_Controller {
         $finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
 
         $recURL  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=5&cpage=".$randomPage);
-    		$recomended 	= json_decode($recURL, TRUE);
+    	$recomended 	= json_decode($recURL, TRUE);
 
         $json       = file_get_contents($finalUrl);
         $obj        = json_decode($json, true);
@@ -30,14 +28,16 @@ class Product_detail extends CI_Controller {
         // 	echo 'Name '.$list['shopName']."</br>";
         // 	echo 'Picture '.$list['picture2'];
         // }
-        //
         // die();
 
-    		$id_user = $this->session->userdata("USERID");
+        //GET THE MARGIN PARAMETER
+        $data['marginParameter'] = $this->product->getMarginPrice();
+
+    	$id_user = $this->session->userdata("USERID");
 
         $this->load->view('templates/header');
-    		$this->load->view('templates/navbar');
-        $this->load->view('pages/products/'.$page, $data);
+    	$this->load->view('templates/navbar');
+        $this->load->view('pages/products/product_detail', $data);
         $this->load->view('templates/footer.php', $data);
     }
 

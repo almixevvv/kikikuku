@@ -300,8 +300,15 @@
 
               <?php $counter = 0; ?>
               <?php foreach($dataproduct['detail']['sdiProductsPriceList'] as $quantity): ?>
+
+              <?php 
+                //FORMAT THE PRICE 
+                // $price = ceil($quantity['conferPrice'] * CONVERT) * $marginParameter;
+                $price = ceil(($quantity['conferPrice'] * CONVERT) + (($quantity['conferPrice'] * CONVERT) * $marginParameter));
+              ?>
+              
               <div class="row">
-                <div class="col-6 col-md-5 col-lg-5 col-xl-5" style="padding-right: 0!important;">
+                <div class="col-6 col-md-5 col-lg-6 col-xl-6" style="padding-right: 0!important;">
                   <?php if($quantity['endNumber'] == 0): ?>
                     <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
                     <?php $finalNumber = $quantity['startNumber']; ?>
@@ -309,24 +316,25 @@
                       <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
                   <?php endif; ?>
                 </div>
-                <div class="col-6 col-md-5 col-lg-5 col-xl-5">
+                <div class="col-6 col-md-5 col-lg-6 col-xl-6">
                   <label class="detail-txt-color detail-exw-size font-weight-bold">
-                    <span class="detail-exw-color">IDR <?php echo number_format($quantity['conferPrice'] * CONVERT, 2);?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
+                    <span class="detail-exw-color">IDR <?php echo number_format($price, 2, '.', ','); ?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
                   </label>
                 </div>
               </div>
+
               <?php
                 //FOR PRICING PURPOSE ONLY
                 if($counter == 0) {
                   $startingQuantity = $quantity['startNumber'];
-                  $startingPrice = $quantity['conferPrice'] * CONVERT;
+                  $startingPrice = $price;
                 }
               ?>
               <?php $counter++; ?>
               <?php endforeach; ?>
 
             <?php else: ?>
-              <?php $startingPrice = $dataproduct['detail']['productForApp']['sellPrice'] * CONVERT; ?>
+              <?php $startingPrice = ceil(($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT) + (($dataproduct['detail']['productForApp']['sellPrice'] * CONVERT) * $marginParameter)); ?>
             <?php endif; ?>
           </div>
 
@@ -337,7 +345,7 @@
               <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
               <span class="detail-exw-color detail-label"></br class="d-none d-md-block d-lg-block d-xl-block">Price Negotiable</span>
                 <?php else: ?>
-                <span class="detail-exw-color detail-label font-weight-bold"></br class="d-none d-md-block d-lg-block d-xl-block">IDR <?php echo number_format($startingPrice, 2);?></span>
+                <span class="detail-exw-color detail-label font-weight-bold"></br class="d-none d-md-block d-lg-block d-xl-block">IDR <?php echo number_format($startingPrice, 2, '.', ',');?></span>
               <?php endif; ?>
             </div>
 
@@ -442,7 +450,7 @@
               'type'  => 'hidden',
               'name'  => 'product-price',
               'id'    => 'hiddenPrice',
-              'value' => $dataproduct['detail']['productForApp']['sellPrice']
+              'value' => $startingPrice
             );
 
             echo form_input($productID);
@@ -473,6 +481,12 @@
   <div class="row mt-2">
 
     <?php foreach($recomended['prslist'] as $data): ?>
+
+    <?php 
+      //FORMAT THE PRICE 
+      $price = ceil(($data['sellPrice'] * CONVERT) + (($data['sellPrice'] * CONVERT) * $marginParameter));
+    ?>
+
     <div class="custom-product-list" >
       <div class="card product-list" id="prod_<?php echo $data['id']; ?>">
         <a href="<?php echo base_url(); ?>product_detail?id=<?php echo $data['id']; ?>" style="text-decoration: none;">
@@ -486,7 +500,7 @@
           <?php elseif($data['sellPrice'] > 9999999): ?>
             <span class="product-price">Price Negotiable</span>
           <?php else: ?>
-            <span class="product-price">IDR <?php echo number_format($data['sellPrice'] * CONVERT, 2, ',', '.'); ?></span>
+            <span class="product-price">IDR <?php echo number_format($price, 2, ',', '.'); ?></span>
           <?php endif; ?>
         </a>
       </div>

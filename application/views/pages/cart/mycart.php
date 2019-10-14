@@ -20,8 +20,8 @@
 	</div>
 
 	<!-- CART TOTAL ITEMS -->
-	<div class="row">
-		<div class="col-12">
+	<div class="row pl-3 pl-md-0 pl-lg-0 pl-xl-0 pr-3 pr-md-0 pr-lg-0 pr-xl-0">
+		<div class="col-12 col-12 pl-0 pl-md-4 pl-lg-4 pl-xl-4" id="cart-label-separator">
 			<label class="cart-header-label pl-0 pl-md-0 pl-lg-4 pl-xl-4"><?php echo $row = count($this->cart->contents()); ?> Item(s) in the Cart</label>
 		</div>
 	</div>
@@ -35,11 +35,18 @@
 			<div class="col-md-12 col-lg-12 col-xl-12">
 
 				<div class="row" id="cart-header-border">
-					<div class="col-6">Product Detail</div>
-					<div class="col-2">Estimated Price</div>
-					<div class="col-1">Qty</div>
-					<div class="col-1">Total</div>
-					<div class="col-1"></div>
+					<div class="col-5 col-md-5">
+						<div class="d-flex justify-content-center">Product Detail</div>
+					</div>
+					<div class="col-2 col-md-3">
+						<div class="d-flex justify-content-center">Estimated Price</div>
+					</div>
+					<div class="col-1 col-md-1">
+						<div class="d-flex justify-content-center">Qty</div>
+					</div>
+					<div class="col-2 col-md-3">
+						<div class="d-flex justify-content-center">Total</div>
+					</div>
 				</div>
 
 			</div>
@@ -68,7 +75,7 @@
 				<div class="row pb-4 cart-product-separator">
 
 					<!-- PRODUCT DETAIL PART -->
-					<div class="col-6">
+					<div class="col-5 col-md-5">
 						<div class="row">
 
 							<div class="col-4">
@@ -93,7 +100,7 @@
 									</div>
 									<div class="text-capitalize">
 										<span class="font-weight-bold">Inquiry:</span>
-										<textarea class="form-control mt-2" type="text" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 80%; height:100px;"/><?php echo $items['notes'] ?></textarea>
+										<textarea class="form-control mt-2" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 80%; height:100px;"><?php echo $items['notes'] ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -103,25 +110,30 @@
 					<!-- END OF PRODUCT DETAIL PART -->
 
 					<!-- ESTIMATED PRICE SECTION -->
-					<div class="col-2">
-
+					<div class="col-2 col-md-3">
 						<div class="row">
 							<div class="col-12">
 
 								<!-- IF THE PRICE IS NEGOTIABLE -->
 								<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999): ?>
-								<span class="font-weight-bold">Price Negotiable</span>
-
+								<div class="d-flex justify-content-center">
+									<span class="font-weight-bold">Price Negotiable</span>	
+								</div>
+								
 								<!-- IF THE PRICE IS NEGOTIABLE -->
 								<?php elseif($obj['detail']['productForApp']['sellPrice'] == 0): ?>
-								<span class="font-weight-bold">Price Negotiable</span>
+								<div class="d-flex justify-content-center">
+									<span class="font-weight-bold">Price Negotiable</span>
+								</div>
 
 								<!-- IF THE SDI PRODUCT IS EMPTY, THEN PRINT THE CURRENT PRICE AND SAVE IT AS FINAL PRICE -->
 								<?php elseif($obj['detail']['sdiProductsPriceList'] == null): ?>
 								<?php $tmpPrice =  $obj['detail']['productForApp']['sellPrice'] * CONVERT; ?>
-								<span class="font-weight-bold">
-									IDR <?php echo number_format($tmpPrice, 2); ?>
-								</span>
+								<div class="d-flex justify-content-center">
+									<span class="font-weight-bold">
+										IDR <?php echo number_format($tmpPrice, 2); ?>
+									</span>
+								</div>
 
 								<!-- IF THE SDI PRODUCT IS NOT EMPTY, THEN SHOW THE PRICE RANGE -->
 								<?php else: ?>
@@ -137,27 +149,30 @@
 
 										<?php if($items['qty'] >= $quantity['startNumber'] && $items['qty'] <= $finalQty): ?>
 											<?php $finalPrice = $quantity['conferPrice'] * CONVERT; ?>
-										<p><strong>IDR <?php echo number_format($finalPrice, 2); ?></strong></p>
-
-										<div class="exw-container d-md-none d-lg-block d-xl-block" id="cart-exw-container">
-
-											<div class="cart-exw">
-												<label>EXW Price:</label>
+											<div class="d-flex justify-content-center">
+												<p>
+													<strong>IDR <?php echo number_format($finalPrice, 2); ?></strong>
+												</p>
 											</div>
+											<div class="exw-container d-md-none d-lg-block d-xl-block" id="cart-exw-container">
 
-											<div class="cart-exw pt-2">
-												<?php if($quantity['endNumber'] == 0): ?>
-												<span class="pl-1"><?php echo $quantity['startNumber'].' and Above'; ?></span>
-													<?php else: ?>
-													<span class="pl-1"><?php echo $quantity['startNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?></span>
-												<?php endif; ?>
+												<div class="cart-exw">
+													<label>EXW Price:</label>
+												</div>
+
+												<div class="cart-exw pt-2">
+													<?php if($quantity['endNumber'] == 0): ?>
+													<span class="pl-1"><?php echo $quantity['startNumber'].' and Above'; ?></span>
+														<?php else: ?>
+														<span class="pl-1"><?php echo $quantity['startNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?></span>
+													<?php endif; ?>
+												</div>
+
+												<div class="cart-exw pt-2">
+													<span class="pl-1" style="font-weight: bold; color: #f75c07;">IDR <?php echo number_format($finalPrice, 2);?></span>/<?php echo $obj['detail']['productForApp']['matrisingular']; ?>
+												</div>
+
 											</div>
-
-											<div class="cart-exw pt-2">
-												<span class="pl-1" style="font-weight: bold; color: #f75c07;">IDR <?php echo number_format($finalPrice, 2);?></span>/<?php echo $obj['detail']['productForApp']['matrisingular']; ?>
-											</div>
-
-										</div>
 										<?php endif; ?>
 
 									<?php endforeach; ?>
@@ -171,26 +186,77 @@
 					<!-- END OF ESTIMATED PRICE SECTION -->
 
 					<!-- QUANTITY SECTION -->
-					<div class="col-1">
-						<span class="font-weight-bold"><?php echo $items['qty']; ?></span>
+					<div class="col-1 col-md-1">
+						<div class="d-flex justify-content-center">
+							<span class="font-weight-bold"><?php echo $items['qty']; ?></span>
+						</div>
 					</div>
 					<!-- END OF QUANTITY SECTION -->
 
 					<!-- PRODUCT PRICE SECTION -->
-					<div class="col-2">
-						<!-- ONLY SHOW IF THE PRICE IS NEGOTIABLE -->
-						<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0): ?>
-						<span class="font-weight-bold">Price Negotiable</span>
-						<?php else: ?>
-						<span class="font-weight-bold">IDR <?php echo number_format($finalPrice * $items['qty'], 2); ?></span>
-						<?php endif; ?>
+					<div class="col-2 col-md-3 col-lg-2 pr-0 pl-0">
+
+						<?php 
+							//SET THE FINAL PRICE VALUE
+							$price = ceil($finalPrice * $items['qty']);
+						?>
+						
+						<!-- SHOW ON ALL DEVICE -->
+						<div class="d-md-none d-lg-block d-xl-block">
+							<div class="row">
+								<div class="col-lg-12 col-xl-12">
+									<div class="d-flex justify-content-center">
+										<!-- ONLY SHOW IF THE PRICE IS NEGOTIABLE -->
+										<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0): ?>
+										<span class="font-weight-bold">Price Negotiable</span>
+										<?php else: ?>
+										<span class="font-weight-bold">IDR <?php echo number_format($price, 2, ',', '.'); ?></span>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- SHOW ONLY ON TABLET -->
+						<div class="d-md-block d-lg-none d-xl-none">
+							
+							<div class="row">
+								<div class="col-12">
+									<div class="d-flex justify-content-center">
+										<!-- ONLY SHOW IF THE PRICE IS NEGOTIABLE -->
+										<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0): ?>
+										<span class="font-weight-bold">Price Negotiable</span>
+										<?php else: ?>
+										<span class="font-weight-bold">IDR <?php echo number_format($finalPrice * $items['qty'], 2); ?></span>
+										<?php endif; ?>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12 pt-md-2">
+									<div class="d-flex justify-content-center">
+										<button type="button" class="btn btn-danger delete-item" title="Remove Item" data-id="<?php echo $items['rowid']; ?>">
+											<i class="fa fa-trash"></i>
+										</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<!-- <div class="d-flex justify-content-center">
+							
+						</div> -->
 					</div>
 					<!-- END OF PRODUCT PRICE SECTION -->
 
 					<!-- DELETE CART OPTIONS -->
-					<button type="button" class="btn btn-danger delete-item" title="Remove Item" data-id="<?php echo $items['rowid']; ?>">
-						<i class="fa fa-trash"></i>
-					</button>
+					<div class="col-lg-1 col-xl-1 d-md-none d-lg-block d-xl-block">
+						<button type="button" class="btn btn-danger delete-item" title="Remove Item" data-id="<?php echo $items['rowid']; ?>">
+							<i class="fa fa-trash"></i>
+						</button>
+					</div>
 					<!-- END DELETE CART OPTIONS -->
 
 				</div>
@@ -228,12 +294,11 @@
 							</div>
 						</div>
 					</div>
-
 			</div>
 
 			<div class="row">
 
-				<div class="col-5">
+				<div class="col-12">
 
 					<div class="row">
 						<div class="col-12">
@@ -253,6 +318,10 @@
 
 				</div>
 
+			</div>
+
+			<div class="row">
+				
 				<div class="col-3">
 
 					<div class="row">

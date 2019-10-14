@@ -35,7 +35,11 @@
 			<form action="<?php echo base_url('search'); ?>"  method="get">
 
 				<div class="input-group mb-3" style="padding-top: 8px;">
+					<?php if($this->input->get('query') != null): ?>
+					<input type="text" class="form-control" name="query" placeholder="Product Keywords" style="margin-left: -3px;" value="<?php echo $this->input->get('query'); ?>">
+					<?php else: ?>
 					<input type="text" class="form-control" name="query" placeholder="Product Keywords" style="margin-left: -3px;">
+					<?php endif; ?>
 					<div class="input-group-append">
 						<button class="btn btn-outline-secondary" type="submit" id="button-search-custom">
 							<i class="fas fa-search"></i>
@@ -110,7 +114,11 @@
 					
 					<form action="<?php echo base_url('search'); ?>"  method="get">
 				   		<div class="input-group mb-3" style="padding-top: 8px;">
-							<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query">
+				   			<?php if($this->input->get('query') != null): ?>
+				   				<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query" value="<?php echo $this->input->get('query'); ?>">
+							<?php else: ?>
+								<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query">
+							<?php endif; ?>
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary" type="submit" id="button-search-custom">
 									<i class="fas fa-search"></i>
