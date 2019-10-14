@@ -87,4 +87,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 /*
 |  INCUBE CONVERSION YUAN TO IDR
 */
-defined('CONVERT')            OR define('CONVERT', 19.9565);
+defined('CONVERT')            OR define('CONVERT', 2001.64);

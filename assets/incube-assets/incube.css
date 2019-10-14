@@ -50,6 +50,7 @@
 	.account-position-fix {
 		position: relative;
     	top: -2px;
+		padding-left: 2em;
 	}
 
 	.navbar-column-logo {
@@ -119,6 +120,13 @@
 		color: #C1C1C1!important;
 		font-size: 1.5em;
     	padding-top: 0.5em;
+	}
+
+	#navbar-account-logo {
+		font-size: 1.7em;
+		position: relative;
+		top: 0.2em;
+    	padding-right: 0.4em;
 	}
 
 	.full-container {
@@ -363,26 +371,6 @@
 		padding-left: 1.5em;
     	padding-right: 1.8em;
 	    font-size: 1em;
-	}
-
-	#navbar-profile-button {
-		color: #C1C1C1;
-		padding-left: 1.5em;
-    	padding-right: 1.8em;
-	    font-size: 1em;
-	}
-
-	#navbar-profile-button > i {
-		position: fixed;
-		font-size: 1.8em;
-		top: 2.3em;
-	}
-
-	#navbar-name-label {
-		position: fixed;
-    	top: 4.2em;
-    	right: 10em;
-    	color: #646464;
 	}
 
 	#navbar-login-button > a {

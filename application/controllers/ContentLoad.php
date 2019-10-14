@@ -30,11 +30,21 @@
 	    		  	$newPath = 'http://img1.yiwugou.com/';
 				}
 
-				//FORMAT THE PRICE 
-				$convertPrice = $list['sellPrice'] * CONVERT;
-				$price = $convertPrice * $marginParameter;
+				//FORMAT THE PRICE
+				//Divide the price by 100
+				$initialPrice =  $list['sellPrice']/100;
+                
+                //Times the price to the convert rate
+                $convertPrice = $initialPrice * CONVERT;
 
-				$price = ceil($price);
+                //Get margin parameter
+                $marginPrice = $convertPrice * $marginParameter;
+                
+                //Set the final price
+                $finalPrice = $convertPrice + $marginPrice;
+
+                //Round the Price
+                $price = ceil($finalPrice);
 
 				//FILL THE TEMPLATE WITH OUTPUT DATA
 				if($list['sellPrice'] == 0) {
@@ -107,10 +117,20 @@
 			foreach($obj['prslist'] as $list) {
 
 				//FORMAT THE PRICE 
-				$convertPrice = $list['productDetail']['productDetailVO']['sellPrice'] * CONVERT;
-				$price = $convertPrice * $marginParameter;
+				//Divide the price by 100
+				$initialPrice =  $list['productDetail']['productDetailVO']['sellPrice']/100;
+                
+                //Times the price to the convert rate
+                $convertPrice = $initialPrice * CONVERT;
 
-				$price = ceil($price);
+                //Get margin parameter
+                $marginPrice = $convertPrice * $marginParameter;
+                
+                //Set the final price
+                $finalPrice = $convertPrice + $marginPrice;
+
+                //Round the Price
+                $price = ceil($finalPrice);
 
 				//BROKEN IMAGE LINK FIX
 				if(substr($list['productDetail']['productDetailVO']['picture2'], 1, 1) != 'i' && substr($list['productDetail']['productDetailVO']['picture2'], 4, 1) != '/') {

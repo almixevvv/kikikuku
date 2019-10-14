@@ -58,13 +58,24 @@
 					<i class="fas fa-shopping-cart"></i>
 				</a>
 			</span>
-
+			
+			<?php if($this->session->LOGGED_IN != null): ?>
+			<span class="mobile-icon account-position-fix dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10, 10">
+				<a href="<?php echo base_url(); ?>">
+					<i class="fas fa-user-circle"></i>
+				</a>
+			</span>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+				<a class="dropdown-item" href="#">Dashboard</a>
+				<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
+			</div>
+			<?php else: ?>
 			<span class="mobile-icon account-position-fix">
 				<a href="<?php echo base_url('login'); ?>">
 					<i class="fas fa-user"></i>
 				</a>
 			</span>
-			
+			<?php endif; ?>
 		</div>
 	</div>
 
@@ -140,18 +151,27 @@
 					</a>
 				</span>
 
+				<?php if($this->session->LOGGED_IN != null): ?>
+				<span class="account-position-fix dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15">
+					<a href="<?php echo base_url('login');?>" style="color: #C1C1C1;">
+						<i class="fas fa-user-circle" id="navbar-account-logo"></i>
+							<span style="color: black;">
+								<?php echo $this->session->FIRST_NAME; ?>
+							</span>
+					</a>
+				</span>
+				<?php else: ?>
 				<span class="account-position-fix">
 					<a href="<?php echo base_url('login');?>" id="navbar-login-button">
 						<span style="color: rgba(0,0,0,.7);">Login</span>
 					</a>
 				</span>
-
 				<span class="account-position-fix">
 					<a href="<?php echo base_url('register');?>" id="navbar-register-button">
 						<span>Register</span>
 					</a>
 				</span>
-
+				<?php endif; ?>
 
 			</div>
 
