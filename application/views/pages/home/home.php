@@ -34,7 +34,7 @@
 	<div class="banner-container header-mobile">
 		<div class="row" style="width: 100%; margin-left: 0!important; margin-right: 0!important;">
 			<div class="col-12 no-gutters no-padding-x">
-				<div id="carouselBanner" class="carousel slide" data-ride="carousel">
+				<div id="carouselBanner" class="carousel slide" data-ride="carousel" data-touch="true">
 					<div class="carousel-inner">
 						<div class="carousel-item active">
 							<img alt="Side Banner" class="d-block w-100" src="<?php echo base_url('assets/images/banner-01.jpg');?>" style="width: 100%;" />
