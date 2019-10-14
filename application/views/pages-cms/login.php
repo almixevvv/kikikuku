@@ -11,14 +11,9 @@
 
   <div class="container">
     <div class="card card-login mx-auto mt-5" style="background-color: transparent;border:transparent;">
-     <!--  <div class="card-header">
-        <div class="d-flex justify-content-center">
-          <img src="<?php echo base_url('assets/img/logo.png'); ?>" alt="Kikikuku Logo" style="width: 80%;">
-        </div>
-      </div> -->
       <div class="card-body">
         <div class="d-flex justify-content-center">
-          <img src="<?php echo base_url('assets/img/logo.png'); ?>" alt="Kikikuku Logo" style="width: 100%;">
+          <img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Kikikuku Logo" style="width: 100%;">
         </div>
         <?php echo form_open('cms/login_process'); ?>
           <div class="form-group" style="margin-top: 3em;">
@@ -70,10 +65,10 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="<?php echo base_url('assets/cms/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cmsvendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.compatibility.min.js"></script>
 
 </body>

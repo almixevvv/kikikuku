@@ -4,7 +4,9 @@
 
 		public function __construct() {
 			parent::__construct();
-				date_default_timezone_set('Asia/Jakarta');
+			
+			date_default_timezone_set('Asia/Jakarta');
+			$this->load->model('M_product', 'product');
 		}
 
 		public function autoloadHome() {
@@ -17,6 +19,7 @@
 
 			//COUNTER TO DISPLAY MANUAL LOAD
 			$currentCounter = $this->input->post('counter');
+			$marginParameter = $this->product->getMarginPrice();
 
 			foreach($obj['prslist'] as $list) {
 
@@ -26,6 +29,9 @@
 				} else {
 	    		  	$newPath = 'http://img1.yiwugou.com/';
 				}
+
+				//FORMAT THE PRICE 
+				$price = ceil($list['sellPrice'] * CONVERT * $marginParameter);
 
 				//FILL THE TEMPLATE WITH OUTPUT DATA
 				if($list['sellPrice'] == 0) {
@@ -66,7 +72,7 @@
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
-								<span class="product-price">IDR '.number_format($list['sellPrice'] * CONVERT, 2, ',', '.').'</span>	
+								<span class="product-price">IDR '.number_format($price, 2, '.', ',').'</span>	
 							</a>
 						</div>
 					</div>';
@@ -89,12 +95,16 @@
 			$searchQuery = $this->input->post('query');
 			$currentCounter = $this->input->post('counter');
 			$page = $this->input->post('start');
+			$marginParameter = $this->product->getMarginPrice();
 			
 			$json = file_get_contents("http://en.yiwugo.com/ywg/searchproduct.html?account=Wien.suh@gmail.com&cpage=".$page."&pageSize=10&q=".$searchQuery);
 
 			$obj = json_decode($json, true);
 
 			foreach($obj['prslist'] as $list) {
+
+				//FORMAT THE PRICE 
+				$price = ceil($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT * $marginParameter);
 
 				//BROKEN IMAGE LINK FIX
 				if(substr($list['productDetail']['productDetailVO']['picture2'], 1, 1) != 'i' && substr($list['productDetail']['productDetailVO']['picture2'], 4, 1) != '/') {
@@ -142,7 +152,7 @@
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['productDetail']['productDetailVO']['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
-								<span class="product-price">IDR '.number_format($list['productDetail']['productDetailVO']['sellPrice'] * CONVERT, 2, ',', '.').'</span>	
+								<span class="product-price">IDR '.number_format($price, 2, '.', ',').'</span>
 							</a>
 						</div>
 					</div>';

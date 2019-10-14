@@ -1,7 +1,3 @@
-<style type="text/css">
-
-</style>
-
 <!-- MOBILE NAVBAR -->
 <header class="header-mobile" id="fixed-navbar">
 

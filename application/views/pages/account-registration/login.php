@@ -68,22 +68,22 @@
 			</div>
 
 			<!-- FACEBOOK LOGIN BUTTON -->
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-12">
 					<div class="d-flex justify-content-center">
 						<button id="facebook-button" type="button"><i class="fab fa-facebook-f"></i>Login with Facebook</button>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 			<!-- GMAIL LOGIN BUTTON -->
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-12">
 					<div class="d-flex justify-content-center">
 						<button id="gmail-button" type="button"><i class="fab fa-google"></i>Login with Gmail</button>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 
 		</div>

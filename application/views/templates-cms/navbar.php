@@ -1,6 +1,6 @@
 <body id="page-top">
   <nav class="navbar navbar-expand navbar-dark static-top" style="background-color: #2dd6a7;">
-    <img src="<?php echo base_url('assets/img/logo.png'); ?>" alt="Kikikuku Logo" style="width: 10%;">
+    <img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Kikikuku Logo" style="width: 10%;">
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
