@@ -511,7 +511,21 @@
 
     <?php 
       //FORMAT THE PRICE 
-      $price = ceil(($data['sellPrice'] * CONVERT) + (($data['sellPrice'] * CONVERT) * $marginParameter));
+      $initialPrice =  $data['sellPrice']/100;
+                
+      //Times the price to the convert rate
+      $convertPrice = $initialPrice * CONVERT;
+
+      //Get margin parameter
+      $marginPrice = $convertPrice * $marginParameter;
+                
+      //Set the final price
+      $finalPrice = $convertPrice + $marginPrice;
+
+      //Round the Price
+      $price = ceil($finalPrice);
+      
+      // $price = ceil(($data['sellPrice'] * CONVERT) + (($data['sellPrice'] * CONVERT) * $marginParameter));
     ?>
 
     <div class="custom-product-list" >

@@ -162,3 +162,28 @@
 	</div>
 
 </div>
+
+<?php if($this->input->get('verification') == 'pending'): ?>
+<script type="text/javascript">
+
+	swal.fire({
+		title:'Registration Successful',
+		text: 'Please check your email to verify your account',
+		type: 'success',
+		showCancelButton: false,
+	});
+
+</script>
+
+<?php elseif($this->input->get('verification') == 'error'): ?>
+<script type="text/javascript">
+
+	swal.fire({
+		title:'Registration Unsuccessful',
+		text: 'Something wrong with your registration process. Please try again later',
+		type: 'warning',
+		showCancelButton: false,
+	});
+
+</script>
+<?php endif; ?>

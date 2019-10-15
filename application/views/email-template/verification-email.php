@@ -1,8 +1,8 @@
-<body style="background-color: #e4e4e4;">
+<body style="background-color: #e4e4e4; color: black;">
 <div style="max-width:800px;margin:auto;padding:30px;">
   <div style="content: ''; clear: both; display: table;">
     <div style="float: left; padding-left: 70px;">
-      <img src="<?php echo base_url('assets/img/logo.png'); ?>" style="width:100%; max-width:200px;"/>
+      <img src="<?php echo base_url('assets/images/logo.png'); ?>" style="width:100%; max-width:200px;"/>
     </div>
   </div>
   <div style="width: 80%; margin: auto;">
@@ -10,7 +10,7 @@
     <h4 style="padding-left: 45px;">Thank you for joining Kikikuku.com</h4>
     <h4 style="padding-left: 45px;">To complete your registration process, please confirm that this is your email address</h4>
     <div style="text-align: center;">
-      <a href="<?php echo base_url('verification?key=').$hash."&email=".$email; ?>" style="background-color:#f17f05; -moz-border-radius:19px; -webkit-border-radius:19px; border-radius:19px;
+      <a href="<?php echo base_url('verification?key=').$hash."&email=".$email; ?>" style="background-color:#34ca9d; -moz-border-radius:19px; -webkit-border-radius:19px; border-radius:19px;
     	display:inline-block;
     	cursor:pointer;
     	color:#ffffff;

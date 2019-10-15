@@ -1,27 +1,29 @@
 <?php if(!defined("BASEPATH")) exit("Hack Attempt");
 class Register extends CI_Controller {
 
+	public function __construct() {
+        
+        parent::__construct();
+
+        date_default_timezone_set('Asia/Jakarta');
+
+        $this->load->model('M_user', 'user');
+        $this->load->helper('form');
+        $this->load->library('email');
+        
+        // $this->output->enable_profiler(TRUE);
+    }
+
 	public function index() {
 
-		$this->load->helper('form');
+    	$this->load->view('templates/header');
+		$this->load->view('templates/navbar');
+    	$this->load->view('pages/account-registration/register');
+    	$this->load->view('templates/footer');
 
-		$page = 'register';
-		if(!file_exists(APPPATH.'/views/pages/account-registration/'.$page.'.php')) {
-				show_404();
-		}
-
-    $this->load->view('templates/header');
-	$this->load->view('templates/navbar');
-    $this->load->view('pages/account-registration/'.$page);
-    $this->load->view('templates/footer');
-
-  }
+  	}
 
 	public function checkExistingEmail() {
-
-		// $this->output->enable_profiler(TRUE);
-
-		$this->load->model('M_user', 'user');
 
 		$userEmail = $this->input->get('email');
 
@@ -36,41 +38,40 @@ class Register extends CI_Controller {
 
 	public function input() {
 
-		date_default_timezone_set('Asia/Jakarta');
-
-		// $this->output->enable_profiler(TRUE);
-		$this->load->model('M_user', 'user');
-
-		$name = $this->input->post('txt-name');
-		$fName = $this->input->post('txt-first-name');
-		$lName = $this->input->post('txt-last-name');
-		$phone = $this->input->post('txt-phone');
-		$email = $this->input->post('txt-email');
-		$country = $this->input->post('txt-country');
-		$address1 = $this->input->post('txt-address');
-		$address2 = $this->input->post('txt-address-2');
-		$password = $this->input->post('txt-password');
-		$state = $this->input->post('txt-state');
-		$zip = $this->input->post('txt-zip');
-		$date = $this->input->post('txt-date');
+		$fName = $this->input->post('uFirstName');
+		$lName = $this->input->post('uLastName');
+		$phone = $this->input->post('uPhone');
+		$email = $this->input->post('uEmail');
+		$country = $this->input->post('uCountry');
+		$address1 = $this->input->post('uAddress1');
+		$address2 = $this->input->post('uAddress2');
+		$password = $this->input->post('uPass');
+		$state = $this->input->post('uProvince');
+		$zip = $this->input->post('uZip');
+		$date = $this->input->post('uBirthdate');
 
 		$hashPassword = sha1($password);
 		$hashEmail = sha1($email);
 
+		$formatDate = strtotime($date);
+
+
+
 		$data = array(
-			'FIRST_NAME' => $fName,
-			'LAST_NAME' => $lName,
-			'JOIN_DATE' => date("Y/m/d h:i:s"),
-			'PHONE' => $phone,
-			'ADDRESS' => $address1,
-			'ADDRESS_2' => $address2,
-			'COUNTRY' => $country,
-			'PROVINCE' => $state,
-			'ZIP' => $zip,
-			'EMAIL' => $email,
-			'PASSWORD' => $hashPassword,
-			'STATUS' => 'PENDING',
-			'HASH' => $hashEmail
+			'FIRST_NAME' 	=> $fName,
+			'LAST_NAME' 	=> $lName,
+			'JOIN_DATE' 	=> date("Y/m/d h:i:s"),
+			'BIRTH_DATE' 	=> date('Y-m-d',$formatDate),
+			'PHONE' 		=> $phone,
+			'ADDRESS' 		=> $address1,
+			'ADDRESS_2' 	=> $address2,
+			'COUNTRY' 		=> $country,
+			'PROVINCE' 		=> $state,
+			'ZIP' 			=> $zip,
+			'EMAIL' 		=> $email,
+			'PASSWORD' 		=> $hashPassword,
+			'STATUS' 		=> 'PENDING',
+			'HASH' 			=> $hashEmail
 		);
 
 		$query = $this->user->registration($data);
@@ -81,9 +82,17 @@ class Register extends CI_Controller {
 
 			//Disable this for debug only
 			//$this->load->view('email-template/verification-email', $data);
+			//$config['smtp_host']   = 'mail.kikikuku.com';
+			$config['smtp_user']   = 'admin@kikikuku.com';
+			$config['smtp_pass']   = 'nOX-D8NlrF#Z';
+			$config['smtp_port']   = 25;
+			$config['charset']     = 'utf-8';
+			$config['wordwrap']    = TRUE;
+			$config['mailtype']    = 'html';
+			
+			$this->email->initialize($config);
 
-			$this->load->library('email');
-			$this->email->from('andi.wardana@incubesolutions.com', 'Kikikuku Team');
+			$this->email->from('admin@kikikuku.com', 'Kikikuku Team');
 			$this->email->to($email);
 			$this->email->set_mailtype('html');
 
@@ -93,16 +102,10 @@ class Register extends CI_Controller {
 			$this->email->message($message);
 
 			if($this->email->send()) {
-				$this->load->view('templates/header');
-				$this->load->view('templates/navbar');
-				$this->load->view('pages/account-registration/register_success');
-				$this->load->view('templates/footer');
+				redirect(base_url('?verification=pending'));
 			}
 		} else {
-			$this->load->view('templates/header');
-			$this->load->view('templates/navbar');
-			$this->load->view('pages/account-registration/register_error');
-			$this->load->view('templates/footer');
+			redirect(base_url('?verification=error'));
 		}
 	}
 

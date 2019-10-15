@@ -43,23 +43,34 @@
 			$('#uPass2').addClass("is-invalid");
 		}
 
+		if(!confirmPassword) {
+			$('#uPass2').addClass("is-invalid");
+		} else{
+			console.log('isi');
+		}
 	}
 
-	function checkExistingEmail() {
-
-		var email = $('#uEmail').val();
+	function getCountry() {
 
 		$.ajax({
-			url: "<?php echo base_url('Register/checkExistingEmail'); ?>",
-			type: "GET",
-			data: { email:email }, 
-			success: function(result){
-		    	if(result === 'existing') {
-		    		$('#uEmail').addClass("is-invalid");
-		    	} else {
-		    		$("#uEmail").removeClass("is-invalid").addClass("is-valid");
-		    	}
-		  	}
-		 });
-
+     		url: 'https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag',
+     		type: 'GET',
+     		success: function(data) {
+         		var countryData = '';
+         		$.each(data, function(index, value) {
+           			//Get country data from API
+           			$("#uCountry").append($('<option>', {
+             			value:value.name,
+             			text: value.name
+           			}));
+         		});
+       		},
+     		
+     		error: function (xhr, ajaxOptions, thrownError) {
+         		var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+         		console.log(errorMsg);
+       		}
+    	});
 	}
+
+
