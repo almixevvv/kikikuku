@@ -9,7 +9,7 @@
         $this->load->model('M_product', 'product');
         $this->load->model('M_cart', 'carts');
         
-        // $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
@@ -72,17 +72,16 @@
     	   }
 
     	$itemPrice = $this->session->userdata('item-price-'.$counter);
-        $itemName = $this->session->userdata('item-name-'.$counter);
 
     	$details = array(
     		'FLAG'            => $flag,
     		'ORDER_NO'        => $genID,
+            'PROD_ID'         => $items['id'],
     		'QUANTITY'        => $items['qty'],
-    		'PROD_ID'         => $items['id'],
-            'PROD_NAME'       => $itemName,
     		'WEIGHT'          => '0',
     		'PRICE'           => $itemPrice,
     		'FINAL_PRICE'     => $itemPrice,
+            'POSTAGE'         => 0.00,
     		'NOTES'           => $items['notes']
     	);
 
@@ -102,15 +101,14 @@
             for($item = 0; $item < $counter; $item++) {
                 $this->session->unset_userdata('item-price-'.$item);
                 $this->session->unset_userdata('item-notes-'.$item);
-                $this->session->unset_userdata('item-name-'.$item);
             }
 
             $this->session->unset_userdata('totalQuantity');
             $this->session->unset_userdata('totalPrice');
 
-    		redirect(base_url('order/success'));
+    		redirect(base_url('?inquiry=created&transID='.$genID));
     	} else {
-            redirect(base_url('order/success'));
+            redirect(base_url('?inquiry=failed&transID='.$genID));
     	}
 
     }

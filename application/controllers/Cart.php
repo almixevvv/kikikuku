@@ -16,6 +16,7 @@ class Cart extends CI_Controller {
 		$obj 	= json_decode($url, TRUE);
 
 		$data['recomended'] = $obj;
+		$data['marginParameter'] = $this->product->getMarginPrice();
 
 		//FOR DEBUGGING PURPOSE ONLY
 		// foreach($json['prslist'] as $list) {
@@ -79,7 +80,6 @@ class Cart extends CI_Controller {
 		$counter = $this->input->post('totalQty');
 		for($i = 0; $i < $counter; $i++) {
 			$this->session->set_userdata('item-price-'.$i, $this->input->post('total-price-'.$i));
-			$this->session->set_userdata('item-name-'.$i, $this->input->post('product-name-'.$i));
 			$this->session->set_userdata('item-notes-'.$i, $this->input->post('customer-notes-'.$i));
 		}
 

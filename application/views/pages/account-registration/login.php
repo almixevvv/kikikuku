@@ -1,6 +1,6 @@
 <div class="login-container">
 
-	<?php echo form_open('Login/login_user'); ?>
+	<form method="POST" action="<?php echo base_url('Login/login_user'); ?>" class="needs-validation" novalidate>
 
 	<div class="row" id="login-inner-container">
 
@@ -18,7 +18,7 @@
 					<div class="col-12">
 						<div class="form-group">
 							<label class="login-text-color login-font-size" for="exampleInputEmail1">Email Address</label>
-							<input name="txt-email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+							<input name="txt-email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
 							<?php if($this->input->get('error') == 2): ?>
 							<div class="alert alert-danger mt-2" role="alert">
   								Wrong password/email combination. Please try again.
@@ -40,7 +40,7 @@
 					<div class="col-12">
 						<div class="form-group">
 	    					<label class="login-text-color login-font-size" for="exampleInputPassword1">Password</label>
-	    					<input name="txt-password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+	    					<input name="txt-password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
 	  					</div>
 					</div>
 				</div>
@@ -103,7 +103,11 @@
 
 	</div>
 
-	<?php echo form_close(); ?>
+	</form>
 
 
 </div>
+
+<script>
+	formOveride();
+</script>

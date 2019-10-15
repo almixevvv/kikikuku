@@ -199,3 +199,16 @@
 
 </script>
 <?php endif; ?>
+
+<?php if($this->input->get('inquiry') == 'created'): ?>
+<script type="text/javascript">
+
+	swal.fire({
+		title:'Inquiry Created',
+		text: 'Your inquiry has been created. Our team will process your order',
+		type: 'success',
+		showCancelButton: false,
+	});
+
+</script>
+<?php endif; ?>

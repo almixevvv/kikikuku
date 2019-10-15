@@ -75,35 +75,31 @@
 				<div class="row pb-4 cart-product-separator">
 
 					<!-- PRODUCT DETAIL PART -->
-					<div class="col-5 col-md-5">
-						<div class="row">
+				<div class="col-5 col-md-5">
+					<div class="row">
+						
+						<div class="col-4">
+							<a href="<?php echo base_url('product_detail?id='.$items['id'])?>">
+							<?php if($obj['detail']['productForApp']['picture'] == null): ?>
+							<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture2'];?>" />
+							<?php else: ?>
+							<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture'];?>" />
+							<?php endif; ?>
+							</a>
+						</div>
 
-							<div class="col-4">
-								<a href="<?php echo base_url('product_detail?id='.$items['id'])?>">
-								<?php if($obj['detail']['productForApp']['picture'] == null): ?>
-								<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture2'];?>" />
-									<?php else: ?>
-										<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture'];?>" />
-								<?php endif; ?>
-								</a>
-							</div>
-
-							<div class="col-8 pl-0">
-								<div class="d-flex flex-column">
-								  <div class="mb-1 text-capitalize">
-										<span class="font-weight-bold">Product Name:</span>
-										<?php echo $obj['detail']['productForApp']['title']; ?>
-									</div>
-									<div class="mb-1 text-capitalize">
-										<span class="font-weight-bold">Seller Info:</span>
-										<?php echo $obj['shopinfo']['shop']['shopName']; ?>
-									</div>
-									<div class="text-capitalize">
-										<span class="font-weight-bold">Inquiry:</span>
-										<textarea class="form-control mt-2" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 80%; height:100px;"><?php echo $items['notes'] ?></textarea>
-									</div>
+						<div class="col-8 pl-0">
+							<div class="d-flex flex-column">
+								<div class="mb-1 text-capitalize">
+									<span class="font-weight-bold">Product Name:</span>
+									<?php echo $obj['detail']['productForApp']['title']; ?>
+								</div>
+								<div class="text-capitalize">
+									<span class="font-weight-bold">Inquiry:</span>
+									<textarea class="form-control mt-2" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 80%; height:100px;"><?php echo $items['notes'] ?></textarea>
 								</div>
 							</div>
+						</div>
 
 						</div>
 					</div>
@@ -114,21 +110,38 @@
 						<div class="row">
 							<div class="col-12">
 
-								<!-- IF THE PRICE IS NEGOTIABLE -->
-								<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999): ?>
+							<!-- IF THE PRICE IS NEGOTIABLE -->
+							<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999): ?>
 								<div class="d-flex justify-content-center">
 									<span class="font-weight-bold">Price Negotiable</span>	
 								</div>
 								
-								<!-- IF THE PRICE IS NEGOTIABLE -->
-								<?php elseif($obj['detail']['productForApp']['sellPrice'] == 0): ?>
+							<!-- IF THE PRICE IS NEGOTIABLE -->
+							<?php elseif($obj['detail']['productForApp']['sellPrice'] == 0): ?>
 								<div class="d-flex justify-content-center">
 									<span class="font-weight-bold">Price Negotiable</span>
 								</div>
 
-								<!-- IF THE SDI PRODUCT IS EMPTY, THEN PRINT THE CURRENT PRICE AND SAVE IT AS FINAL PRICE -->
-								<?php elseif($obj['detail']['sdiProductsPriceList'] == null): ?>
-								<?php $tmpPrice =  $obj['detail']['productForApp']['sellPrice'] * CONVERT; ?>
+							<!-- IF THE SDI PRODUCT IS EMPTY, THEN PRINT THE CURRENT PRICE AND SAVE IT AS FINAL PRICE -->
+							<?php elseif($obj['detail']['sdiProductsPriceList'] == null): ?>
+			
+							<?php
+								//FORMAT THE PRICE 
+                				//Divide the price by 100 to get the precise amount
+                				$initialPrice = $obj['detail']['productForApp']['sellPrice']/100;
+                
+                				//Times the price to the convert rate
+                				$convertPrice = $initialPrice * CONVERT;
+
+				                //Get margin parameter
+				                $marginPrice = $convertPrice * $marginParameter;
+                
+				                //Set the final price
+				                $finalPrice = $convertPrice + $marginPrice;
+
+				                //Round the Price
+				                $tmpPrice = ceil($finalPrice);
+							?>
 								<div class="d-flex justify-content-center">
 									<span class="font-weight-bold">
 										IDR <?php echo number_format($tmpPrice, 2); ?>
@@ -138,46 +151,62 @@
 								<!-- IF THE SDI PRODUCT IS NOT EMPTY, THEN SHOW THE PRICE RANGE -->
 								<?php else: ?>
 
-									<?php foreach($obj['detail']['sdiProductsPriceList'] as $quantity): ?>
+							<?php foreach($obj['detail']['sdiProductsPriceList'] as $quantity): ?>
 
-										<!-- ONLY PRINT THE OUTPUT IF THE QUANTITY MATCH -->
-										<?php if($quantity['endNumber'] == 0 || $quantity['endNumber'] == 1): ?>
-										<?php $finalQty = $quantity['startNumber'] + 999999; ?>
-											<?php else: ?>
-											<?php $finalQty = $quantity['endNumber']; ?>
-										<?php endif; ?>
+							<!-- ONLY PRINT THE OUTPUT IF THE QUANTITY MATCH -->
+							<?php if($quantity['endNumber'] == 0 || $quantity['endNumber'] == 1): ?>
+								<?php $finalQty = $quantity['startNumber'] + 999999; ?>
+							<?php else: ?>
+								<?php $finalQty = $quantity['endNumber']; ?>
+							<?php endif; ?>
 
-										<?php if($items['qty'] >= $quantity['startNumber'] && $items['qty'] <= $finalQty): ?>
-											<?php $finalPrice = $quantity['conferPrice'] * CONVERT; ?>
-											<div class="d-flex justify-content-center">
-												<p>
-													<strong>IDR <?php echo number_format($finalPrice, 2); ?></strong>
-												</p>
-											</div>
-											<div class="exw-container d-md-none d-lg-block d-xl-block" id="cart-exw-container">
+				<?php if($items['qty'] >= $quantity['startNumber'] && $items['qty'] <= $finalQty): ?>
+				
+				<?php 
+					//FORMAT THE PRICE 
+                	//Divide the price by 100 to get the precise amount
+                	$initialPrice = $quantity['conferPrice']/100;
+                
+                	//Times the price to the convert rate
+                	$convertPrice = $initialPrice * CONVERT;
 
-												<div class="cart-exw">
-													<label>EXW Price:</label>
-												</div>
+				    //Get margin parameter
+				    $marginPrice = $convertPrice * $marginParameter;
+                
+				    //Set the final price
+				    $finalPrice = $convertPrice + $marginPrice;
 
-												<div class="cart-exw pt-2">
-													<?php if($quantity['endNumber'] == 0): ?>
-													<span class="pl-1"><?php echo $quantity['startNumber'].' and Above'; ?></span>
-														<?php else: ?>
-														<span class="pl-1"><?php echo $quantity['startNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?></span>
-													<?php endif; ?>
-												</div>
+				    //Round the Price
+				    $finalPrice = ceil($finalPrice);
+				?>
+				<div class="d-flex justify-content-center">
+					<p>
+						<strong>IDR <?php echo number_format($finalPrice, 2); ?></strong>
+					</p>
+				</div>
+				<div class="exw-container d-md-none d-lg-block d-xl-block" id="cart-exw-container">
+					<div class="cart-exw">
+						<label>EXW Price:</label>
+					</div>
 
-												<div class="cart-exw pt-2">
-													<span class="pl-1" style="font-weight: bold; color: #f75c07;">IDR <?php echo number_format($finalPrice, 2);?></span>/<?php echo $obj['detail']['productForApp']['matrisingular']; ?>
-												</div>
+					<div class="cart-exw pt-2">
+					<?php if($quantity['endNumber'] == 0): ?>
+						<span class="pl-1"><?php echo $quantity['startNumber'].' and Above'; ?></span>
+					<?php else: ?>
+					<span class="pl-1">
+						<?php echo $quantity['startNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$obj['detail']['productForApp']['matrisingular']; ?>
+					</span>
+					<?php endif; ?>
+					</div>
 
-											</div>
-										<?php endif; ?>
+					<div class="cart-exw pt-2">
+					<span class="pl-1" style="font-weight: bold; color: #f75c07;">IDR <?php echo number_format($finalPrice, 2);?></span>/<?php echo $obj['detail']['productForApp']['matrisingular']; ?>
+					</div>
 
-									<?php endforeach; ?>
-
-								<?php endif; ?>
+				</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+			<?php endif; ?>
 
 							</div>
 						</div>
@@ -398,7 +427,7 @@
 				<span class="font-weight-bold text-uppercase">estimated price</span>
 			</div>
 			<div class="col-5 col-md-3 col-lg-2 col-xl-2 text-right">
-				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0">IDR <?php echo number_format($subtotal, 2, ",", "."); ?></span>
+				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0 font-weight-bold">IDR <?php echo number_format($subtotal, 2, ",", "."); ?></span>
 			</div>
 		</div>
 
@@ -407,7 +436,7 @@
 				<span class="font-weight-bold text-uppercase">total items</span>
 			</div>
 			<div class="col-3 col-md-2 col-lg-2 col-xl-2 offset-2 offset-md-1 offset-xl-0 text-right">
-				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0"><?php echo $subqty; ?></span>
+				<span class="pr-1 pr-md-0 pr-lg-0 pr-xl-0 font-weight-bold"><?php echo $subqty; ?></span>
 			</div>
 		</div>
 
@@ -458,6 +487,25 @@
 
 	<div class="row mt-2">
 	<?php foreach($recomended['prslist'] as $data): ?>
+		
+		<?php 
+			//FORMAT THE PRICE 
+		    //Divide the price by 100 to get the precise amount
+		    $initialPrice = $data['sellPrice']/100;
+		                
+		    //Times the price to the convert rate
+		    $convertPrice = $initialPrice * CONVERT;
+
+			//Get margin parameter
+			$marginPrice = $convertPrice * $marginParameter;
+		                
+			//Set the final price
+			$finalPrice = $convertPrice + $marginPrice;
+
+			//Round the Price
+			$finalPrice = ceil($finalPrice);
+  		?>
+
 		<div class="custom-product-list" >
 			<div class="card product-list" id="prod_<?php echo $data['id']; ?>">
 				<a href="<?php echo base_url(); ?>product_detail?id=<?php echo $data['id']; ?>" style="text-decoration: none;">
@@ -471,7 +519,7 @@
 					<?php elseif($data['sellPrice'] > 9999999): ?>
 						<span class="product-price">Price Negotiable</span>
 					<?php else: ?>
-						<span class="product-price">IDR <?php echo number_format($data['sellPrice'] * CONVERT, 2, ',', '.'); ?></span>
+						<span class="product-price">IDR <?php echo number_format($finalPrice, 2, '.', ','); ?></span>
 					<?php endif; ?>
 				</a>
 			</div>
