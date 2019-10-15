@@ -187,3 +187,15 @@
 
 </script>
 <?php endif; ?>
+
+<?php 
+	//VERIFICATION AJAX FUNCTION
+	if($this->input->get('key') != null && $this->input->get('email') != null):
+?>
+<script type="text/javascript">
+
+	startVerification('<?php echo $this->input->get('email'); ?>, <?php echo $this->input->get('key');?>');
+
+
+</script>
+<?php endif; ?>

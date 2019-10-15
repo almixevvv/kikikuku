@@ -55,8 +55,6 @@ class Register extends CI_Controller {
 
 		$formatDate = strtotime($date);
 
-
-
 		$data = array(
 			'FIRST_NAME' 	=> $fName,
 			'LAST_NAME' 	=> $lName,
@@ -82,7 +80,6 @@ class Register extends CI_Controller {
 
 			//Disable this for debug only
 			//$this->load->view('email-template/verification-email', $data);
-			//$config['smtp_host']   = 'mail.kikikuku.com';
 			$config['smtp_user']   = 'admin@kikikuku.com';
 			$config['smtp_pass']   = 'nOX-D8NlrF#Z';
 			$config['smtp_port']   = 25;
@@ -124,22 +121,13 @@ class Register extends CI_Controller {
 			$update = $this->user->updateStatus($email);
 			if($update) {
 				//Account verified
-				$this->load->view('templates/header');
-				$this->load->view('templates/navbar');
-				$this->load->view('pages/account-registration/verified_success');
-				$this->load->view('templates/footer');
+				echo 'success';
 			} else {
-				$this->load->view('templates/header');
-				$this->load->view('templates/navbar');
-				$this->load->view('pages/account-registration/verified_error');
-				$this->load->view('templates/footer');
+				echo 'error';
 			}
 
 		} else {
-			$this->load->view('templates/header');
-			$this->load->view('templates/navbar');
-			$this->load->view('pages/account-registration/verified_error');
-			$this->load->view('templates/footer');
+			echo 'verified';
 		}
 
 	}
