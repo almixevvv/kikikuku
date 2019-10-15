@@ -66,7 +66,7 @@
 				</a>
 			</span>
 			<div class="dropdown-menu" aria-labelledby="dropdown-account-mobile" >
-				<a class="dropdown-item" href="#">Dashboard</a>
+				<a class="dropdown-item" href="<?php echo base_url('profile/transaction'); ?>">Dashboard</a>
 				<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 			</div>
 			<?php else: ?>
@@ -153,7 +153,7 @@
 
 				<?php if($this->session->LOGGED_IN != null): ?>
 				<span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15">
-					<a href="<?php echo base_url('login');?>" style="color: #C1C1C1;">
+					<a href="#" style="color: #C1C1C1;">
 						<i class="fas fa-user-circle" id="navbar-account-logo"></i>
 							<span style="color: black;">
 								<?php echo $this->session->FIRST_NAME; ?>
@@ -161,7 +161,7 @@
 					</a>
 				</span>
 				<div class="dropdown-menu" aria-labelledby="dropdown-account" >
-					<a class="dropdown-item" href="#">Dashboard</a>
+					<a class="dropdown-item" href="<?php echo base_url('profile/transaction'); ?>">Dashboard</a>
 					<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 				</div>
 				<?php else: ?>
