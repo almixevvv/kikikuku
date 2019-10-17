@@ -19,14 +19,20 @@ class Profile extends CI_Controller {
 				redirect(base_url('login?error=4'));
 			}
 
+			if($this->input->get('transaction') == null) {
+				$data['masterData'] = $this->profile->getAllOrderMasterData($userEmail);
+			} else {
+				$status = $this->input->get('transaction');
+				$data['masterData'] = $this->profile->getOrderMasterData($userEmail, $status);
+			}
+
 			$data['userHistory'] = $this->profile->getOrderHistory($userEmail);
-			$data['masterData'] = $this->profile->getOrderMasterData($userEmail);
 			$data['userEmail'] = $this->session->userdata('EMAIL');
 
 			$this->load->view('templates/header');
 			$this->load->view('templates/navbar');
-	    $this->load->view('pages/profile/transaction', $data);
-	    $this->load->view('templates/footer');
+	    	$this->load->view('pages/profile/transaction', $data);
+	    	$this->load->view('templates/footer');
 
 		}
 

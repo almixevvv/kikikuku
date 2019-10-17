@@ -1,73 +1,19 @@
 <style type="text/css">
   
-  .trans-container {
-    width: 100%;
-    padding-left: 2em;
-    padding-right: 2em;
-    margin-top: 9em;
+  .trans-filter-button-active {
+      background: #24ca9d;
+      border: 1px solid #24ca9d;
+      border-radius: 10px;
+      height: 2.5em;
+      padding-top: 0.5em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      margin-right: 0.5em;
+      text-align: center;
   }
 
-  .trans-inner-container {
-    border: solid #bdbdbd 1px;
-    border-radius: 5px;
-    padding: 1em;
-  }
-
-  .trans-filter-button {
-    background: #24ca9d;
-    border: none;
-    border-radius: 3px;
-  }
-
-  .trans-main-container {
-    padding: 1em;
-  }
-
-  .container-border-date {
-    border-bottom: 1.5px solid #ced4d9;
-  }
-
-  .container-border-order-number {
-    border-bottom: 1.5px solid #ced4d9; 
-    margin-bottom: 0.6em;
-    padding-bottom: 0.5em;
-  }
-
-  .container-border-order {
-    border-right: 1.5px solid #ced4d9;
-    margin-top: 0.6em;
-  }
-
-  .container-border-message {
-    border-right: 1.5px solid #ced4d9;
-  }
-
-  .container-border-order-last {
-    margin-top: 0.6em; 
-  }
-
-  .trans-main-color {
-    color: #24ca9d;
-  }
-
-  .container-border-main {
-    border: 1px solid #ced4d9;
-    border-radius: 7px;
-    padding: 0.7em;
-  }
-
-  .transaction-image {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid #ced4d9;
-    padding: 0.2em;
-  }
-
-  #trans-filter-separator {
-    border-bottom: 1px solid #ced4d9;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    padding-bottom: 1em;
+  .trans-filter-active {
+    color: white;
   }
 
 </style>
@@ -77,47 +23,217 @@
   <div class="trans-inner-container">
     
     <!-- FILTER BUTTON -->
-    <div class="row" id="trans-filter-separator">
+    <div class="row" id="trans-filter-separator-desktop">
       
-      <div class="col-2">
+      <div class="trans-filter-container-left">
         <span>Search by Status:</span>
       </div>
 
-      <div class="col-10">
-        
-        <div class="row">
+      <div class="trans-filter-container-right" id="trans-scrollbar">
           
-          <div class="col-2">
-            <span class="trans-filter-button">Inquiry Created</span>
+          <?php if($this->input->get('transaction') == 'created'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Created</span>
+            </a>
           </div>
-          
-          <div class="col-2">
-            <span>Inquiry Updated</span>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=created'); ?>">
+              <span class="text-uppercase main-color">Inquiry Created</span>
+            </a>
           </div>
-          
-          <div class="col-2">
-            <span>Confirm Payment</span>
-          </div>
-          
-          <div class="col-2">
-            <span>Inquiry Paid</span>
-          </div>
-          
-          <div class="col-2">
-            <span>Inquiry Canceled</span>
-          </div>
+          <?php endif; ?>
 
-          <div class="col-2">
-            <span>Inquiry Done</span>
+          <?php if($this->input->get('transaction') == 'updated'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Updated</span>
+            </a>
           </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=updated'); ?>">
+              <span class="text-uppercase main-color">Inquiry Updated</span>
+            </a>
+          </div>
+          <?php endif; ?>
+          
+          <?php if($this->input->get('transaction') == 'confirmed'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Confirm Payment</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=confirmed'); ?>">
+              <span class="text-uppercase main-color">Confirm Payment</span>
+            </a>
+          </div>
+          <?php endif; ?>
 
-        </div>
+          <?php if($this->input->get('transaction') == 'paid'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Paid</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=paid'); ?>">
+              <span class="text-uppercase main-color">Inquiry Paid</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+          <?php if($this->input->get('transaction') == 'canceled'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Canceled</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=canceled'); ?>">
+              <span class="text-uppercase main-color">Inquiry Canceled</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+          <?php if($this->input->get('transaction') == 'done'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Done</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=done'); ?>">
+              <span class="text-uppercase main-color">Inquiry Done</span>
+            </a>
+          </div>
+          <?php endif; ?>
 
       </div>
 
     </div>
     <!-- END OF FILTER BUTTON -->
 
+    <!-- FILTER BUTTON MOBILE -->
+    <div class="row" id="trans-filter-separator-mobile">
+      
+      <div class="row">
+        <div class="col-12 pl-1 pr-1">
+          <span>Search by Status:</span>
+        </div>
+      </div>
+
+      <div class="row" style="width: 99%;">
+        <div class="col-12 pl-1 pr-1 pt-2" id="trans-scrollbar">
+
+          <?php if($this->input->get('transaction') == 'created'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Created</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=created'); ?>">
+              <span class="text-uppercase main-color">Inquiry Created</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+          <?php if($this->input->get('transaction') == 'updated'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Updated</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=updated'); ?>">
+              <span class="text-uppercase main-color">Inquiry Updated</span>
+            </a>
+          </div>
+          <?php endif; ?>
+          
+          <?php if($this->input->get('transaction') == 'confirmed'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Confirm Payment</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=confirmed'); ?>">
+              <span class="text-uppercase main-color">Confirm Payment</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+          <?php if($this->input->get('transaction') == 'paid'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Paid</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=paid'); ?>">
+              <span class="text-uppercase main-color">Inquiry Paid</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+          <?php if($this->input->get('transaction') == 'canceled'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Canceled</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=canceled'); ?>">
+              <span class="text-uppercase main-color">Inquiry Canceled</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+          <?php if($this->input->get('transaction') == 'done'): ?>
+          <div class="trans-filter-button-active">
+            <a href="<?php echo base_url('profile/transaction'); ?>">
+              <span class="text-uppercase trans-filter-active">Inquiry Done</span>
+            </a>
+          </div>
+          <?php else: ?>
+          <div class="trans-filter-button">
+            <a href="<?php echo base_url('profile/transaction?transaction=done'); ?>">
+              <span class="text-uppercase main-color">Inquiry Done</span>
+            </a>
+          </div>
+          <?php endif; ?>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- END OF FILTER BUTTON MOBILE -->
+    <?php if($masterData->num_rows() == 0): ?>
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex justify-content-center">
+          <span>
+            <h3 class="pt-2 pt-md-4 pt-lg-4 pt-xl-4 pb-2 pb-md-4 pb-lg-4 pb-xl-4 text-uppercase " style="color: rgba(49,53,59,.44);">No Order History</h3>
+          </span>
+        </div>
+      </div>
+    </div>
+    <?php else: ?>
     <?php foreach($masterData->result() as $master): ?>
     <!-- MAIN TRANSACTION -->
     <div class="trans-main-container">
@@ -127,7 +243,7 @@
           
           <!-- TRANS DATE -->
           <div class="row container-border-date">
-            <div class="col-12 col-md-5 col-lg-5 col-xl-5">
+            <div class="col-12 col-md-5 col-lg-5 col-xl-5 pb-1 pb-md-1 pb-lg-1 pb-xl-1">
               <span><?php echo $master->ORDER_DATE; ?></span>
             </div>
           </div>
@@ -136,7 +252,7 @@
           <!-- MAIN TRANS PART -->
           <div class="row container-border-order-number">
 
-            <div class="col-12 col-md-4 col-lg-4 col-xl-4 container-border-order">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
               <div class="row">
                 <div class="col-12">
                   <span>ORDER NUMBER</span>
@@ -144,12 +260,12 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <span class="trans-main-color font-weight-bold"><?php echo $master->ORDER_NO; ?></span>
+                  <span class="main-color font-weight-bold"><?php echo $master->ORDER_NO; ?></span>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 col-md-4 col-lg-4 col-xl-4 container-border-order">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
               <div class="row">
                 <div class="col-12">
                   <span>ORDER STATUS</span>
@@ -157,18 +273,18 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <span class="trans-main-color font-weight-bold"><?php echo $master->STATUS_ORDER; ?></span>
+                  <span class="main-color font-weight-bold"><?php echo $master->STATUS_ORDER; ?></span>
                 </div>
               </div>
             </div>
 
-            <div class="col-12 col-md-4 col-lg-4 col-xl-4 container-border-order-last">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order-last">
               <div class="row">
                 <div class="col-12">
                   <span>TRANSACTION TOTAL</span>
                 </div>
                 <div class="col-12">
-                  <span class="trans-main-color font-weight-bold">IDR <?php echo number_format($master->AMOUNT + $master->TOTAL_POSTAGE, 2, '.', ','); ?></span>
+                  <span class="main-color font-weight-bold">IDR <?php echo number_format($master->AMOUNT + $master->TOTAL_POSTAGE, 2, '.', ','); ?></span>
                 </div>
               </div>
               <div class="row">
@@ -176,7 +292,7 @@
                   <span>SHIPPING COST</span>
                 </div>
                 <div class="col-12">
-                  <span class="trans-main-color font-weight-bold">IDR <?php echo number_format($master->TOTAL_POSTAGE, 2, '.',','); ?></span>
+                  <span class="main-color font-weight-bold">IDR <?php echo number_format($master->TOTAL_POSTAGE, 2, '.',','); ?></span>
                 </div>
               </div>
             </div>
@@ -198,13 +314,13 @@
               $json = file_get_contents($finalUrl);
               $obj = json_decode($json, true);
           ?>
-          <div class="row container-border-order-number">
+          <div class="row container-border-order-number pt-0 pt-md-2 pt-lg-2 pt-xl-2">
 
             <div class="col-12 col-md-8 col-lg-8 col-xl-8 container-border-order">
               
               <div class="row">
                 
-                <div class="col-4 col-md-4 col-lg-4 col-xl-4">
+                <div class="col-4 col-md-3 col-lg-3 col-xl-2 mt-2 mt-md-2 mt-lg-2 mt-xl-2">
                   <a href="<?php echo base_url().'product_detail?id='.$history->PRODUCT_ID; ?>">
                     
                     <?php if($obj['detail']['productForApp']['picture'] == null): ?>
@@ -216,24 +332,24 @@
                   </a>
                 </div>
 
-                <div class="col-8">
+                <div class="col-8 col-md-9 col-lg-9 col-xl-9 mt-2 mt-md-2 mt-lg-2 mt-xl-2">
                   <div class="row">
                     <div class="col-12">
-                      <span class="trans-main-color text-capitalize font-weight-bold">
-                        <?php echo $obj['detail']['productForApp']['title']; ?>
+                      <span class="main-color text-capitalize font-weight-bold">
+                        <?php echo ucwords(mb_strimwidth($obj['detail']['productForApp']['title'], 0, 100, "...")); ?>
                       </span>
                     </div>
                   </div>
 
                   <div class="row pt-2">
                       <div class="col-6">
-                        <span class="trans-main-color font-weight-bold">
+                        <span class="main-color font-weight-bold">
                           IDR <?php echo number_format($history->PRODUCT_FINAL_PRICE, 2, '.', ','); ?>
                         </span>  
                       </div>
 
                       <div class="col-6">
-                        <span class="trans-main-color">
+                        <span class="main-color">
                           <?php echo $history->PRODUCT_QUANTITY.' '.$obj['detail']['productForApp']['matrisingular']; ?>
                         </span>
                       </div>
@@ -243,7 +359,7 @@
               </div>
             </div>        
 
-            <div class="col-4">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-3 mt-md-2 mt-lg-2 mt-xl-2">
               
               <div class="row">
                 
@@ -257,7 +373,7 @@
 
                   <div class="row">
                     <div class="col-12">
-                      <span class="trans-main-color font-weight-bold">
+                      <span class="main-color font-weight-bold">
                         IDR <?php echo number_format($history->PRODUCT_FINAL_PRICE * $history->PRODUCT_QUANTITY, 2, '.', '.'); ?>
                       </span>
                     </div>
@@ -280,9 +396,9 @@
                   <div class="row">
                     <div class="col-12">
                       <?php if($history->PRODUCT_NOTES == null): ?>
-                        <span class="trans-main-color font-weight-bold"> - </span>
+                        <span class="main-color font-weight-bold"> - </span>
                       <?php else: ?>
-                        <span class="trans-main-color font-weight-bold"><?php echo $history->PRODUCT_NOTES; ?></span>
+                        <span class="main-color font-weight-bold"><?php echo $history->PRODUCT_NOTES; ?></span>
                       <?php endif; ?>
                     </div>
                   </div>
@@ -296,12 +412,12 @@
           </div>
           <?php endforeach; ?>
 
-          <div class="row">
-            <div class="col-2 col-md-4 col-lg-3 col-xl-2 container-border-message">
-              <span>MESSAGE BUTTON</span>
-            </div> 
-            <div class="col-2 col-md-4 col-lg-3 col-xl-2 container-border-detail">
-              <span>ORDER DETAIL BUTTON</span>
+          <div class="row mt-1 mt-md-1 mt-lg-1 mt-xl-1">
+            <div class="trans-container-footer-left">
+              <span><i class="fas fa-comments pr-2"></i> Send Message</span>
+            </div>
+            <div class="trans-container-footer-right">
+              <span><i class="fas fa-clipboard-list pr-2"></i> Order Detail</span>
             </div>
           </div>
           <!-- END OF MAIN TRANS PART -->
@@ -311,6 +427,7 @@
     </div>
     <!-- END OF MAIN TRANSACTION -->
     <?php endforeach; ?>
+    <?php endif; ?>
 
   </div>
 

@@ -12,6 +12,7 @@
 	8. Modal Section Styles
 	9. Product Details Styles
 	10. Shopping Cart Styles
+	11. Profile Styles
 */
 
 /*
@@ -24,6 +25,10 @@
 
 	ul {
 		list-style: none;
+	}
+
+	.main-color {
+		color: #24ca9d;
 	}
 
 	body {
@@ -847,3 +852,116 @@
     	padding-right: 1em;
     	padding-bottom: 3em;
 	}
+
+/* 
+	11. Profile Styles 
+*/
+
+	.trans-container {
+    	width: 100%;
+	    padding-left: 2em;
+	    padding-right: 2em;
+	    margin-top: 9em;
+  	}
+
+	.trans-inner-container {
+	    border: solid #bdbdbd 1px;
+	    border-radius: 5px;
+	    padding: 1em;
+  	}
+
+	.trans-filter-button {
+	    background: #ffffff;
+	    border: 1px solid #24ca9d;
+	    border-radius: 10px;
+	    height: 2.5em;
+	    padding-top: 0.5em;
+	    padding-left: 0.5em;
+	    padding-right: 0.5em;
+	    margin-right: 0.5em;
+	    text-align: center;
+  	}
+
+	.trans-main-container {
+    	padding: 1em;
+  	}
+
+	.container-border-date {
+    	border-bottom: 1.5px solid #ced4d9;
+  	}
+
+  	.container-border-order-number {
+	    border-bottom: 1.5px solid #ced4d9; 
+	    padding-bottom: 0.5em;
+	}
+
+	.container-border-order {
+	    border-right: 1.5px solid #ced4d9;
+  	}
+
+	.container-border-order-last {
+    	margin-top: 0.6em; 
+  	}
+
+	.container-border-main {
+	    border: 1px solid #ced4d9;
+	    border-radius: 7px;
+	    padding: 0.7em;
+
+	    -webkit-box-shadow: 0px 3px 9px 2px rgba(148,148,148,0.87);
+		-moz-box-shadow: 0px 3px 9px 2px rgba(148,148,148,0.87);
+		box-shadow: 0px 3px 9px 2px rgba(148,148,148,0.87);
+  	}
+
+	.transaction-image {
+	    width: 100%;
+	    border-radius: 10px;
+	    border: 1px solid #ced4d9;
+	    padding: 0.2em;
+  	}
+
+	.trans-filter-container-left {
+	    width: 16%;
+	    padding-right: 1em;
+	    padding-top: 1em;
+  	}
+
+	.trans-filter-container-right {
+	    width: 84%;
+	    padding-top: 0.7em;
+  	}
+
+	#trans-scrollbar {
+    	overflow: auto;
+    	white-space: nowrap;
+  	}
+
+	#trans-scrollbar > div {
+    	display: inline-block;
+  	}
+
+	.trans-container-footer-left {
+	    width: 20%;
+	    padding-left: 1em;
+	    padding-right: 1em;
+	    border-right: 1.5px solid #ced4d9;
+  	}
+
+	.trans-container-footer-right {
+	    width: 20%;
+	    padding-left: 1.5em;
+  	}
+
+	#trans-filter-separator-desktop {
+	    border-bottom: 1px solid #ced4d9;
+	    margin-left: 0.5em;
+	    margin-right: 0.5em;
+	    padding-bottom: 1em;
+  	}
+
+  	#trans-filter-separator-mobile {
+	    border-bottom: 1px solid #ced4d9;
+	    margin-left: 0.5em;
+	    margin-right: 0.5em;
+	    padding-bottom: 1em;
+  	}

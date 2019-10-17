@@ -20,11 +20,25 @@ class M_profile extends CI_Model{
 		return $query;
 	}
 
-	function getOrderMasterData($email) {
+	function getAllOrderMasterData($email) {
 
 		$this->db->select('*');
 		$this->db->from('v_g_order_master');
 		$this->db->where('MEMBER_EMAIL', $email);
+		$this->db->order_by('ORDER_DATE', 'DESC');
+
+		$query = $this->db->get();
+
+		return $query;
+
+	}
+
+	function getOrderMasterData($email, $status) {
+
+		$this->db->select('*');
+		$this->db->from('v_g_order_master');
+		$this->db->where('MEMBER_EMAIL', $email);
+		$this->db->where('STATUS_ORDER', $status);
 		$this->db->order_by('ORDER_DATE', 'DESC');
 
 		$query = $this->db->get();

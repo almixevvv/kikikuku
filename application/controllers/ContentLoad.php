@@ -12,9 +12,19 @@
 		public function autoloadHome() {
 
 			$output = '';
+			
+			$industryID = $this->input->post('id');
+			$currentCounter = $this->input->post('counter');
+
 			$randomPage = mt_rand(1, 500);
 
-			$json = file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=10&cpage=".$randomPage."");
+			//HOW TO GET JSON DATA
+			if($industryID == null) {
+				$json = file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=12&cpage=".$randomPage."");
+			} else {
+				$json = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=".$industryID."&pageSize=12&cpage=".$this->input->post('start')."");
+			}
+
 			$obj = json_decode($json, true);
 
 			//COUNTER TO DISPLAY MANUAL LOAD

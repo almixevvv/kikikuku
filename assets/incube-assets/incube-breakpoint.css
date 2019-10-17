@@ -222,33 +222,61 @@
 			font-size: 0.95em;
 		}
 
-	/* SHOPPING CART */
-	.cart-container {
-		margin-top: 7em;
-		padding-left: 10px;
-		padding-right: 10px;
-	}
+		/* SHOPPING CART */
+		.cart-container {
+			margin-top: 7em;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
 
-	.delete-item {
-		width: 100%;
-	}
+		.delete-item {
+			width: 100%;
+		}
 
-	.cart-header-label {
-		font-size: 1em;
-	}
+		.cart-header-label {
+			font-size: 1em;
+		}
 
-	#cart-label-separator {
-		border-bottom: solid 1.3px #bdbdbd;
-	}
+		#cart-label-separator {
+			border-bottom: solid 1.3px #bdbdbd;
+		}
 
-	.custom-cart-container {
-		padding-left: 0;
-		padding-right: 0;
-	}
+		.custom-cart-container {
+			padding-left: 0;
+			padding-right: 0;
+		}
 
-	.text-cart-button {
-		font-size: 0.7em;
-	}
+		.text-cart-button {
+			font-size: 0.7em;
+		}
+
+		/* PROFILE PART */
+		.trans-container {
+			margin-top: 8em;
+			padding-left: 10px;
+    		padding-right: 10px;
+		}
+
+		.container-border-order {
+			border-right: none;
+			border-bottom: 1.5px solid #ced4d9;
+			padding-bottom: 0.6em;
+			margin-top: 0;
+		}
+
+		.trans-container-footer-left {
+			width: 50%;
+			padding-top: 0.3em;
+		}
+
+		.trans-container-footer-right {
+			width: 45%;
+			padding-top: 0.3em;
+		}
+
+		#trans-filter-separator-desktop {
+			display: none;
+		}
 
 }
 
@@ -323,6 +351,11 @@
 
 		#cart-label-separator {
 			border: none;
+		}
+
+		/* PROFILE SECTION */
+		#trans-filter-separator-desktop {
+			display: none;
 		}
 
 	}
@@ -492,6 +525,30 @@
 			border: none;
 		}
 
+		/* PROFILER SECTION */
+		.trans-container {
+			padding-left: 1em;
+    		padding-right: 1em;
+    		margin-top: 8em;
+		}
+
+		.trans-container-footer-left {
+			width: 27%;
+		}
+
+		.trans-container-footer-right {
+			width: 25%;
+		}
+
+		#trans-filter-separator-mobile {
+			display: none;
+		}
+
+		#trans-filter-separator-desktop {
+			display: inline-flex;
+			width: 98%;
+		}
+
 	}
 
 /*
@@ -589,6 +646,20 @@
 
 		#cart-label-separator {
 			border: none;
+		}
+
+		/* PROFILE SECTION */
+		.trans-container-footer-left {
+			width: 20%;
+		}
+
+		.trans-container-footer-right {
+			width: 20%;
+		}
+
+		.trans-container {
+			padding-left: 2em;
+    		padding-right: 2em;
 		}
 
 	}
@@ -720,8 +791,17 @@
 
 		/* LOGIN PART */
 		.login-container {
-	    padding-left: 15em;
-	    padding-right: 15em;
+		    padding-left: 15em;
+		    padding-right: 15em;
+		}
+
+		/* PROFILE PART */
+		.trans-container-footer-left {
+			width: 15%;
+		}
+
+		.trans-container-footer-right {
+			width: 15%;
 		}
 
 	}
