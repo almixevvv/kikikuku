@@ -123,3 +123,4 @@ $route['history_order']= 'history_order/view';
 
 /* API PATH */
 $route['api/register']= 'API/Register';
+$route['api/debug_member'] = 'API/getMember';

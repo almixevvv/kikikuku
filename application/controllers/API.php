@@ -1,6 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class API extends CI_Controller {
+require APPPATH . 'libraries/REST_Controller.php';
+
+class API extends REST_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -8,6 +10,16 @@ class API extends CI_Controller {
 		$this->load->model('M_api', 'api');
 		// $this->output->enable_profiler(TRUE);
 
+	}
+
+	public function index_get($id = 0) {
+        if(!empty($id)){
+            $data = $this->api->getMembers()->result();
+        }else{
+			$data = 'empty';
+        }
+     
+        $this->response($data, REST_Controller::HTTP_OK);
 	}
 
 	public function Register() {

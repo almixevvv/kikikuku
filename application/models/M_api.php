@@ -8,6 +8,17 @@
 		$this->db->insert('g_member', $data);
 	}
 
+	function getMembers() {
+
+		$this->db->select('*');
+		$this->db->from('g_member');
+
+		$query = $this->db->get();
+
+		return $query;
+
+	}
+
 	function getKey($key) {
 
 		$this->db->select('*');
