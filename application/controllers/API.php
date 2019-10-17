@@ -22,6 +22,13 @@ class API extends REST_Controller {
         $this->response($data, REST_Controller::HTTP_OK);
 	}
 
+	public function member() {
+
+		$data = $this->api->getMembers()-result();
+
+		$this->response($data, REST_Controller::HTTP_OK);
+	}
+
 	public function Register() {
 
 		$key = $this->input->get('key');
