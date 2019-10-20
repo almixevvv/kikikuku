@@ -16,12 +16,30 @@
     color: white;
   }
 
+  .trans-container-footer-payment {
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-left: 1.5px solid #ced4d9;
+  }
+
+  .trans-container-footer-payment > a {
+    color: black;
+  }
+
 </style>
 
 <div class="trans-container">
 
   <div class="trans-inner-container">
     
+<?php 
+  
+  //Counter Variable to diferentiate each form id
+  $counter = 1;
+
+?>
+
     <!-- FILTER BUTTON -->
     <div class="row" id="trans-filter-separator-desktop">
       
@@ -413,12 +431,40 @@
           <?php endforeach; ?>
 
           <div class="row mt-1 mt-md-1 mt-lg-1 mt-xl-1">
+            
             <div class="trans-container-footer-left">
               <span><i class="fas fa-comments pr-2"></i> Send Message</span>
             </div>
+            
             <div class="trans-container-footer-right">
               <span><i class="fas fa-clipboard-list pr-2"></i> Order Detail</span>
             </div>
+
+            <?php
+              //DONT'S SHOW THE PAYMENT BUTTON IF THE STATUS IS NEW ORDER AND UPDATED
+              if($master->STATUS_ORDER == 'UPDATED'): 
+
+              $attributes = array('id' => 'myform'.$counter);
+              echo form_open('order/payment', $attributes);
+              
+              //GENERATE RANDOM NUMBER TO HELP CONFIRM THE TRANSFER
+              $transID = rand(100,1000);
+            ?>
+            <form class="form-inline" action="<?php echo base_url('order/payment'); ?>" method="POST" id="myform<?php echo $counter;?>">
+              
+              <input type="hidden" name="orderID" value="<?php echo $master->ORDER_NO; ?>">
+              <input type="hidden" name="orderTotal" value="<?php echo $master->AMOUNT + $master->TOTAL_POSTAGE + $transID; ?>">
+              <input type="hidden" name="transactionID" value="<?php echo $transID; ?>">
+
+              <div class="trans-container-footer-payment">
+                <a href="<?php echo base_url('order/payment'); ?>">
+                  <span><i class="fas fa-money-check-alt"></i> Order Payment</span>
+                </a>
+              </div>
+              
+            <?php endif; ?>
+            </form>
+
           </div>
           <!-- END OF MAIN TRANS PART -->
 
@@ -426,6 +472,7 @@
       </div>
     </div>
     <!-- END OF MAIN TRANSACTION -->
+    <?php $counter++; ?>
     <?php endforeach; ?>
     <?php endif; ?>
 

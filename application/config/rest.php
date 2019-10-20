@@ -334,7 +334,7 @@ $config['rest_enable_keys'] = TRUE;
 | column name to match e.g. my_key
 |
 */
-$config['rest_key_column'] = 'key';
+$config['rest_key_column'] = 'KEY';
 
 /*
 |--------------------------------------------------------------------------
@@ -376,7 +376,7 @@ $config['rest_key_length'] = 40;
 | 2012/06/12. See RFC 6648 specification for more details
 |
 */
-$config['rest_key_name'] = 'api_key';
+$config['rest_key_name'] = 'key';
 
 /*
 |--------------------------------------------------------------------------
@@ -403,7 +403,7 @@ $config['rest_key_name'] = 'api_key';
 |   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 |
 */
-$config['rest_enable_logging'] = FALSE;
+$config['rest_enable_logging'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -414,7 +414,7 @@ $config['rest_enable_logging'] = FALSE;
 | table name to match e.g. my_logs
 |
 */
-$config['rest_logs_table'] = 'logs';
+$config['rest_logs_table'] = 's_api_logs';
 
 /*
 |--------------------------------------------------------------------------

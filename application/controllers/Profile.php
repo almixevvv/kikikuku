@@ -69,14 +69,13 @@ class Profile extends CI_Controller {
 		public function orderPayment() {
 
 			$data['orderID'] 		= $this->input->post('orderID');
-			$data['orderTotal'] = $this->input->post('orderTotal');
-			$data['transactionID'] = $this->input->post('transactionID');
-
+			$data['orderTotal'] 	= $this->input->post('orderTotal');
+			$data['transactionID'] 	= $this->input->post('transactionID');
 
 			$this->load->view('templates/header');
 			$this->load->view('templates/navbar');
-	    $this->load->view('pages/profile/order_payment', $data);
-	    $this->load->view('templates/footer');
+		    $this->load->view('pages/profile/payment', $data);
+		    $this->load->view('templates/footer');
 
 		}
 

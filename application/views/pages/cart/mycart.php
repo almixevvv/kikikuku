@@ -111,7 +111,7 @@
 							<div class="col-12">
 
 							<!-- IF THE PRICE IS NEGOTIABLE -->
-							<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999): ?>
+							<?php if(strlen($obj['detail']['productForApp']['sellPrice']) >= 8): ?>
 								<div class="d-flex justify-content-center">
 									<span class="font-weight-bold">Price Negotiable</span>	
 								</div>
@@ -200,7 +200,7 @@
 					</div>
 
 					<div class="cart-exw pt-2">
-					<span class="pl-1" style="font-weight: bold; color: #f75c07;">IDR <?php echo number_format($finalPrice, 2);?></span>/<?php echo $obj['detail']['productForApp']['matrisingular']; ?>
+					<span class="pl-1" style="font-weight: bold; color: #24ca9d;">IDR <?php echo number_format($finalPrice, 2);?></span>/<?php echo $obj['detail']['productForApp']['matrisingular']; ?>
 					</div>
 
 				</div>
@@ -225,10 +225,12 @@
 					<!-- PRODUCT PRICE SECTION -->
 					<div class="col-2 col-md-3 col-lg-2 pr-0 pl-0">
 
-						<?php 
-							//SET THE FINAL PRICE VALUE
-							$price = ceil($finalPrice * $items['qty']);
-						?>
+				<?php 
+					//SET THE FINAL PRICE VALUE
+					if(strlen($obj['detail']['productForApp']['sellPrice']) <= 8 || $obj['detail']['productForApp']['sellPrice'] != 0) {
+						$price = ceil($finalPrice * $items['qty']);
+					}
+				?>
 						
 						<!-- SHOW ON ALL DEVICE -->
 						<div class="d-md-none d-lg-block d-xl-block">
@@ -236,7 +238,7 @@
 								<div class="col-lg-12 col-xl-12">
 									<div class="d-flex justify-content-center">
 										<!-- ONLY SHOW IF THE PRICE IS NEGOTIABLE -->
-										<?php if($obj['detail']['productForApp']['sellPrice'] == 999999999999 || $obj['detail']['productForApp']['sellPrice'] == 0): ?>
+										<?php if(strlen($obj['detail']['productForApp']['sellPrice']) >= 8|| $obj['detail']['productForApp']['sellPrice'] == 0): ?>
 										<span class="font-weight-bold">Price Negotiable</span>
 										<?php else: ?>
 										<span class="font-weight-bold">IDR <?php echo number_format($price, 2, ',', '.'); ?></span>
