@@ -537,9 +537,9 @@
 		background: #24ca9d;
 		border: none;
 		border-radius: 3px;
-	  color: white;
-	  display: inline-block;
-	  padding: 10px 30px;
+		color: white;
+		display: inline-block;
+		padding: 10px 30px;
 		margin-top: 1em;
 		width: 100%;
 	}
@@ -964,4 +964,64 @@
 	    margin-left: 0.5em;
 	    margin-right: 0.5em;
 	    padding-bottom: 1em;
+  	}
+
+  	.order-confirmation-container {
+	    padding-left: 8em;
+	    padding-right: 8em;
+	    margin-top: 9em;
+	    margin-bottom: 3.5em;
+	    width: 100%;
+	}
+
+	.order-confirmation-inner-container {
+	    border: solid #34ca9d 1px;
+	    border-radius: 5px;
+	    padding: 1.8em;
+  	}
+
+  	.payment-label {
+	    font-size: 0.5em;
+	    padding-left: 1em;
+  	}
+
+	.payment-accordion {
+    	width: 45%;
+    	padding-left: 2em;
+    	padding-right: 2em;
+  	}
+
+  	.requirement-list {
+    	padding-left: 1em;
+  	}
+
+  	.payment-price {
+    	padding-left: 1em;
+  	}
+
+  	#payment-bca {
+    	margin-top: 0.6em;
+  	}
+
+  	#payment-visa {
+    	margin-top: 0.5em;
+  	}
+
+  	#payment-mastercard {
+    	margin-top: 0.5em;
+  	}
+
+  	#bca-payment {
+    	width: 25%;
+    	padding-left: 1em;
+  	}
+
+  	#visa-payment {
+    	width: 20%;
+    	padding-left: 1em;
+  	}
+
+  	#mastercard-payment {
+    	width: 20%;
+    	padding-left: 1em;
   	}

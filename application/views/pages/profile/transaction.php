@@ -457,7 +457,7 @@
               <input type="hidden" name="transactionID" value="<?php echo $transID; ?>">
 
               <div class="trans-container-footer-payment">
-                <a href="<?php echo base_url('order/payment'); ?>">
+                <a href="javascript:{}" onclick="document.getElementById('myform<?php echo $counter; ?>').submit();">
                   <span><i class="fas fa-money-check-alt"></i> Order Payment</span>
                 </a>
               </div>

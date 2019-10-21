@@ -1,17 +1,4 @@
 
-<style type="text/css">
-  
-  .payment-radio-button {
-    margin-top: 0.5em;
-  }
-
-  .payment-label {
-    font-size: 0.5em;
-    padding-left: 1em;
-  }
-
-</style>
-
 <div class="pages-container">
   <div class="pages-inner-container">
 
@@ -24,26 +11,59 @@
     </div>
 
       <div class="row mt-md-4 mt-lg-4 mt-xl-4">
-        <div class="col-12">
+        <div class="col-12 pb-5 pb-md-2 pb-lg-3 pt-3 pt-md-1">
           <div class="d-flex justify-content-center">
             
-            <div class="accordion" id="faq-accordion">
-              
+            <div class="accordion payment-accordion">
+
               <div class="card">
                 <div class="card-header" id="heading-1">
                   <h2 class="mb-0">
                     <div class="form-check">
-                      <input class="form-check-input payment-radio-button" type="radio" name="payment-bca" id="payment-bca" value="bca" data-toggle="collapse" data-target="#container-bca" aria-expanded="false" aria-controls="container-bca">
+                      <input class="form-check-input" type="radio" name="payment-options" id="payment-bca" value="bca" data-toggle="collapse" data-target="#container-bca" aria-expanded="false" aria-controls="container-bca">
                       <label class="form-check-label" for="payment-bca">
-                        <span class="payment-label">Manual Transfer (BCA)</span>
+                        <span class="payment-label">Manual Transfer (BCA) 
+                          <img id="bca-payment" src="<?php echo base_url('assets/images/bca-logo.png'); ?>"/>
+                        </span>
                       </label>
                     </div>
                   </h2>
                 </div>
 
-                <div id="container-bca" class="collapse" aria-labelledby="heading-1" data-parent="#faq-accordion">
+                <div id="container-bca" class="collapse" aria-labelledby="heading-1" data-parent=".payment-accordion">
                   <div class="faq-card-container">
-                    INI BAYARAN KEDUA
+                    
+                    <div class="d-flex flex-column bd-highlight mb-3">
+                      <div class="p-2 bd-highlight">
+                        <span>Total Payment</span>
+                      </div>
+                      <div class="p-2">
+                        <span class="font-weight-bold font-italic payment-price main-color">
+                          IDR <?php echo number_format($orderTotal, 2); ?>
+                        </span>
+                      </div>
+                      <div class="p-2">
+                        <span>Payment Requirement</span>
+                      </div>
+                      <div class="p-2">
+                        <ul class="requirement-list" style="list-style-type: circle;">
+                          <li class="text-capitalize">Payment can only be done by transfer to BCA Account</li>
+                          <li class="text-capitalize">Your total order amount is not included for automatic verification process</li>
+                          <li class="text-capitalize">Please transfer to the last 2 digits</li>
+                        </ul>
+                      </div>
+                      <div class="p-2">
+                        <div class="form-group">
+                          <?php echo form_open('order/confirmation'); ?>
+                            <input type="hidden" name="orderID" value="<?php echo $orderID; ?>">
+                            <input type="hidden" name="orderTotal" value="<?php echo $orderTotal; ?>">
+                            <input type="hidden" name="transactionID" value="<?php echo $transactionID; ?>">
+                            <button type="submit" class="btn btn-kku mt-0">Continue Payment</button>
+                          <?php echo form_close(); ?>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -51,15 +71,52 @@
               <div class="card">
                 <div class="card-header" id="heading-2">
                   <h2 class="mb-0">
-                      <button class="btn text-left" type="button" data-toggle="collapse" data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
-                        VISA
-                      </button>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="payment-options" id="payment-visa" value="visa" data-toggle="collapse" data-target="#container-visa" aria-expanded="false" aria-controls="container-visa" />
+                      <label class="form-check-label" for="payment-visa">
+                        <span class="payment-label">VISA 
+                          <img id="visa-payment" src="<?php echo base_url('assets/images/visa-logo.png'); ?>"/> 
+                        </span>
+                      </label>
+                    </div>
                   </h2>
                 </div>
 
-                <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#faq-accordion">
+                <div id="container-visa" class="collapse" aria-labelledby="heading-2" data-parent=".payment-accordion">
                   <div class="faq-card-container">
-                    INI BAYARAN KEDUA
+                    
+                    <div class="d-flex flex-column bd-highlight mb-3">
+                      <div class="p-2 bd-highlight">
+                        <span>Total Payment</span>
+                      </div>
+                      <div class="p-2">
+                        <span class="font-weight-bold font-italic payment-price main-color">
+                          IDR <?php echo number_format($orderTotal, 2); ?>
+                        </span>
+                      </div>
+                      <div class="p-2">
+                        <span>Payment Requirement</span>
+                      </div>
+                      <div class="p-2">
+                        <ul class="requirement-list" style="list-style-type: circle;">
+                          <li class="text-capitalize">Payment can only be done by using VISA logo card</li>
+                          <li class="text-capitalize">There's additional service fee of Rp. 2.500</li>
+                          <li class="text-capitalize">If there's refund, the refund will be transfered to your credit card</li>
+                        </ul>
+                      </div>
+                      <div class="p-2">
+                        <div class="form-group">
+                          <?php echo form_open('order/confirmation'); ?>
+                            <input type="hidden" name="orderID" value="<?php echo $orderID; ?>">
+                            <input type="hidden" name="orderTotal" value="<?php echo $orderTotal; ?>">
+                            <input type="hidden" name="transactionID" value="<?php echo $transactionID; ?>">
+                            <button type="submit" class="btn btn-kku mt-0">Continue Payment</button>
+                          <?php echo form_close(); ?>
+                        </div>
+                      </div>
+                    </div>
+
+
                   </div>
                 </div>
               </div>
@@ -67,19 +124,54 @@
               <div class="card">
                 <div class="card-header" id="heading-3">
                   <h2 class="mb-0">
-                      <button class="btn text-left" type="button" data-toggle="collapse" data-target="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
-                        Mastercard
-                      </button>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="payment-options" id="payment-mastercard" value="mastercard" data-toggle="collapse" data-target="#container-mastercard" aria-expanded="false" aria-controls="container-mastercard" />
+                      <label class="form-check-label" for="payment-mastercard">
+                        <span class="payment-label">Mastercard 
+                          <img id="mastercard-payment" src="<?php echo base_url('assets/images/mastercard-logo.jpeg'); ?>"/>
+                        </span>
+                      </label>
+                    </div>
                   </h2>
                 </div>
 
-                <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#faq-accordion">
+                <div id="container-mastercard" class="collapse" aria-labelledby="heading-3" data-parent=".payment-accordion">
                   <div class="faq-card-container">
-                    INI BAYARAN KEDUA
+                    
+                    <div class="d-flex flex-column bd-highlight mb-3">
+                      <div class="p-2 bd-highlight">
+                        <span>Total Payment</span>
+                      </div>
+                      <div class="p-2">
+                        <span class="font-weight-bold font-italic payment-price main-color">
+                          IDR <?php echo number_format($orderTotal, 2); ?>
+                        </span>
+                      </div>
+                      <div class="p-2">
+                        <span>Payment Requirement</span>
+                      </div>
+                      <div class="p-2">
+                        <ul class="requirement-list" style="list-style-type: circle;">
+                          <li class="text-capitalize">Payment can only be done by using Mastercard logo card</li>
+                          <li class="text-capitalize">There's additional service fee of Rp. 2.500</li>
+                          <li class="text-capitalize">If there's refund, the refund will be transfered to your credit card</li>
+                        </ul>
+                      </div>
+                      <div class="p-2">
+                        <div class="form-group">
+                          <?php echo form_open('order/confirmation'); ?>
+                            <input type="hidden" name="orderID" value="<?php echo $orderID; ?>">
+                            <input type="hidden" name="orderTotal" value="<?php echo $orderTotal; ?>">
+                            <input type="hidden" name="transactionID" value="<?php echo $transactionID; ?>">
+                            <button type="submit" class="btn btn-kku mt-0">Continue Payment</button>
+                          <?php echo form_close(); ?>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
-
 
             </div>
 
