@@ -433,7 +433,12 @@
           <div class="row mt-1 mt-md-1 mt-lg-1 mt-xl-1">
             
             <div class="trans-container-footer-left">
-              <span><i class="fas fa-comments pr-2"></i> Send Message</span>
+              <a href="#" 
+                 data-transaction="<?php echo $master->ORDER_NO; ?>" 
+                 data-sender="<?php echo $this->session->userdata('USERID');?>" 
+                 onclick="loadContent('<?php echo $master->ORDER_NO; ?>')">
+                <span><i class="fas fa-comments pr-2"></i> Send Message</span>
+              </a>
             </div>
             
             <div class="trans-container-footer-right">
@@ -479,3 +484,20 @@
   </div>
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" id="submitMessages" style="background-color: #f17f05!important;" >Send Message</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Part -->

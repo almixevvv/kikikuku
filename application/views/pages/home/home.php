@@ -212,3 +212,16 @@
 
 </script>
 <?php endif; ?>
+
+<?php if($this->input->get('inquiry') == 'paid'): ?>
+<script type="text/javascript">
+
+	swal.fire({
+		title:'Payment Complete',
+		text: 'Your payment process is completed. Our team will process your payment confirmation',
+		type: 'success',
+		showCancelButton: false,
+	});
+
+</script>
+<?php endif; ?>

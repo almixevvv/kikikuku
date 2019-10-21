@@ -29,7 +29,7 @@
 
       $defaultPath = '/img/order/'.$orderID.'.'.$ext;
 
-      if ( !$this->upload->do_upload('payment-receipt')) {
+      if ( !$this->upload->do_upload('uReceipt')) {
         echo 'something wrong';
       } else {
         echo 'something is right';
@@ -47,7 +47,7 @@
         $this->profile->insertImageData($data);
         $this->profile->updatePaymentStatus($orderID);
 
-        // redirect('payment/confirmation');
+        redirect('home?inquiry=paid');
       }
 
 		}
