@@ -8,6 +8,7 @@
   4. Get Country Data from API
   5. Verification Process
   6. Form Verification Overide
+  7. Limit Text Characters
 */
 
 

@@ -1,34 +1,3 @@
-<style type="text/css">
-  
-  .trans-filter-button-active {
-      background: #24ca9d;
-      border: 1px solid #24ca9d;
-      border-radius: 10px;
-      height: 2.5em;
-      padding-top: 0.5em;
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-      margin-right: 0.5em;
-      text-align: center;
-  }
-
-  .trans-filter-active {
-    color: white;
-  }
-
-  .trans-container-footer-payment {
-    width: 100%;
-    padding-left: 1em;
-    padding-right: 1em;
-    border-left: 1.5px solid #ced4d9;
-  }
-
-  .trans-container-footer-payment > a {
-    color: black;
-  }
-
-</style>
-
 <div class="trans-container">
 
   <div class="trans-inner-container">
@@ -436,7 +405,8 @@
               <a href="#" 
                  data-transaction="<?php echo $master->ORDER_NO; ?>" 
                  data-sender="<?php echo $this->session->userdata('USERID');?>" 
-                 onclick="loadContent('<?php echo $master->ORDER_NO; ?>')">
+                 data-toggle="modal" data-target="#messageModal"
+                 style="color: black;">
                 <span><i class="fas fa-comments pr-2"></i> Send Message</span>
               </a>
             </div>
@@ -462,7 +432,9 @@
               <input type="hidden" name="transactionID" value="<?php echo $transID; ?>">
 
               <div class="trans-container-footer-payment">
-                <a href="javascript:{}" onclick="document.getElementById('myform<?php echo $counter; ?>').submit();">
+                <a href="javascript:{}" 
+                   onclick="document.getElementById('myform<?php echo $counter; ?>').submit();" 
+                   style="color: black;">
                   <span><i class="fas fa-money-check-alt"></i> Order Payment</span>
                 </a>
               </div>
@@ -485,19 +457,84 @@
 
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-body">
+<!-- MODAL PART -->
+<div class="modal fade" id="messageModal" role="dialog" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" id="submitMessages" style="background-color: #f17f05!important;" >Send Message</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="d-flex justify-content-end">
+          <div class="d-flex flex-row">
+            <button type="button" class="btn btn-kku mt-0 mr-3" id="submitMessages" style="width: 100%;">Send Message</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
         </div>
+      </div>
+
     </div>
+  </div>
 </div>
-<!-- Modal Part -->
+<!-- END OF MODAL PART -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.js'); ?>"></script>
+
+<script type="text/javascript">
+
+  //Scroll to the last message
+  $('#messageModal').on('shown.bs.modal', function() {
+    
+    $(".message-holder").animate({ scrollTop: $('.message-holder').prop("scrollHeight")}, 1000);
+
+  });
+
+  $('#messageModal').on('show.bs.modal', function (e) {
+
+    //Get the trigger data
+    var button = $(e.relatedTarget);
+    var recipient = button.data('transaction');
+
+    //Create the URL for Controller
+    var url = '<?php echo base_url('Profile/getMessages?id='); ?>' + recipient;
+
+    $('.modal-body').load(url, function() {
+
+      $('#messageModal').modal({show:true});
+
+    });
+
+  });
+
+  $('#submitMessages').on('click', function(e) {
+
+    var message = $("#sender-messages").val();
+    var transactionID = $("#hidden-id").val();
+    var sender = 'CUSTOMER';
+
+    $.ajax({
+      url: "<?php echo base_url('Profile/customerSendMessages'); ?>",
+      type: "GET",
+      data: { sender:sender, id:transactionID, message:message } ,
+      success: function (response) {
+
+        //Create the URL for Controller
+        var url = '<?php echo base_url('Profile/getMessages?id='); ?>' + transactionID;
+
+        $('.modal-body').load(url, function() {
+          $('#messageModal').modal({show:true});
+          $(".message-holder").animate({ scrollTop: $('.message-holder').prop("scrollHeight")}, 1000);
+        });
+
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+      }
+    });
+
+  });
+
+</script>

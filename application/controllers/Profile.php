@@ -40,8 +40,8 @@ class Profile extends CI_Controller {
 
 			$orderID = $this->input->get('id');
 
-			$data['messages'] = $this->profile->getOrderMessages($orderID);
-			$data['transID']  = $orderID;
+			$data['message'] = $this->profile->getOrderMessages($orderID);
+			$data['transID'] = $orderID;
 
 			$this->load->view('pages/modal/modal-message', $data);
 
@@ -49,17 +49,17 @@ class Profile extends CI_Controller {
 
 		public function customerSendMessages() {
 
-			$customerID = $this->input->post('email');
-			$transactionID = $this->input->post('id');
-			$message 			 = $this->input->post('message');
+			$customerID 	= $this->input->get('sender');
+			$transactionID 	= $this->input->get('id');
+			$message 		= $this->input->get('message');
 
 			$data = array(
-        'SENDER_ID' => 'CUSTOMER',
-        'ORDER_ID' => $transactionID,
-				'MESSAGE' => $message,
-				'MESSAGE_TIME' => date('Y-m-d H:m:s'),
-				'USER_READ_FLAG' => '0',
-				'ADMIN_READ_FLAG' => '0'
+        		'SENDER_ID' 		=> 'CUSTOMER',
+        		'ORDER_ID' 			=> $transactionID,
+				'MESSAGE' 			=> $message,
+				'MESSAGE_TIME' 		=> date('Y-m-d H:m:s'),
+				'USER_READ_FLAG' 	=> '0',
+				'ADMIN_READ_FLAG' 	=> '1'
 			);
 
 			$this->profile->sendMessages($data);

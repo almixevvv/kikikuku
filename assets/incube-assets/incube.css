@@ -882,6 +882,33 @@
 	    text-align: center;
   	}
 
+  	.trans-filter-button-active {
+      background: #24ca9d;
+      border: 1px solid #24ca9d;
+      border-radius: 10px;
+      height: 2.5em;
+      padding-top: 0.5em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      margin-right: 0.5em;
+      text-align: center;
+  	}
+
+	.trans-filter-active {
+		color: white;
+	}
+
+	.trans-container-footer-payment {
+	    width: 100%;
+	    padding-left: 1em;
+	    padding-right: 1em;
+	    border-left: 1.5px solid #ced4d9;
+  	}
+
+	.trans-container-footer-payment > a {
+		color: black;
+	}
+
 	.trans-main-container {
     	padding: 1em;
   	}
@@ -998,6 +1025,34 @@
   	.payment-price {
     	padding-left: 1em;
   	}
+
+	.message-holder {
+		height: 20em;
+	    overflow: auto;
+	    border: 1px solid lightgrey;
+	    border-radius: 6px;
+	    margin-bottom: 1em;
+	    width: 100%;
+	    padding: 1em;
+  	}
+
+	.user-message-window {
+		background: #f1f1f1;
+		color: #000 !important;
+		border-radius: 20px 20px 3px 20px;
+		display: block;
+		max-width: 75%;
+		padding: 7px 13px 7px 13px;
+	}
+
+	.admin-message-window {
+		background: #42a5f5;
+		color: #fff !important;
+		border-radius: 20px 20px 20px 3px;
+		display: block;
+		max-width: 75%;
+		padding: 7px 13px 7px 13px;
+	}
 
   	#payment-bca {
     	margin-top: 0.6em;

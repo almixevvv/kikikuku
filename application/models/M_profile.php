@@ -52,6 +52,7 @@ class M_profile extends CI_Model{
 		$this->db->select('*');
 		$this->db->from('g_message');
 		$this->db->where('ORDER_ID', $orderID);
+		$this->db->order_by('MESSAGE_TIME', 'ASC');
 
 		$query = $this->db->get();
 

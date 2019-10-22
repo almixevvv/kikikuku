@@ -215,7 +215,7 @@
 				url: "<?php echo base_url('Register/checkExistingEmail'); ?>",
 				type: "GET",
 				data: { email:email }, 
-				success: function(result){
+				success: function(result) {
 		    		if(result === 'existing') {
 		    			$('#uEmail').removeClass("is-valid").addClass("is-invalid");
 		    		} else {
