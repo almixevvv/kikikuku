@@ -905,6 +905,13 @@
 	    border-left: 1.5px solid #ced4d9;
   	}
 
+  	.trans-container-footer-receive {
+	    width: 65%;
+	    padding-left: 1em;
+	    padding-right: 1em;
+	    border-left: 1.5px solid #ced4d9;
+  	}
+
 	.trans-container-footer-payment > a {
 		color: black;
 	}

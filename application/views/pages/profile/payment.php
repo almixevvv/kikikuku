@@ -34,6 +34,13 @@
                   <div class="faq-card-container">
                     
                     <div class="d-flex flex-column bd-highlight mb-3">
+                      <div class="d-flex justify-content-center">
+                        <div class="p-2 bd-highlight">
+                          <span class="text-center">BCA</span><br>
+                          <span class="text-center">PT TRIMARAN INDAH SUKSES</span><br>
+                          <span class="text-center">4073 0534 58</span>
+                        </div>
+                      </div>
                       <div class="p-2 bd-highlight">
                         <span>Total Payment</span>
                       </div>

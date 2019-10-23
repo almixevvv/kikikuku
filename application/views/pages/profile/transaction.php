@@ -120,87 +120,87 @@
         <div class="col-12 pl-1 pr-1 pt-2" id="trans-scrollbar">
 
           <?php if($this->input->get('transaction') == 'created'): ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
+          <a href="<?php echo base_url('profile/transaction'); ?>">
+            <div class="trans-filter-button-active">
               <span class="text-uppercase trans-filter-active">Inquiry Created</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php else: ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=created'); ?>">
+          <a href="<?php echo base_url('profile/transaction?transaction=created'); ?>">
+            <div class="trans-filter-button">
               <span class="text-uppercase main-color">Inquiry Created</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php endif; ?>
 
           <?php if($this->input->get('transaction') == 'updated'): ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
+          <a href="<?php echo base_url('profile/transaction'); ?>">
+            <div class="trans-filter-button-active">
               <span class="text-uppercase trans-filter-active">Inquiry Updated</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php else: ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=updated'); ?>">
+          <a href="<?php echo base_url('profile/transaction?transaction=updated'); ?>">
+            <div class="trans-filter-button">
               <span class="text-uppercase main-color">Inquiry Updated</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php endif; ?>
           
           <?php if($this->input->get('transaction') == 'confirmed'): ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
+          <a href="<?php echo base_url('profile/transaction'); ?>">
+            <div class="trans-filter-button-active">
               <span class="text-uppercase trans-filter-active">Confirm Payment</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php else: ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=confirmed'); ?>">
+          <a href="<?php echo base_url('profile/transaction?transaction=confirmed'); ?>">
+            <div class="trans-filter-button">
               <span class="text-uppercase main-color">Confirm Payment</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php endif; ?>
 
           <?php if($this->input->get('transaction') == 'paid'): ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
+          <a href="<?php echo base_url('profile/transaction'); ?>">
+            <div class="trans-filter-button-active">
               <span class="text-uppercase trans-filter-active">Inquiry Paid</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php else: ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=paid'); ?>">
+          <a href="<?php echo base_url('profile/transaction?transaction=paid'); ?>">
+            <div class="trans-filter-button">
               <span class="text-uppercase main-color">Inquiry Paid</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php endif; ?>
 
           <?php if($this->input->get('transaction') == 'canceled'): ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
+          <a href="<?php echo base_url('profile/transaction'); ?>">
+            <div class="trans-filter-button-active">
               <span class="text-uppercase trans-filter-active">Inquiry Canceled</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php else: ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=canceled'); ?>">
+          <a href="<?php echo base_url('profile/transaction?transaction=canceled'); ?>">
+            <div class="trans-filter-button">
               <span class="text-uppercase main-color">Inquiry Canceled</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php endif; ?>
 
           <?php if($this->input->get('transaction') == 'done'): ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
+          <a href="<?php echo base_url('profile/transaction'); ?>">
+            <div class="trans-filter-button-active">
               <span class="text-uppercase trans-filter-active">Inquiry Done</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php else: ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=done'); ?>">
+          <a href="<?php echo base_url('profile/transaction?transaction=done'); ?>">
+            <div class="trans-filter-button">
               <span class="text-uppercase main-color">Inquiry Done</span>
-            </a>
-          </div>
+            </div>
+          </a>
           <?php endif; ?>
 
         </div>
@@ -322,9 +322,11 @@
                 <div class="col-8 col-md-9 col-lg-9 col-xl-9 mt-2 mt-md-2 mt-lg-2 mt-xl-2">
                   <div class="row">
                     <div class="col-12">
-                      <span class="main-color text-capitalize font-weight-bold">
-                        <?php echo ucwords(mb_strimwidth($obj['detail']['productForApp']['title'], 0, 100, "...")); ?>
-                      </span>
+                      <a href="<?php echo base_url().'product_detail?id='.$history->PRODUCT_ID; ?>">
+                        <span class="main-color text-capitalize font-weight-bold">
+                            <?php echo ucwords(mb_strimwidth($obj['detail']['productForApp']['title'], 0, 100, "...")); ?>
+                        </span>
+                      </a>
                     </div>
                   </div>
 
@@ -440,6 +442,16 @@
               </div>
               
             <?php endif; ?>
+            
+            <!-- SHOW IF THE STATUS IS CONFIRMED -->
+            <?php if($master->STATUS_ORDER == 'PAID'): ?>
+            <div class="trans-container-footer-receive">
+              <a href="#" class="receive-button" data-id="<?php echo $master->ORDER_NO; ?>" style="color: black;">
+                <span><i class="far fa-check-square pr-2"></i> Receive Order</span>
+              </a>
+            </div>
+            <?php endif; ?>
+
             </form>
 
           </div>
@@ -485,13 +497,38 @@
 
 <script type="text/javascript">
 
-  //Scroll to the last message
-  $('#messageModal').on('shown.bs.modal', function() {
-    
-    $(".message-holder").animate({ scrollTop: $('.message-holder').prop("scrollHeight")}, 1000);
-
+  /* SET THE CURRENT ORDER STATUS TO FINISHED */
+  $('.receive-button').on('click', function() {
+    var id = $(this).attr("data-id");
+    swal.fire({
+      title:"Receive Order",
+      text:"Are you sure you want to finish this order?",
+      type: "warning",
+      showCancelButton: true,
+      cancelButtonColor: '#d33',
+      confirmButtonText: "Confirm",
+      confirmButtonColor: '#3085d6'
+    }).then((result) => {
+        if (result.value) {
+          console.log('clicked');
+          console.log(id);
+          $.ajax({
+              url: "<?php echo base_url('Profile/finishOrder'); ?>",
+              type: "POST",
+              data: { id:id } ,
+              success: function (response) {
+                console.log(response);
+                location.reload(true);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+              }
+            });
+      }
+    });
   });
 
+  /* LOAD THE MODAL DYNAMICALY AND SCROLL TO THE LAST MESSAGE */
   $('#messageModal').on('show.bs.modal', function (e) {
 
     //Get the trigger data
@@ -502,13 +539,14 @@
     var url = '<?php echo base_url('Profile/getMessages?id='); ?>' + recipient;
 
     $('.modal-body').load(url, function() {
-
+      $(".message-holder").animate({ scrollTop: $('.message-holder').prop("scrollHeight")}, 1000);
       $('#messageModal').modal({show:true});
-
     });
 
   });
 
+
+  /* SEND THE MESSAGE */
   $('#submitMessages').on('click', function(e) {
 
     var message = $("#sender-messages").val();
