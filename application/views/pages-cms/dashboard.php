@@ -6,6 +6,14 @@
     <div id="content-wrapper">
 
       <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#" style="color: #2db4d6">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Overview</li>
+      </ol>
         <?php
           $Q=$this->db->query("SELECT 
                                     (SELECT COUNT(STATUS)
@@ -383,16 +391,16 @@
   </a>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/chart.js/Chart.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/jquery.dataTables.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/dataTables.bootstrap4.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/chart.js/Chart.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/jquery.dataTables.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/dataTables.bootstrap4.js'); ?>"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('assets/cms/js/sb-admin.min.js'); ?>"></script>

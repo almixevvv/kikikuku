@@ -65,8 +65,8 @@
 <body class="sansserif">
   <div class="main-body" style="background-color: white; max-width:500px;margin:auto;padding:30px; border: 1px solid lightgrey;">
     <center>
-      <div class="card-header" style="background-image: linear-gradient(to top, #2db4d6 0%, #18b589 100%);">
-        <img src="<?php echo base_url('assets/img/logo.png'); ?>" style="width:100%; max-width:200px;"/>
+      <div class="card-header">
+        <img src="<?php echo base_url('assets/images/logo.png'); ?>" style="width:100%; max-width:200px;"/>
       </div>
     </center>
 
@@ -77,8 +77,8 @@
           <span style="color: #2db4d6; font-size: 14px; font-weight: bold;"><?php echo $data->ORDER_NO;?></span>
         </td>
         <td>
-          <div style="width: 6em; font-size: 12px;color: #666666;margin-left: 20.4em; margin-top: 1em;">Order Date </div>
-          <span style="color: #2db4d6; font-size: 14px;margin-left: 17.5em; font-weight: bold;"><?php echo $data->ORDER_DATE;?></span>
+          <div style="width: 6em; font-size: 12px;color: #666666;margin-left: 22.2em; margin-top: 1em;">Order Date </div>
+          <div style="color: #2db4d6; font-size: 14px;text-align: right; margin-left: 19em;font-weight: bold;"><?php echo date("d F Y", strtotime($data->ORDER_DATE));?></div>
         </td>
       </tr>
     </table> 
@@ -170,22 +170,17 @@
     <table>
       <tr> <!-- Product Desc -->
         <td height="10" width="900" style="text-align: left; padding: 4px;">
-          <div style="text-align: left; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #666666"><?php echo $data->PROD_NAME;?></div>
-          <div style="text-align: left; margin-left: 15px; font-size: 12px; color: #2db4d6; font-weight: bold;"><?php echo $data->QUANTITY;?></label> X <?php echo number_format($data->FINAL_PRICE,2);?></div>
+          <div style="margin-top: 0.5em; font-size: 12px; color: #666666"><?php echo $data->PROD_NAME;?></div>
+          <div style="font-size: 12px; color: #2db4d6; font-weight: bold;"><?php echo $data->QUANTITY;?></label> X <?php echo number_format($data->FINAL_PRICE,2);?></div>
         </td>
-        <td height="10" width="400" style="text-align: left; padding: 4px;">
-          <div style="text-align: right; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #666666"><?php echo number_format($total,2); ?></div>
-        </td>
-      </tr>
-     
-      <tr> <!--  -->
-        <td height="10">
-          <hr>
-        </td>
-        <td height="10">
-          <hr>
+        <td height="10" width="400" style="text-align:right;padding: 4px;">
+          <div style="font-size: 12px; color: #666666"><?php echo number_format($total,2); ?></div>
         </td>
       </tr>
+    </table>
+
+    <hr>
+
 <?php
   $counter++;
   $product_amount=$product_amount+($data->FINAL_PRICE * $data->QUANTITY);
@@ -193,39 +188,42 @@
   $a++;
   endforeach; ?>
 
+    <table>
+
       <tr> <!-- Product Amount -->
-        <td height="10">
-          <div style="text-align: left; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #666666">Product Amount</div>
+        <td height="10" width="900">
+          <div style="text-align: left; margin-top: 0.5em; font-size: 12px; color: #666666; ">Product Amount</div>
         </td>
-        <td height="10">
-          <div style="text-align: right; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #666666"><?php echo number_format($product_amount,2); ?></div>
+        <td height="10" width="400">
+          <div style="text-align: right;font-size: 12px; color: #666666"><?php echo number_format($product_amount,2); ?></div>
         </td>
       </tr>
+
       <tr> <!-- Shipping Cost -->
-        <td height="10">
-          <div style="text-align: left; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #666666">Shipping Cost</div>
-          <div style="text-align: left; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #2db4d6">(Not include shipping cost to outside Jakarta)</div>
+        <td height="10" width="900">
+          <div style="text-align: left; margin-top: 0.5em; font-size: 12px; color: #666666; ">Shipping Cost</div>
+          <div style="text-align: left; font-size: 12px; color: #2db4d6">(Not include shipping cost to outside Jakarta)</div>
         </td>
-        <td height="10">
-          <div style="text-align: right; margin-left: 15px; margin-top: 0.5em; font-size: 12px; color: #666666"><?php echo number_format($totalPostage,2); ?></div>
-        </td>
-      </tr>
-      <tr> <!--  -->
-        <td height="10">
-          <hr>
-        </td>
-        <td height="10">
-          <hr>
+        <td height="10" width="400">
+          <div style="text-align: right;  font-size: 12px; color: #666666"><?php echo number_format($totalPostage,2); ?></div>
         </td>
       </tr>
+
+      <!-- <tr>
+        <td height="10" width="900">
+          <hr>
+        </td>
+      </tr> -->
+
       <tr> <!-- Total -->
-        <td height="10">
-          <div style="text-align: left; margin-left: 15px; margin-top: 0.5em; font-size: 14px;color: #2db4d6; font-weight: bold; ">Total Cost</div>
+        <td height="10" width="900">
+          <div style="text-align: left; margin-top: 0.5em; font-size: 14px;color: #2db4d6; font-weight: bold; ">Total Cost</div>
         </td>
-        <td height="10">
-          <div style="text-align: right; margin-left: 15px; margin-top: 0.5em; font-size: 14px;color: #2db4d6; font-weight: bold;">IDR <?php echo number_format($totalPrice,2); ?></div>
+        <td height="10" width="400">
+          <div style="text-align: right; margin-top: 0.5em; font-size: 14px;color: #2db4d6; font-weight: bold;">IDR <?php echo number_format($totalPrice,2); ?></div>
         </td>
       </tr>
+
     </table>
 
     <center>

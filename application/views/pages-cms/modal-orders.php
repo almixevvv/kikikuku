@@ -24,8 +24,12 @@
 
 </style>
 
+
+
 <?php echo form_open('Orders_cms/updateOrder');?>
-<?php foreach($details->result() as $data): ?>
+<?php foreach($details->result() as $data): 
+$order_no=$data->ORDER_NO;
+  ?>
 
 
   <!-- INITIAL DATA -->
@@ -126,7 +130,7 @@
         <div class="col-md-12">
           <label style="width: 10em; font-weight: bold;">Special Instruction</label>
           <label style="margin-left: 1em; font-weight: bold;">:</label>
-          <textarea id="form10" style="font-size: 11px;" class="md-textarea form-control" rows="1" cols="50"></textarea>
+          <textarea id="form10" name="spc_instruction" style="font-size: 11px;" class="md-textarea form-control" rows="1" cols="50"><?php  echo $data->SPC_INSTRUCTION;?></textarea>
         </div>
         <div class="col-md-12">
           <label style="width: 10em; color: #2db4d6; font-weight: bold;">Last Update</label>
@@ -245,7 +249,7 @@
       <div class="col-lg-6">
         <div class="row">
           <div class="col-lg-12" style="margin-left: 5em;">
-            <div style="max-height:275px; height:260px; overflow:auto; margin-left:0em; border:1px solid lightgrey; margin-bottom: 1em; width: 320px;">
+            <div id="boxMessage" style="max-height:275px; height:260px; overflow:auto; margin-left:0em; border:1px solid lightgrey; margin-bottom: 1em; width: 320px;">
 
              <!-- PRINT AND LOOP THE MESSAGE -->
             <?php foreach($messages->result() as $msg): ?>
@@ -368,7 +372,7 @@
       <div class="row">
         <div class="col-md-12"><br><b>Inquiry</b>
           <span style="margin-left: 1em; font-weight: bold;">:</span><br>
-          <textarea id="form10" class="lg-textarea form-control" rows="3"></textarea>
+          <textarea id="form10" class="lg-textarea form-control" rows="3" style="font-size: 11px;"><?php  echo $data->NOTES;?></textarea>
         </div>
       </div>
     </div>
@@ -433,11 +437,12 @@
 
   <br>
 
-
+<?php foreach($internal->result() as $notes): ?>
   <div class="md-form">
     <p style="font-size: 11px;"><b>Internal Notes :</b></p>
-    <textarea id="form10" class="md-textarea form-control" rows="3" style="margin-top: -1em; font-size: 11px;"></textarea>
+    <textarea id="form10" name="internal_notes" class="md-textarea form-control" rows="3" style="margin-top: -1em; font-size: 11px;"><?php  echo $notes->INTERNAL_NOTES;?></textarea>
   </div>
+<?php endforeach; ?>
 
   <div class="modal-footer">
     <button type="submit" class="btn btn-default btn-info">Save</button>
@@ -482,6 +487,10 @@ function formatNumber(num) {
   }
 </script>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.js'); ?>"></script>
+
 <!-- script buat input angka saja -->
 <script type="text/javascript">
   function Angkasaja(evt) {
@@ -498,14 +507,18 @@ function formatNumber(num) {
     var message = $("#text_message").val();
     var ORDER_ID = $("#hidden-id").val();
 
-    // alert(ORDER_ID + message);
-
     $.ajax({
         url: "<?php echo base_url('Orders_cms/adminSendMessages'); ?>",
         type: "POST",
         data: {  id:ORDER_ID, message:message } ,
-        success: function (response) {
-          console.log(response);
+        success: function () {
+          var getDetails = '<?php echo base_url('Orders_cms/getDetails?id='); ?>';
+          
+          $('.modal-body').load(getDetails + ORDER_ID, function() {
+            $('#boxMessage').modal({show:true});
+            //$(".message-holder").animate({ scrollTop: $('.message-holder').prop("scrollHeight")}, 1000);
+          });
+
         },
         error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);

@@ -6,145 +6,99 @@
     <div id="content-wrapper">
 
       <div class="container-fluid">
-        <!-- DataTables Example -->
-        
+
+        <!-- BANNER PART -->
         <div class="card mb-3">
           <div class="card-header">
-            <i class="fas fa-clipboard-list"></i>
-            <b>Banner Info</b></div>
-          <div class="card-body" ">
+            <i class="fas fa-images"></i>
+            <b>Banner List</b></div>
+          <div class="card-body" >
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" cellspacing="0" style="font-size:14px">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:12px"> 
                 <thead>
-                  <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 1em;" data-toggle="modal" data-target="#bannerAddModal" ><i class="fas fa-plus-circle"></i> Add Banner</button>
                   <tr>
-                    <th width="5px">No</th>
-                    <th width="5px">Type</th>
-                    <th width="5px">Link Type</th>
-                    <th width="5px">Link To</th>
-                    <th width="5px">Banner Image</th>
-                   <!--  <th width="auto">Order No</th>
-                    <th width="auto">Flag</th> -->
-                    <th width="5px">Description</th>
-                    <th width="5px">Created</th>
-                    <th width="5px">Updated</th>
-                    <th width="5px">User ID</th>
-                    <th width="5px">Action</th>
+                    <th width="5%">No</th>
+                    <th width="30%">Image</th>
+                    <th width="30%">Description</th>
+                    <th width="30">Info</th>
+                    <th width="5%">Action</th>
                   </tr>
-                </thead>
+                </thead>   
                 <tbody>
-                  <?php
-               $no = 1;
-              foreach($content->result() as $dt){
-                $id = $dt->REC_ID;
-                $type = $dt->TYPE;
-                $link_type = $dt->LINK_TYPE;
-                $linkto = $dt->LINKTO;
-                $banner_img = $dt->BANNER_IMAGE;
-                $order_no = $dt->ORDER_NO;
-                $flag = $dt->FLAG;
-                $description = $dt->DESCRIPTION;
-                $created = $dt->CREATED;
-                $updated = $dt->UPDATED;
-                $user_id = $dt->USER_ID;
+                  <?php 
+                    $no=1;
+                    foreach($content->result() as $dt) :
                 
-                echo "<tr>"; ?>
+                      $id = $dt->REC_ID;
+                      $type = $dt->TYPE;
+                      $link_type = $dt->LINK_TYPE;
+                      $linkto = $dt->LINKTO;
+                      $img = $dt->BANNER_IMAGE;
+                      $order_no = $dt->ORDER_NO;
+                      $flag = $dt->FLAG;
+                      $desc = $dt->DESCRIPTION;
+                      $created = $dt->CREATED;
+                      $updated = $dt->UPDATED;
+                      $user_id = $dt->USER_ID;
 
-                <td>
-                    <?php echo $no++;?>
-                </td>
+                    
+                  ?>
+                  <tr>
+                    <td>
+                      <?php echo $no; ?>
+                    </td>
+                    <td>
+                      <label style="margin-left: 0.4em;"><?php echo $img; ?></label>
+                    </td>
+                    <td>
+                      <label style="margin-left: 0.4em;"><?php echo $desc; ?></label>
+                    </td>
+                    <td>
+                      <label style="margin-left: 0.4em;font-weight: bold;">Type</label>
+                      <label style="margin-left: 2em;font-weight: bold;">:</label>
+                      <label style="margin-left: 0.4em;color: #2db4d6;"><?php echo $type; ?></label><br>
+                      <label style="margin-left: 0.4em;font-weight: bold;">Created</label>
+                      <label style="margin-left: 0.5em;font-weight: bold;">:</label>
+                      <label style="margin-left: 0.4em;color: #2db4d6;"><?php echo $created; ?></label><br>
+                      <label style="margin-left: 0.4em;font-weight: bold;">Updated</label>
+                      <label style="margin-left: 0.2em;font-weight: bold;">:</label>
+                      <label style="margin-left: 0.4em;color: #2db4d6;"><?php echo $updated; ?></label>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"
+                      data-id="<?php echo $id; ?>" style="font-size: 12px;width: 6em;">EDIT</button>
+                    </td>
+                  </tr>
 
-                <td>
-                  <?php echo $type;?>
-                </td>
+                <?php
+                  $no++;
+                  endforeach; ?>
 
-                <td>
-                  <a href='".$link_type."' target='_blank'><?php echo $link_type;?></a>
-                </td>
-
-                <td>
-                  <a href='<?php echo $linkto ?>' target='_blank'><?php echo $linkto;?></a>
-                </td>
-
-                <td>
-                  <?php echo "<img style='width: 100%;' src='".base_url().$banner_img."'></img>"; ?> 
-                </td>
-
-                <!-- <td>
-                  <?php echo $order_no;?>
-                </td>
-
-                <td>
-                  <?php echo $flag;?>
-                </td> -->
-
-                <td>
-                  <?php echo $description;?>
-                </td>
-
-                <td>
-                  <?php echo $created;?>
-                </td>
-
-                <td>
-                  <?php echo $updated;?>
-                </td>
-
-                <td>
-                  <?php echo $user_id;?>
-                </td>
-
-                <!-- Trigger the modal with a button -->
-                <td>
-                  <?php echo form_open('Banner_cms/deleteBanner'); ?>
-                  <button type="button" style="width: 5em;" class="btn btn-info btn-sm" data-toggle="modal" data-target="#bannerModal" data-id="<?php echo $id; ?>">EDIT</button>
-                  <button type="submit" style="width: 5em;" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger btn-sm" data-id="<?php echo $id; ?>">DELETE</button>
-                  <input type="hidden" name="deleteBanner" value="<?php echo $id; ?>">
-                  <?php echo form_close(); ?>
-                </td>
-
-                  <?php
-                  echo "</tr>";
-                  }
-                ?>
                 </tbody>
               </table>
             </div>
           </div>
-          <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
-        </div>
+        </div> 
+    
 
-        <!-- ORDER PART -->
-        
-
-        <!-- END ORDER PART -->
-
-        <!-- Modal EDIT BANNER -->
-       <div id="bannerModal" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-md">
+        <!-- END BANNER PART -->
+        <div id="exampleModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <?php echo form_open('Form_banner_cms/update'); ?>
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <div class="modal-body" style="padding: 0!important;">
-                <!-- LOAD THE CONTENT -->
+              <div class="modal-body">
+                <!-- <b>
+                  About Us : 
+                </b> -->
+                <textarea name="text-banner" id="form10" class="md-textarea form-control modal-banner" rows="10"></textarea>
+                <button type="submit" class="btn btn-default btn-danger" >Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
-
+            
           </div>
+          <?php echo form_close(); ?>
         </div>
-        <!-- END EDIT BANNER -->
-
-
-        <!-- Modal ADD BANNER -->
-        <div id="bannerAddModal" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-md">
-            <div class="modal-content">
-              <div class="modal-body" style="padding: 0!important;">
-                <!-- LOAD THE CONTENT -->
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- END ADD BANNER -->
 
 
       </div>
@@ -166,16 +120,16 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/chart.js/Chart.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/jquery.dataTables.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/dataTables.bootstrap4.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/chart.js/Chart.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/jquery.dataTables.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/dataTables.bootstrap4.js'); ?>"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('assets/cms/js/sb-admin.min.js'); ?>"></script>
@@ -183,32 +137,21 @@
   <!-- Demo scripts for this page-->
   <script src="<?php echo base_url('assets/cms/js/demo/datatables-demo.js'); ?>"></script>
   <script src="<?php echo base_url('assets/cms/js/demo/chart-area-demo.js'); ?>"></script>
-
   <script type="text/javascript">
-   $('#bannerModal').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget);
-          var id = button.data('id');
+    
+    $('#exampleModal').on('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = $(event.relatedTarget); 
 
-          // console.log('Button Position ' + orderno);
-          var getBanner = '<?php echo base_url('Banner_cms/getBanner?id='); ?>';
+      // Extract info from data-* attributes
+      var banner = button.data('banner');
+      
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
 
-          $('.modal-body').load(getBanner + id,function(){
-            $('#bannerModal').modal({show:true});
-          });
-    });
-  </script>
+      modal.find('.modal-banner').val(banner);
+    });  
 
-  <script type="text/javascript">
-   $('#bannerAddModal').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget);
-         // var id = button.data('id');
-
-          // console.log('Button Position ' + orderno);
-          var getAddBanner = '<?php echo base_url('Banner_cms/getAddBanner?id='); ?>';
-
-          $('.modal-body').load(getAddBanner,function(){
-            $('#bannerAddModal').modal({show:true});
-          });
-    });
   </script>
 </body>

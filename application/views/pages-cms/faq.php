@@ -1,4 +1,4 @@
-  <div id="wrapper">
+<div id="wrapper">
 
     <!-- Sidebar -->
     <?php $this->load->view('templates-cms/frame_side'); ?>
@@ -6,99 +6,67 @@
     <div id="content-wrapper">
 
       <div class="container-fluid">
-        <!-- DataTables Example -->
-        
+
+        <!-- FAQ PART -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"
+        data-terms='<?php echo $faqs; ?>' style="font-size: 11px;margin-bottom: 1em;"><i class="fas fa-edit"></i> Edit FAQ</button>
         <div class="card mb-3">
           <div class="card-header">
-            <i class="fas fa-clipboard-list"></i>
-            <b>FAQ Info</b></div>
-          <div class="card-body" ">
+            <i class="fas fa-question-circle"></i>
+            <b>FAQ</b></div>
+          <div class="card-body" >
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" cellspacing="0" style="font-size:14px">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:12px"> 
                 <thead>
-                  <button type="button" class="btn btn-primary btn-sm" style="margin-bottom: 1em;" data-toggle="modal" data-target="#addFaq" ><i class="fas fa-plus-circle"></i> Add Faq</button>
-                  <tr>
-                    <th width="5px">No</th>
-                    <th width="5px">Title FAQ</th>
-                    <th width="5px">Content FAQ</th>
-                    <th width="5px">Action</th>
-                  </tr>
-                </thead>
+                <tr>
+                  <th>Content</th>
+                </tr>
+                </thead>   
                 <tbody>
-                  <?php
-               $no = 1;
-              foreach($faq->result() as $dt){
-                $id = $dt->REC_ID;
-                $titleFaq = $dt->CONTENT;
-                $contentFaq = $dt->ISI_FAQ;
+                  <?php 
+                    foreach($faq->result() as $dt){
                 
-                
-                echo "<tr>"; ?>
-
-                <td>
-                    <?php echo $no++;?>
-                </td>
-
-                <td>
-                  <?php echo $titleFaq;?>
-                </td>
-
-                <td>
-                  <?php echo $contentFaq;?>
-                </td>
-
-                <!-- Trigger the modal with a button -->
-                <td>
-                  <?php echo form_open('Faq_cms/deleteFaq'); ?>
-                  <button type="button" style="width: 5em;" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editFaq" data-id="<?php echo $id; ?>">EDIT</button>
-                  <button type="submit" style="width: 5em;" onclick="return confirm('Are you sure you want to delete this item?');" class="btn btn-danger btn-sm" data-id="<?php echo $id; ?>">DELETE</button>
-                  <input type="hidden" name="deleteFaq" value="<?php echo $id; ?>">
-                  <?php echo form_close(); ?>
-                </td>
-
-                  <?php
-                  echo "</tr>";
-                  }
-                ?>
+                      $faqs = $dt->CONTENT;
+                    }
+                  ?>
+                  <td>
+                    <label style="margin-left: 0.4em;font-size: 11px;"><?php echo $faqs; ?></label>
+                  </td>
                 </tbody>
               </table>
             </div>
           </div>
-          <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
-        </div>
+        </div>                     
 
-        <!-- ORDER PART -->
-        
+</div>
+<!-- end content -->
 
-        <!-- END ORDER PART -->
 
-        <!-- Modal EDIT BANNER -->
-       <div id="editFaq" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-md">
+        <!-- END BANNER PART -->
+         <div id="exampleModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <?php echo form_open('Form_faq_cms/update'); ?>
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <div class="modal-body" style="padding: 0!important;">
-                <!-- LOAD THE CONTENT -->
+              <div class="modal-header" style="background-color: #2dd6a7  ;padding: 0.2rem;">
+                <p style="color: white;margin-top: 0.5em; margin-left: 0.5em; font-size: 20px; font-weight: bold;">Edit FAQ</p>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              </div>  
+
+              <div class="modal-body">
+                <textarea name="text-faq" id="form10" class="textarea form-control modal-terms" style="height: 450px;width: 760px;"> <?php echo $faqs; ?></textarea>
               </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-info">Save</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+              </div>       
             </div>
-
+            
           </div>
+          <?php echo form_close(); ?>
         </div>
-        <!-- END EDIT BANNER -->
-
-
-        <!-- Modal ADD BANNER -->
-        <div id="addFaq" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-md">
-            <div class="modal-content">
-              <div class="modal-body" style="padding: 0!important;">
-                <!-- LOAD THE CONTENT -->
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <!-- END ADD BANNER -->
-
 
       </div>
       <!-- /.container-fluid -->
@@ -119,16 +87,16 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/chart.js/Chart.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/jquery.dataTables.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/dataTables.bootstrap4.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/chart.js/Chart.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/jquery.dataTables.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/dataTables.bootstrap4.js'); ?>"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('assets/cms/js/sb-admin.min.js'); ?>"></script>
@@ -138,37 +106,25 @@
   <script src="<?php echo base_url('assets/cms/js/demo/chart-area-demo.js'); ?>"></script>
 
   <script type="text/javascript">
-   $('#editFaq').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget);
-         var id = button.data('id');
+    
+    $('#exampleModal').on('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = $(event.relatedTarget); 
 
-          // console.log('Button Position ' + orderno);
-          var getEditFaq = '<?php echo base_url('Faq_cms/getEditFaq?id='); ?>';
+      // Extract info from data-* attributes
+      var faqs = button.data('faq');
+      
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
 
-          $('.modal-body').load(getEditFaq + id,function(){
-            $('#editFaq').modal({show:true});
-          });
-    });
+      modal.find('.modal-faq').val(faqs);
+    });  
+
   </script>
-
-  <script type="text/javascript">
-   $('#addFaq').on('show.bs.modal', function (event) {
-          var button = $(event.relatedTarget);
-         // var id = button.data('id');
-
-          // console.log('Button Position ' + orderno);
-          var getAddFaq = '<?php echo base_url('Faq_cms/getAddFaq?id='); ?>';
-
-          $('.modal-body').load(getAddFaq,function(){
-            $('#addFaq').modal({show:true});
-          });
-    });
-  </script>
-
-<script src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/tiny_mce/plugins/tinybrowser/tb_tinymce.js.php'); ?>"></script>
-<script src="<?php echo base_url('assets/js/tiny_mce/tiny_mce_setting.js'); ?>"></script>
-
+  <script src="<?php echo base_url('assets/cms/tiny_mce/tiny_mce.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/tiny_mce/plugins/tinybrowser/tb_tinymce.js.php'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/tiny_mce/tiny_mce_setting.js'); ?>"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",

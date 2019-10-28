@@ -499,6 +499,17 @@
 
         }
 
+        function set_as_current($recID){
+            $data = array(
+
+                'STATUS'  => 'CURRENT'
+            );
+
+            $this->db->where('REC_ID', $recID);
+            $this->db->update('g_convert', $data);
+
+        }
+
         function delete_margin($recID, $id){
              
             $this->db->where('REC_ID', $recID);
@@ -515,6 +526,16 @@
             $this->db->where('STATUS', 'CURRENT');
             $this->db->update('g_convert', $data);
 
+        }
+
+        function updateCurrentStatus() {
+
+            $data = array(
+                'STATUS' => 'CURRENT'
+            );
+
+            $this->db->where('STATUS', 'HISTORY');
+            $this->db->update('g_convert', $data);
 
         }
 //-------------------------------------------------------------------------------------------------------------------  MARGIN

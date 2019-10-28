@@ -1,35 +1,4 @@
-<script>
-function module_action(action, id){
-  document.form_action.target='_self';
-  document.form_action.id.value=id;
-  var path='<?php echo base_url('form_privacy_cms?id=');?>';
-  var path2='<?php echo base_url('form_privacy_cms/delete/');?>';
-  
-  switch (action) {
-  case 'EDIT':
-    
-    // tb_show('', 'blank.php?keepThis=true&TB_iframe=true&height=500&width=600&modal=true');
-    //document.form_action.target='TB_iframeContent';   
-    document.form_action.action=path+document.form_action.id.value;
-    break;  
-  // case 'EDIT_TERM':
-    
-  //   tb_show('', 'blank.php?keepThis=true&TB_iframe=true&height=500&width=600&modal=true');
-  //   document.form_action.target='TB_iframeContent';   
-  //   document.form_action.action=path3+document.form_action.id.value;
-  //   break;  
-  // case 'DELETE':
-  //   if (confirm('Please confirm deleting data')==false){ return false;} 
-  //   document.form_action.action=path2+'/'+document.form_action.id.value;
-  //   break;
-              
-  }
-  document.form_action.submit();
-}
-</script> 
-
-
-  <div id="wrapper">
+<div id="wrapper">
 
     <!-- Sidebar -->
     <?php $this->load->view('templates-cms/frame_side'); ?>
@@ -38,63 +7,36 @@ function module_action(action, id){
 
       <div class="container-fluid">
 
-        <!-- BANNER PART -->
-
-       <!-- start: Content -->
-    <div class="main" style="font-family:'Trebuchet MS', Arial, Helvetica, sans-serif">
-    
-    <form name="form_action" method="post">
-          <input type="hidden" name="id" value=""  />
-        </form>        
-                                       
-
-
-  <div class="row">
-        <div class="col-lg-12" id="tabel">
-          <div class="panel panel-default">
-            <div class="panel-heading" data-original-title>
-              <h2><span class="break"></span>Privacy</h2>
-            
-            </div>
-            <div class="panel-body">
-              <table id="subscription_table" name="subscription_table" class="table table-striped table-bordered bootstrap-datatable">
+        <!-- PRIVACY PART -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"
+        data-terms='<?php echo $privasi; ?>' style="font-size: 11px;margin-bottom: 1em;"><i class="fas fa-edit"></i> Edit Privacy</button>
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-address-book"></i>
+            <b>Privacy</b></div>
+          <div class="card-body" >
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:12px"> 
                 <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Action</th>
-
-                  </tr>
+                <tr>
+                  <th>Content</th>
+                </tr>
                 </thead>   
                 <tbody>
-                <tbody>
+                  <?php 
+                    foreach($privacy->result() as $dt){
                 
-                <?php 
-                foreach($privacy->result() as $dt){
-                 
-                 // <?php echo $userloop->CONTENT;
-                
-                $privasi = $dt->CONTENT;
-                }
-                 ?>
-                 <td>
-                   <?php echo $privasi; ?>
-                 </td>
-                <td>
-                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                  data-privasi='<?php echo $privasi; ?>'>EDIT</button>
-               </td>
+                      $privasi = $dt->CONTENT;
+                    }
+                  ?>
+                  <td>
+                    <label style="margin-left: 0.4em;font-size: 11px;"><?php echo $privasi; ?></label>
+                  </td>
                 </tbody>
-              </table> 
-
-   
+              </table>
             </div>
           </div>
-        </div><!--/col-->
-        
-                    <br/>
-        
-      </div><!--/row-->
-
+        </div> 
 </div>
 <!-- end content -->
 
@@ -105,13 +47,20 @@ function module_action(action, id){
           <?php echo form_open('Form_privacy_cms/update'); ?>
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
+              <div class="modal-header" style="background-color: #2dd6a7  ;padding: 0.2rem;">
+                <p style="color: white;margin-top: 0.5em; margin-left: 0.5em; font-size: 20px; font-weight: bold;">Edit Privacy</p>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              </div>  
+
               <div class="modal-body">
-                <b>
-                  Privacy : 
-                </b>
-                <textarea name="text-privasi" id="form10" class="md-textarea form-control modal-privasi" rows="10"><?php echo $privasi; ?></textarea>
-                <button type="submit" class="btn btn-default btn-danger" style="margin: 10px;">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <textarea name="text-privasi" id="form10" class="textarea form-control modal-terms" style="height: 450px;width: 760px;"> <?php echo $privasi; ?></textarea>
+              </div>
+              
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-default btn-info">Save</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
               </div>
             </div>
             
@@ -138,16 +87,16 @@ function module_action(action, id){
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/chart.js/Chart.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/jquery.dataTables.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/dataTables.bootstrap4.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/chart.js/Chart.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/jquery.dataTables.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/dataTables.bootstrap4.js'); ?>"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('assets/cms/js/sb-admin.min.js'); ?>"></script>
@@ -172,9 +121,9 @@ function module_action(action, id){
     });  
 
   </script>
-<script src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/js/tiny_mce/plugins/tinybrowser/tb_tinymce.js.php'); ?>"></script>
-  <script src="<?php echo base_url('assets/js/tiny_mce/tiny_mce_setting.js'); ?>"></script>
+<script src="<?php echo base_url('assets/cms/tiny_mce/tiny_mce.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/tiny_mce/plugins/tinybrowser/tb_tinymce.js.php'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/tiny_mce/tiny_mce_setting.js'); ?>"></script>
 <script type="text/javascript">
 tinymce.init({
     selector: "textarea",

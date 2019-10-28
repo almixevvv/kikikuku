@@ -1,7 +1,7 @@
 <style type="text/css" >
   
   body{
-    background-image: linear-gradient(to top, #2db4d6 0%, #18b589 100%);
+    background-image: linear-gradient(to bottom, #ffffff 0%, #18b589 100%);
   }
 
 
@@ -11,6 +11,11 @@
 
   <div class="container">
     <div class="card card-login mx-auto mt-5" style="background-color: transparent;border:transparent;">
+     <!--  <div class="card-header">
+        <div class="d-flex justify-content-center">
+          <img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Kikikuku Logo" style="width: 80%;">
+        </div>
+      </div> -->
       <div class="card-body">
         <div class="d-flex justify-content-center">
           <img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Kikikuku Logo" style="width: 100%;">
@@ -51,7 +56,7 @@
           <?php
             $dataSubmit = array(
               'type' => 'submit',
-              'style' => 'border : 1px solid #d6d6d6',
+              'style' => '',
               'class' => 'btn btn-info',
               'content' => 'LOGIN',
             );
@@ -65,10 +70,10 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="<?php echo base_url('assets/cms/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.compatibility.min.js"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
 </body>

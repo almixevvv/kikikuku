@@ -20,14 +20,14 @@
               <thead>
                 <tr>
                   <th width="5%">No</th>
-                  <th width="5%">ID</th>
+                  <th width="20%">ID</th>
                   <th width="5%">Value</th>
-                  <th width="20%">Description</th>
-                  <th width="15%">Created</th>
-                  <th width="15%">Updated</th>
+                  <th width="50%">Description</th>
+                  <!-- <th width="15%">Created</th> -->
+                  <!-- <th width="15%">Updated</th> -->
                   <th width="10%">Status</th>
-                  <th width="10%">Updated By</th>
-                  <th width="15%">Action</th>
+                  <!-- <th width="10%">Updated By</th> -->
+                  <th width="10%">Action</th>
                 </tr>
               </thead>   
               <tbody>
@@ -51,8 +51,9 @@
                   
                   <td>
                       <p style='line-height:20px;'>
-                        <b style="color: #2db4d6;"><?php echo $id;?></b>
-                        
+                        <b style="color: #2db4d6;"><?php echo $id;?></b><br><br>
+                        <label>Set as current parameter :</label>
+                        <button data-rec="<?php echo $rec;?>" class="buttonSet btn btn-warning"  style="width: 6em;font-size: 12px;color: white;" type="submit">SET</button>
                       </p>                        
                   </td>
 
@@ -63,26 +64,27 @@
                       </p>                        
                   </td>
 
-                   <td>
-                      <p style='line-height:20px;'>
-                        <?php echo $desc;?>
-                        
-                      </p>                        
+                  <td>
+                        <label><?php echo $desc;?></label><br><br>
+                        <b style="font-weight: bold;">Created</b><br>
+                        <label style="color: #2db4d6;"><?php echo $created;?></label><br>
+                        <b style="font-weight: bold;">Updated by</b><br>
+                        <label style="color: #2db4d6;"><?php echo $updatedby;?> on <?php echo $updated;?></label>                  
                   </td>
 
-                  <td>
+                 <!--  <td>
                       <p style='line-height:20px;'>
                         <?php echo $created;?>
                         
                       </p>                        
-                  </td>
+                  </td> -->
 
-                  <td>
+                  <!-- <td>
                       <p style='line-height:20px;'>
-                        <?php echo $updated;?>
+                        Updated by <?php echo $updatedby;?> <?php echo $updated;?>
                         
                       </p>                        
-                  </td>
+                  </td> -->
 
                   <td>
                       <p style='line-height:20px;'>
@@ -91,18 +93,18 @@
                       </p>                        
                   </td>
 
-                  <td>
+                  <!-- <td>
                       <p style='line-height:20px;'>
                         <b style="color: #2db4d6;"><?php echo $updatedby;?></b>
                         
                       </p>                        
-                  </td>
+                  </td> -->
                  
                   <td>
                     
-                     <button class="btn btn-info" type="button" style="width: 6em;font-size: 12px;" data-toggle="modal" data-target="#marginModal" data-id="<?php echo $rec; ?>">EDIT</button>
+                     <button class="btn btn-info" type="button" style="width: 6em;font-size: 12px;" data-toggle="modal" data-target="#marginModal" data-id="<?php echo $rec; ?>">EDIT</button><br>
                      
-                     <button data-rec="<?php echo $rec;?>" class="buttonDelete btn btn-danger"  style="width: 6em;font-size: 12px;" type="submit">DELETE</button>
+                     <button data-rec="<?php echo $rec;?>" class="buttonDelete btn btn-danger"  style="width: 6em;font-size: 12px;margin-top:0.5em; " type="submit">DELETE</button>
                      
                      
                   </td>
@@ -166,16 +168,16 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/chart.js/Chart.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/jquery.dataTables.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/dataTables.bootstrap4.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/chart.js/Chart.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/jquery.dataTables.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/dataTables.bootstrap4.js'); ?>"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('assets/cms/js/sb-admin.min.js'); ?>"></script>
@@ -248,6 +250,48 @@
             $.ajax({
                 type: "POST",
                 url:"<?php echo base_url('Margin_cms/deleteMargin'); ?>",
+                data: {hiddenREC:id},
+                success: function(data) {
+                  console.log(data);
+                  location.reload();
+                }
+            });
+        }
+      });
+    });
+
+  });
+
+  $(document).ready(function() {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false,
+    });
+
+    $('.buttonSet').on('click', function() {
+      var id=$(this).attr("data-rec");
+      swal.fire({
+        title:"Set as Current Parameter",
+        text:"Are you sure you want to set this margin into current parameter?",
+        type: "warning",
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Confirm",
+        confirmButtonColor: '#3085d6'
+      }).then((result) => {
+          if (result.value) {
+            swalWithBootstrapButtons.fire(
+              'Success!',
+              'Selected margin has been set to current parameter.',
+              'success'
+            );
+            $.ajax({
+                type: "POST",
+                url:"<?php echo base_url('Margin_cms/setAsCurrent'); ?>",
                 data: {hiddenREC:id},
                 success: function(data) {
                   console.log(data);

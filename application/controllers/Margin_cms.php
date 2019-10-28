@@ -104,6 +104,30 @@ class Margin_cms extends CI_Controller {
 		redirect('cms/margin');
 	}
 
+	public function setAsCurrent(){
+
+		// $this->output->enable_profiler(TRUE);
+		$this->load->library('upload');
+
+		$this->load->model('M_cms', 'cms');
+		$recID = $this->input->post('hiddenREC');
+
+
+		// $recID = $this ->input->post('margin_rec');
+		// $id = $this->input->post('margin_id');
+		// $value = $this->input->post('margin_value');
+		// $description = $this->input->post('margin_desc');
+		// $created = date('Y-m-d H:i:s');
+
+
+        //UPDATE PREVIOUS DATA
+        $this->cms->updateStatus();
+		$this->cms->set_as_current($recID);
+        
+
+		// redirect('cms/margin');
+	}
+
 	public function deleteMargin(){
 
 		// $this->output->enable_profiler(TRUE);

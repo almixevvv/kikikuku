@@ -1,33 +1,3 @@
-<script>
-function module_action(action, id){
-  document.form_action.target='_self';
-  document.form_action.id.value=id;
-  var path='<?php echo base_url('form_contact_cms?id=');?>';
-  var path2='<?php echo base_url('form_contact_cms/delete/');?>';
-  
-  switch (action) {
-  case 'EDIT':
-    
-    // tb_show('', 'blank.php?keepThis=true&TB_iframe=true&height=500&width=600&modal=true');
-    //document.form_action.target='TB_iframeContent';   
-    document.form_action.action=path+document.form_action.id.value;
-    break;  
-  // case 'EDIT_TERM':
-    
-  //   tb_show('', 'blank.php?keepThis=true&TB_iframe=true&height=500&width=600&modal=true');
-  //   document.form_action.target='TB_iframeContent';   
-  //   document.form_action.action=path3+document.form_action.id.value;
-  //   break;  
-  // case 'DELETE':
-  //   if (confirm('Please confirm deleting data')==false){ return false;} 
-  //   document.form_action.action=path2+'/'+document.form_action.id.value;
-  //   break;
-              
-  }
-  document.form_action.submit();
-}
-</script> 
-
 <div id="wrapper">
 
     <!-- Sidebar -->
@@ -37,64 +7,56 @@ function module_action(action, id){
 
       <div class="container-fluid">
 
-        <!-- BANNER PART -->
-
-       <!-- start: Content -->
-    <div class="main" style="font-family:'Trebuchet MS', Arial, Helvetica, sans-serif">
-    
-    <form name="form_action" method="post">
-          <input type="hidden" name="id" value=""  />
-        </form>        
-                                       
-
-
-  <div class="row">
-        <div class="col-lg-12" id="tabel">
-          <div class="panel panel-default">
-            <div class="panel-heading" data-original-title>
-              <h2><span class="break"></span>Contact Us</h2>
-            
-            </div>
-            <div class="panel-body">
-              <table id="subscription_table" name="subscription_table" class="table table-striped table-bordered bootstrap-datatable">
+        <!-- CONTACT PART -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-address-book"></i>
+            <b>Contact Us</b></div>
+          <div class="card-body" >
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="font-size:12px"> 
                 <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Action</th>
-                  </tr>
+                <tr>
+                  <th width="5%">No</th>
+                  <th width="30%">Title</th>
+                  <th width="60%">Description</th>
+                  <th width="5%">Action</th>
+                </tr>
                 </thead>   
                 <tbody>
-                <?php 
-                foreach($contact->result() as $dt){
-                 
-                 // <?php echo $userloop->CONTENT;
-                
-                $contact = $dt->TITLE;
-                }
-                 ?>
-                 <td>
-                   <?php echo $contact; ?>
-                 </td>
-                <td>
-                 <!--  <button class="btn btn-info"  data-toggle="lightbox"  onclick="module_action('EDIT','<?php echo $userloop->REC_ID;?>');" style="width: 80px;" type="button">EDIT
-                 </button> -->
-                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                  data-contact='<?php echo $contact; ?>'>EDIT</button>
-               </td>
+                  <?php 
+                  $no = 1;
+                    foreach($content->result() as $dt) :
+                      $id = $dt->REC_ID;
+                      $title = $dt->TITLE;
+                      $desc = $dt->DESCRIPTION;
+                      $img = $dt->IMAGE;
+                    
+                  ?>
+                  <tr>
+                    <td>
+                      <?php echo $no; ?>
+                    </td>
+                    <td>
+                      <label style="margin-left: 0.4em;"><img width="30px" src="<?php echo base_url('assets/images/'.$img) ; ?>"></label>
+                      <label style="margin-left: 0.4em;"><?php echo $title; ?></label>
+                    </td>
+                    <td>
+                      <label style="margin-left: 0.4em;"><?php echo $desc; ?></label>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"
+                      data-id="<?php echo $id; ?>" style="font-size: 12px;width: 6em;">EDIT</button>
+                    </td>
+                  </tr>
+                  <?php 
+                  $no++;
+                  endforeach; ?>
                 </tbody>
-              </table> 
-
-   
+              </table>
             </div>
           </div>
-        </div>
-
-
-        <!--/col-->
-        
-                    <br/>
-        
-      </div><!--/row-->
+        </div> 
 
 </div>
 <!-- end content -->
@@ -103,24 +65,14 @@ function module_action(action, id){
         <!-- END BANNER PART -->
         <!-- Modal -->
         <div id="exampleModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <?php echo form_open('Form_contact_cms/update'); ?>
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <div class="modal-body">
-                <b>
-                  Contact Us : 
-                </b>
-                <textarea name="text-contact" id="form10" class="md-textarea form-control modal-contact" rows="10"><?php echo $contact; ?></textarea>
-                <button type="submit" class="btn btn-default btn-danger" style="margin: 10px;">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <div class="modal-body" style="padding: 0!important;">
+                <!-- LOAD THE CONTENT -->
               </div>
             </div>
-            
           </div>
-          <?php echo form_close(); ?>
         </div>
-
-      </div>
       <!-- /.container-fluid -->
 
       <!-- Sticky Footer -->
@@ -139,16 +91,16 @@ function module_action(action, id){
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery/jquery.min.js');?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery/jquery.min.js');?>"></script>
+  <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.bundle.min.js'); ?>"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/jquery-easing/jquery.easing.min.js'); ?>"></script>
 
   <!-- Page level plugin JavaScript-->
-  <script src="<?php echo base_url('assets/cms/vendor/chart.js/Chart.min.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/jquery.dataTables.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/cms/vendor/datatables/dataTables.bootstrap4.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/chart.js/Chart.min.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/jquery.dataTables.js'); ?>"></script>
+  <script src="<?php echo base_url('assets/cms/datatables/dataTables.bootstrap4.js'); ?>"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?php echo base_url('assets/cms/js/sb-admin.min.js'); ?>"></script>
@@ -162,31 +114,17 @@ function module_action(action, id){
     $('#exampleModal').on('show.bs.modal', function (event) {
       // Button that triggered the modal
       var button = $(event.relatedTarget); 
+      var id = button.data('id');
 
-      // Extract info from data-* attributes
-      var contacts = button.data('contact');
+      // Extract info from data-* attributes 
+      var getContact = '<?php echo base_url('Contact_cms/getContact?id='); ?>';
       
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this);
+      $('.modal-body').load(getContact + id,function(){
 
-      modal.find('.modal-contact').val(contacts);
+      });
+      
     });  
 
   </script>
-<script src="<?php echo base_url('assets/js/tiny_mce/tiny_mce.js'); ?>"></script>
-  <script src="<?php echo base_url('assets/js/tiny_mce/plugins/tinybrowser/tb_tinymce.js.php'); ?>"></script>
-  <script src="<?php echo base_url('assets/js/tiny_mce/tiny_mce_setting.js'); ?>"></script>
-<script type="text/javascript">
-tinymce.init({
-    selector: "textarea",
-    plugins: [
-        "advlist autolink lists link image charmap print preview anchor",
-        "searchreplace visualblocks code fullscreen",
-        "insertdatetime media table paste"
-    ],
-    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-});
-</script>
 
 </body>

@@ -1,8 +1,8 @@
 <body id="page-top">
-  <nav class="navbar navbar-expand navbar-dark static-top" style="background-color: #2dd6a7;">
+  <nav class="navbar navbar-expand navbar-dark static-top" style="background-color: #ebebeb;">
     <img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Kikikuku Logo" style="width: 10%;">
 
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+    <button class="btn btn-link btn-sm text order-1 order-sm-0" id="sidebarToggle" href="#" style="color: #6c757d;">
       <i class="fas fa-bars"></i>
     </button>
 
@@ -20,8 +20,8 @@
 
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
-      <li class="nav-item dropdown no-arrow mx-1">
-        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <!-- <li class="nav-item dropdown no-arrow mx-1"> -->
+        <!-- <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-bell fa-fw" style="color: white;"></i>
           <span class="badge badge-danger">9+</span>
         </a>
@@ -30,28 +30,39 @@
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
+        </div> -->
+      <!-- </li> -->
       <li class="nav-item dropdown no-arrow mx-1">
         <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-envelope fa-fw" style="color: white;"></i>
-          <span class="badge badge-danger">7</span>
+            <!-- <?php
+              foreach ($new_order->result() as $total_new_order);
+            ?>
+            <button type="button" class="btn btn" style="background-color: #2db4d6;color: #ebebeb;font-size: 14px;border: white;"><?php echo $total_new_order->new_order; ?>
+            </button> 
+            <label style="font-size: 12px;color: #6c757d;border: #6c757d; margin-right: 1em;">New Order</label> -->
+
+            <?php
+              foreach ($unview_order->result() as $total_unview_order);
+            ?>
+            <button type="button" class="btn btn" style="background-color: #2db4d6;color: #ebebeb;font-size: 14px;margin-left: 2em;border: white;"><?php echo $total_unview_order->unview_order; ?>
+            </button>
+            <label style="font-size: 12px;color: #6c757d;margin-right: 1em;">Incoming Order</label>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+        <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
           <a class="dropdown-item" href="#">Action</a>
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
-        </div>
+        </div> -->
       </li>
       <li class="nav-item dropdown no-arrow">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-user-circle fa-fw" style="color: white;"></i>
+          <i class="fas fa-sign-out-alt" style="color: #2db4d6;font-size: 20px;margin-top: 0.38em;"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">Settings</a>
+          <!-- <a class="dropdown-item" href="#">Settings</a>
           <a class="dropdown-item" href="#">Activity Log</a>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider"></div> -->
           <a id="buttonLogOut" class="dropdown-item" href="#" >Logout</a>
         </div>
       </li>
