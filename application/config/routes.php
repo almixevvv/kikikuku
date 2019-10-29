@@ -119,7 +119,3 @@ $route['preorder_success']= 'page_success/preorder_success';
 $route['forgot_pass_success']= 'page_success/forgot_pass_success';
 $route['verify']= 'page_success/verify';
 $route['history_order']= 'history_order/view';
-
-/* API PATH */
-$route['api/register']= 'API/Register';
-$route['api/debug_member'] = 'API/getMember';

@@ -9,7 +9,7 @@
 			$query = $this->db->get();
 
 			return $query;
-    }
+    	}
 
 		function sentResetPassword($data) {
 
