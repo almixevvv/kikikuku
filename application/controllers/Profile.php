@@ -36,6 +36,24 @@ class Profile extends CI_Controller {
 
 		}
 
+		public function myprofile() {
+
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+			$this->load->view('templates/header');
+			$this->load->view('templates/navbar');
+	    	$this->load->view('pages/profile/profile', $data);
+	    	$this->load->view('templates/footer');
+
+		}
+
 		public function getMessages() {
 
 			$orderID = $this->input->get('id');

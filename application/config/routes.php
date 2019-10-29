@@ -67,6 +67,7 @@ $route['verification'] = 'register/verification';
 
 /* User Profile Part */
 $route['profile/transaction'] = 'Profile/transaction';
+$route['profile/myprofile'] = 'Profile/myprofile';
 $route['profile/history/:any'] = 'Profile/history';
 
 /* Reset Password Part */

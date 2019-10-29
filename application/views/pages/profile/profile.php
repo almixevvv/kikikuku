@@ -1,0 +1,219 @@
+<style type="text/css">
+  
+  .profile-button {
+    background: #ffffff;
+    border: 1px solid #24ca9d;
+    border-radius: 10px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-right: 0.5em;
+    text-align: center;
+    font-size: 0.7em;
+    margin-top: 0.3em;
+  }
+
+
+</style>
+<div class="trans-container">
+
+  <div class="trans-inner-container">
+    
+<?php 
+  
+  //Counter Variable to diferentiate each form id
+  $counter = 1;
+
+?>
+
+    <!-- FILTER BUTTON -->
+    <div class="row" id="trans-filter-separator-desktop">
+      
+      <div class="trans-filter-container-left">
+        <?php if($this->session->LOGGED_IN != null): ?>
+        <i class="far fa-user"></i> <span style="font-weight: bold;"><?php echo $this->session->FIRST_NAME; ?> <?php echo $this->session->LAST_NAME; ?></span>
+        <?php endif; ?>
+      </div>
+
+    </div>
+    <!-- END OF FILTER BUTTON -->
+
+    <!-- FILTER BUTTON MOBILE -->
+    <div class="row" id="trans-filter-separator-mobile">
+      
+      <div class="row">
+        <div class="col-12 pl-1 pr-1">
+        <?php if($this->session->LOGGED_IN != null): ?>
+        <i class="far fa-user"></i> <span style="font-weight: bold;"><?php echo $this->session->FIRST_NAME; ?> <?php echo $this->session->LAST_NAME; ?></span>
+        <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- END OF FILTER BUTTON MOBILE -->
+
+    <?php foreach($memberDetails->result() as $master): ?>
+    <!-- MAIN TRANSACTION -->
+    <div class="trans-main-container">
+      
+      <div class="row container-border-main"> 
+        <div class="col-12">
+          
+          <!-- TRANS DATE -->
+          <div class="row container-border-date">
+            <div class="col-12 col-md-5 col-lg-5 col-xl-5 pb-1 pb-md-1 pb-lg-1 pb-xl-1">
+              <span class="main-color" style="font-weight: bold">My Profile</span>
+            </div>
+          </div>
+          <!-- END OF TRANS DATE -->
+
+          <!-- MAIN TRANS PART -->
+          <div class="row container-border-order-number">
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
+              <div class="row">
+                <div class="col-12">
+                  <img style="width: 95%;" src="<?php echo base_url('assets/images/no-image.png') ?>">
+                </div>
+              </div>
+
+              <div class="trans-filter-button" style="margin-top: 1em;">
+                <a href="<?php echo base_url(''); ?>">
+                  <span class="text-uppercase main-color"><i class="fas fa-image"></i> Choose Photo</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
+              <div class="row">
+                <div class="col-12">
+                  <span>Name</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->FIRST_NAME; ?> <?php echo $master->LAST_NAME; ?> </span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 2em;">
+                <div class="col-12">
+                  <span>Birth Date</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo date("d F Y", strtotime($master->BIRTH_DATE));?></span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 2em;">
+                <div class="col-2">
+                  <span>Email</span>
+                </div>
+                <div class="col-3 pl-3 pr-0">
+                    <div class="profile-button">
+                      <a href="<?php echo base_url(''); ?>">
+                        <span class="main-color">EDIT</span>
+                      </a>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->EMAIL; ?></span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 2em;">
+                <div class="col-2">
+                  <span>Phone</span>
+                </div>
+                <div class="col-3 pl-3 pr-0">
+                    <div class="profile-button">
+                      <a href="<?php echo base_url(''); ?>">
+                        <span class="main-color">EDIT</span>
+                      </a>
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->PHONE; ?></span>
+                </div>
+              </div>
+
+              <div class="trans-filter-button" style="margin-top: 4em;">
+                <a href="<?php echo base_url(''); ?>">
+                  <span class="text-uppercase main-color"><i class="fas fa-key"></i> Change Password</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order-last">
+              <div class="row">
+                <div class="col-12">
+                  <span>Address</span>
+                </div>
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->ADDRESS; ?></span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 2em;">
+                <div class="col-12">
+                  <span>Address 2</span>
+                </div>
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->ADDRESS_2; ?></span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 2em;">
+                <div class="col-12">
+                  <span>Country</span>
+                </div>
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->COUNTRY; ?></span>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 2em;">
+                <div class="col-12">
+                  <span>Province</span>
+                </div>
+                <div class="col-12">
+                  <span class="main-color font-weight-bold"><?php echo $master->PROVINCE; ?> - <?php echo $master->ZIP; ?> </span>
+                </div>
+              </div>
+
+              <div class="trans-filter-button" style="margin-top: 4em;">
+                <a href="<?php echo base_url(''); ?>">
+                  <span class="text-uppercase main-color"><i class="fas fa-map-marker-alt"></i> Edit Address</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          
+          <!-- END OF MAIN TRANS PART -->
+
+        </div>
+      </div>
+    </div>
+    <!-- END OF MAIN TRANSACTION -->
+    <?php $counter++; ?>
+    <?php endforeach; ?>
+
+  </div>
+
+</div>
+
+
+<!-- END OF MODAL PART -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.js'); ?>"></script>
+

@@ -5,6 +5,18 @@ class M_profile extends CI_Model{
 		parent::__construct();
 	}
 
+	function getMemberDetails($email) {
+
+		$this->db->select('*');
+		$this->db->from('g_member');
+		$this->db->where('EMAIL', $email);
+
+		$query = $this->db->get();
+
+		return $query;
+
+	}
+
 	function insert_rules($data){
 		$this->db->insert('g_rules', $data);
 	}

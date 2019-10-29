@@ -67,6 +67,7 @@
 			</span>
 			<div class="dropdown-menu" aria-labelledby="dropdown-account-mobile" >
 				<a class="dropdown-item" href="<?php echo base_url('profile/transaction'); ?>">Dashboard</a>
+				<a class="dropdown-item" href="<?php echo base_url('profile/myprofile'); ?>">Profile</a>
 				<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 			</div>
 			<?php else: ?>
@@ -162,6 +163,7 @@
 				</span>
 				<div class="dropdown-menu" aria-labelledby="dropdown-account" >
 					<a class="dropdown-item" href="<?php echo base_url('profile/transaction'); ?>">Dashboard</a>
+					<a class="dropdown-item" href="<?php echo base_url('profile/myprofile'); ?>">Profile</a>
 					<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 				</div>
 				<?php else: ?>
