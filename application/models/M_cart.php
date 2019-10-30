@@ -27,6 +27,25 @@
         }
     }
 
+    function getCartItems($hash, $email) {
+
+        $this->db->select('*');
+        $this->db->from('g_cart');
+        $this->db->where('CART_ID', $hash);
+        $this->db->where('PRODUCT_BUYER', $email);
+        $this->db->order_by('REC_ID', 'ASC');
+
+        $query = $this->db->get();
+
+        return $query;
+
+    }
+
+    function insertCartData($data) {
+
+        return $this->db->insert('g_cart', $data);
+    }
+
     function insertMasterData($data) {
 
       return $this->db->insert('g_order_master', $data);
@@ -61,4 +80,3 @@
       return $query;
     }
 }
-?>

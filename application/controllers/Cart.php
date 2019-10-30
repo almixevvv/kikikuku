@@ -30,11 +30,11 @@ class Cart extends CI_Controller {
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');
 		$this->load->view('pages/cart/mycart', $data);
-    $this->load->view('templates/footer');
+    	$this->load->view('templates/footer');
 
 	}
 
-	public function addtocart(){
+	public function addtocart() {
 
 		if($this->input->post('customer-notes') == null) {
 			$productNotes = '';
