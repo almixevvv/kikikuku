@@ -41,6 +41,30 @@
 
     }
 
+    function updateCartContents($productID, $productBuyer, $updateArray) {
+
+        $this->db->set($updateArray);
+        $this->db->where('PRODUCT_BUYER', $productBuyer);
+        $this->db->where('PRODUCT_ID', $productID);
+        
+        $query = $this->db->update('g_cart');
+
+        return $query;
+
+    }
+
+    function deleteItem($hashTrans, $productID, $productBuyer) {
+
+        $this->db->where('CART_ID', $hashTrans);
+        $this->db->where('PRODUCT_BUYER', $productBuyer);
+        $this->db->where('PRODUCT_ID', $productID);
+
+        $query = $this->db->delete('g_cart');
+
+        return $query;
+
+    }
+
     function insertCartData($data) {
 
         return $this->db->insert('g_cart', $data);

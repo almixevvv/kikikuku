@@ -13,6 +13,9 @@ class API extends REST_Controller {
 		$this->load->model('M_user', 'user');
 		$this->load->model('M_cart', 'carts');
 		// $this->output->enable_profiler(TRUE);
+
+		//DEBUG LAST QUERY
+		// echo $this->db->last_query()
 		
 	}
 
@@ -229,12 +232,63 @@ class API extends REST_Controller {
 		}
 	}
 
-	public function cart_update() {
+	//Delete the items
+	public function cart_delete() {
+
+		$hashTrans 		= sha1(date("Y/m/d"));
+		$productID 		= $this->delete('product-id');
+		$productBuyer 	= $this->delete('product-buyer');
+
+		$queryDelete = $this->carts->deleteItem($hashTrans, $productID, $productBuyer);
+
+		if($queryDelete) {
+
+			//Query successfull
+			$this->response([
+				'status' 	=> 'ok',
+				'message' 	=> 'item deleted',
+				'code' 		=> REST_Controller::HTTP_OK,
+			], REST_Controller::HTTP_OK);
+		} else {
+
+			//Query failed
+			$this->response([
+				'status' 	=> 'error',
+				'message' 	=> 'item cannot be deleted',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
+			], REST_Controller::HTTP_BAD_REQUEST);
+		}
+
+	}
+
+	//Update the cart content
+	public function cart_put() {
 
 		$productID 		= $this->put('product-id');
 		$productBuyer 	= $this->put('product-buyer');
+		$newQty			= $this->put('product-quantity');
+		$newNotes		= $this->put('product-notes');
 
+		$updateArray = array(
+			'PRODUCT_QUANTITY'	=> $newQty,
+			'PRODUCT_NOTES'		=> $newNotes
+		);
 
+		$updateQuery = $this->carts->updateCartContents($productID, $productBuyer, $updateArray);
+
+		if($updateQuery) {
+			$this->response([
+				'status' 	=> 'ok',
+				'message' 	=> 'item updated',
+				'code' 		=> REST_Controller::HTTP_ACCEPTED,
+			], REST_Controller::HTTP_ACCEPTED);
+		} else {
+			$this->response([
+				'status' 	=> 'error',
+				'message' 	=> 'item not updated',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
+			], REST_Controller::HTTP_BAD_REQUEST);
+		}
 
 	}
 
