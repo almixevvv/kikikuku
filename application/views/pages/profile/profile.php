@@ -179,15 +179,10 @@
               <div class="trans-filter-button" style="">
                 <a href="<?php echo base_url('#'); ?>"
                   data-id="<?php echo $master->ID; ?>"  
-                  data-toggle="modal" data-target="#addressModal">
+                  data-toggle="modal" data-target="#photoModal">
                   <span class="text-uppercase main-color"><i class="fas fa-image"></i> Change Photo</span>
                 </a>
               </div>
-
-              <center>
-                <input type="file" name="file_photo" data-multiple-caption="{count} files selected" style="margin-left: 4em; margin-top: 2em;">
-                <label class="navbar-text">Allowed file extension: .JPG .JPEG .PNG</label>
-              </center>
             </div>
 
             <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order-last">
@@ -259,6 +254,17 @@
 
   </div>
 </div>
+
+<div id="photoModal" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 0!important;">
+        <!-- LOAD THE CONTENT -->
+      </div>
+    </div>
+
+  </div>
+</div>
 <!-- END OF MODAL PART -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -299,6 +305,18 @@ $('#phoneModal').on('show.bs.modal', function (event) {
 
   $('.modal-body').load(changePhone + id,function(){
     $('#phoneModal').modal({show:true});
+  });
+});
+
+$('#photoModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var id = button.data('id');
+
+  // console.log('Button Position ' + orderno);
+  var changePhoto = '<?php echo base_url('Profile/changePhoto?id='); ?>';
+
+  $('.modal-body').load(changePhoto + id,function(){
+    $('#photoModal').modal({show:true});
   });
 });
 

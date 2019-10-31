@@ -113,6 +113,53 @@ class Profile extends CI_Controller {
 			redirect('profile/myprofile');
 		}
 
+		public function changePhoto() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-photo', $data);
+
+		}
+
+		public function updatePhoto() {
+
+			// $this->output->enable_profiler(TRUE);
+
+		   	$this->load->helper('form');
+			$this->load->library('upload');
+
+			$this->load->model('M_profile', 'cms');
+
+			$defaultPath = '/assets/images/member-img/'.$_FILES['file_name']['name'];
+			
+			$id = $this->input->post('id');
+			$file  = $defaultPath;
+
+			$this->cms->updatePhoto($id, $defaultPath);
+
+	    	$config['upload_path']   = './assets/images/member-img/';
+	    	$config['allowed_types'] = 'jpeg|jpg|png';
+
+			$this->upload->initialize($config);
+
+			if ( !$this->upload->do_upload('file_name')) {
+				echo $this->upload->display_errors();
+			} else {
+					$this->upload->data();
+					redirect('profile/myprofile');
+					// $this->set('showModal',true);
+		   	}
+
+		}
 
 		public function changeAddress() {
 
