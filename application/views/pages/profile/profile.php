@@ -79,13 +79,6 @@
                   <?php endif; ?>
                 </div>
               </div>
-
-              <center>
-                <input type="file" name="file_photo" data-multiple-caption="{count} files selected" style="margin-left: 4em; margin-top: 2em;">
-                <label class="navbar-text">Allowed file extension: .JPG .JPEG .PNG</label>
-              </center>
-              
-
             </div>
 
             <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
@@ -115,13 +108,6 @@
                 <div class="col-2">
                   <span>Email</span>
                 </div>
-                <div class="col-3 pl-3 pr-0">
-                    <div class="profile-button">
-                      <a href="<?php echo base_url(''); ?>">
-                        <span class="main-color">EDIT</span>
-                      </a>
-                    </div>
-                </div>
               </div>
 
               <div class="row">
@@ -131,12 +117,14 @@
               </div>
 
               <div class="row" style="margin-top: 2em;">
-                <div class="col-2">
-                  <span>Phone</span>
+                <div class="col-5">
+                  <span>Phone Number</span>
                 </div>
                 <div class="col-3 pl-3 pr-0">
                     <div class="profile-button">
-                      <a href="<?php echo base_url(''); ?>">
+                      <a href="<?php echo base_url('#'); ?>"
+                        data-id="<?php echo $master->ID; ?>"  
+                        data-toggle="modal" data-target="#phoneModal">
                         <span class="main-color">EDIT</span>
                       </a>
                     </div>
@@ -146,14 +134,6 @@
                 <div class="col-12">
                   <span class="main-color font-weight-bold"><?php echo $master->PHONE; ?></span>
                 </div>
-              </div>
-
-              <div class="trans-filter-button" style="margin-top: 4em;">
-                <a href="<?php echo base_url('#'); ?>"
-                  data-id="<?php echo $master->ID; ?>"  
-                  data-toggle="modal" data-target="#passwordModal"> 
-                  <span class="text-uppercase main-color"><i class="fas fa-key"></i> Change Password</span>
-                </a>
               </div>
             </div>
 
@@ -193,8 +173,35 @@
                   <span class="main-color font-weight-bold"><?php echo $master->PROVINCE; ?> - <?php echo $master->ZIP; ?> </span>
                 </div>
               </div>
+            </div>
 
-              <div class="trans-filter-button" style="margin-top: 4em;">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order-last">
+              <div class="trans-filter-button" style="">
+                <a href="<?php echo base_url('#'); ?>"
+                  data-id="<?php echo $master->ID; ?>"  
+                  data-toggle="modal" data-target="#addressModal">
+                  <span class="text-uppercase main-color"><i class="fas fa-image"></i> Change Photo</span>
+                </a>
+              </div>
+
+              <center>
+                <input type="file" name="file_photo" data-multiple-caption="{count} files selected" style="margin-left: 4em; margin-top: 2em;">
+                <label class="navbar-text">Allowed file extension: .JPG .JPEG .PNG</label>
+              </center>
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order-last">
+              <div class="trans-filter-button" style="">
+                <a href="<?php echo base_url('#'); ?>"
+                  data-id="<?php echo $master->ID; ?>"  
+                  data-toggle="modal" data-target="#passwordModal"> 
+                  <span class="text-uppercase main-color"><i class="fas fa-key"></i> Change Password</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order-last">
+              <div class="trans-filter-button" style="">
                 <a href="<?php echo base_url('#'); ?>"
                   data-id="<?php echo $master->ID; ?>"  
                   data-toggle="modal" data-target="#addressModal">
@@ -241,6 +248,17 @@
 
   </div>
 </div>
+
+<div id="phoneModal" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 0!important;">
+        <!-- LOAD THE CONTENT -->
+      </div>
+    </div>
+
+  </div>
+</div>
 <!-- END OF MODAL PART -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -269,6 +287,18 @@ $('#addressModal').on('show.bs.modal', function (event) {
 
   $('.modal-body').load(changeAddress + id,function(){
     $('#addressModal').modal({show:true});
+  });
+});
+
+$('#phoneModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var id = button.data('id');
+
+  // console.log('Button Position ' + orderno);
+  var changePhone = '<?php echo base_url('Profile/changePhone?id='); ?>';
+
+  $('.modal-body').load(changePhone + id,function(){
+    $('#phoneModal').modal({show:true});
   });
 });
 
