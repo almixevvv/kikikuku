@@ -17,6 +17,21 @@ class M_profile extends CI_Model{
 
 	}
 
+	function updateAddress($id, $add1, $add2, $country, $province, $zip){
+
+            $data = array(
+
+                'ADDRESS' => $add1,
+                'ADDRESS_2'  => $add2,
+                'COUNTRY' => $country,
+                'PROVINCE' => $province,
+                'ZIP' => $zip,
+            );
+
+            $this->db->where('ID', $id);
+            $this->db->update('g_member', $data);
+        }
+
 	function insert_rules($data){
 		$this->db->insert('g_rules', $data);
 	}

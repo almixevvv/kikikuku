@@ -12,7 +12,6 @@
     margin-top: 0.3em;
   }
 
-
 </style>
 <div class="trans-container">
 
@@ -73,15 +72,20 @@
             <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
               <div class="row">
                 <div class="col-12">
+                  <?php if ($master->IMAGE == ''): ?>
                   <img style="width: 95%;" src="<?php echo base_url('assets/images/no-image.png') ?>">
+                  <?php else: ?>
+                  <img style="margin-left: 3em;width: 70%;" src="<?php echo base_url($master->IMAGE); ?>">
+                  <?php endif; ?>
                 </div>
               </div>
 
-              <div class="trans-filter-button" style="margin-top: 1em;">
-                <a href="<?php echo base_url(''); ?>">
-                  <span class="text-uppercase main-color"><i class="fas fa-image"></i> Choose Photo</span>
-                </a>
-              </div>
+              <center>
+                <input type="file" name="file_photo" data-multiple-caption="{count} files selected" style="margin-left: 4em; margin-top: 2em;">
+                <label class="navbar-text">Allowed file extension: .JPG .JPEG .PNG</label>
+              </center>
+              
+
             </div>
 
             <div class="col-12 col-md-4 col-lg-4 col-xl-4 mt-2 mt-md-2 mt-lg-2 mt-xl-2 container-border-order">
@@ -145,7 +149,9 @@
               </div>
 
               <div class="trans-filter-button" style="margin-top: 4em;">
-                <a href="<?php echo base_url(''); ?>">
+                <a href="<?php echo base_url('#'); ?>"
+                  data-id="<?php echo $master->ID; ?>"  
+                  data-toggle="modal" data-target="#passwordModal"> 
                   <span class="text-uppercase main-color"><i class="fas fa-key"></i> Change Password</span>
                 </a>
               </div>
@@ -189,8 +195,10 @@
               </div>
 
               <div class="trans-filter-button" style="margin-top: 4em;">
-                <a href="<?php echo base_url(''); ?>">
-                  <span class="text-uppercase main-color"><i class="fas fa-map-marker-alt"></i> Edit Address</span>
+                <a href="<?php echo base_url('#'); ?>"
+                  data-id="<?php echo $master->ID; ?>"  
+                  data-toggle="modal" data-target="#addressModal">
+                  <span class="text-uppercase main-color"><i class="fas fa-map-marker-alt"></i> Change Address</span>
                 </a>
               </div>
             </div>
@@ -211,9 +219,58 @@
 
 </div>
 
+<!-- MODAL PART -->
+<div id="passwordModal" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 0!important;">
+        <!-- LOAD THE CONTENT -->
+      </div>
+    </div>
 
+  </div>
+</div>
+
+<div id="addressModal" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body" style="padding: 0!important;">
+        <!-- LOAD THE CONTENT -->
+      </div>
+    </div>
+
+  </div>
+</div>
 <!-- END OF MODAL PART -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.js'); ?>"></script>
+
+<script type="text/javascript">
+
+$('#passwordModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var id = button.data('id');
+
+  // console.log('Button Position ' + orderno);
+  var changePassword = '<?php echo base_url('Profile/changePassword?id='); ?>';
+
+  $('.modal-body').load(changePassword + id,function(){
+    $('#passwordModal').modal({show:true});
+  });
+});
+
+$('#addressModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var id = button.data('id');
+
+  // console.log('Button Position ' + orderno);
+  var changeAddress = '<?php echo base_url('Profile/changeAddress?id='); ?>';
+
+  $('.modal-body').load(changeAddress + id,function(){
+    $('#addressModal').modal({show:true});
+  });
+});
+
+</script>
 

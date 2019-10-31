@@ -65,6 +65,58 @@ class Profile extends CI_Controller {
 
 		}
 
+		public function changePassword() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-password', $data);
+
+		}
+
+		public function updateAddress(){
+
+			// $this->output->enable_profiler(TRUE);
+			// echo "masuk";
+			$this->load->model('M_profile', 'cms');
+
+			$id = $this->input->post('id');
+			$add1 = $this->input->post('add1');
+			$add2 = $this->input->post('add2');
+			$country = $this->input->post('country');
+			$province = $this->input->post('province');
+			$zip = $this->input->post('zip');
+
+			$this->cms->updateAddress($id, $add1, $add2, $country, $province, $zip);
+
+			redirect('profile/myprofile');
+		}
+
+		public function changeAddress() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-address', $data);
+
+		}
+
 		public function customerSendMessages() {
 
 			$customerID 	= $this->input->get('sender');
