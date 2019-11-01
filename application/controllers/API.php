@@ -12,6 +12,7 @@ class API extends REST_Controller {
 		$this->load->model('M_api', 'api');
 		$this->load->model('M_user', 'user');
 		$this->load->model('M_cart', 'carts');
+		$this->load->library('email');
 		// $this->output->enable_profiler(TRUE);
 
 		//DEBUG LAST QUERY
@@ -100,6 +101,32 @@ class API extends REST_Controller {
 			$query = $this->api->insertMember($data);
 
 			if(!$query) {
+
+				$data['email'] = $email;
+				$data['hash'] = sha1($email);
+
+				//Disable this for debug only
+				//$this->load->view('email-template/verification-email', $data);
+				$config['smtp_user']   = 'admin@kikikuku.com';
+				$config['smtp_pass']   = 'nOX-D8NlrF#Z';
+				$config['smtp_port']   = 25;
+				$config['charset']     = 'utf-8';
+				$config['wordwrap']    = TRUE;
+				$config['mailtype']    = 'html';
+				
+				$this->email->initialize($config);
+
+				$this->email->from('admin@kikikuku.com', 'Kikikuku Team');
+				$this->email->to($email);
+				$this->email->set_mailtype('html');
+
+				$message = $this->load->view('email-template/verification-email', $data, true);
+
+				$this->email->subject('Please confirm your email address');
+				$this->email->message($message);
+
+				$this->email->send();
+
 				$this->response([
 					'status' 	=> 'success',
 					'message' 	=> 'registration successful',

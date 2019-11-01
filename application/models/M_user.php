@@ -65,20 +65,6 @@
 
 		}
 
-		function updatePassword($email, $data) {
-
-			$this->db->where('EMAIL', $email);
-			$this->db->update('g_member', $data);
-
-		}
-
-		function updateResetStatus($email, $data) {
-
-			$this->db->where('USER_EMAIL', $email);
-			$this->db->update('g_reset_password', $data);
-
-		}
-
 		function registration($data) {
 
 			if($this->db->insert('g_member', $data)) {

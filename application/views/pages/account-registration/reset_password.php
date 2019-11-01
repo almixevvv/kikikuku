@@ -1,69 +1,112 @@
-<div class="content gutter">
- <div class="container" style="background-color: #dedede;">
-   <div class="row" >
-     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-       <h3 style="text-align: center; padding-top: 1em; padding-bottom: 1em;">RESET PASSWORD</h3>
-     </div>
-     <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3" style="padding-bottom: 5em;">
-       <h5 style="margin-bottom: 2em;">Please input your new password in the box below</h5>
-       <?php echo form_open('ResetPassword/resetPasswordProcess'); ?>
-
-       <div class="form-group">
-         <input id="txt-password" type="password" class="form-control" name="reset-password">
-       </div>
-
-       <div class="form-group">
-         <input id="txt-confirm-password" type="password" class="form-control" name="input-password-confirm" onfocusout="confirm_pass()">
-         <div id="validate-password" class="alert alert-danger alert-dismissible" role="alert" style="display: none; margin-top: 1em;">
-           <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="hide_button()"><span aria-hidden="true">&times;</span></button>
-           <strong>Password doesn't match!</strong> Please try again.
-         </div>
-         <div id="confirm-password" class="alert alert-success alert-dismissible" role="alert" style="display: none; margin-top: 1em;">
-           <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="hide_button()"><span aria-hidden="true">&times;</span></button>
-           <strong>Password match!</strong>
-         </div>
-       </div>
-
-       <!-- HIDDEN THE EMAIL FOR FORM PROCESSING -->
-       <input type="hidden" name="input-email" value="<?php echo $RESET_EMAIL; ?>">
-
-       <button disabled style="width: 25%;" class="form-control btn btn-primary" id="custom-login-button" type="submit" class="btn btn-primary">Reset Password</button>
-
-       <?php echo form_close(); ?>
-     </div>
-   </div>
- </div>
-</div>
-
-<script type="text/javascript">
-
-function hide_button() {
-    $("#validate-password").hide();
-    $("#confirm-password").hide();
-}
-
-function confirm_pass() {
-
-  var pass1 = $('#txt-password').val();
-  var pass2 = $('#txt-confirm-password').val();
-
-  if(pass1 == pass2) {
-    $("#confirm-password").show();
-    $("#validate-password").hide();
-    $("#custom-login-button").removeAttr("disabled");
-  } else {
-    $("#validate-password").show();
-    $("#custom-login-button").attr("disabled", true);
+<style type="text/css">
+  
+  .expiration-text {
+    font-size: 2em;
   }
 
-  // if(pass1 == pass2) {
-  //   $("#confirm-password").show();
-  //   $("#validate-password").hide();
-  //   document.getElementById("btn-req").disabled = false;
-  // } else {
-  //   $("#validate-password").show();
-  //   document.getElementById("btn-req").disabled = true;
-  // }
-}
 
+</style>
+
+<div class="login-container">
+    
+  <form method="POST" action="<?php echo base_url('ResetPassword/resetPasswordProcess'); ?>" class="needs-validation" novalidate>
+    
+    <div class="row" id="login-inner-container">
+
+      <!-- ONLY RESET IF THE STATUS IS STILL ACTIVE -->
+      <?php if($RESET_DATA[0]->RESET_STATUS == 'ACTIVE'): ?>
+  
+      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
+        <div class="row">
+          
+          <div class="col-12">
+            <div class="d-flex justify-content-center">
+              <span class="text-uppercase font-weight-bold pb-md-2 pb-lg-2 pb-xl-2 login-text-color">
+                reset password
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12 px-5">
+              <div class="form-group">
+                  <label for="uPass">Password</label>
+                  <input type="password" class="form-control" name="uPass" id="uPass" onfocus="resetValidation()" aria-describedby="passHelp" placeholder="Password" onblur="checkPassword()" required>
+                  <div class="invalid-feedback">
+                      Password is required
+                    </div>
+                  <small id="passHelp" class="form-text text-muted">Your password must include a capital letter and a number and longer than 8 characters.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 px-5">
+              <div class="form-group">
+                  <label for="uPass2">Confirm Password</label>
+                  <input type="password" class="form-control" id="uPass2" onfocus="resetValidation()" onblur="matchPassword()" aria-describedby="passHelp" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- HIDDEN INPUT FOR FIELD PROCESSING -->
+        <input type="hidden" name="input-email" value="<?php echo $RESET_EMAIL; ?>">
+
+        <div class="row">
+          <div class="col-8 px-5">
+            <button class="form-control btn btn-kku" type="submit">Reset Password</button>
+          </div>
+        </div>
+
+      </div>
+
+      <?php else: ?>
+      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+        
+        <div class="row">
+          
+          <div class="col-12">
+            
+            <div class="d-flex justify-content-center">
+              <span class="text-uppercase font-weight-bold pb-md-2 pb-lg-2 pb-xl-2 login-text-color">
+                reset key expired
+              </span>
+            </div>
+
+          </div>
+
+          <div class="col-12 mt-2 mt-md-3 mt-lg-4 mt-xl-4 pb-0 pb-md-2 pb-lg-2 pb-xl-2">
+            <div class="d-flex justify-content-center">
+              <span class="text-capitalize pb-md-2 pb-lg-2 pb-xl-2 login-text-color">
+                it appears that the password reset key has been used. </br>you can start this process once again by clicking 
+                <a href="<?php echo base_url('profile/forgot_password'); ?>" style="text-decoration: none; color: black;"><u>here</u></a>.
+              </span>
+            </div>            
+          </div>
+
+        </div>
+
+      </div>
+      <?php endif; ?>
+
+    </div>
+
+  </form>
+
+</div>
+
+<script>
+  formOveride();
+
+  <?php if($this->session->has_userdata('error')):?>
+    swal.fire({
+      title:'Reset Password Failed',
+      text: 'You cannot use your old password, please try again',
+      type: 'error',
+      showCancelButton: false,
+    });
+  <?php endif; ?>
 </script>

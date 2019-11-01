@@ -54,7 +54,7 @@
 					</div>
 
 					<div class="col-12 col-md-12 col-lg-5 col-xl-5 mt-1 mt-md-1 mt-lg-0">
-						<a href="#" class="login-text-color login-font-size">
+						<a href="<?php echo base_url('profile/forgot_password'); ?>" class="login-text-color login-font-size">
 							<i>Forgot Password</i>
 						</a>
 					</div>
@@ -110,4 +110,22 @@
 
 <script>
 	formOveride();
+
+	<?php if($this->session->has_userdata('success')): ?>
+		swal.fire({
+	    	title:'Reset Successful',
+	    	text: 'Your password has been reset. Please try to log into your account.',
+	    	type: 'success',
+	    	showCancelButton: false,
+	  	});
+	<?php endif; ?>
+
+	<?php if($this->input->get('reset') == 'successful'): ?>
+		swal.fire({
+	    	title:'Reset Successful',
+	    	text: 'Your password reset process has been started. Please check your email to continue.',
+	    	type: 'success',
+	    	showCancelButton: false,
+	  	});
+	<?php endif; ?>
 </script>

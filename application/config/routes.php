@@ -71,7 +71,6 @@ $route['profile/myprofile'] = 'Profile/myprofile';
 $route['profile/history/:any'] = 'Profile/history';
 
 /* Reset Password Part */
-$route['profile/recovery'] = 'Login/forgot_password';
 $route['profile/forgot_password'] = 'Login/forgot_password';
 $route['profile/forgot_password/completed'] = 'Login/completeResetPassword';
 $route['profile/reset'] = 'ResetPassword';

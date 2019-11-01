@@ -108,8 +108,6 @@ class Login extends CI_Controller {
 
 	function forgot_password() {
 
-		$this->load->helper('form');
-
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');
 	    $this->load->view('pages/account-registration/forgot_password');
