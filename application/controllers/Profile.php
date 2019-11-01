@@ -36,6 +36,24 @@ class Profile extends CI_Controller {
 
 		}
 
+		public function myprofile() {
+
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+			$this->load->view('templates/header');
+			$this->load->view('templates/navbar');
+	    	$this->load->view('pages/profile/profile', $data);
+	    	$this->load->view('templates/footer');
+
+		}
+
 		public function getMessages() {
 
 			$orderID = $this->input->get('id');
@@ -45,6 +63,137 @@ class Profile extends CI_Controller {
 
 			$this->load->view('pages/modal/modal-message', $data);
 
+		}
+
+		public function changePassword() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-password', $data);
+
+		}
+
+		public function changePhone() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-phone', $data);
+
+		}
+
+		public function updatePhone(){
+
+			// $this->output->enable_profiler(TRUE);
+			// echo "masuk";
+			$this->load->model('M_profile', 'cms');
+
+			$id = $this->input->post('id');
+			$phone = $this->input->post('phone');
+
+			$this->cms->updatePhone($id, $phone);
+
+			redirect('profile/myprofile');
+		}
+
+		public function changePhoto() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-photo', $data);
+
+		}
+
+		public function updatePhoto() {
+
+			// $this->output->enable_profiler(TRUE);
+
+		   	$this->load->helper('form');
+			$this->load->library('upload');
+
+			$this->load->model('M_profile', 'cms');
+
+			$defaultPath = '/assets/images/member-img/'.$_FILES['file_name']['name'];
+			
+			$id = $this->input->post('id');
+			$file  = $defaultPath;
+
+			$this->cms->updatePhoto($id, $defaultPath);
+
+	    	$config['upload_path']   = './assets/images/member-img/';
+	    	$config['allowed_types'] = 'jpeg|jpg|png';
+
+			$this->upload->initialize($config);
+
+			if ( !$this->upload->do_upload('file_name')) {
+				echo $this->upload->display_errors();
+			} else {
+					$this->upload->data();
+					redirect('profile/myprofile');
+					// $this->set('showModal',true);
+		   	}
+
+		}
+
+		public function changeAddress() {
+
+			$id = $this->input->get('id');
+			
+			$loginStatus = $this->session->userdata('LOGGED_IN');
+			$userEmail   = $this->session->userdata('EMAIL');
+
+			if($loginStatus == false) {
+				redirect(base_url('login?error=4'));
+			}
+
+			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+
+ 			$this->load->view('pages/modal/modal-address', $data);
+
+		}
+
+		public function updateAddress(){
+
+			// $this->output->enable_profiler(TRUE);
+			// echo "masuk";
+			$this->load->model('M_profile', 'cms');
+
+			$id = $this->input->post('id');
+			$add1 = $this->input->post('add1');
+			$add2 = $this->input->post('add2');
+			$country = $this->input->post('country');
+			$province = $this->input->post('province');
+			$zip = $this->input->post('zip');
+
+			$this->cms->updateAddress($id, $add1, $add2, $country, $province, $zip);
+
+			redirect('profile/myprofile');
 		}
 
 		public function customerSendMessages() {
