@@ -82,6 +82,24 @@ class Profile extends CI_Controller {
 
 		}
 
+		public function updatePassword() {
+
+			$this->load->helper('form');
+			$this->load->library('upload');
+
+			$this->load->model('M_profile', 'cms');
+
+			$id = $this->input->post('id');
+			$password = $this->input->post('new_password');
+			
+			$hashPassword = sha1($password);
+
+			$this->cms->updatePassword($id, $hashPassword);
+
+			redirect('profile/myprofile');
+			
+		}
+
 		public function changePhone() {
 
 			$id = $this->input->get('id');

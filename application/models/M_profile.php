@@ -54,6 +54,17 @@ class M_profile extends CI_Model{
         $this->db->update('g_member', $data);
     }
 
+    function updatePassword($id, $hashPassword) {
+
+        $data = array(
+
+			'PASSWORD' 	=> $hashPassword
+		);
+        
+        $this->db->where('ID', $id);
+        $this->db->update('g_member', $data);
+    }
+
 	function insert_rules($data){
 		$this->db->insert('g_rules', $data);
 	}
