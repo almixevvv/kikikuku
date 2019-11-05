@@ -58,6 +58,7 @@ class API extends REST_Controller {
 		$password 	= $this->input->post('pass');
 		$state 		= $this->input->post('province');
 		$zip 		= $this->input->post('zip');
+		$password   = $this->input->post('password');
 
 		/* FORMAT BUAT TANGGAL HARUS STRING DD/MM/YYYY */
 		$date 		= $this->input->post('birthdate');
@@ -147,7 +148,7 @@ class API extends REST_Controller {
 	public function login_post() {
 
 		//HASHING DI BACKEND
-		$email = $this->input->post('email');
+		$email = trim($this->input->post('email'));
 		$password = $this->input->post('password');
 
 		//CHECK IF EMAIL IS USED OR NOT

@@ -93,7 +93,7 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="d-flex justify-content-center">
-						<button onclick="window.location.href='<?php echo $googleURL; ?>'" id="gmail-button" type="button"><i class="fab fa-google"></i>Login with Gmail</button>
+						<button onclick="window.location.href='<?php echo $googleURL; ?>'" target="_blank" id="gmail-button" type="button"><i class="fab fa-google"></i>Login with Gmail</button>
 					</div>
 				</div>
 			</div>
@@ -110,15 +110,6 @@
 
 <script>
 	formOveride();
-
-	<?php if($this->session->has_userdata('success')): ?>
-		swal.fire({
-	    	title:'Reset Successful',
-	    	text: 'Your password has been reset. Please try to log into your account.',
-	    	type: 'success',
-	    	showCancelButton: false,
-	  	});
-	<?php endif; ?>
 
 	<?php if($this->input->get('reset') == 'successful'): ?>
 		swal.fire({
