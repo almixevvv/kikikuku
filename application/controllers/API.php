@@ -367,6 +367,15 @@ class API extends REST_Controller {
 
 	}
 
+	//Create Inquiry
+	public function inquiry_post() {
+
+		
+
+
+
+	}
+
 	//Verified Account
 	public function verification_get() {
 

@@ -93,7 +93,7 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="d-flex justify-content-center">
-						<button onclick="window.location.href='<?php echo $googleURL; ?>'" id="gmail-button" type="button"><i class="fab fa-google"></i>Login with Gmail</button>
+						<button onclick="window.open('<?php echo $googleURL; ?>', '_blank')" id="gmail-button" type="button"><i class="fab fa-google"></i>Login with Gmail</button>
 					</div>
 				</div>
 			</div>
