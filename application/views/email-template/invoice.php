@@ -135,7 +135,7 @@
 
     <center>
       <div style="font-weight: bold; font-size: 12px; margin-top: 1em;">
-        Order Details
+        Order TMP TMP TMP TMP
       </div>
     </center>
 

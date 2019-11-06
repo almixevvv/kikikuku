@@ -1,5 +1,5 @@
-<body style="background-color: #e4e4e4; color: black;">
-<div style="max-width:800px;margin:auto;padding:30px;">
+<body class="sansserif" style="background-color: #e4e4e4; color: black!important;">
+<div style="max-width:500px;margin:auto;padding:30px;">
   <div style="content: ''; clear: both; display: table;">
     <div style="float: left; padding-left: 70px;">
       <img src="<?php echo base_url('assets/images/logo.png'); ?>" style="width:100%; max-width:200px;"/>

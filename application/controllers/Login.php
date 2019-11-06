@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 		public function __construct() {
 			parent::__construct();
 
-			// $this->output->enable_profiler(TRUE);
+			$this->output->enable_profiler(TRUE);
 
 			$this->load->model('M_user', 'user');
 
@@ -20,7 +20,7 @@ class Login extends CI_Controller {
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');
 	    $this->load->view('pages/account-registration/login', $data);
-	    $this->load->view('templates/footer.php');
+	    $this->load->view('templates/footer');
 
   }
 
@@ -90,7 +90,7 @@ class Login extends CI_Controller {
 
 					$this->session->set_userdata($dataSess);
 
-					redirect(base_url('home'));
+					// redirect(base_url('home'));
 
 				}
 			}
@@ -107,8 +107,6 @@ class Login extends CI_Controller {
 	}
 
 	function forgot_password() {
-
-		$this->load->helper('form');
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');

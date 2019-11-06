@@ -1,42 +1,63 @@
-<div class="content gutter">
- <div class="container" style="background-color: #dedede;">
-   <div class="row" >
-     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-       <h3 style="text-align: center; padding-top: 1em; padding-bottom: 1em;">RESET PASSWORD</h3>
-     </div>
-     <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3" style="padding-bottom: 5em;">
-       <h5 style="margin-bottom: 2em;">Please enter your registered email so we can send you how to reset your password</h5>
-       <?php echo form_open('ResetPassword/sendPasswordReset'); ?>
+<div class="login-container">
+    
+  <form method="POST" action="<?php echo base_url('ResetPassword/resetPasswordProcess'); ?>" class="needs-validation" novalidate>
+    
+    <div class="row" id="login-inner-container">
+      
+      <div class="col-12 col-md-12 col-lg-12 col-xl-12">
 
-       <div class="form-group">
-         <input type="email" class="form-control" name="reset-email" placeholder="Email">
+        <div class="row">
+          
+          <div class="col-12">
+            <div class="d-flex justify-content-center">
+              <span class="text-uppercase font-weight-bold pb-md-2 pb-lg-2 pb-xl-2 login-text-color">
+                reset password
+              </span>
+            </div>
+          </div>
 
-         <!-- IF THERE'S AN ERROR, SHOW THE ERROR -->
-         <?php if($this->input->get('error') == '1'): ?>
-         <div class="alert alert-warning alert-danger" role="alert" style="margin-top: 0.5em;">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <strong>Error!</strong> Email is not registered, please try again.
-         </div>
-        <?php endif; ?>
-       </div>
+        </div>
 
-       <button class="form-control" id="custom-login-button" type="submit" class="btn btn-primary">Reset Password</button>
+        <div class="row mt-4">
+          
+          <div class="col-12 px-5">
+            <label for="reset-email">Registered Email Address</label>
+            <input type="email" class="form-control" id="reset-email" name="reset-email" placeholder="Email" required>
+            <div class="invalid-feedback">
+              Email cannot be empty
+            </div>
+          </div>
 
-       <?php echo form_close(); ?>
-     </div>
-   </div>
- </div>
+        </div>
+
+        <div class="row">
+          <div class="col-8 px-5">
+            <button class="form-control btn btn-kku" type="submit">Reset Password</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </form>
+
 </div>
 
+<?php if($this->input->get('error') == '1'): ?>
 <script type="text/javascript">
 
-function hide_button() {
-   $("#validate-password").hide();
-   $("#confirm-password").hide();
-   $("#validate-email").hide();
-   $("#confirm-email").hide();
-}
+  swal.fire({
+    title:'Reset Failed',
+    text: 'This email is not registered, please try again',
+    type: 'error',
+    showCancelButton: false,
+  });
 
+</script>
+<?php endif; ?>
+
+
+<script>
+  formOveride();
 </script>

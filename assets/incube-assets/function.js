@@ -31,7 +31,7 @@
 
 		var input = $('#uPass').val();
 
-		if(input.match(upperCase) && input.match(lowerCase) && input.match(numbers)) {
+		if(input.match(upperCase) && input.match(lowerCase) && input.match(numbers) && input.length > 8) {
 			$("#uPass").removeClass("is-invalid").addClass("is-valid");
 		} else {
 			$('#uPass').addClass("is-invalid");

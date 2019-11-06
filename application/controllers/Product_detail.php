@@ -9,6 +9,7 @@ class Product_detail extends CI_Controller {
         $this->load->model('M_product', 'product');
 
         $id = $this->input->get('id');
+        
         $randomPage = mt_rand(1, 500);
 
         $finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;

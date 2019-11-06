@@ -2,24 +2,28 @@
 
 class ResetPassword extends CI_Controller {
 
-	function ResetPassword() {
+	function __construct() {
 		parent::__construct();
 
-		$this->output->enable_profiler(TRUE);
+		// $this->output->enable_profiler(TRUE);
 
 		$this->load->model('M_reset', 'reset');
 		$this->load->model('M_user', 'user');
 
 		$this->load->library('email');
 		$this->load->helper('form');
+
 		date_default_timezone_set('Asia/Jakarta');
 	}
 
   function index() {
 
 		$data['RESET_EMAIL'] = $this->input->get('email');
-		$data['RESET_DATA']  = $this->reset->getResetStatus($data['RESET_EMAIL']);
-		$data['RESET_HASH']  = $this->input->get('key');
+		$data['RESET_DATA']  = $this->reset->getResetStatus($data['RESET_EMAIL'], $this->input->get('key'));
+
+		//Save the url to session
+		$this->session->set_userdata('KEY', $this->input->get('key'));
+		$this->session->set_userdata('EMAIL', $this->input->get('email')); 
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');
@@ -75,7 +79,7 @@ class ResetPassword extends CI_Controller {
 			// print_r($this->email->print_debugger());
 			$this->user->sentResetPassword($resetData);
 
-			redirect(base_url('profile/forgot_password/completed'));
+			redirect(base_url('login?reset=successful'));
 
 		}
 
@@ -85,23 +89,38 @@ class ResetPassword extends CI_Controller {
 	function resetPasswordProcess() {
 
 		$resetEmail = $this->input->post('input-email');
-		$password   = $this->input->post('reset-password');
+		$password   = $this->input->post('uPass');
+		$key 		= $this->session->KEY;
+		$email 		= $this->session->EMAIL;
 
 		$hash = sha1($password);
 
-		$data = array(
-			'RESET_STATUS' => 'FINISHED'
-		);
+		$queryCheckPass = $this->reset->checkPassword($resetEmail, $hash);
 
-		$password = array(
-			'PASSWORD' => $hash
-		);
+		if($queryCheckPass->num_rows() > 0) {
 
-		echo sha1(date("Y.m.d.h.m.s")); 
+			$this->session->set_flashdata('error', 'password');
 
-		$this->user->updatePassword($resetEmail, $password);
+			redirect(base_url('profile/reset?email='.$email.'&key='.$key));
 
-		$this->user->updateResetStatus($resetEmail, $data);
+		} else {
+
+			$data = array(
+				'RESET_STATUS' => 'FINISHED'
+			);
+
+			$password = array(
+				'PASSWORD' => $hash
+			);
+
+			$this->session->set_flashdata('success', 'password');
+
+			$this->reset->updatePassword($resetEmail, $password);
+			$this->reset->updateResetStatus($resetEmail, $key, $data);
+
+			redirect(base_url('login'));
+
+		}
 
 	}
 

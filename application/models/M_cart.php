@@ -27,6 +27,49 @@
         }
     }
 
+    function getCartItems($hash, $email) {
+
+        $this->db->select('*');
+        $this->db->from('g_cart');
+        $this->db->where('CART_ID', $hash);
+        $this->db->where('PRODUCT_BUYER', $email);
+        $this->db->order_by('REC_ID', 'ASC');
+
+        $query = $this->db->get();
+
+        return $query;
+
+    }
+
+    function updateCartContents($productID, $productBuyer, $updateArray) {
+
+        $this->db->set($updateArray);
+        $this->db->where('PRODUCT_BUYER', $productBuyer);
+        $this->db->where('PRODUCT_ID', $productID);
+        
+        $query = $this->db->update('g_cart');
+
+        return $query;
+
+    }
+
+    function deleteItem($hashTrans, $productID, $productBuyer) {
+
+        $this->db->where('CART_ID', $hashTrans);
+        $this->db->where('PRODUCT_BUYER', $productBuyer);
+        $this->db->where('PRODUCT_ID', $productID);
+
+        $query = $this->db->delete('g_cart');
+
+        return $query;
+
+    }
+
+    function insertCartData($data) {
+
+        return $this->db->insert('g_cart', $data);
+    }
+
     function insertMasterData($data) {
 
       return $this->db->insert('g_order_master', $data);
@@ -61,4 +104,3 @@
       return $query;
     }
 }
-?>

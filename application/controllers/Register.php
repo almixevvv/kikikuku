@@ -38,17 +38,17 @@ class Register extends CI_Controller {
 
 	public function input() {
 
-		$fName = $this->input->post('uFirstName');
-		$lName = $this->input->post('uLastName');
-		$phone = $this->input->post('uPhone');
-		$email = $this->input->post('uEmail');
-		$country = $this->input->post('uCountry');
-		$address1 = $this->input->post('uAddress1');
-		$address2 = $this->input->post('uAddress2');
-		$password = $this->input->post('uPass');
-		$state = $this->input->post('uProvince');
-		$zip = $this->input->post('uZip');
-		$date = $this->input->post('uBirthdate');
+		$fName 		= $this->input->post('uFirstName');
+		$lName 		= $this->input->post('uLastName');
+		$phone 		= $this->input->post('uPhone');
+		$email 		= $this->input->post('uEmail');
+		$country 	= $this->input->post('uCountry');
+		$address1 	= $this->input->post('uAddress1');
+		$address2 	= $this->input->post('uAddress2');
+		$password 	= $this->input->post('uPass');
+		$state 		= $this->input->post('uProvince');
+		$zip 		= $this->input->post('uZip');
+		$date 		= $this->input->post('uBirthdate'); 
 
 		$hashPassword = sha1($password);
 		$hashEmail = sha1($email);
