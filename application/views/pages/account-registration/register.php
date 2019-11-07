@@ -31,7 +31,7 @@
     							<label for="uFirstName">First Name</label>
     							<input type="text" class="form-control" name="uFirstName" id="uFirstName" onfocus="resetValidation()" placeholder="Enter Your First Name" required>
       							<div class="invalid-feedback">
-        							First name is required
+        							Please enter valid first name
       							</div>
   							</div>
 						</div>
@@ -40,6 +40,9 @@
 							<div class="form-group">
     							<label for="uLastName">Last Name</label>
     							<input type="text" class="form-control" name="uLastName" id="uLastName" placeholder="Enter Your Last Name">
+    							<div class="invalid-feedback">
+        							Please enter valid last name
+      							</div>
   							</div>
 						</div>
 					</div>
@@ -96,6 +99,9 @@
 							<div class="form-group">
     							<label for="uProvince">Province</label>
     							<input id="uProvince" type="text" class="form-control" name="uProvince" required>
+    							<div class="invalid-feedback">
+        							Valid province is required
+      							</div>
   							</div>
 						</div>
 				
@@ -139,11 +145,11 @@
 						<div class="col-12">
 							<div class="form-group">
 	    						<label for="uPass">Password</label>
-	    						<input type="password" class="form-control" name="uPass" id="uPass" onfocus="resetValidation()" aria-describedby="passHelp" placeholder="Password" onblur="checkPassword()" required>
+	    						<input type="password" class="form-control" name="uPass" id="uPass" onfocus="resetValidation()" aria-describedby="passHelp" placeholder="Password" required>
 	    						<div class="invalid-feedback">
-	        						Password is required
+	        						Password is invalid
 	      						</div>
-	    						<small id="passHelp" class="form-text text-muted">Your password must include a capital letter and a number.</small>
+	    						<small id="passHelp" class="form-text text-muted">Your password must be more than 8 characters, include a capital letter and a number.</small>
 	  						</div>
 						</div>
 					</div>
@@ -152,7 +158,10 @@
 						<div class="col-12">
 							<div class="form-group">
     							<label for="uPass2">Confirm Password</label>
-    							<input type="password" class="form-control" id="uPass2" onfocus="resetValidation()" onblur="matchPassword()" aria-describedby="passHelp" required>
+    							<input type="password" class="form-control" id="uPass2" onfocus="resetValidation()" aria-describedby="passHelp" required>
+    							<div class="invalid-feedback">
+	        						Password doesn't match
+	      						</div>
   							</div>
 						</div>
 					</div>
@@ -193,12 +202,25 @@
 		uiLibrary: 'bootstrap4'
 	});
 
-	$('#uPass2').change(function () {
-  		if ($(this).is(":empty")) {
-    		$("#uPass2").addClass("is-invalid");
-  		} else {
-  			$("#uPass2").removeClass("is-invalid").addClass("is-valid");
-  		}
+	$('#uPass').change(function() {
+		checkPassword();
+		matchPassword();
+	});
+
+	$('#uFirstName').change(function() {
+		checkName();
+	});
+
+	$('#uLastName').change(function() {
+		checkName();
+	});
+
+	$('#uPass2').change(function() {
+		matchPassword();
+	});
+
+	$('#uProvince').change(function() {
+		checkProvince();
 	});
 
 	function checkExistingEmail() {
@@ -225,7 +247,7 @@
 		 	});
 
 		} else {
-			$('#uEmail').addClass("is-invalid");
+			$('#uEmail').removeClass("is-valid").addClass("is-invalid");
 		}
 
 	}

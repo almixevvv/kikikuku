@@ -53,7 +53,7 @@ class Login extends CI_Controller {
 		//Check if email exists
 		if($checkEmail->num_rows() == 0) {
 			$this->session->set_flashdata('no_email', true);
-			// redirect(site_url('login'));
+			redirect(site_url('login'));
 		} else {
 			
 			//Check if password is correct

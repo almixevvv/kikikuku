@@ -24,7 +24,7 @@
 
       <div class="row mt-md-4 mt-lg-4 mt-xl-4">
         <div class="col-12">
-          <div class="d-flex justify-content-center">
+          <div class="d-flex justify-content-center pb-4">
             
             <div class="accordion" id="faq-accordion">
               
