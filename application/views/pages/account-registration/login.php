@@ -19,15 +19,15 @@
 						<div class="form-group">
 							<label class="login-text-color login-font-size" for="exampleInputEmail1">Email Address</label>
 							<input name="txt-email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
-							<?php if($this->input->get('error') == 2): ?>
+							<?php if($this->session->has_userdata('no_email')): ?>
 							<div class="alert alert-danger mt-2" role="alert">
   								Wrong password/email combination. Please try again.
 							</div>
-							<?php elseif($this->input->get('error') == 1): ?>
+							<?php elseif($this->session->has_userdata('wrong_pass')): ?>
 							<div class="alert alert-danger mt-2" role="alert">
   								Wrong password. Please try again.
 							</div>
-							<?php elseif($this->input->get('error') == 3): ?>
+							<?php elseif($this->session->has_userdata('not_active')): ?>
 							<div class="alert alert-danger mt-2" role="alert">
   								This account is not verified. Please verify your account and try again.
 							</div>

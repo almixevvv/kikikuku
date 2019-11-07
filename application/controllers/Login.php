@@ -43,8 +43,6 @@ class Login extends CI_Controller {
 
 	public function login_user() {
 
-		$dataSess = array();
-
 		$email = $this->input->post('txt-email');
 		$password = $this->input->post('txt-password');
 
@@ -54,24 +52,26 @@ class Login extends CI_Controller {
 
 		//Check if email exists
 		if($checkEmail->num_rows() == 0) {
-			redirect(site_url('login?error=2'));
-		}
-		else {
+			$this->session->set_flashdata('no_email', true);
+			// redirect(site_url('login'));
+		} else {
+			
 			//Check if password is correct
-			$checkPassword = $this->user->checkPassword($hashPassword);
-			if($checkPassword->num_rows() == 0) {
-				redirect(site_url('login?error=1'));
-			}
-			else {
+			$checkPassword = $this->user->checkPassword($email, $hashPassword);
+			
+			if($checkPassword->num_rows() < 1) {
+				$this->session->set_flashdata('wrong_pass', true);
+				redirect(site_url('login'));
+			} else if($checkPassword->num_rows() >= 1) {
 				//Check if account already verified
 				$checkVerified = $this->user->checkVerified($email);
-				if($checkVerified->num_rows() == 0) {
-					redirect(site_url('login?error=3'));
-				} else {
-					//Asign user data from SQL to Session
-					$loginUser = $this->user->loginUser($email, $hashPassword);
 
-					foreach($loginUser->result() as $data) {
+				if($checkVerified->num_rows() < 1) {
+					$this->session->set_flashdata('not_active', true);
+					redirect(site_url('login'));
+				} else {
+
+					foreach($checkPassword->result() as $data) {
 
 						$dataSess = array(
 							'FIRST_NAME' => $data->FIRST_NAME,
@@ -89,8 +89,7 @@ class Login extends CI_Controller {
 					}
 
 					$this->session->set_userdata($dataSess);
-
-					// redirect(base_url('home'));
+					redirect(base_url('home'));
 
 				}
 			}
@@ -100,7 +99,16 @@ class Login extends CI_Controller {
 
 	function logout() {
 
-		$this->session->sess_destroy();
+		$this->session->unset_userdata('FIRST_NAME');
+		$this->session->unset_userdata('LAST_NAME');
+		$this->session->unset_userdata('PHONE');
+		$this->session->unset_userdata('EMAIL');
+		$this->session->unset_userdata('ADDRESS');
+		$this->session->unset_userdata('COUNTRY');
+		$this->session->unset_userdata('PROVINCE');
+		$this->session->unset_userdata('USERID');
+		$this->session->unset_userdata('ZIP');
+		$this->session->unset_userdata('LOGGED_IN');
 		
 		redirect(base_url('home'));
 

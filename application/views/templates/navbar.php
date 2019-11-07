@@ -32,18 +32,18 @@
 
 		<div class="navbar-column-searchbox">
 			
-			<form action="<?php echo base_url('search'); ?>"  method="get">
+			<form action="<?php echo base_url('search'); ?>" id="searchbox-mobile" method="get">
 
 				<div class="input-group mb-3" style="padding-top: 8px;">
 					<?php if($this->input->get('query') != null): ?>
 					<input type="text" class="form-control" name="query" placeholder="Product Keywords" style="margin-left: -3px;" value="<?php echo $this->input->get('query'); ?>">
 					<?php else: ?>
-					<input type="text" class="form-control" name="query" placeholder="Product Keywords" style="margin-left: -3px;">
+					<input id="search-query-mobile" type="text" class="form-control" name="query" placeholder="Product Keywords" style="margin-left: -3px;">
 					<?php endif; ?>
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary button-search-custom" type="submit">
+						<a  onclick="checkSearch()" class="btn btn-outline-secondary button-search-custom">
 							<i class="fas fa-search"></i>
-						</button>
+						</a>
 					</div>
 				</div>
 
@@ -124,17 +124,17 @@
 				   </li>
 				   <li class="list-inline-item" id="main-search-box">
 					
-					<form action="<?php echo base_url('search'); ?>"  method="get">
+					<form action="<?php echo base_url('search'); ?>" id="searchbox-desktop" method="get">
 				   		<div class="input-group mb-3" style="padding-top: 8px;">
 				   			<?php if($this->input->get('query') != null): ?>
 				   				<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query" value="<?php echo $this->input->get('query'); ?>">
 							<?php else: ?>
-								<input type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query">
+								<input id="search-query-desktop" type="text" class="form-control" name="query" placeholder="Products Keywords" aria-label="Search Query">
 							<?php endif; ?>
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary button-search-custom" type="submit">
+								<a class="btn btn-outline-secondary button-search-custom" onclick="checkSearch()">
 									<i class="fas fa-search"></i>
-								</button>
+								</a>
 							</div>
 						</div>
 					</form>

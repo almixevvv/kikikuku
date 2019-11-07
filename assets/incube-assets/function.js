@@ -163,3 +163,18 @@
 		
 	}
 
+/*
+	7. Empty Searchbox Fix
+ */
+
+ 	function checkSearch() {
+
+ 		var mobileQuery = $('#search-query-mobile').val();
+ 		var desktopQuery = $('#search-query-desktop').val();
+ 		
+ 		if( mobileQuery.trim() || desktopQuery.trim()) {
+ 			$('#searchbox-desktop').submit();
+ 			$('#searchbox-mobile').submit();
+ 		}
+
+ 	}

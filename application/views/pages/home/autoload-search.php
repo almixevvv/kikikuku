@@ -31,7 +31,7 @@
 			cache: false,
 			success:function(data) {
 				if(data == '') {
-					$('#loader-icon').html('<h3>No More Result Found</h3>');
+					$('#loader-icon').html("<div class='col-12'><h3 class='mt-2 ml-2'>No Result Found for '"+query+"'</h3></div>");
 					action = 'active';
 				} else {
 					$('#product-main-list').append(data);

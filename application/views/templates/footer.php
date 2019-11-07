@@ -1,5 +1,3 @@
-
-
 	</body>
 
 	<footer id="footer-separator">
@@ -98,7 +96,6 @@
 		</div>
 
 		</div>
-
 
 	</footer>
 

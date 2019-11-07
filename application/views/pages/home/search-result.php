@@ -47,7 +47,7 @@
 
 			<div class="row">
 				<div class="col-5">
-					<span>Displaying Search Result For: </span><?php echo $this->input->get('query'); ?>
+					<span>Displaying Search Result for: </span><?php echo $this->input->get('query'); ?>
 				</div>
 			</div>
 
