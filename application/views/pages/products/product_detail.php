@@ -557,55 +557,51 @@
 <script type="text/javascript" src="<?php echo base_url('assets/zoom-master/jquery.zoom.min.js'); ?>"></script>
 <script type="text/javascript">
 
-  $(document).ready(function(){
+  var minimumValue = $('#quantity').val();
 
-    var minimumValue = $('#quantity').val();
+  //ZOOM KE GAMBAR
+  $('.detail-main-images')
+    .wrap('<span style="display:inline-block"></span>')
+    .css('display', 'block')
+    .parent()
+    .zoom();
 
-    //ZOOM KE GAMBAR
-    $('.detail-main-images')
-      .wrap('<span style="display:inline-block"></span>')
-      .css('display', 'block')
-      .parent()
-      .zoom();
-
-    //GANTI IMAGE
-    $('.row-images').each(function () {
-      var $this = $(this);
-      $this.on("click", function () {
-        var image = $(".detail-main-images");
-        //HARUS DIASIGN KE LOCAL VARIABLE BIAR BERUBAH
-        var source = $(this).data('picture');
-        image.fadeOut('fast', function () {
-            image.attr('src', source);
-            image.fadeIn('fast');
-            $('.detail-main-images').trigger('zoom.destroy');
-            $('.detail-main-images')
-              .wrap('<span style="display:inline-block"></span>')
-              .css('display', 'block')
-              .parent()
-              .zoom();
-          });
+  //GANTI IMAGE
+  $('.row-images').each(function () {
+    var $this = $(this);
+    $this.on("click", function () {
+      var image = $(".detail-main-images");
+      //HARUS DIASIGN KE LOCAL VARIABLE BIAR BERUBAH
+      var source = $(this).data('picture');
+      image.fadeOut('fast', function () {
+        image.attr('src', source);
+        image.fadeIn('fast');
+        $('.detail-main-images').trigger('zoom.destroy');
+        $('.detail-main-images')
+          .wrap('<span style="display:inline-block"></span>')
+          .css('display', 'block')
+          .parent()
+          .zoom();
       });
     });
+  });
 
-    $("#xplusone").click(function() {
-        var qty = parseInt($("#quantity").val());
-        var newqty = qty +1;
+  $("#xplusone").click(function() {
+    var qty = parseInt($("#quantity").val());
+    var newqty = qty +1;
+    $("#quantity").val(newqty);
+  });
+
+  $("#xminusone").click(function() {
+    var qty = parseInt($("#quantity").val());
+    var newqty = qty -1;
+    if (newqty < 1) {
+      $("#quantity").val(1);
+        return true;
+      } else if (newqty >= 1) {
         $("#quantity").val(newqty);
-    });
-
-    $("#xminusone").click(function() {
-        var qty = parseInt($("#quantity").val());
-        var newqty = qty -1;
-        if (newqty < 1) {
-          $("#quantity").val(1);
-          return true;
-        } else if (newqty >= 1) {
-          $("#quantity").val(newqty);
-          return true;
-        } 
-    });
-
+        return true;
+      } 
   });
 
 </script>

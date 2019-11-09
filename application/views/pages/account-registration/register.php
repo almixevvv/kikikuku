@@ -253,5 +253,6 @@
 	}
 
 	formOveride();
+	zipCodeVerification();
 
 </script>

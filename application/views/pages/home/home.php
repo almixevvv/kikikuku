@@ -163,7 +163,7 @@
 
 </div>
 
-<?php if($this->input->get('verification') == 'pending'): ?>
+<?php if($this->session->userdata('verification') == 'pending'): ?>
 <script type="text/javascript">
 
 	swal.fire({
@@ -175,7 +175,7 @@
 
 </script>
 
-<?php elseif($this->input->get('verification') == 'error'): ?>
+<?php elseif($this->session->userdata('verification') == 'error'): ?>
 <script type="text/javascript">
 
 	swal.fire({
@@ -194,8 +194,42 @@
 ?>
 <script type="text/javascript">
 
-	startVerification('<?php echo $this->input->get('email'); ?>, <?php echo $this->input->get('key');?>');
+	var email = "<?php echo $this->input->get('email'); ?>";
+	var hash = "<?php echo $this->input->get('key'); ?>";
 
+	$.ajax({
+		url: '<?php echo base_url('Register/verification'); ?>',
+		type: 'GET',
+		data: { email: email, key: hash },
+		success: function(data) {
+			console.log(data);	
+			if(data === 'success') {
+				swal.fire({
+					title:'Verification Successful',
+					text: 'Account Verification Successful. Happy shopping!',
+					type: 'success',
+					showCancelButton: false,
+				});
+			} else if(data === 'error') {
+				swal.fire({
+					title:'Verification Unsuccessful',
+					text: 'Something wrong with your registration process. Please try again later',
+					type: 'error',
+					showCancelButton: false,
+				});
+			} else if(data === 'verified') {
+				swal.fire({
+					title:'Verification Unsuccessful',
+					text: 'This account is already verified',
+					type: 'info',
+					showCancelButton: false,
+				});
+			}
+		}, error: function (xhr, ajaxOptions, thrownError) {
+			var errorMsg = 'Ajax Failed: ' + xhr.responseText;
+			console.log(errorMsg);
+		}
+	});
 
 </script>
 <?php endif; ?>

@@ -43,14 +43,15 @@
 	function checkName() {
 
 		var numbers = new RegExp('[0-9]');
+		var symbols = new RegExp(/[!-/:-?{-~!"^_`\[\]]/);
 
 		var firstName = $('#uFirstName').val();
 		var lastName =  $('#uLastName').val();
 
-		if(firstName.match(numbers)) {
+		if(firstName.match(numbers) || firstName.match(symbols)) {
 			// alert('first name ada angka');
 			$("#uFirstName").removeClass("is-valid").addClass("is-invalid");
-		} else if(lastName.match(numbers)) {
+		} else if(lastName.match(numbers) || lastName.match(symbols)) {
 			// alert('last name ada angka');
 			$("#uLastName").removeClass("is-valid").addClass("is-invalid");
 		} else if(!firstName) {
@@ -72,6 +73,8 @@
 
 		if(province.match(numbers)) {
 			$("#uProvince").removeClass("is-valid").addClass("is-invalid");
+		} else if(!province) {
+			$("#uProvince").removeClass("is-valid").addClass("is-invalid");
 		} else {
 			$("#uProvince").removeClass("is-invalid").addClass("is-valid");
 		}
@@ -88,16 +91,16 @@
 		var confirmPassword = $('#uPass2').val();
 
 		if((password === confirmPassword || confirmPassword === password) && $('#uPass').hasClass("is-valid")) {
-			alert('password sama');
+			// alert('password sama');
 			$("#uPass2").removeClass("is-invalid").addClass("is-valid");
 		} else if(!password) {
-			alert('password atas kosong');
+			// alert('password atas kosong');
 			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
 		} else if(!confirmPassword) {
-			alert('password bawah kosong');
+			// alert('password bawah kosong');
 			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
 		} else {
-			alert('ada yang aneh boi');
+			// alert('ada yang aneh boi');
 			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
 		}
 	}
@@ -132,8 +135,6 @@
 /*
 	5. Account Verification Process
 */
-
-
 	function startVerification(email, hash) {
 
 		var baseUrl = document.location.origin + window.location.pathname + 'Register/verification';
@@ -217,5 +218,54 @@
  			$('#searchbox-desktop').submit();
  			$('#searchbox-mobile').submit();
  		}
+
+ 	}
+
+
+/*
+	9. Get Confer Price
+ */
+
+	function startVerification(quantity) {
+
+
+
+	}
+
+/*
+	10. Set ZIP code to only include numbers 
+ */
+
+ 	function zipCodeVerification() {
+
+ 		$('#uZip').keydown(function(e) {
+			
+			var numbers = new RegExp('[0-9]');
+
+			var keyPres = e.which;
+
+			if((keyPres >= 48) && (keyPres <= 57)) {
+				return true;
+			} else if((keyPres >= 188) && (keyPres <= 190)) {
+				return false;
+			}
+		});
+
+ 	}
+
+ 	function quantityVerification() {
+
+ 		$('#quantity').keydown(function(e) {
+			
+			var numbers = new RegExp('[0-9]');
+
+			var keyPres = e.which;
+
+			if((keyPres >= 48) && (keyPres <= 57)) {
+				return true;
+			} else if((keyPres >= 188) && (keyPres <= 190)) {
+				return false;
+			}
+		});
 
  	}
