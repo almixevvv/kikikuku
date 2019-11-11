@@ -87,7 +87,7 @@
 
 							<?php foreach($categoryQuery->result() as $list): ?>
 								<li class="category-list">
-									<a href="<?php echo base_url('home?category='.$data->ID.'&id='.ucfirst(strtolower($list->LINK)) );?>">&nbsp;<?php echo ucfirst(strtolower($list->NAME));?></a>
+									<a class="text-capitalize" href="<?php echo base_url('home?category='.$data->ID.'&id='.ucfirst(strtolower($list->LINK)) );?>">&nbsp;<?php echo ucfirst(strtolower($list->NAME));?></a>
 								</li>
 							<?php endforeach; ?>
 						</ul>

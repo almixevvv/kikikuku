@@ -34,12 +34,24 @@ class Product_detail extends CI_Controller {
         //GET THE MARGIN PARAMETER
         $data['marginParameter'] = $this->product->getMarginPrice();
 
-    	$id_user = $this->session->userdata("USERID");
+        if(isset($obj['tip'])) {
+            
+            //THERE IS NO DATA FOR THIS
+            
+            $this->load->view('templates/header');
+            $this->load->view('templates/navbar');
+            $this->load->view('pages/products/empty_product', $data);
+            $this->load->view('templates/footer', $data);
 
-        $this->load->view('templates/header');
-    	$this->load->view('templates/navbar');
-        $this->load->view('pages/products/product_detail', $data);
-        $this->load->view('templates/footer.php', $data);
+        } else {
+            
+            //THERE IS A DATA FOR THIS PRODUCT
+            $this->load->view('templates/header');
+            $this->load->view('templates/navbar');
+            $this->load->view('pages/products/product_detail', $data);
+            $this->load->view('templates/footer', $data);   
+        }
+
     }
 
 }

@@ -8,7 +8,7 @@ class Cart extends CI_Controller {
 		// $this->output->enable_profiler(TRUE);
 	}
 
-	public function mycart(){
+	public function mycart() {
 
 		$randomPage = mt_rand(1, 500);
 
@@ -25,7 +25,7 @@ class Cart extends CI_Controller {
 		// 	echo 'Picture '.$list['picture2'];
 		// }
 		//
-		// die();;
+		// die();
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/navbar');

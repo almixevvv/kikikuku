@@ -3,50 +3,29 @@
   <?php
     //DEFAULT IMAGE PATH
     $newPath = 'http://img1.yiwugou.com/';
+    $startingPrice = 0;
+    $startingQuantity = 1;
 
-    //SETUP THE NEW URL FOR PRODUCT IMAGE IF THE LINK IS BROKEN
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
+    if($dataproduct['detail']['sdiProductsPicList'] == null) {
+      
+      if((substr($dataproduct['detail']['productForApp']['picture'], 0, 1) == 'i') || (substr($dataproduct['detail']['productForApp']['picture'], 0, 1) == '/') || (substr($dataproduct['detail']['productForApp']['picture'], 1, 1) == 'i')) {
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 0, 1).'</br>';
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 1, 1).'</br>';
+        echo 'use new format';
+      } else {
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 0, 1).'</br>';
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 1, 1).'</br>';
+        echo 'use old format';
       }
 
-
+    } else {
+      //THERE'S PRODUCT IMAGE, USE THIS
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture'], 1, 1);
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture1'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture2'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture3'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture4'], 1, 1);
     }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture1'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture2'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture3'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture4'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture4'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
   ?>
 
   <div class="row">
@@ -323,16 +302,25 @@
               
               <div class="row">
                 <div class="col-6 col-md-12 col-lg-6 col-xl-6" style="padding-right: 0!important;">
+                  <?php 
+                    //CONVERT THE QUANTITY IF IT'S CHINESE SYMBOL
+                    if($dataproduct['detail']['productForApp']['matrisingular'] == '个') {
+                      $matric = 'pcs';
+                    } else {
+                      $matric = $dataproduct['detail']['productForApp']['matrisingular'];
+                    }
+                  ?>
+
                   <?php if($quantity['endNumber'] == 0): ?>
-                    <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
+                    <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$matric; ?></label>
                     <?php $finalNumber = $quantity['startNumber']; ?>
                     <?php else: ?>
-                      <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?> ~ <?php echo $quantity['endNumber'].' '.$dataproduct['detail']['productForApp']['matrisingular']; ?></label>
+                      <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$matric; ?> ~ <?php echo $quantity['endNumber'].' '.$matric; ?></label>
                   <?php endif; ?>
                 </div>
                 <div class="col-6 col-md-12 col-lg-6 col-xl-6">
                   <label class="detail-txt-color detail-exw-size font-weight-bold">
-                    <span class="detail-exw-color">IDR <?php echo number_format($finalPrice, 2, ',', '.'); ?></span>/<?php echo $dataproduct['detail']['productForApp']['matrisingular']; ?>
+                  <span class="detail-exw-color">IDR <?php echo number_format($finalPrice, 2, ',', '.'); ?></span>/<?php echo $matric; ?>
                   </label>
                 </div>
               </div>
@@ -418,7 +406,7 @@
                   <button class="btn btn-danger" id="xminusone" type="button"><i class="fa fa-minus"></i></button>
                 </div>
                 <?php if($dataproduct['detail']['sdiProductsPriceList'] != null): ?>
-                <input type="number" name="quantity" id="quantity" class="form-control text-center" aria-describedby="basic-addon1" value="<?php echo $startingQuantity; ?>" style="text-align:right;" pattern="[0-9]*">
+                <input type="number" name="quantity" id="quantity" class="form-control text-center" aria-describedby="basic-addon1" value="<?php echo $startingQuantity; ?>" style="text-align:right;">
                   <?php else: ?>
                   <input type="number" name="quantity" id="quantity" class="form-control text-center" value="1" aria-describedby="basic-addon1" style="text-align:right;" pattern="[0-9]*">
                 <?php endif; ?>
@@ -526,8 +514,6 @@
 
       //Round the Price
       $price = ceil($finalPrice);
-      
-      // $price = ceil(($data['sellPrice'] * CONVERT) + (($data['sellPrice'] * CONVERT) * $marginParameter));
     ?>
 
     <div class="custom-product-list" >
@@ -558,6 +544,9 @@
 <script type="text/javascript">
 
   var minimumValue = $('#quantity').val();
+
+  //Initialize Function
+  quantityVerification();
 
   //ZOOM KE GAMBAR
   $('.detail-main-images')

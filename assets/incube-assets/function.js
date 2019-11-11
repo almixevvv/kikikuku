@@ -246,7 +246,7 @@
 
 			if((keyPres >= 48) && (keyPres <= 57)) {
 				return true;
-			} else if((keyPres >= 188) && (keyPres <= 190)) {
+			} else if((keyPres >= 187) && (keyPres <= 190)) {
 				return false;
 			}
 		});
@@ -261,9 +261,11 @@
 
 			var keyPres = e.which;
 
+			console.log(e.which);
+
 			if((keyPres >= 48) && (keyPres <= 57)) {
 				return true;
-			} else if((keyPres >= 188) && (keyPres <= 190)) {
+			} else if((keyPres >= 187) && (keyPres <= 190)) {
 				return false;
 			}
 		});

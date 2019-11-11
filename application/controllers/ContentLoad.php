@@ -34,10 +34,14 @@
 			foreach($obj['prslist'] as $list) {
 
 				//BROKEN IMAGE LINK FIX
-				if(substr($list['picture2'], 1, 1) != 'i' && substr($list['picture2'], 4, 1) != '/') {
+				if( (substr($list['picture2'], 0, 1) == '/' && (substr($list['picture2'], 6, 1) == '/')) || 
+					(substr($list['picture2'], 0, 1) == 'i' && (substr($list['picture2'], 4, 1) == '/')) || 
+					(substr($list['picture2'], 0, 1) == 'i' && (substr($list['picture2'], 6, 1) == '0')) || 
+					(substr($list['picture2'], 0, 1) == '/' && (substr($list['picture2'], 5, 1) == '/'))
+				) {
+					$newPath = 'http://img1.yiwugou.com/';
+				} else if( (substr($list['picture2'], 0, 1) == '/' && substr($list['picture2'], 6, 1) != '/') ) {
 					$newPath = 'http://img1.yiwugou.com/i000';
-				} else {
-	    		  	$newPath = 'http://img1.yiwugou.com/';
 				}
 
 				//FORMAT THE PRICE
@@ -63,7 +67,8 @@
 							<div class="card product-list" id="prod_'.$list['id'].'">
 								<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 									<div class="d-flex justify-content-center">
-										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" />
+										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+										onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 									</div>
 									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
@@ -77,7 +82,8 @@
 							<div class="card product-list" id="prod_'.$list['id'].'">
 								<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 									<div class="d-flex justify-content-center">
-										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" />
+										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+										onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 									</div>
 									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
@@ -91,7 +97,8 @@
 						<div class="card product-list" id="prod_'.$list['id'].'">
 							<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 								<div class="d-flex justify-content-center">
-									<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" />
+									<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+									onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>

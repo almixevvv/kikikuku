@@ -12,7 +12,11 @@
     <meta property="og:description" content="Kikikuku Official Site International" />
     <meta property="og:url" content="kikikuku.com" />
 
-    <title>Kikikuku Official Site</title>
+    <?php if(isset($productName)): ?>
+        <title><?php echo $productName; ?> | Kikikuku Official Site</title>
+    <?php else: ?>
+        <title><?php echo $sectionName; ?>Kikikuku Official Site</title>
+    <?php endif; ?>
 
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo2.png'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/bootstrap-4/css/bootstrap.min.css'); ?>">

@@ -43,7 +43,8 @@
 			$url = file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&q=electric%20bicycle&pageSize=12&cpage=1");
 			$objectBike = json_decode($url, true);
 
-			$data['electric'] = $objectBike;
+			$data['electric'] 	 = $objectBike;
+			$data['sectionName'] = 'Home'; 
 
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar', $data);

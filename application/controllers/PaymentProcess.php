@@ -5,7 +5,7 @@
     public function __construct() {
 
       parent::__construct();
-			$this->output->enable_profiler(TRUE);
+			// $this->output->enable_profiler(TRUE);
 			$this->load->library('session');
 			$this->load->helper('form');
 			$this->load->model('M_profile', 'profile');
