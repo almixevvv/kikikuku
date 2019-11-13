@@ -15,7 +15,7 @@
     <?php if(isset($productName)): ?>
         <title><?php echo $productName; ?> | Kikikuku Official Site</title>
     <?php else: ?>
-        <title><?php echo $sectionName; ?>Kikikuku Official Site</title>
+        <title><?php echo $sectionName; ?> | Kikikuku Official Site</title>
     <?php endif; ?>
 
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/logo2.png'); ?>">

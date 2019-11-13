@@ -44,7 +44,7 @@
 			$objectBike = json_decode($url, true);
 
 			$data['electric'] 	 = $objectBike;
-			$data['sectionName'] = 'Home'; 
+			$data['sectionName'] = 'Home';
 
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar', $data);
@@ -87,6 +87,8 @@
 		public function search() {
 
 			$searchQuery = $this->input->get('query');
+
+			$data['sectionName'] = 'Search Result for '.ucwords($searchQuery);
 			
 			//GET PARENT CATEGORY TITLE
 			$data['categories'] = $this->M_category->getParentCategory();
@@ -101,12 +103,12 @@
 
 		public function AboutUs() {
 
-			$data['Home']=$this;
 			$page = 'about/aboutus';
 
+			$data['sectionName'] = 'About Us';
 			$data['about'] = $this->pages->AboutUs();
 
-			$this->load->view('templates/header');
+			$this->load->view('templates/header', $data);
     	    $this->load->view('templates/navbar');
     	    $this->load->view('pages/'.$page, $data);
     	    $this->load->view('templates/footer.php');
@@ -116,9 +118,10 @@
 
 			$page = 'how-to/how-to';
 
+			$data['sectionName'] = 'How To Shop';
 			$data['howto'] = $this->pages->HowTo();
 
-			$this->load->view('templates/header');
+			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 			$this->load->view('pages/'.$page, $data);
 			$this->load->view('templates/footer');
@@ -126,11 +129,12 @@
 
 		public function contactus() {
 
-			$data['contactus'] = $this->pages->ContactUs();
-
 			$page = 'contact/contact-us';
 
-			$this->load->view('templates/header');
+			$data['contactus'] = $this->pages->ContactUs();
+			$data['sectionName'] = 'Contact';
+
+			$this->load->view('templates/header', $data);
     	    $this->load->view('templates/navbar');
     	    $this->load->view('pages/'.$page, $data);
     	    $this->load->view('templates/footer.php');
@@ -139,11 +143,12 @@
 
 		public function faq() {
 
-			$data['faq'] = $this->pages->Faq();
-
 			$page = 'faq/faq';
 
-			$this->load->view('templates/header');
+			$data['sectionName'] = 'FAQ';
+			$data['faq'] = $this->pages->Faq();
+
+			$this->load->view('templates/header', $data);
     	    $this->load->view('templates/navbar');
     	    $this->load->view('pages/'.$page, $data);
     	    $this->load->view('templates/footer.php');
@@ -151,11 +156,12 @@
 
 		public function terms() {
 
-			$data['terms'] = $this->pages->Terms();
-
 			$page = 'terms/terms';
 
-			$this->load->view('templates/header');
+			$data['sectionName'] = 'Terms & Conditions';
+			$data['terms'] = $this->pages->Terms();
+
+			$this->load->view('templates/header', $data);
     	    $this->load->view('templates/navbar');
     	    $this->load->view('pages/'.$page, $data);
     	    $this->load->view('templates/footer.php');
@@ -164,11 +170,12 @@
 
 		public function legal() {
 
-			$data['legal'] = $this->pages->Legal();
-
 			$page = 'V_legal';
 
-			$this->load->view('templates/header');
+			$data['sectionName'] = 'Legal';
+			$data['legal'] = $this->pages->Legal();
+
+			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 			$this->load->view('pages/'.$page, $data);
 			$this->load->view('templates/footer');
@@ -176,11 +183,12 @@
 
 		public function privacy() {
 
-			$data['privacy'] = $this->pages->Privacy();
-
 			$page = 'privacy/privacy';
 
-			$this->load->view('templates/header');
+			$data['sectionName'] = 'Privacy Policy';
+			$data['privacy'] = $this->pages->Privacy();
+
+			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 			$this->load->view('pages/'.$page, $data);
 			$this->load->view('templates/footer');

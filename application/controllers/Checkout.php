@@ -16,7 +16,9 @@
 
         $data['userData'] = $this->carts->getUserDetails($this->session->userdata('EMAIL'));
 
-        $this->load->view('templates/header');
+        $data['sectionName'] = 'Checkout'; 
+
+        $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
         $this->load->view('pages/cart/checkout', $data);
         $this->load->view('templates/footer');
@@ -30,7 +32,8 @@
     	$totalPrice     = $this->session->userdata('totalPrice');
 
     	if($member_id == null) {
-    		redirect(base_url('login?error=4'));
+    		$this->session->set_flashdata('cart', 'no_user');
+            redirect(base_url('login?refer=mycart'));
     	}
 
     	$orderName      = $this->input->post('txt-name');

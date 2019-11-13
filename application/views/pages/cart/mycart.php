@@ -55,6 +55,7 @@
 		<?php
 
 			if($row > 0):
+
 			//INITIAL TOTAL VARIABLE
 			$subqty = 0;
 			$subtotal = 0;
@@ -74,35 +75,57 @@
 
 				<div class="row pb-4 cart-product-separator">
 
-					<!-- PRODUCT DETAIL PART -->
-				<div class="col-5 col-md-5">
-					<div class="row">
+			<!-- PRODUCT DETAIL PART -->
+			<div class="col-5 col-md-5">
+				<div class="row">
 						
-						<div class="col-4">
-							<a href="<?php echo base_url('product_detail?id='.$items['id'])?>">
-							<?php if($obj['detail']['productForApp']['picture'] == null): ?>
-							<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture2'];?>" />
-							<?php else: ?>
-							<img class="img-list-order" src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture'];?>" />
-							<?php endif; ?>
-							</a>
-						</div>
+				<div class="col-4">
+				<a href="<?php echo base_url('product_detail?id='.$items['id'])?>">
+							
+				<?php if($obj['detail']['productForApp']['picture'] != null): ?>
 
-						<div class="col-8 pl-0">
-							<div class="d-flex flex-column">
-								<div class="mb-1 text-capitalize">
-									<span class="font-weight-bold">Product Name:</span>
-									<?php echo $obj['detail']['productForApp']['title']; ?>
-								</div>
-								<div class="text-capitalize">
-									<span class="font-weight-bold">Inquiry:</span>
-									<textarea class="form-control mt-2" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 80%; height:100px;"><?php echo $items['notes'] ?></textarea>
-								</div>
-							</div>
-						</div>
+				<?php $newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture']); ?>
+				<img class="img-list-order" src="<?php echo $newPath.$obj['detail']['productForApp']['picture'];?>" />
+					
+				<?php elseif($obj['detail']['productForApp']['picture1'] != null): ?>
 
+				<?php $newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture1']); ?>
+				<img class="img-list-order" src="<?php echo $newPath.$obj['detail']['productForApp']['picture1'];?>" />
+				
+				<?php elseif($obj['detail']['productForApp']['picture2'] != null): ?>
+
+				<?php $newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture2']); ?>
+				<img class="img-list-order" src="<?php echo $newPath.$obj['detail']['productForApp']['picture2'];?>" />
+				
+				<?php elseif($obj['detail']['productForApp']['picture3'] != null): ?>
+
+				<?php $newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture3']); ?>
+				<img class="img-list-order" src="<?php echo $newPath.$obj['detail']['productForApp']['picture3'];?>" />
+				
+				<?php else: ?>
+
+				<?php $newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture4']); ?>
+				<img class="img-list-order" src="<?php echo $newPath.$obj['detail']['productForApp']['picture4'];?>" />
+				
+				<?php endif; ?>
+				</a>
+				</div>
+
+				<div class="col-8 pl-0">
+					<div class="d-flex flex-column">
+						<div class="mb-1 text-capitalize">
+							<span class="font-weight-bold">Product Name:</span>
+							<?php echo $obj['detail']['productForApp']['title']; ?>
+						</div>
+						<div class="text-capitalize">
+							<span class="font-weight-bold">Inquiry:</span>
+							<textarea class="form-control mt-2" name="customer-notes-<?php echo $i; ?>" style="background-color: #eee; width: 80%; height:100px;"><?php echo $items['notes'] ?></textarea>
 						</div>
 					</div>
+				</div>
+
+				</div>
+			</div>
 					<!-- END OF PRODUCT DETAIL PART -->
 
 					<!-- ESTIMATED PRICE SECTION -->

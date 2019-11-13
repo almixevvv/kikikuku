@@ -15,9 +15,11 @@ class Login extends CI_Controller {
 
 	public function index() {
 
+		$data['sectionName'] = 'Login';
+
 		$data['googleURL']=$this->google->get_login_url();
 
-		$this->load->view('templates/header');
+		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
 	    $this->load->view('pages/account-registration/login', $data);
 	    $this->load->view('templates/footer');
@@ -53,7 +55,12 @@ class Login extends CI_Controller {
 		//Check if email exists
 		if($checkEmail->num_rows() == 0) {
 			$this->session->set_flashdata('no_email', true);
-			redirect(site_url('login'));
+
+			if($this->input->get('refer') != null) {
+				redirect(site_url('login?refer='.$this->input->get('refer')));
+			} else {
+				redirect(site_url('login'));
+			}
 		} else {
 			
 			//Check if password is correct
@@ -61,14 +68,26 @@ class Login extends CI_Controller {
 			
 			if($checkPassword->num_rows() < 1) {
 				$this->session->set_flashdata('wrong_pass', true);
-				redirect(site_url('login'));
+				
+				if($this->input->get('refer') != null) {
+					redirect(site_url('login?refer='.$this->input->get('refer')));
+				} else {
+					redirect(site_url('login'));
+				}
+
 			} else if($checkPassword->num_rows() >= 1) {
 				//Check if account already verified
 				$checkVerified = $this->user->checkVerified($email);
 
 				if($checkVerified->num_rows() < 1) {
 					$this->session->set_flashdata('not_active', true);
-					redirect(site_url('login'));
+					
+					if($this->input->get('refer') != null) {
+						redirect(site_url('login?refer='.$this->input->get('refer')));
+					} else {
+						redirect(site_url('login'));
+					}
+
 				} else {
 
 					foreach($checkPassword->result() as $data) {
@@ -89,7 +108,13 @@ class Login extends CI_Controller {
 					}
 
 					$this->session->set_userdata($dataSess);
-					redirect(base_url('home'));
+
+					//CHECK USER PREVIOUS PAGE
+					if($this->input->get('refer') != null) {
+						redirect(site_url($this->input->get('refer')));
+					} else {
+						redirect(base_url('home'));
+					}
 
 				}
 			}
@@ -116,7 +141,9 @@ class Login extends CI_Controller {
 
 	function forgot_password() {
 
-		$this->load->view('templates/header');
+		$data['sectionName'] = 'Reset Password';
+
+		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
 	    $this->load->view('pages/account-registration/forgot_password');
 	    $this->load->view('templates/footer');
@@ -125,7 +152,9 @@ class Login extends CI_Controller {
 
 	function completeResetPassword() {
 
-		$this->load->view('templates/header');
+		$data['sectionName'] = 'Reset Password';
+
+		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
 	    $this->load->view('pages/account-registration/reset_success');
 	    $this->load->view('templates/footer');

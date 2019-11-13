@@ -1,6 +1,10 @@
 <div class="login-container">
 
-	<form method="POST" action="<?php echo base_url('Login/login_user'); ?>" class="needs-validation" novalidate>
+	<?php if($this->input->get('refer') != null): ?>
+		<form method="POST" action="<?php echo base_url('Login/login_user?refer='.$this->input->get('refer')); ?>" class="needs-validation" novalidate>
+	<?php else: ?>
+		<form method="POST" action="<?php echo base_url('Login/login_user'); ?>" class="needs-validation" novalidate>
+	<?php endif; ?>
 
 	<div class="row" id="login-inner-container">
 
@@ -90,13 +94,13 @@
 			</div> -->
 
 			<!-- GMAIL LOGIN BUTTON -->
-			<div class="row">
+			<!-- <div class="row">
 				<div class="col-12">
 					<div class="d-flex justify-content-center">
 						<button onclick="window.open('<?php echo $googleURL; ?>', '_blank')" id="gmail-button" type="button"><i class="fab fa-google"></i>Login with Gmail</button>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 
 		</div>
@@ -116,6 +120,15 @@
 	    	title:'Reset Successful',
 	    	text: 'Your password has been reset. Please try to log into your account.',
 	    	type: 'success',
+	    	showCancelButton: false,
+	  	});
+	<?php endif; ?>
+
+	<?php if($this->session->has_userdata('cart')): ?>
+		swal.fire({
+	    	title:'Login Required',
+	    	text: 'Please login to continue your transaction.',
+	    	type: 'warning',
 	    	showCancelButton: false,
 	  	});
 	<?php endif; ?>

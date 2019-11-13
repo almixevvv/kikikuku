@@ -146,7 +146,15 @@
     }
   }
 
-  $(document).ready(function(){
+  function getUserData() {
+
+    $.ajax({ 
+      url: 'https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag',
+    });
+    $this->session->userdata('EMAIL')
+  }
+
+  $(document).ready(function() {
 
     $.ajax({
      url: 'https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag',

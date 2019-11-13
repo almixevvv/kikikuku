@@ -5,6 +5,7 @@ class Cart extends CI_Controller {
 		parent::__construct();
 
 		$this->load->model('M_product', 'product');
+		$this->load->library('incube');
 		// $this->output->enable_profiler(TRUE);
 	}
 
@@ -27,7 +28,9 @@ class Cart extends CI_Controller {
 		//
 		// die();
 
-		$this->load->view('templates/header');
+		$data['productName'] = 'Shopping Cart';
+
+		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
 		$this->load->view('pages/cart/mycart', $data);
     	$this->load->view('templates/footer');
@@ -65,7 +68,9 @@ class Cart extends CI_Controller {
 		$member_id = $this->session->userdata('USERID');
 
 		if($member_id == null) {
-			redirect(base_url('login?error=4'));
+
+			$this->session->set_flashdata('cart', 'no_user');
+			redirect(base_url('login?refer=mycart'));
 		}
 
 		//SET FINAL QUANTITY AND TOTAL PRICE

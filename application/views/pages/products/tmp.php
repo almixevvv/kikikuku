@@ -6,47 +6,26 @@
     $startingPrice = 0;
     $startingQuantity = 1;
 
-    //SETUP THE NEW URL FOR PRODUCT IMAGE IF THE LINK IS BROKEN
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
+    if($dataproduct['detail']['sdiProductsPicList'] == null) {
+      
+      if((substr($dataproduct['detail']['productForApp']['picture'], 0, 1) == 'i') || (substr($dataproduct['detail']['productForApp']['picture'], 0, 1) == '/') || (substr($dataproduct['detail']['productForApp']['picture'], 1, 1) == 'i')) {
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 0, 1).'</br>';
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 1, 1).'</br>';
+        echo 'use new format';
+      } else {
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 0, 1).'</br>';
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 1, 1).'</br>';
+        echo 'use old format';
       }
-    }
 
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture1'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture1'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture1'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
+    } else {
+      //THERE'S PRODUCT IMAGE, USE THIS
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture'], 1, 1);
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture1'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture2'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture3'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture4'], 1, 1);
     }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture2'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture2'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture2'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture3'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture3'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture3'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
-    //CHECK IF THE STRING IS EMPTY OR NOT
-    if($dataproduct['detail']['productForApp']['picture4'] != '') {
-      //IF THE STRING IS NOT EMPTY, REPLACE WITH THE RIGHT LINK
-      if(substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != 'i' || substr($dataproduct['detail']['productForApp']['picture4'], 0, 1) != '/' && substr($dataproduct['detail']['productForApp']['picture4'], 4, 1) != '/') {
-        $newPath = 'http://img1.yiwugou.com/i000';
-      }
-    }
-
   ?>
 
   <div class="row">

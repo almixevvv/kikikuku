@@ -1,9 +1,10 @@
 <?php if(!defined("BASEPATH")) exit("Hack Attempt");
 class Product_detail extends CI_Controller {
 
-    public function view(){
+    public function view() {
 
        $this->load->helper('form');
+       $this->load->library('incube');
 
         // $this->output->enable_profiler(TRUE);
         $this->load->model('M_product', 'product');
@@ -37,16 +38,24 @@ class Product_detail extends CI_Controller {
         if(isset($obj['tip'])) {
             
             //THERE IS NO DATA FOR THIS
+            $data['productName'] = 'Product not Available';
             
-            $this->load->view('templates/header');
+            $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('pages/products/empty_product', $data);
             $this->load->view('templates/footer', $data);
 
         } else {
+
+            //Product Name
+            if(strlen($obj['detail']['productForApp']['title']) > 20) {
+                $data['productName'] = ucwords(substr($obj['detail']['productForApp']['title'], 0, 20));
+            } else {
+                $data['productName'] = ucwords($obj['detail']['productForApp']['title']);
+            }
             
             //THERE IS A DATA FOR THIS PRODUCT
-            $this->load->view('templates/header');
+            $this->load->view('templates/header', $data);
             $this->load->view('templates/navbar');
             $this->load->view('pages/products/product_detail', $data);
             $this->load->view('templates/footer', $data);   
