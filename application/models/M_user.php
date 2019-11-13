@@ -17,11 +17,12 @@
 
 		}
 
-		function checkPassword($password) {
+		function checkPassword($email, $password) {
 
-			$this->db->select('PASSWORD');
+			$this->db->select('*');
 			$this->db->from('g_member');
 			$this->db->where('PASSWORD', $password);
+			$this->db->where('EMAIL', $email);
 
 			$query = $this->db->get();
 
@@ -38,19 +39,6 @@
 			$query = $this->db->get();
 
 			return $query;
-		}
-
-		function loginUser($email, $password) {
-
-			$this->db->select('*');
-			$this->db->from('g_member');
-			$this->db->where('EMAIL', $email);
-			$this->db->where('PASSWORD', $password);
-
-			$query = $this->db->get();
-
-			return $query;
-
 		}
 
 		function getResetStatus($email) {

@@ -34,7 +34,49 @@
 		if(input.match(upperCase) && input.match(lowerCase) && input.match(numbers) && input.length > 8) {
 			$("#uPass").removeClass("is-invalid").addClass("is-valid");
 		} else {
-			$('#uPass').addClass("is-invalid");
+			$("#uPass").removeClass("is-valid").addClass("is-invalid");
+			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
+		}
+
+	}
+
+	function checkName() {
+
+		var numbers = new RegExp('[0-9]');
+		var symbols = new RegExp(/[!-/:-?{-~!"^_`\[\]]/);
+
+		var firstName = $('#uFirstName').val();
+		var lastName =  $('#uLastName').val();
+
+		if(firstName.match(numbers) || firstName.match(symbols)) {
+			// alert('first name ada angka');
+			$("#uFirstName").removeClass("is-valid").addClass("is-invalid");
+		} else if(lastName.match(numbers) || lastName.match(symbols)) {
+			// alert('last name ada angka');
+			$("#uLastName").removeClass("is-valid").addClass("is-invalid");
+		} else if(!firstName) {
+			// alert('nama pertama kosong boi');
+			$("#uFirstName").removeClass("is-valid").addClass("is-invalid");
+		} else {
+			// alert('ada yang lain boi');
+			$("#uFirstName").removeClass("is-invalid").addClass("is-valid");
+			$("#uLastName").removeClass("is-invalid").addClass("is-valid");
+		}
+
+	}
+
+	function checkProvince() {
+
+		var numbers = new RegExp('[0-9]');
+
+		var province = $('#uProvince').val();
+
+		if(province.match(numbers)) {
+			$("#uProvince").removeClass("is-valid").addClass("is-invalid");
+		} else if(!province) {
+			$("#uProvince").removeClass("is-valid").addClass("is-invalid");
+		} else {
+			$("#uProvince").removeClass("is-invalid").addClass("is-valid");
 		}
 
 	}
@@ -48,16 +90,18 @@
 		var password = $('#uPass').val();
 		var confirmPassword = $('#uPass2').val();
 
-		if(password.match(confirmPassword)) {
+		if((password === confirmPassword || confirmPassword === password) && $('#uPass').hasClass("is-valid")) {
+			// alert('password sama');
 			$("#uPass2").removeClass("is-invalid").addClass("is-valid");
+		} else if(!password) {
+			// alert('password atas kosong');
+			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
+		} else if(!confirmPassword) {
+			// alert('password bawah kosong');
+			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
 		} else {
-			$('#uPass2').addClass("is-invalid");
-		}
-
-		if(!confirmPassword) {
-			$('#uPass2').addClass("is-invalid");
-		} else{
-			console.log('isi');
+			// alert('ada yang aneh boi');
+			$("#uPass2").removeClass("is-valid").addClass("is-invalid");
 		}
 	}
 
@@ -91,8 +135,6 @@
 /*
 	5. Account Verification Process
 */
-
-
 	function startVerification(email, hash) {
 
 		var baseUrl = document.location.origin + window.location.pathname + 'Register/verification';
@@ -141,7 +183,7 @@
 
 	function formOveride() {
 
-			// Example starter JavaScript for disabling form submissions if there are invalid fields
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
 	(function() {
 	  'use strict';
 	  window.addEventListener('load', function() {
@@ -163,3 +205,69 @@
 		
 	}
 
+/*
+	7. Empty Searchbox Fix
+ */
+
+ 	function checkSearch() {
+
+ 		var mobileQuery = $('#search-query-mobile').val();
+ 		var desktopQuery = $('#search-query-desktop').val();
+ 		
+ 		if( mobileQuery.trim() || desktopQuery.trim()) {
+ 			$('#searchbox-desktop').submit();
+ 			$('#searchbox-mobile').submit();
+ 		}
+
+ 	}
+
+
+/*
+	9. Get Confer Price
+ */
+
+	function startVerification(quantity) {
+
+
+
+	}
+
+/*
+	10. Set ZIP code to only include numbers 
+ */
+
+ 	function zipCodeVerification() {
+
+ 		$('#uZip').keydown(function(e) {
+			
+			var numbers = new RegExp('[0-9]');
+
+			var keyPres = e.which;
+
+			if((keyPres >= 48) && (keyPres <= 57)) {
+				return true;
+			} else if((keyPres >= 187) && (keyPres <= 190)) {
+				return false;
+			}
+		});
+
+ 	}
+
+ 	function quantityVerification() {
+
+ 		$('#quantity').keydown(function(e) {
+			
+			var numbers = new RegExp('[0-9]');
+
+			var keyPres = e.which;
+
+			console.log(e.which);
+
+			if((keyPres >= 48) && (keyPres <= 57)) {
+				return true;
+			} else if((keyPres >= 187) && (keyPres <= 190)) {
+				return false;
+			}
+		});
+
+ 	}

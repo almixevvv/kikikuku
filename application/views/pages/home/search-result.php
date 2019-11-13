@@ -45,9 +45,9 @@
 		<!-- COMPONENT RIGHT PART -->
 		<div class="custom-column-right">
 
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col-5">
-					<span>Displaying Search Result For: </span><?php echo $this->input->get('query'); ?>
+					<span>Displaying Search Result for: </span><?php echo ucwords($this->input->get('query')); ?>
 				</div>
 			</div>
 

@@ -16,7 +16,9 @@ class Register extends CI_Controller {
 
 	public function index() {
 
-    	$this->load->view('templates/header');
+		$data['sectionName'] = 'Register';
+
+    	$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
     	$this->load->view('pages/account-registration/register');
     	$this->load->view('templates/footer');
@@ -99,16 +101,18 @@ class Register extends CI_Controller {
 			$this->email->message($message);
 
 			if($this->email->send()) {
-				redirect(base_url('?verification=pending'));
+				
+				$this->session->set_flashdata('verification', 'pending');
+				redirect(base_url());
+
 			}
 		} else {
-			redirect(base_url('?verification=error'));
+			$this->session->set_flashdata('verification', 'error');
+			redirect(base_url());
 		}
 	}
 
 	public function verification() {
-
-		$this->load->model('M_user', 'user');
 
 		$hash = $this->input->get('key');
 		$email = $this->input->get('email');

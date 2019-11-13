@@ -6,7 +6,9 @@
 			parent::__construct();
 			
 			date_default_timezone_set('Asia/Jakarta');
+
 			$this->load->model('M_product', 'product');
+			$this->load->library('incube');
 		}
 
 		public function autoloadHome() {
@@ -33,12 +35,8 @@
 
 			foreach($obj['prslist'] as $list) {
 
-				//BROKEN IMAGE LINK FIX
-				if(substr($list['picture2'], 1, 1) != 'i' && substr($list['picture2'], 4, 1) != '/') {
-					$newPath = 'http://img1.yiwugou.com/i000';
-				} else {
-	    		  	$newPath = 'http://img1.yiwugou.com/';
-				}
+				//Use custom library for Image Formating
+				$newPath = $this->incube->replaceLink($list['picture2']);
 
 				//FORMAT THE PRICE
 				//Divide the price by 100
@@ -63,7 +61,8 @@
 							<div class="card product-list" id="prod_'.$list['id'].'">
 								<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 									<div class="d-flex justify-content-center">
-										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" />
+										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+										onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 									</div>
 									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
@@ -77,7 +76,8 @@
 							<div class="card product-list" id="prod_'.$list['id'].'">
 								<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 									<div class="d-flex justify-content-center">
-										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" />
+										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+										onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 									</div>
 									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
@@ -91,7 +91,8 @@
 						<div class="card product-list" id="prod_'.$list['id'].'">
 							<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 								<div class="d-flex justify-content-center">
-									<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" />
+									<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+									onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 								</div>
 								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
@@ -115,20 +116,20 @@
 
 			$output = '';
 
-			$searchQuery = $this->input->post('query');
-			$currentCounter = $this->input->post('counter');
-			$page = $this->input->post('start');
-			$marginParameter = $this->product->getMarginPrice();
-			
-			$json = file_get_contents("http://en.yiwugo.com/ywg/searchproduct.html?account=Wien.suh@gmail.com&cpage=".$page."&pageSize=10&q=".$searchQuery);
+			$searchQuery 		= $this->input->post('query');
+			$currentCounter 	= $this->input->post('counter');
+			$page 				= $this->input->post('start');
+			$marginParameter 	= $this->product->getMarginPrice();
+
+			$json = file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&q=".$searchQuery."&pageSize=12&cpage=".$page);
 
 			$obj = json_decode($json, true);
 
 			foreach($obj['prslist'] as $list) {
 
-				//FORMAT THE PRICE 
+				//FORMAT THE PRICE
 				//Divide the price by 100
-				$initialPrice =  $list['productDetail']['productDetailVO']['sellPrice']/100;
+				$initialPrice =  $list['sellPrice']/100;
                 
                 //Times the price to the convert rate
                 $convertPrice = $initialPrice * CONVERT;
@@ -142,37 +143,35 @@
                 //Round the Price
                 $price = ceil($finalPrice);
 
-				//BROKEN IMAGE LINK FIX
-				if(substr($list['productDetail']['productDetailVO']['picture2'], 1, 1) != 'i' && substr($list['productDetail']['productDetailVO']['picture2'], 4, 1) != '/') {
-					$newPath = 'http://img1.yiwugou.com/i000';
-				} else {
-	    		  	$newPath = 'http://img1.yiwugou.com/';
-				}
+                //Use custom library for Image Formating
+				$newPath = $this->incube->replaceLink($list['picture2']);
 
 				//FILL THE TEMPLATE WITH OUTPUT DATA
-				if($list['productDetail']['productDetailVO']['sellPrice'] == 0) {
-						$output .= '
+				if($list['sellPrice'] == 0) {
+					$output .= '
 						<div class="custom-product-list" >
-							<div class="card product-list" id="prod_'.$list['productDetail']['productDetailVO']['id'].'">
-								<a href="'.base_url('product_detail?id='.$list['productDetail']['productDetailVO']['id']).'" style="text-decoration: none;">
+							<div class="card product-list" id="prod_'.$list['id'].'">
+								<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 									<div class="d-flex justify-content-center">
-										<img alt="'.$list['productDetail']['productDetailVO']['title'].'" class="product-image" src="'.$newPath.$list['productDetail']['productDetailVO']['picture2'].'" />
+										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+										onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 									</div>
-									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['productDetail']['productDetailVO']['title'], 0, 35, "...")).'</p>
+									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
 									<span class="product-price">Price Negotiable</span>
 								</a>
 							</div>
 						</div>';
-				} else if(strlen($list['productDetail']['productDetailVO']['sellPrice']) > 7) {
-						$output .= '
+				} else if(strlen($list['sellPrice']) > 7) {
+					$output .= '
 						<div class="custom-product-list" >
-							<div class="card product-list" id="prod_'.$list['productDetail']['productDetailVO']['id'].'">
-								<a href="'.base_url('product_detail?id='.$list['productDetail']['productDetailVO']['id']).'" style="text-decoration: none;">
+							<div class="card product-list" id="prod_'.$list['id'].'">
+								<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 									<div class="d-flex justify-content-center">
-										<img alt="'.$list['productDetail']['productDetailVO']['title'].'" class="product-image" src="'.$newPath.$list['productDetail']['productDetailVO']['picture2'].'" />
+										<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+										onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 									</div>
-									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['productDetail']['productDetailVO']['title'], 0, 35, "...")).'</p>
+									<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 									<label class="product-label">Estimated Price</label></br>
 									<span class="product-price">Price Negotiable</span>
 								</a>
@@ -181,14 +180,15 @@
 				} else {
 					$output .= '
 					<div class="custom-product-list" >
-						<div class="card product-list" id="prod_'.$list['productDetail']['productDetailVO']['id'].'">
-							<a href="'.base_url('product_detail?id='.$list['productDetail']['productDetailVO']['id']).'" style="text-decoration: none;">
+						<div class="card product-list" id="prod_'.$list['id'].'">
+							<a href="'.base_url('product_detail?id='.$list['id']).'" style="text-decoration: none;">
 								<div class="d-flex justify-content-center">
-									<img alt="'.$list['productDetail']['productDetailVO']['title'].'" class="product-image" src="'.$newPath.$list['productDetail']['productDetailVO']['picture2'].'" />
+									<img alt="'.$list['title'].'" class="product-image" src="'.$newPath.$list['picture2'].'" 
+									onerror="this.onerror=null;this.src='.'\''.base_url('assets/images/no-image-icon.png').' \''.'" />
 								</div>
-								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['productDetail']['productDetailVO']['title'], 0, 35, "...")).'</p>
+								<p class="product-title mt-2">'.ucwords(mb_strimwidth($list['title'], 0, 35, "...")).'</p>
 								<label class="product-label">Estimated Price</label></br>
-								<span class="product-price">IDR '.number_format($price, 2, '.', ',').'</span>
+								<span class="product-price">IDR '.number_format($price, 2, '.', ',').'</span>	
 							</a>
 						</div>
 					</div>';

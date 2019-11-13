@@ -62,8 +62,8 @@ $route['login'] = 'Login';
 $route['logout'] = 'Login/logout';
 $route['register'] = 'Register';
 $route['account'] = 'account/view';
-$route['register/verification'] = 'register/input';
-$route['verification'] = 'register/verification';
+$route['register/verification'] = 'Register/input';
+$route['verification'] = 'Home/index';
 
 /* User Profile Part */
 $route['profile/transaction'] = 'Profile/transaction';

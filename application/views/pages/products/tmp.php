@@ -1,146 +1,130 @@
 <div class="detail-container">
 
+  <?php
+    //DEFAULT IMAGE PATH
+    $newPath = 'http://img1.yiwugou.com/';
+    $startingPrice = 0;
+    $startingQuantity = 1;
+
+    if($dataproduct['detail']['sdiProductsPicList'] == null) {
+      
+      if((substr($dataproduct['detail']['productForApp']['picture'], 0, 1) == 'i') || (substr($dataproduct['detail']['productForApp']['picture'], 0, 1) == '/') || (substr($dataproduct['detail']['productForApp']['picture'], 1, 1) == 'i')) {
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 0, 1).'</br>';
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 1, 1).'</br>';
+        echo 'use new format';
+      } else {
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 0, 1).'</br>';
+        echo 'the first data is '.substr($dataproduct['detail']['productForApp']['picture'], 1, 1).'</br>';
+        echo 'use old format';
+      }
+
+    } else {
+      //THERE'S PRODUCT IMAGE, USE THIS
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture'], 1, 1);
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture1'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture2'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture3'], 1, 1); 
+      // echo substr($dataproduct['detail']['sdiProductsPicList']['picture4'], 1, 1);
+    }
+  ?>
+
   <div class="row">
-    
-    <?php $newPath = 'http://img1.yiwugou.com/'; ?>
 
     <!-- PRODUCT LEFT PART -->
     <div class="col-1 col-md-1 col-lg-1 col-xl-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
-    
-    <!-- IF THE PRODUCTLIST IS NOT EMPTY, THEN USE THE BELOW IMAGE -->
-    <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
-    
+    <?php
+    //CHECK IF THE SDIPRODUCTPICLIST IS NOT EMPTY
+    if($dataproduct['detail']['sdiProductsPicList'] != null):
+      foreach($dataproduct['detail']['sdiProductsPicList'] as $images):
+    ?>
 
-      <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $sdiProducts): ?>
-
-        <?php if(strlen($sdiProducts['picture']) > 6): ?>
-        
-        <!-- IMAGE FORMATING -->
-        <?php $newPath = $this->incube->replaceLink($sdiProducts['picture']); ?>
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$sdiProducts['picture']; ?>" class="row-images" alt="Product Image" src="<?php echo $newPath.$sdiProducts['picture']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-          </center>
-        </div>
-        <?php endif; ?>
-
-        <?php if(strlen($sdiProducts['picture1']) > 6): ?>
-
-        <!-- IMAGE FORMATING -->
-        <?php $newPath = $this->incube->replaceLink($sdiProducts['picture1']); ?>
-
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$sdiProducts['picture1']; ?>" class="row-images" alt="Product Image 1" src="<?php echo $newPath.$sdiProducts['picture1']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-          </center>
-        </div>
-        <?php endif; ?>
-
-        <?php if(strlen($sdiProducts['picture2']) > 6): ?>
-
-        <!-- IMAGE FORMATING -->
-        <?php $newPath = $this->incube->replaceLink($sdiProducts['picture2']); ?>
-
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$sdiProducts['picture2']; ?>" class="row-images" alt="Product Image 2" src="<?php echo $newPath.$sdiProducts['picture2']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-          </center>
-        </div>
-        <?php endif; ?>
-
-        <?php if(strlen($sdiProducts['picture3']) > 6): ?>
-        
-        <!-- IMAGE FORMATING -->
-        <?php $newPath = $this->incube->replaceLink($sdiProducts['picture3']); ?>
-
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$sdiProducts['picture3']; ?>" class="row-images" alt="Product Image 3" src="<?php echo $newPath.$sdiProducts['picture3']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-          </center>
-        </div>
-        <?php endif; ?>
-
-        <?php if(strlen($sdiProducts['picture4']) > 6): ?>
-
-        <!-- IMAGE FORMATING -->
-        <?php $newPath = $this->incube->replaceLink($sdiProducts['picture4']); ?>
-
-        <div class="detail-border">
-          <center>
-            <img data-picture="<?php echo $newPath.$sdiProducts['picture4']; ?>" class="row-images" alt="Product Image 4" src="<?php echo $newPath.$sdiProducts['picture']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-          </center>
-        </div>
-        <?php endif; ?>
-
-
-      <?php endforeach; ?>
-    
-
-    <!-- IF THE PRODUCTLIST IS EMPTY, THEN USE THE UPPER IMAGE -->
-    <?php else: ?>
-
-      <?php if(strlen($dataproduct['detail']['productForApp']['picture']) > 6): ?>
-      
-      <!-- IMAGE FORMATING -->
-      <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture']); ?>
-
-      <div class="detail-border">
-        <center>
-          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="Product Image" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-        </center>
-      </div>
-      <?php endif; ?>
-
-      <?php if(strlen($dataproduct['detail']['productForApp']['picture1']) > 6): ?>
-
-      <!-- IMAGE FORMATING -->
-      <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture1']); ?>
-
-      <div class="detail-border">
-        <center>
-          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="Product Image 2" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' "/>
-        </center>
-      </div>
-      <?php endif; ?>
-
-      <?php if(strlen($dataproduct['detail']['productForApp']['picture2']) > 6): ?>
-
-      <!-- IMAGE FORMATING -->
-      <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture2']); ?>
-
-      <div class="detail-border">
-        <center>
-          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="Product Image 3" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' "/>
-        </center>
-      </div>
-      <?php endif; ?>
-
-      <?php if(strlen($dataproduct['detail']['productForApp']['picture3']) > 6): ?>
-
-      <!-- IMAGE FORMATING -->
-      <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture3']); ?>
-
-      <div class="detail-border">
-        <center>
-          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="Product Image 4" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' "/>
-        </center>
-      </div>
-      <?php endif; ?>
-
-      <?php if(strlen($dataproduct['detail']['productForApp']['picture4']) > 6): ?>
-
-      <!-- IMAGE FORMATING -->
-      <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture4']); ?>
-
-      <div class="detail-border">
-        <center>
-          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4']; ?>" class="row-images" alt="Product Image 5" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' "/>
-        </center>
-      </div>
-      <?php endif; ?>
-
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture']; ?>"/>
+      </center>
+    </div>
     <?php endif; ?>
 
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture1']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture1']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
+
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture2']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture2']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
+
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture3']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture3']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
+
+    <!-- CHECK IF THE SDILIST IS EMPTY -->
+    <?php if(strlen($images['picture4']) > 4): ?>
+    <div class="detail-border">
+      <center>
+        <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture4']; ?>"/>
+      </center>
+    </div>
+    <?php endif; ?>
+
+    <?php
+      //END SDI PRODUCT PIC LOOP
+      endforeach;
+    //CHECK IF THE SDIPRODUCTPICLIST IS EMPTY
+    else:
+    ?>
+
+      <!-- PRINT ONLY THE SINGLE IMAGE -->
+      <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
+
+      <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
+
+      <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
+
+      <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
+      <div class="detail-border">
+        <center>
+          <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
+        </center>
+      </div>
+      <?php endif; ?>
+
+
+    <?php endif; ?>
     </div>
     <!-- END OF PRODUCT LEFT PART -->
 
@@ -152,62 +136,42 @@
         <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $images): ?>
 
           <!-- CHECK IF THE PICTURE EXIST -->
-          <?php if(strlen($images['picture']) > 6): ?>
-
-          <!-- IMAGE FORMATING -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['picture']); ?>
-
+          <?php if($images['picture'] != null): ?>
           <div class="detail-border">
             <center>
-              <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="Product Image" src="<?php echo $newPath.$images['picture']; ?>"/>
+              <img data-picture="<?php echo $newPath.$images['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture']; ?>"/>
             </center>
           </div>
           <?php endif; ?>
 
-          <?php if(strlen($images['picture1']) > 6): ?>
-
-          <!-- IMAGE FORMATING -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['picture1']); ?>
-
+          <?php if($images['picture1'] != null): ?>
           <div class="detail-border">
             <center>
-              <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="Product Image 1" src="<?php echo $newPath.$images['picture1']; ?>"/>
+              <img data-picture="<?php echo $newPath.$images['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture1']; ?>"/>
             </center>
           </div>
           <?php endif; ?>
 
-          <?php if(strlen(['picture2']) > 6): ?>
-
-          <!-- IMAGE FORMATING -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['picture2']); ?>
-
+          <?php if($images['picture2'] != null): ?>
           <div class="detail-border">
             <center>
-              <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="Product Image 2" src="<?php echo $newPath.$images['picture2']; ?>"/>
+              <img data-picture="<?php echo $newPath.$images['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture2']; ?>"/>
             </center>
           </div>
           <?php endif; ?>
 
-          <?php if(strlen($images['picture3']) > 6): ?>
-
-          <!-- IMAGE FORMATING -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['picture3']); ?>
-
+          <?php if($images['picture3'] != null): ?>
           <div class="detail-border">
             <center>
-              <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="Product Image 3" src="<?php echo $newPath.$images['picture3']; ?>"/>
+              <img data-picture="<?php echo $newPath.$images['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture3']; ?>"/>
             </center>
           </div>
           <?php endif; ?>
 
-          <?php if(strlen($images['picture4']) > 6): ?>
-
-          <!-- IMAGE FORMATING -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['picture4']); ?>
-
+          <?php if($images['picture4'] != null): ?>
           <div class="detail-border">
             <center>
-              <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="Product Image 4" src="<?php echo $newPath.$images['picture4']; ?>"/>
+              <img data-picture="<?php echo $newPath.$images['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$images['picture4']; ?>"/>
             </center>
           </div>
           <?php endif; ?>
@@ -215,11 +179,7 @@
           <?php endforeach; ?>
           <?php else: ?>
 
-            <?php if(strlen($dataproduct['detail']['productForApp']['picture']) > 6): ?>
-
-            <!-- IMAGE FORMATING -->
-            <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture']); ?>
-
+            <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
             <div class="detail-border">
               <center>
                 <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture']; ?>"/>
@@ -227,11 +187,7 @@
             </div>
             <?php endif; ?>
 
-            <?php if(strlen($dataproduct['detail']['productForApp']['picture1']) > 6): ?>
-
-            <!-- IMAGE FORMATING -->
-            <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture1']); ?>
-
+            <?php if($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
             <div class="detail-border">
               <center>
                 <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1']; ?>"/>
@@ -239,11 +195,7 @@
             </div>
             <?php endif; ?>
 
-            <?php if(strlen($dataproduct['detail']['productForApp']['picture2']) > 6): ?>
-
-            <!-- IMAGE FORMATING -->
-            <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture2']); ?>
-
+            <?php if($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
             <div class="detail-border">
               <center>
                 <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2']; ?>"/>
@@ -251,26 +203,10 @@
             </div>
             <?php endif; ?>
 
-            <?php if(strlen($dataproduct['detail']['productForApp']['picture3']) > 6): ?>
-
-            <!-- IMAGE FORMATING -->
-            <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture3']); ?>
-
+            <?php if($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
             <div class="detail-border">
               <center>
                 <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3']; ?>"/>
-              </center>
-            </div>
-            <?php endif; ?>
-
-            <?php if(strlen($dataproduct['detail']['productForApp']['picture4']) > 6): ?>
-
-            <!-- IMAGE FORMATING -->
-            <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture4']); ?>
-
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4']; ?>" class="row-images" alt="product-img" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4']; ?>"/>
               </center>
             </div>
             <?php endif; ?>
@@ -288,80 +224,38 @@
           <? //IF PRODUCT LIST IMAGE IS NOT EMPTY, USE THAT AS SOURCE ?>
           <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
             <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $images): ?>
-
               <?php if($images['picture'] != null): ?>
-
-              <!-- IMAGE FORMATING -->
-              <?php $newPath = $this->incube->replaceLink($images['picture']); ?>
-
               <img class="detail-main-images" alt="Product Images" src="<?php echo $newPath.$images['picture'];?>"/>
 
               <?php elseif($images['picture1'] != null): ?>
-              
-              <!-- IMAGE FORMATING -->
-              <?php $newPath = $this->incube->replaceLink($images['picture1']); ?>
-
               <img class="detail-main-images" alt="Product Images 1" src="<?php echo $newPath.$images['picture1'];?>"/>
 
               <?php elseif($images['picture2'] != null): ?>
-              
-              <!-- IMAGE FORMATING -->
-              <?php $newPath = $this->incube->replaceLink($images['picture2']); ?>
-
               <img class="detail-main-images" alt="Product Images 2" src="<?php echo $newPath.$images['picture2'];?>"/>
 
               <?php elseif($images['picture3'] != null): ?>
-              
-              <!-- IMAGE FORMATING -->
-              <?php $newPath = $this->incube->replaceLink($images['picture3']); ?>
-
               <img class="detail-main-images" alt="Product Images 3" src="<?php echo $newPath.$images['picture3'];?>"/>
 
               <?php elseif($images['picture4'] != null): ?>
-              
-              <!-- IMAGE FORMATING -->
-              <?php $newPath = $this->incube->replaceLink($images['picture4']); ?>
-
               <img class="detail-main-images" alt="Product Images 4" src="<?php echo $newPath.$images['picture4'];?>"/>
-
               <?php endif; ?>
 
             <?php endforeach; ?>
           <?php else: ?>
           <?php //IF PRODUCT LIST IS EMPTY, THEN USE ANOTHER SOURCE FOR IMAGE ?>
           <?php if($dataproduct['detail']['productForApp']['picture'] != ""): ?>
-          
-          <!-- FIX IMAGE FORMAT -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture']); ?>
-
           <img class="detail-main-images" alt="Product Images" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture'];?>"/>
 
           <?php elseif($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
-          
-          <!-- FIX IMAGE FORMAT -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture1']); ?>
-
           <img class="detail-main-images" alt="Product Images 1" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1'];?>"/>
 
           <?php elseif($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
-          
-          <!-- FIX IMAGE FORMAT -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture2']); ?>
-
           <img class="detail-main-images" alt="Product Images 2" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2'];?>"/>
 
           <?php elseif($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
-          
-          <!-- FIX IMAGE FORMAT -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture3']); ?>
-
           <img class="detail-main-images" alt="Product Images 3" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3'];?>"/>
 
           <?php elseif($dataproduct['detail']['productForApp']['picture4'] != ""): ?>
-          
-          <!-- FIX IMAGE FORMAT -->
-          <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture4']); ?>
-
           <img class="detail-main-images" alt="Product Images 4" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4'];?>"/>
           <?php endif; ?>
         
@@ -411,11 +305,9 @@
                   <?php 
                     //CONVERT THE QUANTITY IF IT'S CHINESE SYMBOL
                     if($dataproduct['detail']['productForApp']['matrisingular'] == '个') {
-                      $matric = 'Pcs';
-                    } else if($dataproduct['detail']['productForApp']['matrisingular'] == '套') {
-                      $matric = 'Set';
+                      $matric = 'pcs';
                     } else {
-                      $matric = 'Pcs';
+                      $matric = $dataproduct['detail']['productForApp']['matrisingular'];
                     }
                   ?>
 
@@ -436,9 +328,6 @@
               <?php
                 //FOR PRICING PURPOSE ONLY
                 if($quantity['endNumber'] == 0) {
-                  $startingQuantity = $quantity['startNumber'];
-                  $startingPrice = $finalPrice;
-                } else if($quantity['endNumber'] == 1) {
                   $startingQuantity = $quantity['startNumber'];
                   $startingPrice = $finalPrice;
                 }
@@ -625,8 +514,6 @@
 
       //Round the Price
       $price = ceil($finalPrice);
-
-      $newPath = $this->incube->replaceLink($data['picture2']);
     ?>
 
     <div class="custom-product-list" >

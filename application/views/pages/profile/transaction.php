@@ -339,7 +339,11 @@
 
                       <div class="col-6">
                         <span class="main-color">
-                          <?php echo $history->PRODUCT_QUANTITY.' '.$obj['detail']['productForApp']['matrisingular']; ?>
+                          <?php if($obj['detail']['productForApp']['matrisingular'] == '个'): ?>
+                            <?php echo $history->PRODUCT_QUANTITY.' pc'; ?>
+                          <?php else: ?>
+                            <?php echo $history->PRODUCT_QUANTITY.' pc'; ?>
+                          <?php endif; ?>
                         </span>
                       </div>
                     </div>
