@@ -7,6 +7,7 @@
         parent::__construct();
 
         $this->load->model('M_product', 'product');
+        $this->load->model('M_profile', 'profiles');
         $this->load->model('M_cart', 'carts');
         
         // $this->output->enable_profiler(TRUE);
@@ -119,14 +120,25 @@
 
     }
 
-      public function checkoutSuccess() {
+    public function checkoutSuccess() {
 
         $this->load->view('templates/header');
     	$this->load->view('templates/navbar');
     	$this->load->view('pages/cart/order-success');
         $this->load->view('templates/footer');
 
-      }
+    }
+
+    public function getMemberData() {
+
+        $email = $this->input->post('email');
+
+        $userData = $this->profiles->getMemberDetails($email);
+
+        header("Content-Type: application/json");
+        echo json_encode($userData->result());
+
+    }
 
 
   }

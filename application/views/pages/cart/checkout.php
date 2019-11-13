@@ -111,7 +111,7 @@
 
         <div class="col-12 col-md-5 col-lg-5 col-xl-5">
           <label>
-            <input name="clear-data" onchange="clearData()" type="checkbox"> My Shipping Address is Different From My Billing Address
+            <input name="clear-data" type="checkbox" id="clear-data"> My Shipping Address is Different From My Billing Address
           </label>
         </div>
 
@@ -134,8 +134,13 @@
 
 <script type="text/javascript">
 
-  function clearData() {
-    if($('input[name="clear-data"]:checked')) {
+  var email = '<?php echo $this->session->userdata('EMAIL'); ?>';
+ 
+  $('#clear-data').on('change', function () {
+
+    ckb = $("#clear-data").is(':checked');
+
+    if(ckb) {
       $('input[name=txt-name]').val('');
       $('input[name=txt-email]').val('');
       $('input[name=txt-phone]').val('');
@@ -143,46 +148,46 @@
       $('input[name=txt-address-2]').val('');
       $('input[name=txt-state]').val('');
       $('input[name=txt-zip]').val('');
+    } else {
+      
+      $.ajax({ 
+        url: '<?php echo base_url('Checkout/getMemberData'); ?>',
+        type: 'POST',
+        data: { email : email },
+        success: function(data) {
+          console.log(data.ID);
+          // console.log('sukses');
+        }
+      });
+      // alert('dari isi jadi kosong');
     }
-  }
-
-  function getUserData() {
-
-    $.ajax({ 
-      url: 'https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag',
-    });
-    $this->session->userdata('EMAIL')
-  }
-
-  $(document).ready(function() {
-
-    $.ajax({
-     url: 'https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag',
-     type: 'GET',
-     success: function(data) {
-         var countryData = '';
-         $.each(data, function(index, value) {
-           //Get country data from API
-           $("#txt-country").append($('<option>', {
-             value:value.name,
-             text: value.name
-           }));
-           //Get country phone number from API
-           $("#country-code").append($('<option>', {
-             value:value.callingCodes,
-             text: value.name + " +" + value.callingCodes
-           }));
-         });
-       },
-     error: function (xhr, ajaxOptions, thrownError) {
-         var errorMsg = 'Ajax request failed: ' + xhr.responseText;
-         console.log(errorMsg);
-         //$('#content').html(errorMsg);
-       }
-    });
 
   });
 
-  formOveride();
+  $.ajax({
+    url: 'https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag',
+    type: 'GET',
+    success: function(data) {
+      var countryData = '';
+      $.each(data, function(index, value) {
+        //Get country data from API
+        $("#txt-country").append($('<option>', {
+          value:value.name,
+          text: value.name
+        }));
+        
+        //Get country phone number from API
+        $("#country-code").append($('<option>', {
+          value:value.callingCodes,
+          text: value.name + " +" + value.callingCodes
+        }));
+      });
+    },
+    error: function (xhr, ajaxOptions, thrownError) {
+      var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+      console.log(errorMsg);
+    }
+  });
 
+  formOveride();
 </script>
