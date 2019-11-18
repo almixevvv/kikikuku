@@ -2,7 +2,17 @@
 
   <div class="row">
     
-    <?php $newPath = 'http://img1.yiwugou.com/'; ?>
+    <?php
+      //Default Image Path
+      $newPath = 'http://img1.yiwugou.com/'; 
+      
+      //Set the minimum quantity
+      if($dataproduct['detail']['sdiProductsPriceList'] != null) {
+        $minimumQty = $dataproduct['detail']['sdiProductsPriceList'][0]['startNumber'];
+      } else {
+        $minimumQty = 1;
+      }
+    ?>
 
     <!-- PRODUCT LEFT PART -->
     <div class="col-1 col-md-1 col-lg-1 col-xl-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
@@ -390,24 +400,12 @@
 
               <?php 
                 //FORMAT THE PRICE 
-                //Divide the price by 100 to get the precise amount
-                $initialPrice =  $quantity['conferPrice']/100;
-                
-                //Times the price to the convert rate
-                $convertPrice = $initialPrice * CONVERT;
-
-                //Get margin parameter
-                $marginPrice = $convertPrice * $marginParameter;
-                
-                //Set the final price
-                $finalPrice = $convertPrice + $marginPrice;
-
-                //Round the Price
-                $finalPrice = ceil($finalPrice);
+                $finalPrice = $this->incube->setPrice($quantity['conferPrice']);
               ?>
               
               <div class="row">
                 <div class="col-6 col-md-12 col-lg-6 col-xl-6" style="padding-right: 0!important;">
+                  
                   <?php 
                     //CONVERT THE QUANTITY IF IT'S CHINESE SYMBOL
                     if($dataproduct['detail']['productForApp']['matrisingular'] == '个') {
@@ -419,12 +417,24 @@
                     }
                   ?>
 
+                  <?php 
+                    //Get the minimal quantity available
+                    if($minimumQty > $quantity['startNumber']) {
+                      $minimumQty = $quantity['startNumber'];
+                    }
+                  ?>
+
                   <?php if($quantity['endNumber'] == 0): ?>
-                    <label class="detail-txt-color detail-exw-size font-weight-bold">Above <?php echo $quantity['startNumber'].' '.$matric; ?></label>
-                    <?php $finalNumber = $quantity['startNumber']; ?>
-                    <?php else: ?>
-                      <label class="detail-txt-color detail-exw-size font-weight-bold"><?php echo $quantity['startNumber'].' '.$matric; ?> ~ <?php echo $quantity['endNumber'].' '.$matric; ?></label>
+                    <label class="detail-txt-color detail-exw-size font-weight-bold">
+                      Above <?php echo $quantity['startNumber'].' '.$matric; ?>
+                    </label>
+                  <?php $finalNumber = $quantity['startNumber']; ?>
+                  <?php else: ?>
+                    <label class="detail-txt-color detail-exw-size font-weight-bold">
+                      <?php echo $quantity['startNumber'].' '.$matric; ?> ~ <?php echo $quantity['endNumber'].' '.$matric; ?>
+                    </label>
                   <?php endif; ?>
+
                 </div>
                 <div class="col-6 col-md-12 col-lg-6 col-xl-6">
                   <label class="detail-txt-color detail-exw-size font-weight-bold">
@@ -441,45 +451,45 @@
                 } else if($quantity['endNumber'] == 1) {
                   $startingQuantity = $quantity['startNumber'];
                   $startingPrice = $finalPrice;
+                } else if($quantity['startNumber'] < $quantity['endNumber']) {
+                  $startingQuantity = $quantity['startNumber'];
+                  $startingPrice = $finalPrice;
                 }
               ?>
               <?php endforeach; ?>
 
-            <?php else: ?>
-              <?php 
-                //FORMAT THE PRICE 
-                //Divide the price by 100 to get the precise amount
-                $initialPrice =  $dataproduct['detail']['productForApp']['sellPrice']/100;
-                
-                //Times the price to the convert rate
-                $convertPrice = $initialPrice * CONVERT;
-
-                //Get margin parameter
-                $marginPrice = $convertPrice * $marginParameter;
-                
-                //Set the final price
-                $finalPrice = $convertPrice + $marginPrice;
-
-                //Round the Price
-                $startingPrice = ceil($finalPrice);
-              ?>
-            <?php endif; ?>
+            <?php else:    
+              //FORMAT THE PRICE 
+              $startingPrice = $this->incube->setPrice($dataproduct['detail']['productForApp']['sellPrice']);
+            ?>
+            <?php endif; ?> 
           </div>
+            
+          <?php //HIDDEN INPUT FOR MINIMAL QUANTITY ?>
+          <input type="hidden" name="minimumQty" id="minimumQty" value="<?php echo $minimumQty; ?>" >
 
           <div class="row mt-4">
             <div class="col-12 col-md-6 col-lg-12 col-xl-7">
               <label class="detail-label">Estimated Price :</label>
-              <?php //IF THE PRICE TOO LONG, SHOW PRICE NEGOTIABLE  ?>
+              <?php //IF THE PRICE TOO LONG, SHOW PRICE NEGOTIABLE ?>
               <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
               <span class="detail-exw-color detail-label"></br class="d-none d-md-block d-lg-block d-xl-block">Price Negotiable</span>
-                <?php else: ?>
-                <span class="detail-exw-color detail-label font-weight-bold">IDR <?php echo number_format($startingPrice, 2, '.', ',');?></span>
+              <?php else: ?>
+              <span class="detail-exw-color detail-label font-weight-bold">
+                IDR <?php echo number_format($startingPrice, 2, '.', ',');?>
+              </span>
               <?php endif; ?>
             </div>
 
             <div class="col-12 col-md-6 col-lg-12 col-xl-5">
               <label class="detail-label">Est. Weight :</label>
-              <span class="detail-exw-color font-weight-bold" id="detail-weight"><?php echo substr($dataproduct['detail']['productForApp']['weightetc'], 0, 4); ?> gr</span>
+              <span class="detail-exw-color font-weight-bold" id="detail-weight">
+                <?php if(strlen($dataproduct['detail']['productForApp']['weightetc']) > 1): ?>
+                  <?php echo substr($dataproduct['detail']['productForApp']['weightetc'], 0, 4); ?> gr
+                <?php else: ?>
+                  <?php echo substr('-', 0, 4); ?>
+                <?php endif; ?>
+              </span>
             </div>
           </div>
 
@@ -563,7 +573,7 @@
             $productID = array(
               'type'  => 'hidden',
               'name'  => 'product-id',
-              'id'    => 'hiddenQuantity',
+              'id'    => 'hiddenID',
               'value' => $dataproduct['detail']['id']
             );
 
@@ -612,20 +622,7 @@
 
     <?php 
       //FORMAT THE PRICE 
-      $initialPrice =  $data['sellPrice']/100;
-                
-      //Times the price to the convert rate
-      $convertPrice = $initialPrice * CONVERT;
-
-      //Get margin parameter
-      $marginPrice = $convertPrice * $marginParameter;
-                
-      //Set the final price
-      $finalPrice = $convertPrice + $marginPrice;
-
-      //Round the Price
-      $price = ceil($finalPrice);
-
+      $startingPrice = $this->incube->setPrice($data['sellPrice']);
       $newPath = $this->incube->replaceLink($data['picture2']);
     ?>
 
@@ -654,56 +651,39 @@
 </div>
 
 <script type="text/javascript" src="<?php echo base_url('assets/zoom-master/jquery.zoom.min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/incube-assets/product-detail.js'); ?>"></script>
 <script type="text/javascript">
+  
+  $('#quantity').on('change', function() {
 
-  var minimumValue = $('#quantity').val();
+    var id = $('#hiddenID').val();
+    var curQty = $('#quantity').val();
+    var curPrice = $('#hiddenPrice').val();
 
-  //Initialize Function
-  quantityVerification();
-
-  //ZOOM KE GAMBAR
-  $('.detail-main-images')
-    .wrap('<span style="display:inline-block"></span>')
-    .css('display', 'block')
-    .parent()
-    .zoom();
-
-  //GANTI IMAGE
-  $('.row-images').each(function () {
-    var $this = $(this);
-    $this.on("click", function () {
-      var image = $(".detail-main-images");
-      //HARUS DIASIGN KE LOCAL VARIABLE BIAR BERUBAH
-      var source = $(this).data('picture');
-      image.fadeOut('fast', function () {
-        image.attr('src', source);
-        image.fadeIn('fast');
-        $('.detail-main-images').trigger('zoom.destroy');
-        $('.detail-main-images')
-          .wrap('<span style="display:inline-block"></span>')
-          .css('display', 'block')
-          .parent()
-          .zoom();
-      });
+    $.ajax({
+      url:"<?php echo base_url('ContentLoad/loadDetails'); ?>",
+      method:"GET",
+      data:{ id:id, qty:curQty, price:curPrice },
+      cache: false,
+      success:function(data) {
+        
+        // if(data == '') {
+        //   $('#loader-icon').html('<h3>No More Result Found</h3>');
+        //   action = 'active';
+        // } else {
+        //   $('#product-main-list').append(data);
+        //   action = 'inactive';
+        // }
+        // 
+      }
     });
+
   });
 
-  $("#xplusone").click(function() {
-    var qty = parseInt($("#quantity").val());
-    var newqty = qty +1;
-    $("#quantity").val(newqty);
+  $(document).keypress(
+    function(event){
+      if (event.which == '13') {
+        event.preventDefault();
+      }
   });
-
-  $("#xminusone").click(function() {
-    var qty = parseInt($("#quantity").val());
-    var newqty = qty -1;
-    if (newqty < 1) {
-      $("#quantity").val(1);
-        return true;
-      } else if (newqty >= 1) {
-        $("#quantity").val(newqty);
-        return true;
-      } 
-  });
-
 </script>

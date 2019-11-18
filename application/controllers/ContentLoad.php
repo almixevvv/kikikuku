@@ -39,20 +39,7 @@
 				$newPath = $this->incube->replaceLink($list['picture2']);
 
 				//FORMAT THE PRICE
-				//Divide the price by 100
-				$initialPrice =  $list['sellPrice']/100;
-                
-                //Times the price to the convert rate
-                $convertPrice = $initialPrice * CONVERT;
-
-                //Get margin parameter
-                $marginPrice = $convertPrice * $marginParameter;
-                
-                //Set the final price
-                $finalPrice = $convertPrice + $marginPrice;
-
-                //Round the Price
-                $price = ceil($finalPrice);
+				$price = $this->incube->setPrice($list['sellPrice']);
 
 				//FILL THE TEMPLATE WITH OUTPUT DATA
 				if($list['sellPrice'] == 0) {
@@ -112,6 +99,30 @@
 
 		}
 
+		public function loadDetails() {
+
+			$id 		= $this->input->get('id');
+			$curQty 	= $this->input->get('qty');
+			$curPrice	= $this->input->get('price');
+			
+			$finalUrl 	= 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
+
+			$json 		= file_get_contents($finalUrl);
+        	$obj        = json_decode($json, true);
+
+        	//Match the Price
+        	if($obj['detail']['sdiProductsPriceList'] != null) {
+        		echo 'saatnya berhitung';
+
+        		foreach($obj['detail']['sdiProductsPriceList'] as $price) {
+        			
+        		}
+        	} else {
+        		echo $curPrice;
+        	}
+
+		}
+
 		public function autoloadSearch() {
 
 			$output = '';
@@ -128,20 +139,7 @@
 			foreach($obj['prslist'] as $list) {
 
 				//FORMAT THE PRICE
-				//Divide the price by 100
-				$initialPrice =  $list['sellPrice']/100;
-                
-                //Times the price to the convert rate
-                $convertPrice = $initialPrice * CONVERT;
-
-                //Get margin parameter
-                $marginPrice = $convertPrice * $marginParameter;
-                
-                //Set the final price
-                $finalPrice = $convertPrice + $marginPrice;
-
-                //Round the Price
-                $price = ceil($finalPrice);
+				$price = $this->incube->setPrice($list['sellPrice']);
 
                 //Use custom library for Image Formating
 				$newPath = $this->incube->replaceLink($list['picture2']);

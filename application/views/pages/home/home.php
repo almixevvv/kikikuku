@@ -230,17 +230,28 @@
 			console.log(errorMsg);
 		}
 	});
-
 </script>
+
 <?php endif; ?>
 
-<?php if($this->input->get('inquiry') == 'created'): ?>
+<?php if($this->session->userdata('inquiry') == 'created'): ?>
 <script type="text/javascript">
 
 	swal.fire({
 		title:'Inquiry Created',
 		text: 'Your inquiry has been created. Our team will process your order',
 		type: 'success',
+		showCancelButton: false,
+	});
+
+</script>
+<?php elseif($this->session->userdata('inquiry') == 'failed'): ?>
+<script type="text/javascript">
+
+	swal.fire({
+		title:'Inquiry Not Created',
+		text: 'Your inquiry has not been created. Please try again later.',
+		type: 'error',
 		showCancelButton: false,
 	});
 

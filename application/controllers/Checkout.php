@@ -17,7 +17,13 @@
 
         $data['userData'] = $this->carts->getUserDetails($this->session->userdata('EMAIL'));
 
-        $data['sectionName'] = 'Checkout'; 
+        $data['sectionName'] = 'Checkout';
+
+        $member_id = $this->session->userdata('USERID');
+
+        if($member_id == null) {
+            redirect(base_url());
+        }
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/navbar');
@@ -45,7 +51,6 @@
     	$orderCountry   = $this->input->post('txt-country');
     	$orderZIP       = $this->input->post('txt-zip');
     	$orderState     = $this->input->post('txt-state');
-
 
     	$data = array(
     		'ORDER_NO'     => $genID,
@@ -113,19 +118,12 @@
             $this->session->unset_userdata('totalQuantity');
             $this->session->unset_userdata('totalPrice');
 
-    		redirect(base_url('?inquiry=created&transID='.$genID));
+            $this->session->set_flashdata('inquiry', 'created');
+            redirect(base_url());
     	} else {
-            redirect(base_url('?inquiry=failed&transID='.$genID));
+            $this->session->set_flashdata('inquiry', 'failed');
+            redirect(base_url());
     	}
-
-    }
-
-    public function checkoutSuccess() {
-
-        $this->load->view('templates/header');
-    	$this->load->view('templates/navbar');
-    	$this->load->view('pages/cart/order-success');
-        $this->load->view('templates/footer');
 
     }
 

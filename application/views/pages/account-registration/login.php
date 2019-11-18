@@ -113,8 +113,7 @@
 </div>
 
 <script>
-	formOveride();
-
+	
 	<?php if($this->session->has_userdata('success')): ?>
 		swal.fire({
 	    	title:'Reset Successful',
@@ -141,4 +140,5 @@
 	    	showCancelButton: false,
 	  	});
 	<?php endif; ?>
+	
 </script>

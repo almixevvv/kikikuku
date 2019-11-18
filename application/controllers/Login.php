@@ -6,7 +6,6 @@ class Login extends CI_Controller {
 			parent::__construct();
 
 			// $this->output->enable_profiler(TRUE);
-
 			$this->load->model('M_user', 'user');
 
 			/* LOAD CUSTOM GOOGLE LIBRARY */
@@ -124,18 +123,9 @@ class Login extends CI_Controller {
 
 	function logout() {
 
-		$this->session->unset_userdata('FIRST_NAME');
-		$this->session->unset_userdata('LAST_NAME');
-		$this->session->unset_userdata('PHONE');
-		$this->session->unset_userdata('EMAIL');
-		$this->session->unset_userdata('ADDRESS');
-		$this->session->unset_userdata('COUNTRY');
-		$this->session->unset_userdata('PROVINCE');
-		$this->session->unset_userdata('USERID');
-		$this->session->unset_userdata('ZIP');
-		$this->session->unset_userdata('LOGGED_IN');
-		
-		redirect(base_url('home'));
+		if($this->incube->logoutAccount()) {
+			redirect(base_url('home'));
+		}
 
 	}
 

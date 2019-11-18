@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('database','session','cart', 'pagination', 'email');
+$autoload['libraries'] = array('database','session','cart', 'pagination', 'email', 'incube');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('M_product','M_user','M_cart', 'M_category');
+$autoload['model'] = array('M_product','M_user','M_cart', 'M_category', 'M_product');

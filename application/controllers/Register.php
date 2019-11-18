@@ -11,7 +11,7 @@ class Register extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('email');
         
-        // $this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
     }
 
 	public function index() {
@@ -107,8 +107,10 @@ class Register extends CI_Controller {
 
 			}
 		} else {
+
 			$this->session->set_flashdata('verification', 'error');
 			redirect(base_url());
+
 		}
 	}
 

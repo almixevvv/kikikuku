@@ -134,6 +134,16 @@
 
 <script type="text/javascript">
 
+  //Serialize Data Function
+  function objectifyForm(formArray) {
+
+  var returnArray = {};
+  for (var i = 0; i < formArray.length; i++){
+    returnArray[formArray[i]['name']] = formArray[i]['value'];
+  }
+    return returnArray;
+  }
+
   var email = '<?php echo $this->session->userdata('EMAIL'); ?>';
  
   $('#clear-data').on('change', function () {
@@ -155,8 +165,16 @@
         type: 'POST',
         data: { email : email },
         success: function(data) {
-          console.log(data.ID);
-          // console.log('sukses');
+          $.each(data, function(index, value) {
+            console.log(value);
+            $('input[name=txt-name]').val(value.FIRST_NAME + ' ' + value.LAST_NAME);
+            $('input[name=txt-email]').val(value.EMAIL);
+            $('input[name=txt-phone]').val(value.PHONE);
+            $('input[name=txt-address-1]').val(value.ADDRESS);
+            $('input[name=txt-address-2]').val(value.ADDRESS_2);
+            $('input[name=txt-state]').val(value.PROVINCE);
+            $('input[name=txt-zip]').val(value.ZIP);
+          });
         }
       });
       // alert('dari isi jadi kosong');
