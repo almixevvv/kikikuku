@@ -5,8 +5,21 @@
 	}
 
 	//INSERT MEMBER DATA
-	function insertMember($data){
+	function insertMember($data) {
 		$this->db->insert('g_member', $data);
+	}
+
+	//GET CURRENT MARGIN PARAMETER
+	function getMarginParam() {
+
+		$this->db->select('*');
+		$this->db->from('g_convert');
+		$this->db->where('STATUS', 'CURRENT');
+
+		$query = $this->db->get();
+
+		return $query;
+
 	}
 
 	//CHECK IF THE ACCOUNT IS ALREADY VERIFIED OR NOT

@@ -50,6 +50,67 @@ class Incube {
 	
 	}
 
+	public function getCorrectPrice($items, $productList) {
+
+		//Item Quantity
+		$totalItems = $items;
+		
+		//Loop through each pricelist for correct value
+		foreach($productList as $quantity) {
+
+			if($quantity['endNumber'] == 0 || $quantity['endNumber'] == 1 || ($quantity['startNumber'] > $quantity['endNumber']) ) {
+				$finalQty = $quantity['startNumber'] + 999999;
+			} else {
+				$finalQty = $quantity['endNumber'];
+			}
+
+			if($totalItems >= $quantity['startNumber'] && $totalItems <= $finalQty) {
+				
+				$data['price'] 		= $this->setPrice($quantity['sellPrice']);
+				$data['start']		= $quantity['startNumber'];
+				$data['end']		= $quantity['endNumber'];
+				
+				return $data;
+			}
+
+		}
+
+	}
+
+	public function changeItemMatric($matrics) {
+
+		//CONVERT THE QUANTITY IF IT'S CHINESE SYMBOL
+		if($matrics == '个') {
+			$matric = 'Pcs';
+		} else if($matrics == '套') {
+			$matric = 'Set';
+		} else {
+			$matric = $matrics;
+		}
+
+		return $matric;
+
+	}
+
+	public function priceNotEmpty($paramOne) {
+
+		if(strlen($paramOne) <= 7 || $paramOne != 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function priceEmpty($paramOne) {
+
+		if(strlen($paramOne) >= 7 || strlen($paramOne) == 0 || $paramOne == 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+  
 	public function logoutAccount() {
 
         $this->session->unset_userdata('FIRST_NAME');

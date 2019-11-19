@@ -83,8 +83,6 @@
     	$itemPrice = $this->session->userdata('item-price-'.$counter);
 
         //Replace the item name
-        
-
     	$details = array(
     		'FLAG'            => $flag,
     		'ORDER_NO'        => $genID,

@@ -408,13 +408,7 @@
                   
                   <?php 
                     //CONVERT THE QUANTITY IF IT'S CHINESE SYMBOL
-                    if($dataproduct['detail']['productForApp']['matrisingular'] == '个') {
-                      $matric = 'Pcs';
-                    } else if($dataproduct['detail']['productForApp']['matrisingular'] == '套') {
-                      $matric = 'Set';
-                    } else {
-                      $matric = 'Pcs';
-                    }
+                    $matric = $this->incube->changeItemMatric($dataproduct['detail']['productForApp']['matrisingular']);
                   ?>
 
                   <?php 
@@ -472,12 +466,12 @@
             <div class="col-12 col-md-6 col-lg-12 col-xl-7">
               <label class="detail-label">Estimated Price :</label>
               <?php //IF THE PRICE TOO LONG, SHOW PRICE NEGOTIABLE ?>
-              <?php if($dataproduct['detail']['productForApp']['sellPrice'] == 999999999999 || $dataproduct['detail']['productForApp']['sellPrice'] == 0 || $dataproduct['detail']['productForApp']['sellPrice'] == 99999999): ?>
-              <span class="detail-exw-color detail-label"></br class="d-none d-md-block d-lg-block d-xl-block">Price Negotiable</span>
+              <?php if($this->incube->priceEmpty($dataproduct['detail']['productForApp']['sellPrice'])): ?>
+                <span class="detail-exw-color detail-label">Price Negotiable</span>
               <?php else: ?>
-              <span class="detail-exw-color detail-label font-weight-bold">
-                IDR <?php echo number_format($startingPrice, 2, '.', ',');?>
-              </span>
+                <span class="detail-exw-color detail-label font-weight-bold">
+                  IDR <?php echo number_format($startingPrice, 2, '.', ',');?>
+                </span>
               <?php endif; ?>
             </div>
 
@@ -622,7 +616,7 @@
 
     <?php 
       //FORMAT THE PRICE 
-      $startingPrice = $this->incube->setPrice($data['sellPrice']);
+      $price = $this->incube->setPrice($data['sellPrice']);
       $newPath = $this->incube->replaceLink($data['picture2']);
     ?>
 
@@ -634,9 +628,7 @@
           </div>
           <p class="product-title mt-2"><?php echo ucwords(mb_strimwidth($data['title'], 0, 35, "...")); ?></p>
           <label class="product-label">Estimated Price</label></br>
-          <?php if($data['sellPrice'] == 0): ?>
-            <span class="product-price">Price Negotiable</span>
-          <?php elseif($data['sellPrice'] > 9999999): ?>
+          <?php if($this->incube->priceEmpty($data['sellPrice'])): ?>
             <span class="product-price">Price Negotiable</span>
           <?php else: ?>
             <span class="product-price">IDR <?php echo number_format($price, 2, '.', ','); ?></span>

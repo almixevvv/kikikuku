@@ -376,6 +376,24 @@ class API extends REST_Controller {
 
 	}
 
+	//Get Margin Parameter
+	public function margin_get() {
+
+		$result = $this->api->getMarginParam();
+
+		foreach($result->result() as $data) {
+
+			$this->response([
+				'status' 		=> 'ok',
+				'message' 		=> "current margin value",
+				'code' 			=> REST_Controller::HTTP_ACCEPTED,
+				'margin_param'	=> $data->VALUE
+			], REST_Controller::HTTP_ACCEPTED);
+
+		}
+
+	}
+
 	//Verified Account
 	public function verification_get() {
 
