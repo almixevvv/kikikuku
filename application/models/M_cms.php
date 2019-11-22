@@ -569,6 +569,13 @@
         
         }
 
+        function delete_rate($recID, $id){
+             
+            $this->db->where('REC_ID', $recID);
+            $this->db->delete($id);
+        
+        }
+
         function updateStatus() {
 
             $data = array(

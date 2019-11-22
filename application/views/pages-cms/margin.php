@@ -216,7 +216,7 @@
                     
                      <button class="btn btn-info" type="button" style="width: 6em;font-size: 12px;" data-toggle="modal" data-target="#marginModalRate" data-id="<?php echo $rec; ?>">EDIT</button><br>
                      
-                     <button data-rec="<?php echo $rec;?>" class="buttonDelete btn btn-danger"  style="width: 6em;font-size: 12px;margin-top:0.5em; " type="submit">DELETE</button>
+                     <button data-rec="<?php echo $rec;?>" class="buttonDeleteRate btn btn-danger"  style="width: 6em;font-size: 12px;margin-top:0.5em; " type="submit">DELETE</button>
                      
                      
                   </td>
@@ -412,6 +412,48 @@
             $.ajax({
                 type: "POST",
                 url:"<?php echo base_url('Margin_cms/deleteMargin'); ?>",
+                data: {hiddenREC:id},
+                success: function(data) {
+                  console.log(data);
+                  location.reload();
+                }
+            });
+        }
+      });
+    });
+
+  });
+
+  $(document).ready(function() {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false,
+    });
+
+    $('.buttonDeleteRate').on('click', function() {
+      var id=$(this).attr("data-rec");
+      swal.fire({
+        title:"Delete Rate",
+        text:"Are you sure you want to delete this rate from kurs rate?",
+        type: "warning",
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Confirm",
+        confirmButtonColor: '#3085d6'
+      }).then((result) => {
+          if (result.value) {
+            swalWithBootstrapButtons.fire(
+              'Deleted!',
+              'Selected rate has been deleted.',
+              'success'
+            );
+            $.ajax({
+                type: "POST",
+                url:"<?php echo base_url('Margin_cms/deleteRate'); ?>",
                 data: {hiddenREC:id},
                 success: function(data) {
                   console.log(data);

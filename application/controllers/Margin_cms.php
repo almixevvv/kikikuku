@@ -246,5 +246,17 @@ class Margin_cms extends CI_Controller {
 
 		// redirect('cms/margin');
 	}
+
+	public function deleteRate(){
+
+		// $this->output->enable_profiler(TRUE);
+
+		$this->load->model('M_cms', 'cms');
+		
+		$recID = $this->input->post('hiddenREC');
+		$this->cms->delete_rate($recID, 'g_rate');
+
+		// redirect('cms/margin');
+	}
 }
 ?>
