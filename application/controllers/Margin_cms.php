@@ -4,13 +4,14 @@ class Margin_cms extends CI_Controller {
 		$page = 'margin';
 		if ( ! file_exists(APPPATH.'/views/pages-cms/'.$page.'.php')){ show_404(); }
 
-		$data['title'] = 'Margin Parameter';
+		$data['title'] = 'Margin & Rate';
 
 		$this->load->model('M_cms', 'cms');
 		$this->load->helper('form');
 		
 		$data['content'] = $this->cms->select_margin();
-		$data['page'] = 'Margin Parameter';
+		$data['rate'] = $this->cms->select_rate();
+		$data['page'] = 'Margin & Rate';
 
 		$data['new_order'] = $this->cms->select_order_new();
 		$data['unview_order'] = $this->cms->select_order_unview();
@@ -37,6 +38,21 @@ class Margin_cms extends CI_Controller {
  		$this->load->view('pages-cms/modal-margin', $data);
 	}
 
+	public function getRate() {
+
+		// $this->output->enable_profiler(TRUE);
+		// echo 'masuk';
+		$this->load->helper('form');
+
+		$id = $this->input->get('id');
+
+		$this->load->model('M_cms', 'cms');
+
+		$data['rate'] = $this->cms->singleRate($id);
+
+ 		$this->load->view('pages-cms/modal-rate', $data);
+	}
+
 	public function getAddMargin() {
 
 		// $this->output->enable_profiler(TRUE);
@@ -46,6 +62,17 @@ class Margin_cms extends CI_Controller {
 		// $this->load->model('M_cms', 'cms');
 
  		$this->load->view('pages-cms/modal-addmargin');
+	}
+
+	public function getAddRate() {
+
+		// $this->output->enable_profiler(TRUE);
+		// echo 'masuk';
+		$this->load->helper('form');
+
+		// $this->load->model('M_cms', 'cms');
+
+ 		$this->load->view('pages-cms/modal-addrate');
 	}
 
 	public function updateMargin(){
@@ -66,6 +93,28 @@ class Margin_cms extends CI_Controller {
 		// $quantity = $this->input->post('txt_quantity');
 
 		$this->cms->updateMargin($recID, $id, $value, $updated, $description);
+
+		redirect('cms/margin');
+	}
+
+	public function updateRate(){
+
+		//SET JAM DAN TANGGAL JADI INDONESIA
+		date_default_timezone_set('Asia/Jakarta');
+
+		// $this->output->enable_profiler(TRUE);
+		// echo "masuk";
+		$this->load->model('M_cms', 'cms');
+
+		$recID = $this ->input->post('rate_rec');
+		$id = $this->input->post('rate_id');
+		$value = $this->input->post('rate_value');
+		$description = $this->input->post('rate_desc');
+		$updated = date('Y-m-d H:i:s');
+		//$updated = $this->input->post('margin_updated');
+		// $quantity = $this->input->post('txt_quantity');
+
+		$this->cms->updateRate($recID, $id, $value, $updated, $description);
 
 		redirect('cms/margin');
 	}
@@ -104,6 +153,40 @@ class Margin_cms extends CI_Controller {
 		redirect('cms/margin');
 	}
 
+	public function addRate(){
+
+		// $this->output->enable_profiler(TRUE);
+		date_default_timezone_set('Asia/Jakarta');
+		$this->load->library('upload');
+
+		$this->load->model('M_cms', 'cms');
+
+		// $recID = $this ->input->post('margin_rec');
+		$id = $this->input->post('rate_id');
+		$value = $this->input->post('rate_value');
+		$description = $this->input->post('rate_desc');
+		$created = date('Y-m-d H:i:s');
+
+		$data = array(
+				'REC_ID' => '',
+                'ID'  => $id,
+                'VALUE' => $value,
+                'CREATED_TIME' => $created,
+                'UPDATED_TIME' => '',
+                'UPDATED_BY' => 'ADMIN',
+                'STATUS' => 'CURRENT',
+                'DESCRIPTION' => $description
+            );
+        var_dump($data);
+
+        //UPDATE PREVIOUS DATA
+        $this->cms->updateStatusRate();
+
+		$this->cms->insert_rate($data);
+
+		redirect('cms/margin');
+	}
+
 	public function setAsCurrent(){
 
 		// $this->output->enable_profiler(TRUE);
@@ -123,6 +206,30 @@ class Margin_cms extends CI_Controller {
         //UPDATE PREVIOUS DATA
         $this->cms->updateStatus();
 		$this->cms->set_as_current($recID);
+        
+
+		// redirect('cms/margin');
+	}
+
+	public function setAsCurrentRate(){
+
+		// $this->output->enable_profiler(TRUE);
+		$this->load->library('upload');
+
+		$this->load->model('M_cms', 'cms');
+		$recID = $this->input->post('hiddenREC');
+
+
+		// $recID = $this ->input->post('margin_rec');
+		// $id = $this->input->post('margin_id');
+		// $value = $this->input->post('margin_value');
+		// $description = $this->input->post('margin_desc');
+		// $created = date('Y-m-d H:i:s');
+
+
+        //UPDATE PREVIOUS DATA
+        $this->cms->updateStatusRate();
+		$this->cms->set_as_current_rate($recID);
         
 
 		// redirect('cms/margin');

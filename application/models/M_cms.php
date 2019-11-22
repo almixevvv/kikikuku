@@ -457,10 +457,19 @@
         }
 //-------------------------------------------------------------------------------------------------------------------  MESSAGE
 
-//-------------------------------------------------------------------------------------------------------------------  MARGIN
+//-------------------------------------------------------------------------------------------------------------------  MARGIN & RATE
         function select_margin(){
             $this->db->select('*');
             $this->db->from('g_convert');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_rate(){
+            $this->db->select('*');
+            $this->db->from('g_rate');
 
             $query = $this->db->get();
 
@@ -471,6 +480,17 @@
 
           $this->db->select('*');
           $this->db->from('g_convert');
+          $this->db->where('REC_ID', $id);
+
+          $query = $this->db->get();
+
+          return $query;
+        }
+
+        function singleRate($id) {
+
+          $this->db->select('*');
+          $this->db->from('g_rate');
           $this->db->where('REC_ID', $id);
 
           $query = $this->db->get();
@@ -492,8 +512,29 @@
             $this->db->update('g_convert', $data);
         }
 
+        function updateRate($recID, $id, $value, $updated, $description){
+
+            $data = array(
+
+                'ID'  => $id,
+                'VALUE' => $value,
+                'UPDATED_TIME' => $updated,
+                'DESCRIPTION' => $description
+            );
+
+            $this->db->where('REC_ID', $recID);
+            $this->db->update('g_rate', $data);
+        }
+
         function insert_margin($data){
              $insert = $this->db->insert('g_convert', $data);
+             
+            return $insert;
+
+        }
+
+        function insert_rate($data){
+             $insert = $this->db->insert('g_rate', $data);
              
             return $insert;
 
@@ -507,6 +548,17 @@
 
             $this->db->where('REC_ID', $recID);
             $this->db->update('g_convert', $data);
+
+        }
+
+        function set_as_current_rate($recID){
+            $data = array(
+
+                'STATUS'  => 'CURRENT'
+            );
+
+            $this->db->where('REC_ID', $recID);
+            $this->db->update('g_rate', $data);
 
         }
 
@@ -525,6 +577,17 @@
 
             $this->db->where('STATUS', 'CURRENT');
             $this->db->update('g_convert', $data);
+
+        }
+
+        function updateStatusRate() {
+
+            $data = array(
+                'STATUS' => 'HISTORY'
+            );
+
+            $this->db->where('STATUS', 'CURRENT');
+            $this->db->update('g_rate', $data);
 
         }
 
