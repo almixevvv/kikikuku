@@ -12,6 +12,7 @@ class API extends REST_Controller {
 		$this->load->model('M_api', 'api');
 		$this->load->model('M_user', 'user');
 		$this->load->model('M_cart', 'carts');
+		$this->load->model('M_category', 'category');
 		$this->load->library('email');
 		// $this->output->enable_profiler(TRUE);
 
@@ -320,7 +321,7 @@ class API extends REST_Controller {
 
 	}
 
-	//Get the cart content based from email and trans date
+		//Get the cart content based from email and trans date
 	public function cart_get() {
 
 		$data = array();
@@ -367,11 +368,57 @@ class API extends REST_Controller {
 
 	}
 
+	//Get category
+	public function category_get() {
+
+		$childArray 	= array();
+		$parentArray	= array();
+		$parent 		= $this->category->getParentCategory();
+
+		foreach($parent->result() as $parents) {
+
+			$parentArray[] = array(
+				'NAME' 			=> $parents->NAME,
+				'LINK'			=> $parents->LINK,
+				'ID'			=> $parents->ID,
+				'PARENT'		=> $parents->PARENT,
+				'PICTURE'		=> $parents->PICTURE
+			);
+		}
+
+		for($i = 0; $i < count($parentArray); $i++) {
+
+			$child 		= $this->category->getChildCategory($parentArray[$i]['ID']);
+
+			foreach($child->result() as $child) {
+
+				$childArray[] = array(
+					'CHILD_NAME'	=> $child->NAME,
+					'CHILD_LINK'	=> $child->LINK
+				);
+			}
+			
+			array_push($parentArray[$i], $childArray);
+		}
+
+		$json = json_encode($parentArray);
+
+		$this->response([
+			'status' 		=> 'ok',
+			'message' 		=> 'category list',
+			'code' 			=> REST_Controller::HTTP_OK,
+			'category_list'	=> json_decode($json, true)
+		], REST_Controller::HTTP_OK);
+	}
+
 	//Create Inquiry
 	public function inquiry_post() {
 
-		
+		$json = file_get_contents('php://input');
 
+		$parse = json_encode($json);
+
+		// var_dump($parse);
 
 
 	}
@@ -379,20 +426,20 @@ class API extends REST_Controller {
 	//Get Margin Parameter
 	public function margin_get() {
 
-		$result = $this->api->getMarginParam();
+		$margin 	= $this->api->getMarginParam();
+		$convert 	= $this->api->getConvertRate();
 
-		foreach($result->result() as $data) {
-
-			$this->response([
-				'status' 		=> 'ok',
-				'message' 		=> "current margin value",
-				'code' 			=> REST_Controller::HTTP_ACCEPTED,
-				'margin_param'	=> $data->VALUE
-			], REST_Controller::HTTP_ACCEPTED);
-
-		}
+		$this->response([
+			'status' 		=> 'ok',
+			'message' 		=> "current margin value",
+			'code' 			=> REST_Controller::HTTP_ACCEPTED,
+			'margin_param'	=> $margin,
+			'convert_rate'  => $convert,
+		], REST_Controller::HTTP_ACCEPTED);
 
 	}
+
+	//Get category with child
 
 	//Verified Account
 	public function verification_get() {

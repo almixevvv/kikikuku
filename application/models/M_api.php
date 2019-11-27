@@ -16,11 +16,25 @@
 		$this->db->from('g_convert');
 		$this->db->where('STATUS', 'CURRENT');
 
-		$query = $this->db->get();
+		$query = $this->db->get()->row()->VALUE;
 
 		return $query;
 
 	}
+	
+	//GET CURRENT CONVERT RATE
+	function getConvertRate() {
+
+		$this->db->select('*');
+		$this->db->from('g_rate');
+		$this->db->where('STATUS', 'CURRENT');
+
+		$query = $this->db->get()->row()->VALUE;
+
+		return $query;
+
+	}
+
 
 	//CHECK IF THE ACCOUNT IS ALREADY VERIFIED OR NOT
 	function verifyMember($hash) {

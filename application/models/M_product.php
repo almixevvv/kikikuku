@@ -28,4 +28,16 @@ Class M_product extends CI_Model {
 
   }
 
+  //GET CONVERT PRICE
+  function getConvertRate() {
+
+    $this->db->select('*');
+    $this->db->from('g_rate');
+    $this->db->where('STATUS', 'CURRENT');
+
+    $query = $this->db->get()->row()->VALUE;
+
+    return $query;
+  }
+
 }

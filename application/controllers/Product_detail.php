@@ -11,15 +11,15 @@ class Product_detail extends CI_Controller {
 
         $id = $this->input->get('id');
         
-        $randomPage = mt_rand(1, 500);
+        $randomPage     = mt_rand(1, 500);
 
-        $finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
+        $finalUrl       = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
 
-        $recURL  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=5&cpage=".$randomPage);
+        $recURL         = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=5&cpage=".$randomPage);
     	$recomended 	= json_decode($recURL, TRUE);
 
-        $json       = file_get_contents($finalUrl);
-        $obj        = json_decode($json, true);
+        $json           = file_get_contents($finalUrl);
+        $obj            = json_decode($json, true);
 
         $data['dataproduct'] = $obj;
         $data['recomended'] = $recomended;
@@ -34,6 +34,7 @@ class Product_detail extends CI_Controller {
 
         //GET THE MARGIN PARAMETER
         $data['marginParameter'] = $this->product->getMarginPrice();
+
 
         if(isset($obj['tip'])) { 
             

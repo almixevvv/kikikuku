@@ -5,7 +5,7 @@ class Incube {
 	public function __construct() {
 
     	$this->CI =& get_instance();
-    	$this->CI->load->model('M_product', 'product');
+		$this->CI->load->model('M_product', 'product');
 
 	}
 
@@ -25,17 +25,18 @@ class Incube {
 				$newPath = '';
 		}
 			return $newPath;
-        }
+    }
 
 	public function setPrice($sellPrice) {
 
-		$marginParameter = $this->CI->product->getMarginPrice();
+		$marginParameter 	= $this->CI->product->getMarginPrice();
+		$convertRate		= $this->CI->product->getConvertRate();
 
 		//FORMAT THE PRICE 
 		$initialPrice =  $sellPrice/100;
 	                
 		//Times the price to the convert rate
-		$convertPrice = $initialPrice * CONVERT;
+		$convertPrice = $initialPrice * $convertRate;
 
 		//Get margin parameter
 		$marginPrice = $convertPrice * $marginParameter;
