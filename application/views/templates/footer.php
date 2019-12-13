@@ -1,3 +1,10 @@
+	
+	<script>
+	// $('.dropdown-toggle').click(function() {
+	// 	$('.dropdown-menu').toggleClass('show');
+	// });
+	</script>
+
 	</body>
 
 	<footer id="footer-separator">

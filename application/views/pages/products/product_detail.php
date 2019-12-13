@@ -16,13 +16,12 @@
 
     <!-- PRODUCT LEFT PART -->
     <div class="col-1 col-md-1 col-lg-1 col-xl-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
-    
+    <?php echo form_open('Cart/addtoCart'); ?>
     <!-- IF THE PRODUCTLIST IS NOT EMPTY, THEN USE THE BELOW IMAGE -->
     <?php if($dataproduct['detail']['sdiProductsPicList'] != null): ?>
     
 
       <?php foreach($dataproduct['detail']['sdiProductsPicList'] as $sdiProducts): ?>
-
         <?php if(strlen($sdiProducts['picture']) > 6): ?>
         
         <!-- IMAGE FORMATING -->
@@ -305,6 +304,9 @@
               <?php $newPath = $this->incube->replaceLink($images['picture']); ?>
 
               <img class="detail-main-images" alt="Product Images" src="<?php echo $newPath.$images['picture'];?>"/>
+              
+              <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+              <input type="hidden" name="hidden-images" value="<?php echo $newPath.$images['picture'];?>">
 
               <?php elseif($images['picture1'] != null): ?>
               
@@ -312,13 +314,19 @@
               <?php $newPath = $this->incube->replaceLink($images['picture1']); ?>
 
               <img class="detail-main-images" alt="Product Images 1" src="<?php echo $newPath.$images['picture1'];?>"/>
-
+              
+              <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+              <input type="hidden" name="hidden-images" value="<?php echo $newPath.$images['picture1'];?>">
+              
               <?php elseif($images['picture2'] != null): ?>
               
               <!-- IMAGE FORMATING -->
               <?php $newPath = $this->incube->replaceLink($images['picture2']); ?>
 
               <img class="detail-main-images" alt="Product Images 2" src="<?php echo $newPath.$images['picture2'];?>"/>
+
+              <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+              <input type="hidden" name="hidden-images" value="<?php echo $newPath.$images['picture2'];?>">
 
               <?php elseif($images['picture3'] != null): ?>
               
@@ -327,12 +335,18 @@
 
               <img class="detail-main-images" alt="Product Images 3" src="<?php echo $newPath.$images['picture3'];?>"/>
 
+              <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+              <input type="hidden" name="hidden-images" value="<?php echo $newPath.$images['picture3'];?>">
+
               <?php elseif($images['picture4'] != null): ?>
               
               <!-- IMAGE FORMATING -->
               <?php $newPath = $this->incube->replaceLink($images['picture4']); ?>
 
               <img class="detail-main-images" alt="Product Images 4" src="<?php echo $newPath.$images['picture4'];?>"/>
+
+              <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+              <input type="hidden" name="hidden-images" value="<?php echo $newPath.$images['picture4'];?>">
 
               <?php endif; ?>
 
@@ -346,12 +360,19 @@
 
           <img class="detail-main-images" alt="Product Images" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture'];?>"/>
 
+          <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+          <input type="hidden" name="hidden-images" value="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture'];?>">
+
           <?php elseif($dataproduct['detail']['productForApp']['picture1'] != ""): ?>
           
           <!-- FIX IMAGE FORMAT -->
           <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture1']); ?>
 
           <img class="detail-main-images" alt="Product Images 1" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1'];?>"/>
+
+          <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+          <input type="hidden" name="hidden-images" value="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture1'];?>">
+
 
           <?php elseif($dataproduct['detail']['productForApp']['picture2'] != ""): ?>
           
@@ -360,6 +381,9 @@
 
           <img class="detail-main-images" alt="Product Images 2" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2'];?>"/>
 
+          <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+          <input type="hidden" name="hidden-images" value="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture2'];?>">
+
           <?php elseif($dataproduct['detail']['productForApp']['picture3'] != ""): ?>
           
           <!-- FIX IMAGE FORMAT -->
@@ -367,12 +391,19 @@
 
           <img class="detail-main-images" alt="Product Images 3" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3'];?>"/>
 
+          <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+          <input type="hidden" name="hidden-images" value="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture3'];?>">
+
           <?php elseif($dataproduct['detail']['productForApp']['picture4'] != ""): ?>
           
           <!-- FIX IMAGE FORMAT -->
           <?php $newPath = $this->incube->replaceLink($dataproduct['detail']['productForApp']['picture4']); ?>
 
           <img class="detail-main-images" alt="Product Images 4" src="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4'];?>"/>
+          
+          <!-- HIDDEN INPUT FOR SAVING IMAGE -->
+          <input type="hidden" name="hidden-images" value="<?php echo $newPath.$dataproduct['detail']['productForApp']['picture4'];?>">
+
           <?php endif; ?>
         
         <?php endif; ?>
@@ -400,7 +431,7 @@
 
               <?php 
                 //FORMAT THE PRICE 
-                $finalPrice = $this->incube->setPrice($quantity['conferPrice']);
+                $finalPrice = $this->incube->setPrice($convertRate, $marginParameter, $quantity['conferPrice']);
               ?>
               
               <div class="row">
@@ -454,7 +485,7 @@
 
             <?php else:    
               //FORMAT THE PRICE 
-              $startingPrice = $this->incube->setPrice($dataproduct['detail']['productForApp']['sellPrice']);
+              $startingPrice = $this->incube->setPrice($convertRate, $marginParameter, $dataproduct['detail']['productForApp']['sellPrice']);
             ?>
             <?php endif; ?> 
           </div>
@@ -506,7 +537,6 @@
             </div>
           </div>
 
-          <?php echo form_open('Cart/addtoCart'); ?>
           <div class="row mt-3">
             <div class="col-12">
               <label class="detail-label">Quantity</label>
@@ -555,15 +585,6 @@
           </div>
 
         <?php
-          //HIDDEN INPUT
-          $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-          $charactersLength = strlen($characters);
-          $randomString = '';
-
-          for ($i = 0; $i < 8; $i++) {
-              $randomString .= $characters[rand(0, $charactersLength - 1)];
-          }
-
             $productID = array(
               'type'  => 'hidden',
               'name'  => 'product-id',
@@ -574,8 +595,8 @@
             $productName = array(
               'type'  => 'hidden',
               'name'  => 'product-name',
-              'id'    => 'hiddenQuantity',
-              'value' => $randomString
+              'id'    => 'hiddenName',
+              'value' => $dataproduct['detail']['productForApp']['title']
             );
 
             $productPrice = array(
@@ -585,8 +606,8 @@
               'value' => $startingPrice
             );
 
-            echo form_input($productID);
             echo form_input($productName);
+            echo form_input($productID);
             echo form_input($productPrice);
 
           ?>
@@ -616,7 +637,7 @@
 
     <?php 
       //FORMAT THE PRICE 
-      $price = $this->incube->setPrice($data['sellPrice']);
+      $price = $this->incube->setPrice($convertRate, $marginParameter, $data['sellPrice']);
       $newPath = $this->incube->replaceLink($data['picture2']);
     ?>
 

@@ -8,8 +8,10 @@ class M_profile extends CI_Model{
 	function getMemberDetails($email) {
 
 		$this->db->select('*');
-		$this->db->from('g_member');
-		$this->db->where('EMAIL', $email);
+		$this->db->from('g_order_master');
+		$this->db->where('MEMBER_EMAIL', $email);
+		$this->db->limit(1);
+		$this->db->order_by('REC_ID', 'DESC');
 
 		$query = $this->db->get();
 
@@ -17,36 +19,25 @@ class M_profile extends CI_Model{
 
 	}
 
-	function updateAddress($id, $add1, $add2, $country, $province, $zip){
-
-        $data = array(
-
-            'ADDRESS' => $add1,
-            'ADDRESS_2'  => $add2,
-            'COUNTRY' => $country,
-            'PROVINCE' => $province,
-            'ZIP' => $zip,
-        );
+	function updateAddress($id, $data){
 
         $this->db->where('ID', $id);
-        $this->db->update('g_member', $data);
+		$this->db->update('g_member', $data);
+		
+		return true;
     }
 
-    function updatePhone($id, $phone){
-
-        $data = array(
-
-            'PHONE' => $phone,
-        );
+    function updatePhone($id, $data){
 
         $this->db->where('ID', $id);
-        $this->db->update('g_member', $data);
+		$this->db->update('g_member', $data);
+		
+		return true;
     }
 
     function updatePhoto($id, $defaultPath) {
 
         $data = array(
-                
             'IMAGE' => $defaultPath
         );
         

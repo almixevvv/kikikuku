@@ -5,10 +5,9 @@ class Product_detail extends CI_Controller {
 
        $this->load->helper('form');
        $this->load->library('incube');
-
-        // $this->output->enable_profiler(TRUE);
-        $this->load->model('M_product', 'product');
-
+       $this->load->model('M_product', 'product');
+       
+       // $this->output->enable_profiler(TRUE);
         $id = $this->input->get('id');
         
         $randomPage     = mt_rand(1, 500);
@@ -21,8 +20,10 @@ class Product_detail extends CI_Controller {
         $json           = file_get_contents($finalUrl);
         $obj            = json_decode($json, true);
 
-        $data['dataproduct'] = $obj;
-        $data['recomended'] = $recomended;
+        $data['dataproduct']     = $obj;
+        $data['recomended']      = $recomended;
+        $data['marginParameter'] = $this->product->getMarginPrice();
+		$data['convertRate'] 	 = $this->product->getConvertRate();
 
         // FOR DEBUGGING PURPOSE ONLY
         // foreach($obj['prslist'] as $list) {
@@ -31,10 +32,6 @@ class Product_detail extends CI_Controller {
         // 	echo 'Picture '.$list['picture2'];
         // }
         // die();
-
-        //GET THE MARGIN PARAMETER
-        $data['marginParameter'] = $this->product->getMarginPrice();
-
 
         if(isset($obj['tip'])) { 
             

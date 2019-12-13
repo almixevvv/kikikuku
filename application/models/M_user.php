@@ -56,10 +56,10 @@
 		function registration($data) {
 
 			if($this->db->insert('g_member', $data)) {
-        return true;
-      } else {
-        return false;
-      }
+        		return true;
+      		} else {
+        		return false;
+      		}
 
 		}
 

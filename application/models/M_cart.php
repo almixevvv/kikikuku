@@ -27,12 +27,11 @@
         }
     }
 
-    function getCartItems($hash, $email) {
+    function displayCart($email) {
 
         $this->db->select('*');
         $this->db->from('g_cart');
-        $this->db->where('CART_ID', $hash);
-        $this->db->where('PRODUCT_BUYER', $email);
+        $this->db->where('CART_ID', $email);
         $this->db->order_by('REC_ID', 'ASC');
 
         $query = $this->db->get();
@@ -53,13 +52,37 @@
 
     }
 
-    function deleteItem($hashTrans, $productID, $productBuyer) {
+    function deleteItem($productID, $productBuyer) {
 
-        $this->db->where('CART_ID', $hashTrans);
         $this->db->where('PRODUCT_BUYER', $productBuyer);
         $this->db->where('PRODUCT_ID', $productID);
 
         $query = $this->db->delete('g_cart');
+
+        return $query;
+
+    }
+
+    function getItemInfo($prodID, $buyerEmail) {
+
+        $this->db->select('*');
+        $this->db->from('g_cart');
+        $this->db->where('PRODUCT_ID', $prodID);
+        $this->db->where('PRODUCT_BUYER', $buyerEmail);
+
+        $query = $this->db->get();
+
+        return $query;
+
+    }
+
+    function updateCartQuantity($quantity, $productBuyer, $productID) {
+
+        $this->db->set($quantity);
+        $this->db->where('PRODUCT_BUYER', $productBuyer);
+        $this->db->where('PRODUCT_ID', $productID);
+        
+        $query = $this->db->update('g_cart');
 
         return $query;
 
@@ -86,12 +109,23 @@
         $this->db->set('ORDER_DATE', 'NOW()', FALSE);
         $this->db->set('UPDATED', 'NOW()', FALSE);
         $insert = $this->db->insert('g_order_master', $data);
+        
         return $insert;
     }
 
     function insertDetailPO($data){
         $insert = $this->db->insert('g_order_detail', $data);
+        
         return $insert;
+    }
+
+    function deleteCarts($id) {
+
+        $this->db->where('REC_ID', $id);
+        $this->db->delete('g_cart');
+        
+        return true;
+
     }
 
     function getUserDetails($email) {

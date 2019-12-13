@@ -28,9 +28,8 @@
     <div class="row" id="trans-filter-separator-desktop">
       
       <div class="trans-filter-container-left">
-        <?php if($this->session->LOGGED_IN != null): ?>
-        <i class="far fa-user"></i> <span style="font-weight: bold;"><?php echo $this->session->FIRST_NAME; ?> <?php echo $this->session->LAST_NAME; ?></span>
-        <?php endif; ?>
+        <i class="far fa-user"></i>
+        <span style="font-weight: bold;"><?php echo $memberDetails->result()[0]->FIRST_NAME; ?> <?php echo $memberDetails->result()[0]->LAST_NAME; ?></span>
       </div>
 
     </div>
@@ -41,9 +40,8 @@
       
       <div class="row">
         <div class="col-12 pl-1 pr-1">
-        <?php if($this->session->LOGGED_IN != null): ?>
-        <i class="far fa-user"></i> <span style="font-weight: bold;"><?php echo $this->session->FIRST_NAME; ?> <?php echo $this->session->LAST_NAME; ?></span>
-        <?php endif; ?>
+        <i class="far fa-user"></i>
+        <span style="font-weight: bold;"><?php echo $memberDetails->result()[0]->FIRST_NAME; ?> <?php echo $memberDetails->result()[0]->LAST_NAME; ?></span>
         </div>
       </div>
 

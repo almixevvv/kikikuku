@@ -3,21 +3,28 @@ class Profile extends CI_Controller {
 
 		public function __construct() {
 			parent::__construct();
-			// $this->output->enable_profiler(TRUE);
 			$this->load->library('session');
 			$this->load->helper('form');
 			$this->load->model('M_profile', 'profile');
+			
+			// $this->output->enable_profiler(TRUE);
 			date_default_timezone_set('Asia/Jakarta');
+			
 		}
 
 		public function transaction() {
-
-			$loginStatus = $this->session->userdata('LOGGED_IN');
-			$userEmail   = $this->session->userdata('EMAIL');
+			
+			$userData 	 = $this->session->user_data;
+			
+			$loginStatus = $userData['LOGGED_IN'];
+			$userEmail 	 = $userData['EMAIL'];
 
 			if($loginStatus == false) {
-				redirect(base_url('login?error=4'));
+				$this->session->set_flashdata('cart', 'no_user');
+            	redirect(base_url('login?refer=profile/transaction'));
 			}
+
+			$data['productName'] 	 = 'Transaction History';
 
 			if($this->input->get('transaction') == null) {
 				$data['masterData'] = $this->profile->getAllOrderMasterData($userEmail);
@@ -29,7 +36,7 @@ class Profile extends CI_Controller {
 			$data['userHistory'] = $this->profile->getOrderHistory($userEmail);
 			$data['userEmail'] = $this->session->userdata('EMAIL');
 
-			$this->load->view('templates/header');
+			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 	    	$this->load->view('pages/profile/transaction', $data);
 	    	$this->load->view('templates/footer');
@@ -38,16 +45,21 @@ class Profile extends CI_Controller {
 
 		public function myprofile() {
 
-			$loginStatus = $this->session->userdata('LOGGED_IN');
-			$userEmail   = $this->session->userdata('EMAIL');
+			$data['productName'] 	 = 'My Profile';
+
+			$userData 	 = $this->session->user_data;
+			
+			$loginStatus = $userData['LOGGED_IN'];
+			$userEmail 	 = $userData['EMAIL'];
 
 			if($loginStatus == false) {
-				redirect(base_url('login?error=4'));
+				$this->session->set_flashdata('cart', 'no_user');
+            	redirect(base_url('login?refer=profile/transaction'));
 			}
 
 			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
 
-			$this->load->view('templates/header');
+			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 	    	$this->load->view('pages/profile/profile', $data);
 	    	$this->load->view('templates/footer');
@@ -69,12 +81,7 @@ class Profile extends CI_Controller {
 
 			$id = $this->input->get('id');
 			
-			$loginStatus = $this->session->userdata('LOGGED_IN');
-			$userEmail   = $this->session->userdata('EMAIL');
-
-			if($loginStatus == false) {
-				redirect(base_url('login?error=4'));
-			}
+			$userData 	 = $this->session->user_data;
 
 			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
 
@@ -85,13 +92,6 @@ class Profile extends CI_Controller {
 		public function changePhone() {
 
 			$id = $this->input->get('id');
-			
-			$loginStatus = $this->session->userdata('LOGGED_IN');
-			$userEmail   = $this->session->userdata('EMAIL');
-
-			if($loginStatus == false) {
-				redirect(base_url('login?error=4'));
-			}
 
 			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
 
@@ -99,30 +99,24 @@ class Profile extends CI_Controller {
 
 		}
 
-		public function updatePhone(){
+		public function updatePhone() {
 
-			// $this->output->enable_profiler(TRUE);
-			// echo "masuk";
-			$this->load->model('M_profile', 'cms');
+			$id 	= $this->input->post('id');
 
-			$id = $this->input->post('id');
-			$phone = $this->input->post('phone');
+			$data = array(
+				'PHONE' => $this->input->post('phone'),
+			);
 
-			$this->cms->updatePhone($id, $phone);
+			$query = $this->profile->updatePhone($id, $data);
 
-			redirect('profile/myprofile');
+			if($query) {
+				redirect('profile/myprofile');
+			}
 		}
 
 		public function changePhoto() {
 
 			$id = $this->input->get('id');
-			
-			$loginStatus = $this->session->userdata('LOGGED_IN');
-			$userEmail   = $this->session->userdata('EMAIL');
-
-			if($loginStatus == false) {
-				redirect(base_url('login?error=4'));
-			}
 
 			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
 
@@ -137,14 +131,12 @@ class Profile extends CI_Controller {
 		   	$this->load->helper('form');
 			$this->load->library('upload');
 
-			$this->load->model('M_profile', 'cms');
-
 			$defaultPath = '/assets/images/member-img/'.$_FILES['file_name']['name'];
 			
 			$id = $this->input->post('id');
 			$file  = $defaultPath;
 
-			$this->cms->updatePhoto($id, $defaultPath);
+			$this->profile->updatePhoto($id, $defaultPath);
 
 	    	$config['upload_path']   = './assets/images/member-img/';
 	    	$config['allowed_types'] = 'jpeg|jpg|png';
@@ -180,20 +172,22 @@ class Profile extends CI_Controller {
 
 		public function updateAddress(){
 
-			// $this->output->enable_profiler(TRUE);
-			// echo "masuk";
-			$this->load->model('M_profile', 'cms');
+			$id	= $this->input->post('id');
 
-			$id = $this->input->post('id');
-			$add1 = $this->input->post('add1');
-			$add2 = $this->input->post('add2');
-			$country = $this->input->post('country');
-			$province = $this->input->post('province');
-			$zip = $this->input->post('zip');
+			$data = array(
+				'ADDRESS' 		=> $this->input->post('add1'),
+				'ADDRESS_2'  	=> $this->input->post('add2'),
+				'COUNTRY' 		=> $this->input->post('country'),
+				'PROVINCE' 		=> $this->input->post('province'),
+				'ZIP' 			=> $this->input->post('zip'),
+			);
 
-			$this->cms->updateAddress($id, $add1, $add2, $country, $province, $zip);
+			$query = $this->profile->updateAddress($id, $data);
 
-			redirect('profile/myprofile');
+			if($query) {
+				redirect('profile/myprofile');
+			} 
+		
 		}
 
 		public function customerSendMessages() {
@@ -236,8 +230,8 @@ class Profile extends CI_Controller {
 
 			$this->load->view('templates/header');
 			$this->load->view('templates/navbar');
-	    $this->load->view('pages/profile/order_confirmation', $data);
-	    $this->load->view('templates/footer');
+	    	$this->load->view('pages/profile/order_confirmation', $data);
+	    	$this->load->view('templates/footer');
 
 		}
 

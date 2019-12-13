@@ -59,7 +59,11 @@
 				</a>
 			</span>
 			
-			<?php if($this->session->LOGGED_IN != null): ?>
+			<?php 
+					//ASSIGN SESSION TO LOCAL VARIABLE
+					$userData = $this->session->user_data;
+					if($userData['EMAIL'] != null) {
+			?>
 			<span class="mobile-icon account-position-fix dropdown-toggle" id="dropdown-account-mobile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10, 10">
 				<a href="<?php echo base_url(); ?>">
 					<i class="fas fa-user-circle"></i>
@@ -70,13 +74,13 @@
 				<a class="dropdown-item" href="<?php echo base_url('profile/myprofile'); ?>">My Profile</a>
 				<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 			</div>
-			<?php else: ?>
+			<?php } else { ?>
 			<span class="mobile-icon account-position-fix">
 				<a href="<?php echo base_url('login'); ?>">
 					<i class="fas fa-user"></i>
 				</a>
 			</span>
-			<?php endif; ?>
+			<?php } ?>
 		</div>
 	</div>
 
@@ -151,13 +155,18 @@
 						<i class="fas fa-shopping-cart" id="icon-shopping-cart"></i>
 					</a>
 				</span>
-
-				<?php if($this->session->LOGGED_IN != null): ?>
-				<span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15">
+				
+				<?php 
+					//ASSIGN SESSION TO LOCAL VARIABLE
+					$userData = $this->session->user_data;
+					if($userData['EMAIL'] != null) {
+				?>
+				<span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<!-- <span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15"> -->
 					<a href="#" style="color: #C1C1C1;">
 						<i class="fas fa-user-circle" id="navbar-account-logo"></i>
 							<span style="color: black;">
-								<?php echo $this->session->FIRST_NAME; ?>
+								<?php echo $userData['FIRST_NAME']; ?>
 							</span>
 					</a>
 				</span>
@@ -166,7 +175,7 @@
 					<a class="dropdown-item" href="<?php echo base_url('profile/myprofile'); ?>">My Profile</a>
 					<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 				</div>
-				<?php else: ?>
+				<?php } else { ?>
 				<span class="account-position-fix-no-pad">
 					<a href="<?php echo base_url('login');?>" id="navbar-login-button">
 						<span style="color: rgba(0,0,0,.7);">Login</span>
@@ -177,7 +186,7 @@
 						<span>Register</span>
 					</a>
 				</span>
-				<?php endif; ?>
+				<?php } ?>
 
 			</div>
 

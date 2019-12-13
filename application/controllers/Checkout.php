@@ -9,119 +9,130 @@
         $this->load->model('M_product', 'product');
         $this->load->model('M_profile', 'profiles');
         $this->load->model('M_cart', 'carts');
-        
         // $this->output->enable_profiler(TRUE);
     }
 
     public function index() {
 
-        $data['userData'] = $this->carts->getUserDetails($this->session->userdata('EMAIL'));
+		$userData 			 = $this->session->user_data;
+		$data['sectionName'] = 'Checkout';
+		$member_id 			 = $userData['USERID'];
 
-        $data['sectionName'] = 'Checkout';
+		//LOAD THE PAGE AS NORMAL
+		if($member_id == null) {
+			$this->session->set_flashdata('cart', 'no_user');
+			redirect(base_url('login?refer=cart/checkout'));
+		}
 
-        $member_id = $this->session->userdata('USERID');
+		//CHECK IF USER REQUESTED THE DATA TO BE SAVED
+		$saveFlag = $this->profiles->getMemberDetails($userData['EMAIL']);
 
-        if($member_id == null) {
-            redirect(base_url());
-        }
+		if($saveFlag->result()[0]->SAVE_FLAG == 1) {
+			
+			//FORWARD THE DATA TO THE PAGE
+			$data['userData'] = $saveFlag->result()[0];
 
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/navbar');
-        $this->load->view('pages/cart/checkout', $data);
-        $this->load->view('templates/footer');
+			$this->load->view('templates/header', $data);
+        	$this->load->view('templates/navbar');
+        	$this->load->view('pages/cart/checkout', $data);
+        	$this->load->view('templates/footer');
+
+		} else {
+
+			//LOAD THE DATA AS NORMAL
+			$this->load->view('templates/header', $data);
+        	$this->load->view('templates/navbar');
+        	$this->load->view('pages/cart/checkout', $data);
+        	$this->load->view('templates/footer');
+			
+		}
 
       }
 
       public function checkoutProcess() {
 
-    	$member_id      = $this->session->userdata('USERID');
-    	$genID          = $this->carts->generateID();
-    	$totalPrice     = $this->session->userdata('totalPrice');
+		if($this->input->post('save-info') == 'on') {
+			$saveFlag = 1;
+		} else {
+			$saveFlag = 0;
+		}
 
-    	if($member_id == null) {
-    		$this->session->set_flashdata('cart', 'no_user');
-            redirect(base_url('login?refer=mycart'));
-    	}
+		$userData 		= $this->session->user_data;
+		$memberID      	= $userData['USERID'];
+		$hashEmail		= sha1($userData['EMAIL']);
+		$genID          = $this->carts->generateID();
 
-    	$orderName      = $this->input->post('txt-name');
-    	$orderEmail     = $this->input->post('txt-email');
-    	$orderPhone     = $this->input->post('txt-phone');
-    	$orderAddress1  = $this->input->post('txt-address-1');
-    	$orderAddress2  = $this->input->post('txt-address-2');
-    	$orderCountry   = $this->input->post('txt-country');
-    	$orderZIP       = $this->input->post('txt-zip');
-    	$orderState     = $this->input->post('txt-state');
+		$subqty 		= 0;
+		$subtotal 		= 0;
+		$curPrice 		= 0;
+		
+		//Calculate Total Item Price
+		$carts  = $this->carts->displayCart($hashEmail);
 
-    	$data = array(
+		foreach($carts->result() as $items) {
+
+			$curPrice 	= $items->PRODUCT_QUANTITY * $items->PRODUCT_PRICE;
+			$subqty 	= $subqty + $items->PRODUCT_QUANTITY;
+			$subtotal 	= $subtotal + $curPrice;
+
+		}
+
+		$data = array(
     		'ORDER_NO'     => $genID,
     		'ORDER_DATE'   => date('Y-m-d h:i:s'),
-    		'MEMBER_ID'    => $member_id,
-    		'MEMBER_NAME'  => $orderName,
-    		'MEMBER_PHONE' => $orderPhone,
-    		'MEMBER_EMAIL' => $orderEmail,
-    		'TOTAL_ORDER'  => $totalPrice,
-    		'STATUS'       => 'NEW ORDER',
-    		'ADDRESS_1'    => $orderAddress1,
-    		'ADDRESS_2'    => $orderAddress2,
-    		'COUNTRY'      => $orderCountry,
-    		'ZIP'          => $orderZIP,
-    		'STATE'        => $orderState
+    		'MEMBER_ID'    => $memberID,
+    		'MEMBER_NAME'  => $this->input->post('txt-name'),
+    		'MEMBER_PHONE' => $this->input->post('txt-phone'),
+    		'MEMBER_EMAIL' => $this->input->post('txt-email'),
+    		'TOTAL_ORDER'  => $subtotal,
+			'STATUS'       => 'NEW ORDER',
+			'UPDATED'	   => date('Y-m-d h:i:s'),
+    		'ADDRESS_1'    => $this->input->post('txt-address-1'),
+    		'ADDRESS_2'    => $this->input->post('txt-address-2'),
+    		'COUNTRY'      => $this->input->post('txt-country'),
+    		'ZIP'          => $this->input->post('txt-zip'),
+			'STATE'        => $this->input->post('txt-state'),
+			'SAVE_FLAG'	   => $saveFlag
     	);
 
-    	$this->carts->insertMasterData($data);
+		$this->carts->insertMasterData($data);
+		
+		foreach($carts->result() as $carts) {
 
-    	$counter = 0;
-    	foreach($this->cart->contents() as $items) {
-    		
-            //CHECK IF PRODUCT FROM API OR NOT
-    	   if(substr($items['id'], 1, 1) != 'P') {
-    			$flag = '1';
-            } else {
-    			$flag = '2';
-    	   }
+			if(substr($carts->PRODUCT_ID, 1, 1) != 'P') {
+				$flag = '1';
+			} else {
+				$flag = '2';
+			}
 
-    	$itemPrice = $this->session->userdata('item-price-'.$counter);
+			$details = array(
+				'FLAG'            => $flag,
+    			'ORDER_NO'        => $genID,
+				'PROD_ID'         => $carts->PRODUCT_ID,
+				'PROD_IMAGE'	  => $carts->PRODUCT_IMAGES,
+				'PROD_NAME'		  => $carts->PRODUCT_NAME,
+    			'QUANTITY'        => $carts->PRODUCT_QUANTITY,
+    			'WEIGHT'          => '0',
+    			'PRICE'           => $carts->PRODUCT_PRICE,
+    			'FINAL_PRICE'     => $carts->PRODUCT_PRICE,
+            	'POSTAGE'         => 0.00,
+    			'NOTES'           => $carts->PRODUCT_NOTES
+			);
 
-        //Replace the item name
-    	$details = array(
-    		'FLAG'            => $flag,
-    		'ORDER_NO'        => $genID,
-            'PROD_ID'         => $items['id'],
-    		'QUANTITY'        => $items['qty'],
-    		'WEIGHT'          => '0',
-    		'PRICE'           => $itemPrice,
-    		'FINAL_PRICE'     => $itemPrice,
-            'POSTAGE'         => 0.00,
-    		'NOTES'           => $items['notes']
-    	);
+			$this->carts->insertOrderDetail($details);
 
-    		$counter++;
-    		$this->carts->insertOrderDetail($details);
-    	}
+			//DELETE THE ITEM FROM THE CART
+			$deleteCart = $this->carts->deleteCarts($carts->REC_ID);
 
-    	//Count all the items on the Cart
-    	$row = count($this->cart->contents());
+		}
 
-    	//Check if all data is succesfully inserted, or there's an error
-    	if($row == $counter) {
-    		
-            /* DELETE ALL SESSION ITEM */
-            $this->cart->destroy();
-
-            for($item = 0; $item < $counter; $item++) {
-                $this->session->unset_userdata('item-price-'.$item);
-                $this->session->unset_userdata('item-notes-'.$item);
-            }
-
-            $this->session->unset_userdata('totalQuantity');
-            $this->session->unset_userdata('totalPrice');
-
-            $this->session->set_flashdata('inquiry', 'created');
+		if($deleteCart) {
+			$this->session->set_flashdata('inquiry', 'created');
             redirect(base_url());
-    	} else {
-            $this->session->set_flashdata('inquiry', 'failed');
+		} else {
+			$this->session->set_flashdata('inquiry', 'failed');
             redirect(base_url());
-    	}
+		}
 
     }
 

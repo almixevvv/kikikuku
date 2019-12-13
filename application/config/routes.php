@@ -109,6 +109,9 @@ $route['cms/margin'] = 'Margin_cms';
 $route['cms/howto'] = 'Howto_cms';
 $route['cms/orders/status'] = 'Orders_cms/status';
 
+/* ROUTES FOR PROCESS */
+$route['addcart'] = 'Cart/addtocart';
+
 /* Basic Part */
 $route['change_pass'] = 'cpassword/view';
 $route['product']= 'product/view';

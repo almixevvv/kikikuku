@@ -15,13 +15,21 @@ class Login extends CI_Controller {
 	public function index() {
 
 		$data['sectionName'] = 'Login';
-
 		$data['googleURL']=$this->google->get_login_url();
+		$userData = $this->session->user_data;
+		
+		if($userData['EMAIL'] != null) {
+			
+			redirect('home');
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/navbar');
-	    $this->load->view('pages/account-registration/login', $data);
-	    $this->load->view('templates/footer');
+		} else {
+			
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/navbar');
+	    	$this->load->view('pages/account-registration/login', $data);
+			$this->load->view('templates/footer');
+			
+		}
 
   }
 
@@ -92,21 +100,21 @@ class Login extends CI_Controller {
 					foreach($checkPassword->result() as $data) {
 
 						$dataSess = array(
-							'FIRST_NAME' => $data->FIRST_NAME,
-							'LAST_NAME' => $data->LAST_NAME,
-							'PHONE' => $data->PHONE,
-							'EMAIL' => $data->EMAIL,
-							'ADDRESS' => $data->ADDRESS,
-							'COUNTRY' => $data->COUNTRY,
-							'PROVINCE' => $data->PROVINCE,
-							'USERID' => $data->ID,
-							'ZIP' => $data->ZIP,
-		 			  		'LOGGED_IN'=> TRUE
+							'FIRST_NAME' 	=> $data->FIRST_NAME,
+							'LAST_NAME' 	=> $data->LAST_NAME,
+							'PHONE' 		=> $data->PHONE,
+							'EMAIL' 		=> $data->EMAIL,
+							'ADDRESS' 		=> $data->ADDRESS,
+							'COUNTRY' 		=> $data->COUNTRY,
+							'PROVINCE' 		=> $data->PROVINCE,
+							'USERID' 		=> $data->ID,
+							'ZIP' 			=> $data->ZIP,
+		 			  		'LOGGED_IN'		=> TRUE
 	 					);
 
 					}
 
-					$this->session->set_userdata($dataSess);
+					$this->session->set_userdata('user_data', $dataSess);
 
 					//CHECK USER PREVIOUS PAGE
 					if($this->input->get('refer') != null) {

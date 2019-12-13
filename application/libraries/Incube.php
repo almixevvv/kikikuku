@@ -27,10 +27,7 @@ class Incube {
 			return $newPath;
     }
 
-	public function setPrice($sellPrice) {
-
-		$marginParameter 	= $this->CI->product->getMarginPrice();
-		$convertRate		= $this->CI->product->getConvertRate();
+	public function setPrice($convertRate, $marginParameter, $sellPrice) {
 
 		//FORMAT THE PRICE 
 		$initialPrice =  $sellPrice/100;
@@ -51,7 +48,7 @@ class Incube {
 	
 	}
 
-	public function getCorrectPrice($items, $productList) {
+	public function getCorrectPrice($convertRate, $marginParameter, $items, $productList) {
 
 		//Item Quantity
 		$totalItems = $items;
@@ -67,15 +64,15 @@ class Incube {
 
 			if($totalItems >= $quantity['startNumber'] && $totalItems <= $finalQty) {
 				
-				$data['price'] 		= $this->setPrice($quantity['sellPrice']);
+				$data['price'] 		= $this->setPrice($convertRate, $marginParameter, $quantity['sellPrice']);
 				$data['start']		= $quantity['startNumber'];
 				$data['end']		= $quantity['endNumber'];
-				
-				return $data;
+
 			}
 
 		}
 
+		return $data;
 	}
 
 	public function changeItemMatric($matrics) {
@@ -114,16 +111,7 @@ class Incube {
   
 	public function logoutAccount() {
 
-        $this->session->unset_userdata('FIRST_NAME');
-		$this->session->unset_userdata('LAST_NAME');
-		$this->session->unset_userdata('PHONE');
-		$this->session->unset_userdata('EMAIL');
-		$this->session->unset_userdata('ADDRESS');
-		$this->session->unset_userdata('COUNTRY');
-		$this->session->unset_userdata('PROVINCE');
-		$this->session->unset_userdata('USERID');
-		$this->session->unset_userdata('ZIP');
-		$this->session->unset_userdata('LOGGED_IN');
+		$this->CI->session->unset_userdata('user_data');
 
 		return true;
 

@@ -30,8 +30,9 @@
 			$obj = json_decode($json, true);
 
 			//COUNTER TO DISPLAY MANUAL LOAD
-			$currentCounter = $this->input->post('counter');
-			$marginParameter = $this->product->getMarginPrice();
+			$currentCounter 	= $this->input->post('counter');
+			$marginParameter 	= $this->product->getMarginPrice();
+			$convertRate		= $this->product->getConvertRate();
 
 			foreach($obj['prslist'] as $list) {
 
@@ -39,7 +40,7 @@
 				$newPath = $this->incube->replaceLink($list['picture2']);
 
 				//FORMAT THE PRICE
-				$price = $this->incube->setPrice($list['sellPrice']);
+				$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 
 				//FILL THE TEMPLATE WITH OUTPUT DATA
 				if($list['sellPrice'] == 0) {
@@ -116,7 +117,8 @@
 
         		foreach($obj['detail']['sdiProductsPriceList'] as $price) {
         			
-        		}
+				}
+				
         	} else {
         		echo $curPrice;
         	}
@@ -131,6 +133,7 @@
 			$currentCounter 	= $this->input->post('counter');
 			$page 				= $this->input->post('start');
 			$marginParameter 	= $this->product->getMarginPrice();
+			$convertRate 		= $this->product->getConvertRate();
 
 			$json = file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&q=".$searchQuery."&pageSize=12&cpage=".$page);
 
@@ -139,7 +142,7 @@
 			foreach($obj['prslist'] as $list) {
 
 				//FORMAT THE PRICE
-				$price = $this->incube->setPrice($list['sellPrice']);
+				$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 
                 //Use custom library for Image Formating
 				$newPath = $this->incube->replaceLink($list['picture2']);

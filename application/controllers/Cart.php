@@ -17,122 +17,129 @@ class Cart extends CI_Controller {
 
 		$cartArray = array();
 
-		$url  = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=5&cpage=".$randomPage);
-		$obj 	= json_decode($url, TRUE);
+		$url  		= file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=1001105&pageSize=5&cpage=".$randomPage);
+		$obj 		= json_decode($url, TRUE);
 
-		$data['recomended'] = $obj;
+		$hashEmail  = sha1($this->session->EMAIL); 
+
+		echo $this->session->EMAIL;
+
+		$data['recomended'] 	 = $obj;
+		$data['productName'] 	 = 'Shopping Cart';
+		$userData 				 = $this->session->user_data;
+
+		$hashEmail = sha1($userData['EMAIL']);
+
 		$data['marginParameter'] = $this->product->getMarginPrice();
+		$data['convertRate'] 	 = $this->product->getConvertRate();
+		$data['items']		 	 = $this->carts->displayCart($hashEmail);
 
-		//FOR DEBUGGING PURPOSE ONLY
-		// foreach($json['prslist'] as $list) {
-		// 	echo 'Title '.$list['title']."</br>";
-		// 	echo 'Name '.$list['shopName']."</br>";
-		// 	echo 'Picture '.$list['picture2'];
-		// }
-		//
-		// die();
+		if($userData['EMAIL'] != null) {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/navbar');
+			$this->load->view('pages/cart/mycart', $data);
+    		$this->load->view('templates/footer');
 
-		$data['productName'] = 'Shopping Cart';
-
-		$member_id 		= $this->session->userdata('USERID');
-		$member_email 	= $this->session->userdata('EMAIL');
-
-		if($member_id) {
-			//PUT THE CART TO DATABASE
-			foreach ($this->cart->contents() as $items) {
-				
-				$cartArray = array(
-					//input item to database
-					'CART_ID' 			=> md5($member_id),
-					'PRODUCT_ID' 		=> $items['id'],
-					'PRODUCT_QUANTITY' 	=> $items['qty'],
-					'PRODUCT_PRICE' 	=> $items['price'],
-					'PRODUCT_NAME' 		=> $items['name'],
-					'PRODUCT_NOTES' 	=> $items['notes'],
-					'PRODUCT_BUYER'		=> $member_email
-				);
-
-			}
-
-			$this->carts->insertCartData($cartArray);
+		} else {
+			$this->session->set_flashdata('cart', 'no_user');
+            redirect(base_url('login?refer=mycart'));
 		}
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('templates/navbar');
-		$this->load->view('pages/cart/mycart', $data);
-    	$this->load->view('templates/footer');
 
 	}
 
 	public function addtocart() {
 
-		if($this->input->post('customer-notes') == null) {
-			$productNotes = '';
-		} else {
-			$productNotes = $this->input->post('customer-notes');
-		}
+		$userData 	= $this->session->user_data;
 
-		//input item to session
-		$itemArray = array(
-			'id' => $this->input->post('product-id'),
-			'qty' => $this->input->post('quantity'),
-			'price' => $this->input->post('product-price'),
-			'name' => $this->input->post('product-name'),
-			'notes' => $productNotes
-		);
+		if($userData['EMAIL'] == null) {
 
-		if($this->cart->insert($itemArray)) {
-			redirect('mycart');
-		} else {
-			redirect('mycart');
-		}
-	}
+			//Temporarely Save Item to Database
+			$itemArray = array(
+				'prod_id' 		=> $this->input->post('product-id'),
+				'prod_qty' 		=> $this->input->post('quantity'),
+				'prod_name' 	=> $this->input->post('product-name'),
+				'prod_price' 	=> $this->input->post('product-price'),
+				'prod_notes' 	=> $this->input->post('customer-notes'),
+				'prod_image'	=> $this->input->post('hidden-images')
+			);
 
-	public function cartToSession() {
-
-		//CHECK IF THERE'S A LOGIN SESSION OR NOT
-
-		$member_id = $this->session->userdata('USERID');
-
-		if($member_id == null) {
-
+			$this->session->set_userdata('cart_items', $itemArray);
 			$this->session->set_flashdata('cart', 'no_user');
-			redirect(base_url('login?refer=mycart'));
+
+			redirect(base_url('login?refer=addcart'));
+
+		} else {
+			if($this->session->has_userdata('cart_items')) {
+				
+				$userData 	= $this->session->user_data;
+				$tmpItems 	= $this->session->cart_items;
+				$hashID 	= sha1($userData['EMAIL']);
+	
+				$itemArray = array(
+					'CART_ID' 			=> $hashID,
+					'PRODUCT_ID' 		=> $tmpItems['prod_id'],
+					'PRODUCT_QUANTITY' 	=> $tmpItems['prod_qty'],
+					'PRODUCT_PRICE' 	=> $tmpItems['prod_price'],
+					'PRODUCT_NOTES' 	=> $tmpItems['prod_notes'],
+					'PRODUCT_NAME'		=> $tmpItems['prod_name'],
+					'PRODUCT_IMAGES'	=> $tmpItems['prod_image'],
+					'PRODUCT_BUYER'		=> $userData['EMAIL']
+				);
+	
+				$this->carts->insertCartData($itemArray);
+				$this->session->unset_userdata('cart_items');
+				redirect('mycart');
+	
+			} else {
+				$hashID 	= sha1($userData['EMAIL']);
+	
+				$itemArray = array(
+					'CART_ID' 			=> $hashID,
+					'PRODUCT_ID' 		=> $this->input->post('product-id'),
+					'PRODUCT_QUANTITY' 	=> $this->input->post('quantity'),
+					'PRODUCT_PRICE' 	=> $this->input->post('product-price'),
+					'PRODUCT_NOTES' 	=> $this->input->post('customer-notes'),
+					'PRODUCT_IMAGES'	=> $this->input->post('hidden-images'),
+					'PRODUCT_NAME'	  	=> $this->input->post('product-name'),
+					'PRODUCT_BUYER'		=> $userData['EMAIL']
+				);
+				
+				//CHECK IF ITEM IS PREVIOUSLY EXISTING
+				$itemResult = $this->carts->getItemInfo($this->input->post('product-id'), $userData['EMAIL']);
+
+				if($itemResult->num_rows() > 0) {
+			
+					//DO SOMETHING ELSE
+					$currentQty = $itemResult->result()[0]->PRODUCT_QUANTITY;
+					$totalQty = $currentQty + $this->input->post('quantity');
+	
+					$dataArray = array(
+						'PRODUCT_QUANTITY' => $totalQty
+					);
+					
+					//UPDATE QUANTITY
+					$this->carts->updateCartQuantity($dataArray, $userData['EMAIL'], $this->input->post('product-id'));
+				} else {
+					//CREATE THE ORDER
+					$this->carts->insertCartData($itemArray);
+				}
+
+				redirect('mycart');
+			}
 
 		}
-
-		//SET FINAL QUANTITY AND TOTAL PRICE
-		$newdata = array(
-			'totalQuantity'  => $this->input->post('totalItems'),
-			'totalPrice'     => $this->input->post('totalPrice')
-		);
-
-		$this->session->set_userdata($newdata);
-
-		//SET EACH ITEM PRICE FOR COMPARISON
-		$counter = $this->input->post('totalQty');
-		for($i = 0; $i < $counter; $i++) {
-			$this->session->set_userdata('item-price-'.$i, $this->input->post('total-price-'.$i));
-			$this->session->set_userdata('item-notes-'.$i, $this->input->post('customer-notes-'.$i));
-		}
-
-		redirect('cart/checkout');
 
 	}
 
 	public function removeCartItem() {
 
 		$getRowID = $this->input->get('rowid');
+		$getBuyer = $this->input->get('buyer');
 
-		$data = array(
-            'rowid' => $getRowID,
-            'qty' => 0,
-    	);
-
-		if($this->cart->update($data)) {
-			echo 'sukses';
+		if($this->carts->deleteItem($getRowID, $getBuyer)) {
+			return true;
 		} else {
-			echo 'salah';
+			return false;
 		}
 
 	}
