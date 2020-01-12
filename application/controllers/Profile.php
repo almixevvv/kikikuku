@@ -6,6 +6,7 @@ class Profile extends CI_Controller {
 			$this->load->library('session');
 			$this->load->helper('form');
 			$this->load->model('M_profile', 'profile');
+			$this->load->model('M_user', 'user');
 			
 			// $this->output->enable_profiler(TRUE);
 			date_default_timezone_set('Asia/Jakarta');
@@ -57,7 +58,7 @@ class Profile extends CI_Controller {
             	redirect(base_url('login?refer=profile/transaction'));
 			}
 
-			$data['memberDetails'] = $this->profile->getMemberDetails($userEmail);
+			$data['memberDetails'] = $this->user->getMemberData($userEmail);
 
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
@@ -209,31 +210,51 @@ class Profile extends CI_Controller {
 
 		}
 
-		public function orderPayment() {
+	public function orderPayment() {
 
+		$data['productName'] 	= 'Transaction Payment';
+
+		$data['orderID'] 		= $this->input->post('orderID');
+		$data['orderTotal'] 	= $this->input->post('orderTotal');
+		$data['transactionID'] 	= $this->input->post('transactionID');
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/navbar');
+		$this->load->view('pages/profile/payment', $data);
+		$this->load->view('templates/footer');
+
+	}
+
+	public function manualVerification() {
+
+		$data['productName'] 	= 'Transaction Payment';
+
+		$userData 	= $this->session->trans_items;
+
+		if($userData['orderID'] == null) {
 			$data['orderID'] 		= $this->input->post('orderID');
 			$data['orderTotal'] 	= $this->input->post('orderTotal');
 			$data['transactionID'] 	= $this->input->post('transactionID');
 
-			$this->load->view('templates/header');
-			$this->load->view('templates/navbar');
-		    $this->load->view('pages/profile/payment', $data);
-		    $this->load->view('templates/footer');
-
+			$transSession = array(
+				'ORDER_ID'		=> $this->input->post('orderID'),
+				'ORDER_TOTAL'	=> $this->input->post('orderTotal'),
+				'TRANS_ID'		=> $this->input->post('transactionID')
+			);
+	
+			$this->session->set_userdata('trans_items', $transSession);
+		} else {
+			$data['orderID'] 		= $userData['orderID'];
+			$data['orderTotal'] 	= $userData['orderTotal'];
+			$data['transactionID'] 	= $userData['transactionID'];
 		}
 
-		public function manualVerification() {
+		$this->load->view('templates/header', $data);
+		$this->load->view('templates/navbar');
+	    $this->load->view('pages/profile/payment_process', $data);
+	    $this->load->view('templates/footer');
 
-			$data['orderID'] 		= $this->input->post('orderID');
-			$data['orderTotal'] = $this->input->post('orderTotal');
-			$data['transactionID'] = $this->input->post('transactionID');
-
-			$this->load->view('templates/header');
-			$this->load->view('templates/navbar');
-	    	$this->load->view('pages/profile/order_confirmation', $data);
-	    	$this->load->view('templates/footer');
-
-		}
+	}
 
 		public function finishOrder() {
 

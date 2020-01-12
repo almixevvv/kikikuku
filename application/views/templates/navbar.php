@@ -161,8 +161,7 @@
 					$userData = $this->session->user_data;
 					if($userData['EMAIL'] != null) {
 				?>
-				<span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				<!-- <span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15"> -->
+				<span class="account-position-fix dropdown-toggle" id="dropdown-account" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="20,15">
 					<a href="#" style="color: #C1C1C1;">
 						<i class="fas fa-user-circle" id="navbar-account-logo"></i>
 							<span style="color: black;">

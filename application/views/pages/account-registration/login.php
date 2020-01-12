@@ -132,7 +132,7 @@
 	  	});
 	<?php endif; ?>
 
-	<?php if($this->input->get('reset') == 'successful'): ?>
+	<?php if($this->session->success == 'email_send'): ?>
 		swal.fire({
 	    	title:'Reset Successful',
 	    	text: 'Your password reset process has been started. Please check your email to continue.',

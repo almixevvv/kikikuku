@@ -1,6 +1,6 @@
 <div class="login-container">
     
-  <form method="POST" action="<?php echo base_url('ResetPassword/resetPasswordProcess'); ?>" class="needs-validation" novalidate>
+  <form method="POST" action="<?php echo base_url('ResetPassword/sendPasswordReset'); ?>" class="needs-validation" novalidate>
     
     <div class="row" id="login-inner-container">
       
@@ -44,12 +44,25 @@
 
 </div>
 
-<?php if($this->input->get('error') == '1'): ?>
+<?php if($this->session->error == 'email_send'): ?>
 <script type="text/javascript">
 
   swal.fire({
     title:'Reset Failed',
-    text: 'This email is not registered, please try again',
+    text: 'Reset process failed, please try again later.',
+    type: 'error',
+    showCancelButton: false,
+  });
+
+</script>
+<?php endif; ?>
+
+<?php if($this->session->error == 'no_email'): ?>
+<script type="text/javascript">
+
+  swal.fire({
+    title:'Reset Failed',
+    text: 'This email is not registered, please try again.',
     type: 'error',
     showCancelButton: false,
   });

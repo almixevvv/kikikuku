@@ -128,6 +128,16 @@
 
     }
 
+    function deleteCartsAPI($cartID, $productID) {
+
+        $this->db->where('CART_ID', $cartID);
+        $this->db->where('PRODUCT_ID', $productID);
+        
+        $query = $this->db->delete('g_cart');
+
+        return $query;
+    }
+
     function getUserDetails($email) {
       $this->db->select('*');
       $this->db->from('g_member');

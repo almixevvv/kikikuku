@@ -101,13 +101,33 @@ class M_profile extends CI_Model{
 
 	function sendMessages($data) {
 
-		$this->db->insert('g_message', $data);
+		$query = $this->db->insert('g_message', $data);
+
+		return $query;
 
 	}
 
 	function insertImageData($data) {
 
-		$this->db->insert('g_confirm_payment', $data);
+		$query = $this->db->insert('g_confirm_payment', $data);
+
+		return $query;
+
+	}
+
+	function getPaymentProcess($orderID) {
+
+		$data = array(
+			'STATUS' 	=> 'UPDATED'
+		);
+
+		$this->db->select('*');
+		$this->db->from('g_order_master');
+		$this->db->where('STATUS', 'UPDATED');
+
+		$query = $this->db->get();
+
+		return $query;
 
 	}
 
@@ -118,7 +138,9 @@ class M_profile extends CI_Model{
 		);
 
 		$this->db->where('ORDER_NO', $orderID);
-		$this->db->update('g_order_master', $data);
+		$query = $this->db->update('g_order_master', $data);
+
+		return $query;
 
 	}
 

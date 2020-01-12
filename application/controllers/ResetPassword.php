@@ -2,10 +2,10 @@
 
 class ResetPassword extends CI_Controller {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 
-		// $this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(TRUE);
 
 		$this->load->model('M_reset', 'reset');
 		$this->load->model('M_user', 'user');
@@ -16,30 +16,32 @@ class ResetPassword extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 	}
 
-  function index() {
+  	public function index() {
 
 		$data['RESET_EMAIL'] = $this->input->get('email');
 		$data['RESET_DATA']  = $this->reset->getResetStatus($data['RESET_EMAIL'], $this->input->get('key'));
+		$data['productName'] = 'Reset Password';
 
 		//Save the url to session
 		$this->session->set_userdata('KEY', $this->input->get('key'));
 		$this->session->set_userdata('EMAIL', $this->input->get('email')); 
 
-		$this->load->view('templates/header');
+		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar');
 		$this->load->view('pages/account-registration/reset_password', $data);
-    	$this->load->view('templates/footer');
+  		$this->load->view('templates/footer');
 
 	}
 
-	function sendPasswordReset() {
+	public function sendPasswordReset() {
 
 		$regularEmail = $this->input->post('reset-email');
-
 		$queryResult = $this->user->checkExistingEmail($regularEmail);
 
 		if($queryResult->num_rows() == 0) {
-			redirect(base_url('profile/forgot_password?error=1'));
+			
+			$this->session->set_flashdata('error', 'no_email');
+			redirect(base_url('profile/forgot_password'));
 		} else {
 
 			$id = date('y-m-d-h-m-s');
@@ -48,18 +50,20 @@ class ResetPassword extends CI_Controller {
 
 			$resetData = array(
 
-				'USER_EMAIL'   => $regularEmail,
-				'RESET_ID'    => $hashID,
-				'RESET_STATUS' => 'ACTIVE'
+				'USER_EMAIL'   	=> $regularEmail,
+				'RESET_ID'    	=> $hashID,
+				'RESET_DATE'	=> $id,
+				'RESET_STATUS' 	=> 'ACTIVE'
 
 			);
 
 			$config['protocol']    = 'smtp';
 			$config['smtp_host']   = 'mail.kikikuku.com';
 			$config['smtp_user']   = 'admin@kikikuku.com';
-			$config['smtp_pass']   = 'nOX-D8NlrF#Z';
-			$config['smtp_port']   = 25;
+			$config['smtp_pass']   = 'yMiBWEq=H+NN';
+			$config['smtp_port']   = 587;
 			$config['charset']     = 'utf-8';
+			$config['newline']     = "\r\n";
 			$config['wordwrap']    = TRUE;
 			$config['mailtype']    = 'html';
 
@@ -74,12 +78,16 @@ class ResetPassword extends CI_Controller {
 			$this->email->subject('Please confirm your email address');
 			$this->email->message($message);
 
-			$this->email->send();
-
 			// print_r($this->email->print_debugger());
-			$this->user->sentResetPassword($resetData);
 
-			redirect(base_url('login?reset=successful'));
+			if($this->email->send()) {
+				$this->user->sentResetPassword($resetData);
+				$this->session->set_flashdata('success', 'email_send');
+				redirect(base_url('login'));
+			} else {
+				$this->session->set_flashdata('error', 'email_send');
+				redirect(base_url('profile/forgot_password'));
+			}
 
 		}
 
@@ -98,13 +106,9 @@ class ResetPassword extends CI_Controller {
 		$queryCheckPass = $this->reset->checkPassword($resetEmail, $hash);
 
 		if($queryCheckPass->num_rows() > 0) {
-
 			$this->session->set_flashdata('error', 'password');
-
 			redirect(base_url('profile/reset?email='.$email.'&key='.$key));
-
 		} else {
-
 			$data = array(
 				'RESET_STATUS' => 'FINISHED'
 			);
@@ -114,12 +118,10 @@ class ResetPassword extends CI_Controller {
 			);
 
 			$this->session->set_flashdata('success', 'password');
-
 			$this->reset->updatePassword($resetEmail, $password);
 			$this->reset->updateResetStatus($resetEmail, $key, $data);
 
 			redirect(base_url('login'));
-
 		}
 
 	}

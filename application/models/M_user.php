@@ -9,7 +9,31 @@
 			$query = $this->db->get();
 
 			return $query;
-    	}
+		}
+		
+		function getMemberData($email) {
+
+			$this->db->select('*');
+			$this->db->from('g_member');
+			$this->db->where('EMAIL', $email);
+
+			$query = $this->db->get();
+
+			return $query;
+
+		}
+
+		function getMemberbyID($id) {
+
+			$this->db->select('*');
+			$this->db->from('g_member');
+			$this->db->where('ID', $id);
+
+			$query = $this->db->get();
+
+			return $query;
+
+		}
 
 		function sentResetPassword($data) {
 

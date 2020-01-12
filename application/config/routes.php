@@ -94,8 +94,7 @@ $route['payment/confirmation'] = 'PaymentProcess/confirmationPage';
 
 /* CMS Part */
 $route['cms'] = 'CMS';
-$route['cms/login_process'] = 'CMS/login_process';
-$route['cms/login'] = 'CMS/index';
+$route['cms/login'] = 'CMS';
 $route['cms/dashboard'] = 'CMS/dashboard';
 $route['cms/banner'] = 'Banner_cms';
 $route['cms/member'] = 'Member_cms';

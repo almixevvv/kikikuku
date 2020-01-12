@@ -6,7 +6,10 @@
 
 	//INSERT MEMBER DATA
 	function insertMember($data) {
-		$this->db->insert('g_member', $data);
+		
+		$query = $this->db->insert('g_member', $data);
+
+		return $query;
 	}
 
 	//GET CURRENT MARGIN PARAMETER

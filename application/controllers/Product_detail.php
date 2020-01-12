@@ -12,9 +12,8 @@ class Product_detail extends CI_Controller {
         
         $randomPage     = mt_rand(1, 500);
 
-        $finalUrl       = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
-
-        $recURL         = file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=5&cpage=".$randomPage);
+        $finalUrl       = 'http://kikikuku.com/API/product?key=c549303dcef12a687e9077a21e1a51fb67851efb&id='.$id;
+        $recURL         = file_get_contents("http://kikikuku.com/API/home?key=c549303dcef12a687e9077a21e1a51fb67851efb&pageSize=5&page=".$randomPage);
     	$recomended 	= json_decode($recURL, TRUE);
 
         $json           = file_get_contents($finalUrl);
@@ -22,18 +21,9 @@ class Product_detail extends CI_Controller {
 
         $data['dataproduct']     = $obj;
         $data['recomended']      = $recomended;
-        $data['marginParameter'] = $this->product->getMarginPrice();
-		$data['convertRate'] 	 = $this->product->getConvertRate();
+        $data['imageCounter']    = 1; 
 
-        // FOR DEBUGGING PURPOSE ONLY
-        // foreach($obj['prslist'] as $list) {
-        // 	echo 'Title '.$list['title']."</br>";
-        // 	echo 'Name '.$list['shopName']."</br>";
-        // 	echo 'Picture '.$list['picture2'];
-        // }
-        // die();
-
-        if(isset($obj['tip'])) { 
+        if($obj['status'] == "error") {
             
             //THERE IS NO DATA FOR THIS
             $data['productName'] = 'Product not Available';
@@ -44,12 +34,12 @@ class Product_detail extends CI_Controller {
             $this->load->view('templates/footer', $data);
 
         } else {
-
+            
             //Product Name
-            if(strlen($obj['detail']['productForApp']['title']) > 20) {
-                $data['productName'] = ucwords(substr($obj['detail']['productForApp']['title'], 0, 20));
+            if(strlen($obj['item']['TITLE']) > 20) {
+                $data['productName'] = ucwords(substr($obj['item']['TITLE'], 0, 20));
             } else {
-                $data['productName'] = ucwords($obj['detail']['productForApp']['title']);
+                $data['productName'] = ucwords($obj['item']['TITLE']);
             }
             
             //THERE IS A DATA FOR THIS PRODUCT

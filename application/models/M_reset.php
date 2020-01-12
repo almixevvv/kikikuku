@@ -18,6 +18,18 @@ class M_reset extends CI_Model{
 
 	}
 
+	function getResetDetails($email) {
+
+		$this->db->select('*');
+		$this->db->from('g_reset_password');
+		$this->db->whre('USER_EMAIL', $email);
+
+		$query = $this->db->get();
+
+		return $query;
+
+	}
+
 	function checkPassword($email, $password) {
 
 		$this->db->select('*');

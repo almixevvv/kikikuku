@@ -5,7 +5,7 @@
     public function __construct() {
 
       parent::__construct();
-			// $this->output->enable_profiler(TRUE);
+			$this->output->enable_profiler(TRUE);
 			$this->load->library('session');
 			$this->load->helper('form');
 			$this->load->model('M_profile', 'profile');
@@ -30,24 +30,24 @@
       $defaultPath = '/img/order/'.$orderID.'.'.$ext;
 
       if ( !$this->upload->do_upload('uReceipt')) {
-        echo 'something wrong';
+        $this->session->set_flashdata('upload', 'error');
+        redirect('order/confirmation');
       } else {
-        echo 'something is right';
         $data = array(
-          'ORDER_ID' => $orderID,
-          'ACCOUNT_NAME' => $this->input->post('uAccountName'),
-          'ACCOUNT_NUMBER' => $this->input->post('uAccountNumber'),
-          'ACCOUNT_BANK' => $this->input->post('uBankName'),
-          'PAYMENT_AMOUNT' => $this->input->post('uAccountPayment'),
-          'PAYMENT_DATE' => date('Y-m-d H:m:s'),
-          'PAYMENT_IMAGE' => $defaultPath,
-          'FLAG' => '1'
+          'ORDER_ID'        => $orderID,
+          'ACCOUNT_NAME'    => $this->input->post('uAccountName'),
+          'ACCOUNT_NUMBER'  => $this->input->post('uAccountNumber'),
+          'ACCOUNT_BANK'    => $this->input->post('uBankName'),
+          'PAYMENT_AMOUNT'  => $this->input->post('uAccountPayment'),
+          'PAYMENT_DATE'    => date('Y-m-d H:m:s'),
+          'PAYMENT_IMAGE'   => $defaultPath,
+          'FLAG'            => '1'
         );
 
         $this->profile->insertImageData($data);
         $this->profile->updatePaymentStatus($orderID);
 
-        redirect('home?inquiry=paid');
+        // redirect('home?inquiry=paid');
       }
 
 		}

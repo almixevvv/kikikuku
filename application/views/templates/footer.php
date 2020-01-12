@@ -78,9 +78,9 @@
       			</div>
 
       			<div class="col-12 col-md-3 col-lg-3 col-xl-3">
-
+					<a href="<?php echo base_url(); ?>">
 					<img id="footer-logo-banner" alt="Kikikuku Footer Banner" src="<?php echo base_url('assets/images/logo.png');?>" />
-
+					</a>
       			</div>
 
       		</div>
