@@ -1,12 +1,14 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
-class API extends REST_Controller {
+class API extends REST_Controller
+{
 
-	public function __construct() {
-		
+	public function __construct()
+	{
+
 		parent::__construct();
 
 		$this->load->model('M_api', 'api');
@@ -21,21 +23,22 @@ class API extends REST_Controller {
 
 		//DEBUG LAST QUERY
 		// echo $this->db->last_query();
-		
+
 	}
 
-	public function index_get() {
+	public function index_get()
+	{
 
 		$this->response([
 			'status' => 'error',
 			'message' => 'api path error',
 			'code' => REST_Controller::HTTP_NOT_FOUND
 		], REST_Controller::HTTP_NOT_FOUND);
-
 	}
 
 	//CUSTOM HOME PAGE
-	public function home_get() {
+	public function home_get()
+	{
 
 		$randomPage 		= mt_rand(1, 500);
 		$pageSize   		= $this->input->get('pageSize');
@@ -43,67 +46,66 @@ class API extends REST_Controller {
 		$counter    		= 0;
 		$marginParameter 	= $this->product->getMarginPrice();
 		$convertRate		= $this->product->getConvertRate();
-		
-		if($pageSize != null) {
-			$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=".$pageSize."&cpage=".$randomPage);
+
+		if ($pageSize != null) {
+			$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $randomPage);
 		} else {
-			$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=".$pageSize."&cpage=".$pageCounter);
+			$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $pageCounter);
 		}
 
 		$obj 	= json_decode($json, true);
-			
+
 		$result = array();
-	
-		foreach($obj['prslist'] as $list) {
-	
+
+		foreach ($obj['prslist'] as $list) {
+
 			//Use custom library for Image Formating
 			$newPath = $this->incube->replaceLink($list['picture2']);
-	
+
 			$result[$counter]['ID'] 			= $list['id'];
 			$result[$counter]['TITLE']			= $list['title'];
-			$result[$counter]['PICTURE']		= $newPath.$list['picture2'];
+			$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
 			// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
 			$result[$counter]['START_QUANTITY'] = $list['startNumber'];
-	
-			if($list['priceType'] == '0') {
+
+			if ($list['priceType'] == '0') {
 				$result[$counter]['PRICE']			= 'Price Negotiable';
 			} else {
-				$price = $this->incube->setPrice($convertRate, $marginParameter,$list['sellPrice']);
+				$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 				// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
 				$result[$counter]['PRICE']			= $price;
 			}
-	
+
 			$counter++;
-	
 		}
-	
+
 		$jsonResult = json_encode($result);
-	
+
 		$this->response([
 			'status' 	=> 'ok',
 			'pageSize' 	=> $pageSize,
 			'code' 		=> REST_Controller::HTTP_ACCEPTED,
 			'item'      => json_decode($jsonResult, true),
 		], REST_Controller::HTTP_ACCEPTED);
-		
 	}
 
 	//SEARCH CUSTOM PAGE
-	public function search_get() {
+	public function search_get()
+	{
 
 		$counter    		= 0;
 		$pageSize   		= $this->input->get('pageSize');
 		$searchQuery 		= $this->input->get('query');
 		$marginParameter 	= $this->product->getMarginPrice();
 		$convertRate		= $this->product->getConvertRate();
-		
-		$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&q=".$searchQuery."&pageSize=".$pageSize."&cpage=".$this->input->get('page'));
+
+		$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&q=" . $searchQuery . "&pageSize=" . $pageSize . "&cpage=" . $this->input->get('page'));
 		$obj 	= json_decode($json, true);
-			
+
 		$result = array();
-	
-		if($obj['prslist'] == null) {
-	
+
+		if ($obj['prslist'] == null) {
+
 			$this->response([
 				'status' 		=> 'ok',
 				'pageSize' 		=> $pageSize,
@@ -111,34 +113,32 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'item'      	=> 'No Product Found',
 			], REST_Controller::HTTP_ACCEPTED);
-
 		} else {
 
-			foreach($obj['prslist'] as $list) {
-	
+			foreach ($obj['prslist'] as $list) {
+
 				//Use custom library for Image Formating
 				$newPath = $this->incube->replaceLink($list['picture2']);
-		
+
 				$result[$counter]['ID'] 			= $list['id'];
 				$result[$counter]['TITLE']			= $list['title'];
-				$result[$counter]['PICTURE']		= $newPath.$list['picture2'];
+				$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
 				// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
 				$result[$counter]['START_QUANTITY'] = $list['startNumber'];
-		
-				if($list['priceType'] == '0') {
+
+				if ($list['priceType'] == '0') {
 					$result[$counter]['PRICE']			= 'Price Negotiable';
 				} else {
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 					// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
 					$result[$counter]['PRICE']			= $price;
 				}
-		
+
 				$counter++;
-		
 			}
-		
+
 			$jsonResult = json_encode($result);
-		
+
 			$this->response([
 				'status' 		=> 'ok',
 				'pageSize' 		=> $pageSize,
@@ -146,97 +146,91 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'item'      	=> json_decode($jsonResult, true),
 			], REST_Controller::HTTP_ACCEPTED);
-
 		}
-
 	}
-	
-		//Get Product From Category
-		public function categoryProduct_get() {
-	
-			$randomPage  = mt_rand(1, 500);
-			$pageSize    = $this->input->get('pageSize');
-			$categoryID  = $this->input->get('category');
-			$pageCounter = $this->input->get('page');
-			$counter     = 0;
-			$marginParameter 	= $this->product->getMarginPrice();
-			$convertRate		= $this->product->getConvertRate();
-		
-			$json 	= file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=".$categoryID."&pageSize=".$pageSize."&cpage=".$randomPage);
-			$obj 	= json_decode($json, true);
-			
-			$result = array();
-			
-			if($obj['prslist'] == null) {
-	
-				$this->response([
-					'status' 		=> 'ok',
-					'pageSize' 		=> $pageSize,
-					'categoryID'	=> $categoryID,
-					'code' 			=> REST_Controller::HTTP_ACCEPTED,
-					'item'      	=> 'No Product Found',
-				], REST_Controller::HTTP_ACCEPTED);
 
-			} else {
+	//Get Product From Category
+	public function categoryProduct_get()
+	{
 
-				foreach($obj['prslist'] as $list) {
-	
-					//Use custom library for Image Formating
-					$newPath = $this->incube->replaceLink($list['picture2']);
-		
-					$result[$counter]['ID'] 			= $list['id'];
-					$result[$counter]['TITLE']			= $list['title'];
-					$result[$counter]['PICTURE']		= $newPath.$list['picture2'];
-					// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
-					$result[$counter]['START_QUANTITY'] = $list['startNumber'];
-		
-					if($list['priceType'] == '0') {
-						$result[$counter]['PRICE']			= 'Price Negotiable';
-					} else {
-						$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
-						// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
-						$result[$counter]['PRICE']			= $price;
-					}
-		
-					$counter++;
-		
+		$randomPage  = mt_rand(1, 500);
+		$pageSize    = $this->input->get('pageSize');
+		$categoryID  = $this->input->get('category');
+		$pageCounter = $this->input->get('page');
+		$counter     = 0;
+		$marginParameter 	= $this->product->getMarginPrice();
+		$convertRate		= $this->product->getConvertRate();
+
+		$json 	= file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=" . $categoryID . "&pageSize=" . $pageSize . "&cpage=" . $randomPage);
+		$obj 	= json_decode($json, true);
+
+		$result = array();
+
+		if ($obj['prslist'] == null) {
+
+			$this->response([
+				'status' 		=> 'ok',
+				'pageSize' 		=> $pageSize,
+				'categoryID'	=> $categoryID,
+				'code' 			=> REST_Controller::HTTP_ACCEPTED,
+				'item'      	=> 'No Product Found',
+			], REST_Controller::HTTP_ACCEPTED);
+		} else {
+
+			foreach ($obj['prslist'] as $list) {
+
+				//Use custom library for Image Formating
+				$newPath = $this->incube->replaceLink($list['picture2']);
+
+				$result[$counter]['ID'] 			= $list['id'];
+				$result[$counter]['TITLE']			= $list['title'];
+				$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
+				// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
+				$result[$counter]['START_QUANTITY'] = $list['startNumber'];
+
+				if ($list['priceType'] == '0') {
+					$result[$counter]['PRICE']			= 'Price Negotiable';
+				} else {
+					$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
+					// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
+					$result[$counter]['PRICE']			= $price;
 				}
 
-				$jsonResult = json_encode($result);
-	
-				$this->response([
-					'status' 		=> 'ok',
-					'pageSize' 		=> $pageSize,
-					'categoryID'	=> $categoryID,
-					'code' 			=> REST_Controller::HTTP_ACCEPTED,
-					'item'      	=> json_decode($jsonResult, true),
-				], REST_Controller::HTTP_ACCEPTED);
-
+				$counter++;
 			}
-	
+
+			$jsonResult = json_encode($result);
+
+			$this->response([
+				'status' 		=> 'ok',
+				'pageSize' 		=> $pageSize,
+				'categoryID'	=> $categoryID,
+				'code' 			=> REST_Controller::HTTP_ACCEPTED,
+				'item'      	=> json_decode($jsonResult, true),
+			], REST_Controller::HTTP_ACCEPTED);
+		}
 	}
 
 	//Get Product Detail
-	public function product_get() {
+	public function product_get()
+	{
 
 		$id			= $this->input->get('id');
 		$counter 	= 0;
-		$finalUrl   = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$id;
+		$finalUrl   = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $id;
 		$marginParameter 	= $this->product->getMarginPrice();
 		$convertRate		= $this->product->getConvertRate();
 
 		$json 	= file_get_contents($finalUrl);
 		$obj 	= json_decode($json, true);
 
-		if(isset($obj['tip'])) {
+		if (isset($obj['tip'])) {
 
 			$this->response([
 				'status' 		=> 'error',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'item'      	=> 'not found',
 			], REST_Controller::HTTP_ACCEPTED);
-
-
 		} else {
 
 			$productForApp['TITLE'] 	= ucwords($obj['detail']['productForApp']['title']);
@@ -245,92 +239,84 @@ class API extends REST_Controller {
 			$estWeight 					= $obj['detail']['productForApp']['weightetc'];
 
 			//FIX FOR IMAGE
-			if($obj['detail']['sdiProductsPicList'] == null) {
-				
-				if($obj['detail']['productForApp']['picture'] != null) {
+			if ($obj['detail']['sdiProductsPicList'] == null) {
+
+				if ($obj['detail']['productForApp']['picture'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture']);
-					$productForApp['PICTURE_LIST']['PICTURE1'] = $newPath.$obj['detail']['productForApp']['picture'];
+					$productForApp['PICTURE_LIST']['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture'];
 				}
 
-				if($obj['detail']['productForApp']['picture1'] != null) {	
+				if ($obj['detail']['productForApp']['picture1'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture1']);
-					$productForApp['PICTURE_LIST']['PICTURE2'] = $newPath.$obj['detail']['productForApp']['picture1'];
+					$productForApp['PICTURE_LIST']['PICTURE2'] = $newPath . $obj['detail']['productForApp']['picture1'];
 				}
 
-				if($obj['detail']['productForApp']['picture2'] != null) {
+				if ($obj['detail']['productForApp']['picture2'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture2']);
-					$productForApp['PICTURE_LIST']['PICTURE3'] = $newPath.$obj['detail']['productForApp']['picture2'];
+					$productForApp['PICTURE_LIST']['PICTURE3'] = $newPath . $obj['detail']['productForApp']['picture2'];
 				}
 
-				if($obj['detail']['productForApp']['picture3'] != null) {
+				if ($obj['detail']['productForApp']['picture3'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture3']);
-					$productForApp['PICTURE_LIST']['PICTURE4'] = $newPath.$obj['detail']['productForApp']['picture3'];
+					$productForApp['PICTURE_LIST']['PICTURE4'] = $newPath . $obj['detail']['productForApp']['picture3'];
 				}
 
-				if($obj['detail']['productForApp']['picture4'] != null) {
+				if ($obj['detail']['productForApp']['picture4'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture4']);
-					$productForApp['PICTURE_LIST']['PICTURE5'] = $newPath.$obj['detail']['productForApp']['picture4'];
+					$productForApp['PICTURE_LIST']['PICTURE5'] = $newPath . $obj['detail']['productForApp']['picture4'];
 				}
-
 			} else {
 
-				foreach($obj['detail']['sdiProductsPicList'] as $picture) {
+				foreach ($obj['detail']['sdiProductsPicList'] as $picture) {
 
-					if($picture['picture'] != null) {
+					if ($picture['picture'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture']);
-						$productForApp['PICTURE_LIST']['PICTURE1'] = $newPath.$picture['picture'];
-		
+						$productForApp['PICTURE_LIST']['PICTURE1'] = $newPath . $picture['picture'];
 					}
-		
-					if($picture['picture1'] != null) {
+
+					if ($picture['picture1'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture1']);
-						$productForApp['PICTURE_LIST']['PICTURE2'] = $newPath.$picture['picture1'];
-						
+						$productForApp['PICTURE_LIST']['PICTURE2'] = $newPath . $picture['picture1'];
 					}
-		
-					if($picture['picture2'] != null) {
+
+					if ($picture['picture2'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture2']);
-						$productForApp['PICTURE_LIST']['PICTURE3'] = $newPath.$picture['picture2'];
-						
+						$productForApp['PICTURE_LIST']['PICTURE3'] = $newPath . $picture['picture2'];
 					}
-		
-					if($picture['picture3'] != null) {
+
+					if ($picture['picture3'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture3']);
-						$productForApp['PICTURE_LIST']['PICTURE4'] = $newPath.$picture['picture3'];
-						
+						$productForApp['PICTURE_LIST']['PICTURE4'] = $newPath . $picture['picture3'];
 					}
-		
-					if($picture['picture4'] != null) {
+
+					if ($picture['picture4'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture4']);
-						$productForApp['PICTURE_LIST']['PICTURE5'] = $newPath.$picture['picture4'];
-						
+						$productForApp['PICTURE_LIST']['PICTURE5'] = $newPath . $picture['picture4'];
 					}
-
 				}
-
 			}
 
 			//CREATE PRICE LIST
-			if($obj['detail']['sdiProductsPriceList'] == null) {
-				
+			if ($obj['detail']['sdiProductsPriceList'] == null) {
+
 				//Check if the price is appropriate
-				if($this->incube->priceEmpty($obj['detail']['productForApp']['sellPrice'])) {
+				if ($this->incube->priceEmpty($obj['detail']['productForApp']['sellPrice'])) {
 					$productForApp['PRICE'][$counter]['PRICE'] = 'Price Negotiable';
 					$productForApp['PRICE'][$counter]['STARTING_QUANTITY'] = '1';
 					$productForApp['PRICE'][$counter]['FLAG'] = 'No EXW Price';
 
 					$startingPrice 		= '0';
-					$startingQuantity 	= '1'; 
+					$startingQuantity 	= '1';
 				} else {
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $obj['detail']['productForApp']['sellPrice']);
 					// $productForApp['PRICE']['STARTING_PRICE'] = number_format($price, 2, '.', ',');
@@ -341,11 +327,10 @@ class API extends REST_Controller {
 					$startingPrice 		= $price;
 					$startingQuantity 	= '1';
 				}
-
 			} else {
 
 				//Loop through each price
-				foreach($obj['detail']['sdiProductsPriceList'] as $priceList) {
+				foreach ($obj['detail']['sdiProductsPriceList'] as $priceList) {
 
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $priceList['sellPrice']);
 
@@ -353,28 +338,26 @@ class API extends REST_Controller {
 					$productForApp['PRICE'][$counter]['STARTING_QUANTITY'] 	= $priceList['startNumber'];
 					$productForApp['PRICE'][$counter]['FLAG'] = 'EXW Price Exist';
 
-					if($priceList['endNumber'] == 0) {
-						$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] 	= 'Above '.$priceList['startNumber'];
+					if ($priceList['endNumber'] == 0) {
+						$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] 	= 'Above ' . $priceList['startNumber'];
 					} else {
 						$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] 	= $priceList['endNumber'];
 					}
 
 					//$productForApp['PRICE'][$counter]['PRICE'] 					= number_format($price, 2, '.', ',');
-					if($priceList['endNumber'] == 0) {
+					if ($priceList['endNumber'] == 0) {
 						$startingQuantity = $priceList['startNumber'];
 						$startingPrice = $price;
-					  } else if($priceList['endNumber'] == 1) {
+					} else if ($priceList['endNumber'] == 1) {
 						$startingQuantity = $priceList['startNumber'];
 						$startingPrice = $price;
-					  } else if($priceList['startNumber'] < $priceList['endNumber']) {
+					} else if ($priceList['startNumber'] < $priceList['endNumber']) {
 						$startingQuantity = $priceList['startNumber'];
 						$startingPrice = $price;
-					  }
+					}
 
 					$counter++;
-
 				}
-
 			}
 
 			$jsonResult = json_encode($productForApp);
@@ -389,24 +372,84 @@ class API extends REST_Controller {
 				'code' 				=> REST_Controller::HTTP_ACCEPTED,
 				'item'      		=> json_decode($jsonResult, true),
 			], REST_Controller::HTTP_ACCEPTED);
-	
 		}
+	}
 
+	//Get Correct Pricing
+	public function pricing_get()
+	{
+
+		$productID = $this->input->get('id');
+		$quantity  = $this->input->get('quantity');
+		$marginParameter 	= $this->product->getMarginPrice();
+		$convertRate		= $this->product->getConvertRate();
+
+		$finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $productID;
+
+		$json 	= file_get_contents($finalUrl);
+		$obj 	= json_decode($json, true);
+
+		if (isset($obj['tip'])) {
+
+			$this->response([
+				'status' 		=> 'error',
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+				'item'      	=> 'not found',
+			], REST_Controller::HTTP_BAD_REQUEST);
+		} else {
+
+			if ($obj['detail']['sdiProductsPriceList'] == null) {
+
+				//Check if the price is appropriate
+				if ($this->incube->priceEmpty($obj['detail']['productForApp']['sellPrice'])) {
+					$startingPrice 		= 'Price Negotiable';
+				} else {
+					$price = $this->incube->setPrice($convertRate, $marginParameter, $obj['detail']['productForApp']['sellPrice']);
+					$startingPrice 		= $price;
+				}
+
+				$this->response([
+					'status' => 'ok',
+					'price'	 => $startingPrice,
+					'code' 	=> REST_Controller::HTTP_ACCEPTED,
+				], REST_Controller::HTTP_ACCEPTED);
+			} else {
+				//Get the Pricing from Library
+				$newPricing = $this->incube->getCorrectPrice($convertRate, $marginParameter, $quantity, $obj['detail']['sdiProductsPriceList']);
+
+				if (!$newPricing) {
+					$this->response([
+						'status' 	=> 'error',
+						'message'	=> 'quantity error',
+						'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
+					], REST_Controller::HTTP_BAD_REQUEST);
+				} else {
+					$this->response([
+						'status' 			=> 'ok',
+						'price'	 			=> $newPricing['price'],
+						'startingQuantity'	=> $newPricing['start'],
+						'endingQUantity'	=> $newPricing['end'],
+						'code' 				=> REST_Controller::HTTP_ACCEPTED,
+					], REST_Controller::HTTP_ACCEPTED);
+				}
+			}
+		}
 	}
 
 	//GET MESSAGE
-	public function message_get() {
+	public function message_get()
+	{
 
 		$orderID 	 = $this->input->get('id');
 		$messageData = $this->profile->getOrderMessages($orderID);
 		$counter 	 = 0;
 
-		if($messageData->num_rows() > 0) {
+		if ($messageData->num_rows() > 0) {
 
-			foreach($messageData->result() as $data) {
+			foreach ($messageData->result() as $data) {
 
 				$message[$counter] = array(
-					'SENDER' 			=> $data->SENDER_ID, 
+					'SENDER' 			=> $data->SENDER_ID,
 					'MESSAGE'			=> $data->MESSAGE,
 					'MESSAGE_TIME'		=> $data->MESSAGE_TIME,
 					'USER_READ_FLAG'	=> $data->USER_READ_FLAG,
@@ -420,11 +463,10 @@ class API extends REST_Controller {
 
 			$this->response([
 				'status' 		=> 'ok',
-				'message' 		=> $messageData->num_rows().' messages found',
+				'message' 		=> $messageData->num_rows() . ' messages found',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'message_data' 	=> json_decode($encode)
 			], REST_Controller::HTTP_ACCEPTED);
-
 		} else {
 
 			$this->response([
@@ -433,15 +475,15 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'message_data' 	=> '0'
 			], REST_Controller::HTTP_ACCEPTED);
-
 		}
-		
+
 		// echo $this->db->last_query();
 
 	}
 
 	//SEND MESSAGE
-	public function message_post() {
+	public function message_post()
+	{
 
 		$data = array(
 			'SENDER_ID' 		=> 'CUSTOMER',
@@ -454,9 +496,9 @@ class API extends REST_Controller {
 
 		$messageData = $this->profile->getOrderMessages($this->input->post('orderID'));
 
-		if($messageData->num_rows() > 0) {
-			
-			if($this->profile->sendMessages($data)) {
+		if ($messageData->num_rows() > 0) {
+
+			if ($this->profile->sendMessages($data)) {
 				$this->response([
 					'status' 		=> 'ok',
 					'message' 		=> 'message send',
@@ -469,7 +511,6 @@ class API extends REST_Controller {
 					'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 				], REST_Controller::HTTP_BAD_REQUEST);
 			}
-
 		} else {
 
 			$this->response([
@@ -477,18 +518,17 @@ class API extends REST_Controller {
 				'message' 		=> 'invalid order ID',
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
 		}
-
 	}
 
-	public function profile_get() {
+	public function profile_get()
+	{
 
 		$query = $this->user->getMemberData($this->input->get('email'));
 
-		if($query->num_rows() > 0) {
-			
-			foreach($query->result() as $data) {
+		if ($query->num_rows() > 0) {
+
+			foreach ($query->result() as $data) {
 
 				$dataSess = array(
 					'FIRST_NAME' 		=> $data->FIRST_NAME,
@@ -512,7 +552,6 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'data'			=> json_decode($decode)
 			], REST_Controller::HTTP_ACCEPTED);
-
 		} else {
 			$this->response([
 				'status' 		=> 'error',
@@ -525,16 +564,17 @@ class API extends REST_Controller {
 	}
 
 	//UPDATE MEMBER PHONE
-	public function profilephone_post() {
+	public function profilephone_post()
+	{
 
 		$idQuery = $this->user->getMemberbyID($this->input->post('userID'));
 
-		if($idQuery->num_rows() > 0) {
+		if ($idQuery->num_rows() > 0) {
 
 			$data = array(
 				'PHONE' => $this->input->post('phone')
 			);
-	
+
 			$this->profile->updatePhone($this->input->post('userID'), $data);
 
 			$this->response([
@@ -549,22 +589,20 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
-
 	}
 
 	//UPDATE MEMBER IMAGE
-	public function profilephoto_post() {
-
-
-
+	public function profilephoto_post()
+	{
 	}
 
 	//UPDATE MEMBER ADDRESS
-	public function profileaddress_post() {
+	public function profileaddress_post()
+	{
 
 		$idQuery = $this->user->getMemberbyID($this->input->post('userID'));
 
-		if($idQuery->num_rows() > 0) {
+		if ($idQuery->num_rows() > 0) {
 
 			$data = array(
 				'ADDRESS' 		=> $this->input->post('address1'),
@@ -588,17 +626,17 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
-
 	}
 
 	//UPDATE MEMBER PASSWORD
-	public function reset_post() {
+	public function reset_post()
+	{
 
 		$regularEmail = $this->input->post('email');
 
 		$queryResult = $this->user->checkExistingEmail($regularEmail);
 
-		if($queryResult->num_rows() < 0) {
+		if ($queryResult->num_rows() < 0) {
 			$this->response([
 				'status' 		=> 'error',
 				'message' 		=> 'email not found',
@@ -637,7 +675,7 @@ class API extends REST_Controller {
 			$this->email->subject('Please confirm your email address');
 			$this->email->message($message);
 
-			if($this->email->send()) {
+			if ($this->email->send()) {
 				$this->user->sentResetPassword($resetData);
 
 				$this->response([
@@ -653,38 +691,37 @@ class API extends REST_Controller {
 				], REST_Controller::HTTP_BAD_GATEWAY);
 			}
 		}
-
 	}
 
 
 
 	//UPLOAD PAYMENT PROOF
-	public function payment_post() {
+	public function payment_post()
+	{
 
 		$messageData = $this->profile->getPaymentProcess($this->input->post('orderID'));
 
-		if($messageData->num_rows() > 0) {
+		if ($messageData->num_rows() > 0) {
 
 			$config['upload_path'] 		= './img/order/';
-      		$config['allowed_types'] 	= 'gif|jpg|png|jpeg';
-      		$config['file_name'] 		= $this->input->post('orderID');
+			$config['allowed_types'] 	= 'gif|jpg|png|jpeg';
+			$config['file_name'] 		= $this->input->post('orderID');
 
-      		$this->load->library('upload', $config);
+			$this->load->library('upload', $config);
 
 			//GET THE FILE EXTENSION FOR SAVING THE DATA TO DATABASE
 			$path = $_FILES['paymentImage']['name'];
 			$ext = pathinfo($path, PATHINFO_EXTENSION);
 
-			$defaultPath = '/img/order/'.$this->input->post('orderID').'.'.$ext;
+			$defaultPath = '/img/order/' . $this->input->post('orderID') . '.' . $ext;
 
-			if ( !$this->upload->do_upload('paymentImage')) {
-				
+			if (!$this->upload->do_upload('paymentImage')) {
+
 				$this->response([
 					'status' 		=> 'error',
 					'message' 		=> 'payment process error',
 					'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 				], REST_Controller::HTTP_BAD_REQUEST);
-
 			} else {
 
 				$data = array(
@@ -701,7 +738,7 @@ class API extends REST_Controller {
 				$query1 = $this->profile->insertImageData($data);
 				$query2 = $this->profile->updatePaymentStatus($this->input->post('orderID'));
 
-				if($query1 && $query2) {
+				if ($query1 && $query2) {
 					$this->response([
 						'status' 		=> 'ok',
 						'message' 		=> 'payment process completed',
@@ -716,9 +753,8 @@ class API extends REST_Controller {
 				}
 
 				// echo $this->db->last_query();
-			
-			}
 
+			}
 		} else {
 			$this->response([
 				'status' 		=> 'error',
@@ -726,17 +762,17 @@ class API extends REST_Controller {
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
-
 	}
 
 	//TRANSACTION STATUS 
-	public function transaction_get() {
+	public function transaction_get()
+	{
 
 		$email 		= $this->input->get('email');
 		$status 	= $this->input->get('status_order');
 		$counter 	= 0;
 
-		if($status != null) {
+		if ($status != null) {
 			$transData 	= $this->profile->getOrderMasterData($email, $status);
 		} else {
 			$transData 	= $this->profile->getAllOrderMasterData($email);
@@ -745,15 +781,15 @@ class API extends REST_Controller {
 		$transArr 	= array();
 		$masterArr  = array();
 
-		if($transData->num_rows() > 0) {
+		if ($transData->num_rows() > 0) {
 
-			foreach($transData->result() as $data) {
+			foreach ($transData->result() as $data) {
 
 				$masterData = $this->profile->getOrderHistory($email);
-				
-				foreach($masterData->result() as $master) {
-					
-					if($master->PRODUCT_NAME != null) {
+
+				foreach ($masterData->result() as $master) {
+
+					if ($master->PRODUCT_NAME != null) {
 						$productName 	= $master->PRODUCT_NAME;
 						$productImage 	= $master->PRODUCT_IMAGE;
 					} else {
@@ -777,7 +813,7 @@ class API extends REST_Controller {
 					);
 
 					$masterDecode = json_encode($masterArr);
-				 }
+				}
 
 				$transArr[$counter] = array(
 					'first_name' 	=> $data->FIRST_NAME,
@@ -789,35 +825,33 @@ class API extends REST_Controller {
 					'status_order' 	=> $data->STATUS_ORDER,
 					'order_updated' => $data->UPDATED,
 					'order_details' => json_decode($masterDecode),
-				 );
+				);
 
-				 $counter++;
-	
+				$counter++;
 			}
 
 			$transDecode = json_encode($transArr);
-	
+
 			$this->response([
 				'status' 		=> 'ok',
-				'message' 		=> $transData->num_rows().' transaction found',
+				'message' 		=> $transData->num_rows() . ' transaction found',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'transaction' 	=> json_decode($transDecode)
 			], REST_Controller::HTTP_ACCEPTED);
-
 		} else {
-	
+
 			$this->response([
 				'status' 		=> 'ok',
 				'message' 		=> 'no transaction found',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'transaction' 	=> '0'
 			], REST_Controller::HTTP_ACCEPTED);
-
 		}
 	}
-  
-  	//DEBUG GET ALL MEMBER
-	public function register_get() {
+
+	//DEBUG GET ALL MEMBER
+	public function register_get()
+	{
 
 		$data = $this->api->getMembers()->result();
 		$count = $this->api->getMembers()->num_rows();
@@ -827,11 +861,11 @@ class API extends REST_Controller {
 			'total' => $count,
 			'message' => $data
 		], REST_Controller::HTTP_ACCEPTED);
-
 	}
 
 	//REGISTER USER
-	public function register_post() {
+	public function register_post()
+	{
 
 		/* POST API PARAMETER */
 		$fName 		= $this->input->post('firstName');
@@ -841,26 +875,29 @@ class API extends REST_Controller {
 		$country 	= $this->input->post('country');
 		$address1 	= $this->input->post('address1');
 		$address2 	= $this->input->post('address2');
-		$password 	= $this->input->post('pass');
-		$state 		= $this->input->post('province');
-		$zip 		= $this->input->post('zip');
 		$password   = $this->input->post('password');
-
+		$zip 		= $this->input->post('zip');
 		/* FORMAT BUAT TANGGAL HARUS STRING DD/MM/YYYY */
 		$date 		= $this->input->post('birthdate');
+		$state 		= $this->input->post('province');
 
 
 		//CHECK IF THE EMAIL IS ALREADY REGISTERED OR NOT
 		$checkEmail = $this->api->checkExistingEmail($email);
 
-		if($checkEmail->num_rows() > 0) {
-			
+		if ($checkEmail->num_rows() > 0) {
+
 			$this->response([
 				'status' 		=> 'error',
 				'message' 		=> 'user already exists',
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
+		} else if ($fName == null || $lName == null || $phone == null || $email == null || $country == null || $address1 == null || $address2 == null || $password == null || $state == null || $zip == null) {
+			$this->response([
+				'status' 		=> 'error',
+				'message' 		=> 'cannot use empty value',
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+			], REST_Controller::HTTP_BAD_REQUEST);
 		} else {
 
 			$hashPassword = sha1($password);
@@ -872,7 +909,7 @@ class API extends REST_Controller {
 				'FIRST_NAME' 	=> $fName,
 				'LAST_NAME' 	=> $lName,
 				'JOIN_DATE' 	=> date("Y/m/d h:i:s"),
-				'BIRTH_DATE' 	=> date('Y-m-d',$formatDate),
+				'BIRTH_DATE' 	=> date('Y-m-d', $formatDate),
 				'PHONE' 		=> $phone,
 				'ADDRESS' 		=> $address1,
 				'ADDRESS_2' 	=> $address2,
@@ -887,7 +924,7 @@ class API extends REST_Controller {
 
 			$query = $this->api->insertMember($data);
 
-			if(!$query) {
+			if (!$query) {
 
 				$data['email'] = $email;
 				$data['hash'] = sha1($email);
@@ -900,7 +937,7 @@ class API extends REST_Controller {
 				$config['charset']     = 'utf-8';
 				$config['wordwrap']    = TRUE;
 				$config['mailtype']    = 'html';
-				
+
 				$this->email->initialize($config);
 
 				$this->email->from('admin@kikikuku.com', 'Kikikuku Team');
@@ -926,12 +963,11 @@ class API extends REST_Controller {
 					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 				], REST_Controller::HTTP_BAD_REQUEST);
 			}
-
 		}
-
 	}
 
-	public function login_post() {
+	public function login_post()
+	{
 
 		//HASHING DI BACKEND
 		$email = trim($this->input->post('email'));
@@ -939,45 +975,44 @@ class API extends REST_Controller {
 
 		//CHECK IF EMAIL IS USED OR NOT
 		$emailQuery = $this->api->checkExistingEmail($email);
+		$emptyArray = array();
 
 		//Check if email exists
-		if($emailQuery->num_rows() == 0) {
+		if ($emailQuery->num_rows() == 0) {
 
 			$this->response([
 				'status' 	=> 'error',
 				'message' 	=> "this email doesn't exist",
 				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
-				'user_data' => '{}'
+				'user_data' => new \stdClass(),
 			], REST_Controller::HTTP_BAD_REQUEST);
-
 		} else {
 
 			//Check if password is correct
 			$checkPassword = $this->user->checkPassword($email, $password);
-			
-			if($checkPassword->num_rows() == 0) {
+
+			if ($checkPassword->num_rows() == 0) {
 				//Wrong Password
 				$this->response([
 					'status' 	=> 'error',
 					'message' 	=> "wrong password",
 					'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
-					'user_data' => '{}'
+					'user_data' => new \stdClass(),
 				], REST_Controller::HTTP_BAD_REQUEST);
 			} else {
 
 				$checkVerified = $this->user->checkVerified($email);
 
-				if($checkVerified->num_rows() == 0) {
+				if ($checkVerified->num_rows() == 0) {
 
 					$this->response([
 						'status' 	=> 'error',
 						'message' 	=> "this account is not verified",
 						'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
-						'user_data' => '{}'
+						'user_data' => new \stdClass(),
 					], REST_Controller::HTTP_BAD_REQUEST);
-
 				} else {
-					foreach($checkPassword->result() as $data) {
+					foreach ($checkPassword->result() as $data) {
 
 						$dataSess = array(
 							'FIRST_NAME' => $data->FIRST_NAME,
@@ -989,9 +1024,8 @@ class API extends REST_Controller {
 							'PROVINCE' => $data->PROVINCE,
 							'USERID' => $data->ID,
 							'ZIP' => $data->ZIP,
-			 			  	'LOGGED_IN'=> TRUE
-		 				);
-
+							'LOGGED_IN' => TRUE
+						);
 					}
 
 					$this->response([
@@ -1000,17 +1034,14 @@ class API extends REST_Controller {
 						'code' 		=> REST_Controller::HTTP_ACCEPTED,
 						'user_data' => $dataSess
 					], REST_Controller::HTTP_ACCEPTED);
-
 				}
-
 			}
-
 		}
-
 	}
 
 	//Add item to cart
-	public function cart_post() {
+	public function cart_post()
+	{
 
 		$totalQty = 0;
 
@@ -1027,70 +1058,64 @@ class API extends REST_Controller {
 			'PRODUCT_BUYER' 	=> $this->input->post('product-buyer')
 		);
 
-		$finalUrl   = file_get_contents('http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId='.$this->input->post('product-id'));
+		$finalUrl   = file_get_contents('http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $this->input->post('product-id'));
 		$obj 		= json_decode($finalUrl, true);
 
-		if($this->input->post('product-name') == null) { 
+		if ($this->input->post('product-name') == null) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'product name cannot be empty',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'product name cannot be empty',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
-		} else if($this->input->post('quantity') == null) {
+		} else if ($this->input->post('quantity') == null) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'quantity cannot be empty',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'quantity cannot be empty',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
-		} else if($this->input->post('product-id') == null) {
+		} else if ($this->input->post('product-id') == null) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'product id cannot be empty',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'product id cannot be empty',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
-		} else if($this->input->post('quantity') <= 0) {
+		} else if ($this->input->post('quantity') <= 0) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'quantity cannot be 0 or lower',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'quantity cannot be 0 or lower',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
-		} else if($this->input->post('product-price') == null) {
+		} else if ($this->input->post('product-price') == null) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'price cannot be empty',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'price cannot be empty',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
-		} else if($this->input->post('product-price') <= 0) {
+		} else if ($this->input->post('product-price') <= 0) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'price cannot be 0 or lower',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'price cannot be 0 or lower',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-		} else if($this->input->post('product-buyer') == null) {
+		} else if ($this->input->post('product-buyer') == null) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'product buyer cannot be empty',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'product buyer cannot be empty',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-		} else if($obj == null) {
+		} else if ($obj == null) {
 			$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'invalid product id',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
+				'status' 	=> 'error',
+				'message' 	=> 'invalid product id',
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-
 		} else {
 
 			//CHECK IF THE ITEM IS EXIST OR NOT
 			$itemResult = $this->carts->getItemInfo($this->input->post('product-id'), $this->input->post('product-buyer'));
 
-			if($itemResult->num_rows() > 0) {
-			
+			if ($itemResult->num_rows() > 0) {
+
 				//DO SOMETHING ELSE
 				$currentQty = $itemResult->result()[0]->PRODUCT_QUANTITY;
 				$totalQty = $currentQty + $this->input->post('quantity');
@@ -1098,39 +1123,37 @@ class API extends REST_Controller {
 				$dataArray = array(
 					'PRODUCT_QUANTITY' => $totalQty
 				);
-				
+
 				// UPDATE QUANTITY
 				$this->carts->updateCartQuantity($dataArray, $this->input->post('product-buyer'), $this->input->post('product-id'));
-				
+
 				$this->response([
 					'status' 	=> 'ok',
 					'message' 	=> 'cart quantity updated',
 					'code' 		=> REST_Controller::HTTP_ACCEPTED
 				], REST_Controller::HTTP_ACCEPTED);
-
 			} else {
 				$this->carts->insertCartData($itemArray);
-				
+
 				$this->response([
 					'status' 	=> 'ok',
 					'message' 	=> 'cart inserted',
 					'code' 		=> REST_Controller::HTTP_ACCEPTED
 				], REST_Controller::HTTP_ACCEPTED);
 			}
-
 		}
-
 	}
 
 	//Delete the items
-	public function deletecart_post() {
+	public function deletecart_post()
+	{
 
 		$hashTrans 	= sha1($this->input->post('product-buyer'));
 		$productID	= $this->input->post('product-id');
 
 		$queryDelete = $this->carts->deleteCartsAPI($hashTrans, $productID);
 
-		if($queryDelete) {
+		if ($queryDelete) {
 			$this->response([
 				'status' 	=> 'ok',
 				'message' 	=> 'item deleted',
@@ -1143,11 +1166,11 @@ class API extends REST_Controller {
 				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
-
 	}
 
 	//Update the cart content
-	public function updatecart_post() {
+	public function updatecart_post()
+	{
 
 		$productID 		= $this->input->post('product-id');
 		$productBuyer 	= $this->input->post('product-buyer');
@@ -1161,7 +1184,7 @@ class API extends REST_Controller {
 
 		$updateQuery = $this->carts->updateCartContents($productID, $productBuyer, $updateArray);
 
-		if($updateQuery) {
+		if ($updateQuery) {
 			$this->response([
 				'status' 	=> 'ok',
 				'message' 	=> 'item updated',
@@ -1174,11 +1197,11 @@ class API extends REST_Controller {
 				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
-
 	}
 
 	//Get the cart content based from email and trans date
-	public function cart_get() {
+	public function cart_get()
+	{
 
 		$data = array();
 
@@ -1188,7 +1211,7 @@ class API extends REST_Controller {
 
 		$count = $result->result_array();
 
-		for($i = 0; $i < count($count); $i++) {
+		for ($i = 0; $i < count($count); $i++) {
 
 			$data[$i]['PRODUCT_ID'] 		= $count[$i]['PRODUCT_ID'];
 			$data[$i]['PRODUCT_QUANTITY'] 	= $count[$i]['PRODUCT_QUANTITY'];
@@ -1197,15 +1220,14 @@ class API extends REST_Controller {
 			$data[$i]['PRODUCT_NAME'] 		= $count[$i]['PRODUCT_NAME'];
 			$data[$i]['PRODUCT_NOTES'] 		= $count[$i]['PRODUCT_NOTES'];
 			$data[$i]['PRODUCT_BUYER'] 		= $count[$i]['PRODUCT_BUYER'];
-
 		}
 
 		$json = json_encode($data);
 
-		if(count($count) > 0) {
+		if (count($count) > 0) {
 			$this->response([
 				'status' 	=> 'ok',
-				'message' 	=> $result->num_rows().' cart item found',
+				'message' 	=> $result->num_rows() . ' cart item found',
 				'cart_id'	=> $hashTrans,
 				'code' 		=> REST_Controller::HTTP_ACCEPTED,
 				'item'      => json_decode($json, true),
@@ -1218,17 +1240,17 @@ class API extends REST_Controller {
 				'item'      => json_decode($json, true),
 			], REST_Controller::HTTP_OK);
 		}
-
 	}
 
 	//Get category
-	public function category_get() {
+	public function category_get()
+	{
 
 		$childArray 	= array();
 		$parentArray	= array();
 		$parent 		= $this->category->getParentCategory();
 
-		foreach($parent->result() as $parents) {
+		foreach ($parent->result() as $parents) {
 
 			$parentArray[] = array(
 				'NAME' 			=> $parents->NAME,
@@ -1239,18 +1261,18 @@ class API extends REST_Controller {
 			);
 		}
 
-		for($i = 0; $i < count($parentArray); $i++) {
+		for ($i = 0; $i < count($parentArray); $i++) {
 
 			$child 		= $this->category->getChildCategory($parentArray[$i]['ID']);
 
-			foreach($child->result() as $child) {
+			foreach ($child->result() as $child) {
 
 				$childArray[] = array(
 					'CHILD_NAME'	=> $child->NAME,
 					'CHILD_LINK'	=> $child->LINK
 				);
 			}
-			
+
 			array_push($parentArray[$i], $childArray);
 		}
 
@@ -1265,7 +1287,8 @@ class API extends REST_Controller {
 	}
 
 	//Create Inquiry
-	public function inquiry_post() {
+	public function inquiry_post()
+	{
 
 		$json = file_get_contents('php://input');
 		$parse = json_decode($json);
@@ -1275,10 +1298,10 @@ class API extends REST_Controller {
 		$counter     = 1;
 		$genID       = $this->carts->generateID();
 
-		foreach($parse as $item) {
-			
-			foreach($item->inquiry as $details) {
-				
+		foreach ($parse as $item) {
+
+			foreach ($item->inquiry as $details) {
+
 				$inquiryData['ORDER_NO'] 		 = $genID;
 				$inquiryData['ORDER_DATE'] 		 = date('Y-m-d h:i:s');
 				$inquiryData['MEMBER_ID'] 		 = $details->member_id;
@@ -1294,8 +1317,8 @@ class API extends REST_Controller {
 				$inquiryData['STATUS'] 	 		 = 'NEW ORDER';
 				$inquiryData['UPDATED'] 	 	 = date('Y-m-d h:i:s');
 				$inquiryData['SAVE_FLAG'] 	 	 = 0;
-				
-				foreach($details->items as $item) {
+
+				foreach ($details->items as $item) {
 					$itemData['FLAG']			= '1';
 					$itemData['ORDER_NO']		= $genID;
 					$itemData['PROD_NAME']		= $item->prod_name;
@@ -1312,13 +1335,12 @@ class API extends REST_Controller {
 
 					$counter++;
 				}
-
 			}
 		}
 
 		$emailQuery = $this->api->checkExistingEmail($inquiryData['MEMBER_EMAIL']);
 
-		if($emailQuery->num_rows() > 0) {
+		if ($emailQuery->num_rows() > 0) {
 
 			$json  = json_encode($inquiryData);
 			$items = json_encode($itemData);
@@ -1326,8 +1348,8 @@ class API extends REST_Controller {
 			$query1 = $this->carts->insertMasterData($inquiryData);
 
 			// echo $this->db->last_query();
-			
-			if($query1) {
+
+			if ($query1) {
 
 				$this->response([
 					'status' 		=> 'ok',
@@ -1337,7 +1359,6 @@ class API extends REST_Controller {
 					// 'trans_details'	=> json_decode($json),
 					// 'item_details'	=> json_decode($items),
 				], REST_Controller::HTTP_ACCEPTED);
-
 			} else {
 
 				$this->response([
@@ -1345,24 +1366,20 @@ class API extends REST_Controller {
 					'message' 		=> "data not inserted",
 					'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
 				], REST_Controller::HTTP_BAD_REQUEST);
-
 			}
-
-
 		} else {
 
 			$this->response([
-					'status' 		=> 'error',
-					'message' 		=> "email does not exist",
-					'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+				'status' 		=> 'error',
+				'message' 		=> "email does not exist",
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
 			], REST_Controller::HTTP_BAD_REQUEST);
-
 		}
-
 	}
 
 	//Get Margin Parameter
-	public function margin_get() {
+	public function margin_get()
+	{
 
 		$margin 	= $this->api->getMarginParam();
 		$convert 	= $this->api->getConvertRate();
@@ -1374,27 +1391,27 @@ class API extends REST_Controller {
 			'margin_param'	=> $margin,
 			'convert_rate'  => $convert,
 		], REST_Controller::HTTP_ACCEPTED);
-
 	}
 
 	//Get all user inquiry
-	public function inquiry_get() {
-		
+	public function inquiry_get()
+	{
 	}
 
 	//Verified Account
-	public function verification_get() {
+	public function verification_get()
+	{
 
 		$hash = $this->input->get('hash');
 		$email = $this->input->get('email');
 
 		$query = $this->api->verifyMember($hash);
 
-		if($query->num_rows() > 0) {
-			
+		if ($query->num_rows() > 0) {
+
 			$update = $this->api->updateStatus($email);
-			
-			if($update) {
+
+			if ($update) {
 				//Account Verified
 				$this->response([
 					'status' 	=> 'success',
@@ -1409,16 +1426,13 @@ class API extends REST_Controller {
 					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 				], REST_Controller::HTTP_BAD_REQUEST);
 			}
-
 		} else {
 			//Account already verified
 			$this->response([
-					'status' 	=> 'verified',
-					'message' 	=> 'this account is already verified',
-					'code' 		=> REST_Controller::HTTP_ACCEPTED
-				], REST_Controller::HTTP_ACCEPTED);
+				'status' 	=> 'verified',
+				'message' 	=> 'this account is already verified',
+				'code' 		=> REST_Controller::HTTP_ACCEPTED
+			], REST_Controller::HTTP_ACCEPTED);
 		}
-
 	}
-
 }
