@@ -62,18 +62,18 @@ class API extends REST_Controller
 			//Use custom library for Image Formating
 			$newPath = $this->incube->replaceLink($list['picture2']);
 
-			$result[$counter]['ID'] 			= $list['id'];
+			$result[$counter]['ID'] 			= strval($list['id']);
 			$result[$counter]['TITLE']			= $list['title'];
 			$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
 			// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
-			$result[$counter]['START_QUANTITY'] = $list['startNumber'];
+			$result[$counter]['START_QUANTITY'] = strval($list['startNumber']);
 
 			if ($list['priceType'] == '0') {
 				$result[$counter]['PRICE']			= 'Price Negotiable';
 			} else {
 				$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 				// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
-				$result[$counter]['PRICE']			= $price;
+				$result[$counter]['PRICE']			= strval($price);
 			}
 
 			$counter++;
@@ -124,14 +124,14 @@ class API extends REST_Controller
 				$result[$counter]['TITLE']			= $list['title'];
 				$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
 				// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
-				$result[$counter]['START_QUANTITY'] = $list['startNumber'];
+				$result[$counter]['START_QUANTITY'] = strval($list['startNumber']);
 
 				if ($list['priceType'] == '0') {
 					$result[$counter]['PRICE']			= 'Price Negotiable';
 				} else {
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 					// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
-					$result[$counter]['PRICE']			= $price;
+					$result[$counter]['PRICE']			= strval($price);
 				}
 
 				$counter++;
@@ -152,8 +152,6 @@ class API extends REST_Controller
 	//Get Product From Category
 	public function categoryProduct_get()
 	{
-
-		$randomPage  = mt_rand(1, 500);
 		$pageSize    = $this->input->get('pageSize');
 		$categoryID  = $this->input->get('category');
 		$pageCounter = $this->input->get('page');
@@ -161,7 +159,7 @@ class API extends REST_Controller
 		$marginParameter 	= $this->product->getMarginPrice();
 		$convertRate		= $this->product->getConvertRate();
 
-		$json 	= file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=" . $categoryID . "&pageSize=" . $pageSize . "&cpage=" . $randomPage);
+		$json 	= file_get_contents("http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&s=" . $categoryID . "&pageSize=" . $pageSize . "&cpage=" . $pageCounter);
 		$obj 	= json_decode($json, true);
 
 		$result = array();
@@ -244,31 +242,36 @@ class API extends REST_Controller
 				if ($obj['detail']['productForApp']['picture'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture']);
-					$productForApp['PICTURE_LIST']['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture'];
+					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture'];
+					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture'];
 				}
 
 				if ($obj['detail']['productForApp']['picture1'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture1']);
-					$productForApp['PICTURE_LIST']['PICTURE2'] = $newPath . $obj['detail']['productForApp']['picture1'];
+					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture1'];
+					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture1'];
 				}
 
 				if ($obj['detail']['productForApp']['picture2'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture2']);
-					$productForApp['PICTURE_LIST']['PICTURE3'] = $newPath . $obj['detail']['productForApp']['picture2'];
+					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture2'];
+					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture2'];
 				}
 
 				if ($obj['detail']['productForApp']['picture3'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture3']);
-					$productForApp['PICTURE_LIST']['PICTURE4'] = $newPath . $obj['detail']['productForApp']['picture3'];
+					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture3'];
+					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture3'];
 				}
 
 				if ($obj['detail']['productForApp']['picture4'] != null) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture4']);
-					$productForApp['PICTURE_LIST']['PICTURE5'] = $newPath . $obj['detail']['productForApp']['picture4'];
+					$productForApp['PICTURE_LIST'][]['PICTURE5'] = $newPath . $obj['detail']['productForApp']['picture4'];
+					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture3'];
 				}
 			} else {
 
@@ -277,31 +280,36 @@ class API extends REST_Controller
 					if ($picture['picture'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture']);
-						$productForApp['PICTURE_LIST']['PICTURE1'] = $newPath . $picture['picture'];
+						$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $picture['picture'];
+						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture'];
 					}
 
 					if ($picture['picture1'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture1']);
-						$productForApp['PICTURE_LIST']['PICTURE2'] = $newPath . $picture['picture1'];
+						$productForApp['PICTURE_LIST'][]['PICTURE2'] = $newPath . $picture['picture1'];
+						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture1'];
 					}
 
 					if ($picture['picture2'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture2']);
-						$productForApp['PICTURE_LIST']['PICTURE3'] = $newPath . $picture['picture2'];
+						$productForApp['PICTURE_LIST'][]['PICTURE3'] = $newPath . $picture['picture2'];
+						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture2'];
 					}
 
 					if ($picture['picture3'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture3']);
-						$productForApp['PICTURE_LIST']['PICTURE4'] = $newPath . $picture['picture3'];
+						$productForApp['PICTURE_LIST'][]['PICTURE4'] = $newPath . $picture['picture3'];
+						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture3'];
 					}
 
 					if ($picture['picture4'] != null) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture4']);
-						$productForApp['PICTURE_LIST']['PICTURE5'] = $newPath . $picture['picture4'];
+						$productForApp['PICTURE_LIST'][]['PICTURE5'] = $newPath . $picture['picture4'];
+						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture4'];
 					}
 				}
 			}
@@ -313,6 +321,7 @@ class API extends REST_Controller
 				if ($this->incube->priceEmpty($obj['detail']['productForApp']['sellPrice'])) {
 					$productForApp['PRICE'][$counter]['PRICE'] = 'Price Negotiable';
 					$productForApp['PRICE'][$counter]['STARTING_QUANTITY'] = '1';
+					$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] = '';
 					$productForApp['PRICE'][$counter]['FLAG'] = 'No EXW Price';
 
 					$startingPrice 		= '0';
@@ -320,9 +329,10 @@ class API extends REST_Controller
 				} else {
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $obj['detail']['productForApp']['sellPrice']);
 					// $productForApp['PRICE']['STARTING_PRICE'] = number_format($price, 2, '.', ',');
-					$productForApp['PRICE'][$counter]['PRICE'] = $price;
+					$productForApp['PRICE'][$counter]['PRICE'] = strval($price);
 					$productForApp['PRICE'][$counter]['STARTING_QUANTITY'] = '1';
 					$productForApp['PRICE'][$counter]['FLAG'] = 'No EXW Price';
+					$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] = '';
 
 					$startingPrice 		= $price;
 					$startingQuantity 	= '1';
@@ -334,14 +344,14 @@ class API extends REST_Controller
 
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $priceList['sellPrice']);
 
-					$productForApp['PRICE'][$counter]['PRICE'] 				= $price;
-					$productForApp['PRICE'][$counter]['STARTING_QUANTITY'] 	= $priceList['startNumber'];
+					$productForApp['PRICE'][$counter]['PRICE'] 				= strval($price);
+					$productForApp['PRICE'][$counter]['STARTING_QUANTITY'] 	= strval($priceList['startNumber']);
 					$productForApp['PRICE'][$counter]['FLAG'] = 'EXW Price Exist';
 
 					if ($priceList['endNumber'] == 0) {
 						$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] 	= 'Above ' . $priceList['startNumber'];
 					} else {
-						$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] 	= $priceList['endNumber'];
+						$productForApp['PRICE'][$counter]['ENDING_QUANTITY'] 	= strval($priceList['endNumber']);
 					}
 
 					//$productForApp['PRICE'][$counter]['PRICE'] 					= number_format($price, 2, '.', ',');
@@ -365,8 +375,8 @@ class API extends REST_Controller
 			$this->response([
 				'status' 			=> 'ok',
 				'productID' 		=> $id,
-				'minimumOrder'		=> $startingQuantity,
-				'startingPrice'		=> $startingPrice,
+				'minimumOrder'		=> strval($startingQuantity),
+				'startingPrice'		=> strval($startingPrice),
 				'matrics'			=> $productForApp['MATRIC'],
 				'estimated_weight'  => $estWeight,
 				'code' 				=> REST_Controller::HTTP_ACCEPTED,
@@ -410,9 +420,9 @@ class API extends REST_Controller
 
 				$this->response([
 					'status' => 'ok',
-					'price'	 => $startingPrice,
-					'code' 	=> REST_Controller::HTTP_ACCEPTED,
-				], REST_Controller::HTTP_ACCEPTED);
+					'price'	 => strval($startingPrice),
+					'code' 	=> REST_Controller::HTTP_OK,
+				], REST_Controller::HTTP_OK);
 			} else {
 				//Get the Pricing from Library
 				$newPricing = $this->incube->getCorrectPrice($convertRate, $marginParameter, $quantity, $obj['detail']['sdiProductsPriceList']);
@@ -426,11 +436,11 @@ class API extends REST_Controller
 				} else {
 					$this->response([
 						'status' 			=> 'ok',
-						'price'	 			=> $newPricing['price'],
-						'startingQuantity'	=> $newPricing['start'],
-						'endingQUantity'	=> $newPricing['end'],
-						'code' 				=> REST_Controller::HTTP_ACCEPTED,
-					], REST_Controller::HTTP_ACCEPTED);
+						'price'	 			=> strval($newPricing['price']),
+						'startingQuantity'	=> strval($newPricing['start']),
+						'endingQUantity'	=> strval($newPricing['end']),
+						'code' 				=> REST_Controller::HTTP_OK,
+					], REST_Controller::HTTP_OK);
 				}
 			}
 		}
@@ -880,7 +890,7 @@ class API extends REST_Controller
 		/* FORMAT BUAT TANGGAL HARUS STRING DD/MM/YYYY */
 		$date 		= $this->input->post('birthdate');
 		$state 		= $this->input->post('province');
-
+		$type 		= $this->input->post('type');
 
 		//CHECK IF THE EMAIL IS ALREADY REGISTERED OR NOT
 		$checkEmail = $this->api->checkExistingEmail($email);
@@ -919,7 +929,8 @@ class API extends REST_Controller
 				'EMAIL' 		=> $email,
 				'PASSWORD' 		=> $hashPassword,
 				'STATUS' 		=> 'PENDING',
-				'HASH' 			=> $hashEmail
+				'HASH' 			=> $hashEmail,
+				'MEMBER_TYPE'	=> $type
 			);
 
 			$query = $this->api->insertMember($data);
@@ -1020,11 +1031,13 @@ class API extends REST_Controller
 							'PHONE' => $data->PHONE,
 							'EMAIL' => $data->EMAIL,
 							'ADDRESS' => $data->ADDRESS,
+							'ADDRESS_2'	=> $data->ADDRESS_2,
 							'COUNTRY' => $data->COUNTRY,
 							'PROVINCE' => $data->PROVINCE,
 							'USERID' => $data->ID,
 							'ZIP' => $data->ZIP,
-							'LOGGED_IN' => TRUE
+							'LOGGED_IN' => TRUE,
+							'TYPE'	=> $data->MEMBER_TYPE
 						);
 					}
 
@@ -1042,9 +1055,10 @@ class API extends REST_Controller
 	//Add item to cart
 	public function cart_post()
 	{
+		$finalUrl   = file_get_contents('http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $this->input->post('product-id'));
+		$obj 		= json_decode($finalUrl, true);
 
 		$totalQty = 0;
-
 		$hashID = sha1($this->input->post('product-buyer'));
 
 		$itemArray = array(
@@ -1057,9 +1071,6 @@ class API extends REST_Controller
 			'PRODUCT_IMAGES' 	=> $this->input->post('product-images'),
 			'PRODUCT_BUYER' 	=> $this->input->post('product-buyer')
 		);
-
-		$finalUrl   = file_get_contents('http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $this->input->post('product-id'));
-		$obj 		= json_decode($finalUrl, true);
 
 		if ($this->input->post('product-name') == null) {
 			$this->response([
@@ -1213,13 +1224,19 @@ class API extends REST_Controller
 
 		for ($i = 0; $i < count($count); $i++) {
 
-			$data[$i]['PRODUCT_ID'] 		= $count[$i]['PRODUCT_ID'];
-			$data[$i]['PRODUCT_QUANTITY'] 	= $count[$i]['PRODUCT_QUANTITY'];
-			$data[$i]['PRODUCT_IMAGES'] 	= $count[$i]['PRODUCT_IMAGES'];
-			$data[$i]['PRODUCT_PRICE'] 		= $count[$i]['PRODUCT_PRICE'];
-			$data[$i]['PRODUCT_NAME'] 		= $count[$i]['PRODUCT_NAME'];
-			$data[$i]['PRODUCT_NOTES'] 		= $count[$i]['PRODUCT_NOTES'];
-			$data[$i]['PRODUCT_BUYER'] 		= $count[$i]['PRODUCT_BUYER'];
+			$finalUrl   = file_get_contents('http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $count[$i]['PRODUCT_ID']);
+			$obj 		= json_decode($finalUrl, true);
+
+			$data[$i]['prod_id'] 		= $count[$i]['PRODUCT_ID'];
+			$data[$i]['quantity'] 		= $count[$i]['PRODUCT_QUANTITY'];
+			$data[$i]['prod_image'] 	= $count[$i]['PRODUCT_IMAGES'];
+			$data[$i]['price'] 			= $count[$i]['PRODUCT_PRICE'];
+			$data[$i]['prod_name'] 		= $count[$i]['PRODUCT_NAME'];
+			$data[$i]['notes'] 			= $count[$i]['PRODUCT_NOTES'];
+			$data[$i]['email'] 			= $count[$i]['PRODUCT_BUYER'];
+			$data[$i]['weight']			= $obj['detail']['productForApp']['weightetc'];
+
+			$flag = $count[$i]['CART_FLAG'];
 		}
 
 		$json = json_encode($data);
@@ -1229,6 +1246,7 @@ class API extends REST_Controller
 				'status' 	=> 'ok',
 				'message' 	=> $result->num_rows() . ' cart item found',
 				'cart_id'	=> $hashTrans,
+				'cart_flag' => $flag,
 				'code' 		=> REST_Controller::HTTP_ACCEPTED,
 				'item'      => json_decode($json, true),
 			], REST_Controller::HTTP_ACCEPTED);
@@ -1254,7 +1272,6 @@ class API extends REST_Controller
 
 			$parentArray[] = array(
 				'NAME' 			=> $parents->NAME,
-				'LINK'			=> $parents->LINK,
 				'ID'			=> $parents->ID,
 				'PARENT'		=> $parents->PARENT,
 				'PICTURE'		=> $parents->PICTURE
@@ -1269,7 +1286,7 @@ class API extends REST_Controller
 
 				$childArray[] = array(
 					'CHILD_NAME'	=> $child->NAME,
-					'CHILD_LINK'	=> $child->LINK
+					'CHILD_ID'	=> $child->LINK
 				);
 			}
 
@@ -1298,43 +1315,62 @@ class API extends REST_Controller
 		$counter     = 1;
 		$genID       = $this->carts->generateID();
 
-		foreach ($parse as $item) {
+		$emailQuery = $this->api->checkExistingEmail($parse->member_email);
 
-			foreach ($item->inquiry as $details) {
+		if ($emailQuery->num_rows() == 0) {
+			$this->response([
+				'status' 		=> 'ok',
+				'message' 		=> "invalid user email",
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+			], REST_Controller::HTTP_BAD_REQUEST);
+		}
 
-				$inquiryData['ORDER_NO'] 		 = $genID;
-				$inquiryData['ORDER_DATE'] 		 = date('Y-m-d h:i:s');
-				$inquiryData['MEMBER_ID'] 		 = $details->member_id;
-				$inquiryData['TOTAL_ORDER']  	 = $details->total_price;
-				$inquiryData['MEMBER_NAME'] 	 = $details->member_name;
-				$inquiryData['MEMBER_EMAIL'] 	 = $details->member_email;
-				$inquiryData['MEMBER_PHONE'] 	 = $details->member_phone;
-				$inquiryData['ADDRESS_1'] 		 = $details->member_address_1;
-				$inquiryData['ADDRESS_2'] 	 	 = $details->member_address_2;
-				$inquiryData['COUNTRY'] 	 	 = $details->member_country;
-				$inquiryData['ZIP'] 		 	 = $details->member_zip;
-				$inquiryData['STATE'] 	 		 = $details->member_state;
-				$inquiryData['STATUS'] 	 		 = 'NEW ORDER';
-				$inquiryData['UPDATED'] 	 	 = date('Y-m-d h:i:s');
-				$inquiryData['SAVE_FLAG'] 	 	 = 0;
+		if ($parse->member_id == null || $parse->total_price == null || $parse->member_name == null || $parse->member_email == null || $parse->member_phone == null || $parse->member_address_1 == null || $parse->member_address_2 == null || $parse->member_country == null || $parse->member_zip == null || $parse->member_state == null) {
 
-				foreach ($details->items as $item) {
-					$itemData['FLAG']			= '1';
-					$itemData['ORDER_NO']		= $genID;
-					$itemData['PROD_NAME']		= $item->prod_name;
-					$itemData['PROD_IMAGE']		= $item->prod_image;
-					$itemData['PROD_ID']		= $item->prod_id;
-					$itemData['QUANTITY']		= $item->quantity;
-					$itemData['WEIGHT']			= $item->weight;
-					$itemData['PRICE']			= $item->price;
-					$itemData['FINAL_PRICE']	= $item->final_price;
-					$itemData['POSTAGE']		= '0';
-					$itemData['NOTES']			= $item->notes;
+			$this->response([
+				'status' 		=> 'error',
+				'message' 		=> "data cannot be empty",
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+			], REST_Controller::HTTP_BAD_REQUEST);
+		} else {
 
-					$this->carts->insertOrderDetail($itemData);
+			$inquiryData['ORDER_NO'] 		 = $genID;
+			$inquiryData['ORDER_DATE'] 		 = date('Y-m-d h:i:s');
+			$inquiryData['MEMBER_ID'] 		 = $parse->member_id;
+			$inquiryData['TOTAL_ORDER']  	 = $parse->total_price;
+			$inquiryData['MEMBER_NAME'] 	 = $parse->member_name;
+			$inquiryData['MEMBER_EMAIL'] 	 = $parse->member_email;
+			$inquiryData['MEMBER_PHONE'] 	 = $parse->member_phone;
+			$inquiryData['ADDRESS_1'] 		 = $parse->member_address_1;
+			$inquiryData['ADDRESS_2'] 	 	 = $parse->member_address_2;
+			$inquiryData['COUNTRY'] 	 	 = $parse->member_country;
+			$inquiryData['ZIP'] 		 	 = $parse->member_zip;
+			$inquiryData['STATE'] 	 		 = $parse->member_state;
+			$inquiryData['STATUS'] 	 		 = 'NEW ORDER';
+			$inquiryData['UPDATED'] 	 	 = date('Y-m-d h:i:s');
+			$inquiryData['SAVE_FLAG'] 	 	 = 0;
 
-					$counter++;
-				}
+			foreach ($parse->items as $item) {
+
+				$itemData['FLAG']			= '1';
+				$itemData['ORDER_NO']		= $genID;
+				$itemData['PROD_NAME']		= $item->prod_name;
+				$itemData['PROD_IMAGE']		= $item->prod_image;
+				$itemData['PROD_ID']		= $item->prod_id;
+				$itemData['QUANTITY']		= $item->quantity;
+				$itemData['WEIGHT']			= $item->weight;
+				$itemData['PRICE']			= $item->price;
+				$itemData['FINAL_PRICE']	= $item->final_price;
+				$itemData['POSTAGE']		= '0';
+				$itemData['NOTES']			= $item->notes;
+
+				$hashTrans = sha1($parse->member_email);
+				$productID = $item->prod_id;
+
+				$this->carts->updateCartFlag($productID, $hashTrans);
+				$this->carts->insertOrderDetail($itemData);
+
+				$counter++;
 			}
 		}
 
@@ -1347,17 +1383,12 @@ class API extends REST_Controller
 
 			$query1 = $this->carts->insertMasterData($inquiryData);
 
-			// echo $this->db->last_query();
-
 			if ($query1) {
-
 				$this->response([
 					'status' 		=> 'ok',
 					'message' 		=> "data inserted",
 					'generated_id'	=> $genID,
 					'code' 			=> REST_Controller::HTTP_ACCEPTED,
-					// 'trans_details'	=> json_decode($json),
-					// 'item_details'	=> json_decode($items),
 				], REST_Controller::HTTP_ACCEPTED);
 			} else {
 
