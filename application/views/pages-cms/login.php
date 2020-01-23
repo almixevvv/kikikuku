@@ -44,14 +44,7 @@
             </div>
             <?php endif; ?>
           </div>
-          <div class="form-group">
-            <div class="checkbox">
-              <label style="color: white;">
-                <input type="checkbox" value="remember-me">
-                Remember Password
-              </label>
-            </div>
-          </div>
+          
           <center>
           <?php
             $dataSubmit = array(

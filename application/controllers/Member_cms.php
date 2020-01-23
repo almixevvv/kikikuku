@@ -52,20 +52,21 @@ class Member_cms extends CI_Controller {
 		// $quantity = $this->input->post('txt_quantity');
 
 		$this->cms->updateMember($id, $email, $phone, $add1, $add2, $country, $province);
+		$this->session->set_flashdata('updatemember', 'updatemember');
 
 		redirect('cms/member');
 	}
 
 	public function resetPassword(){
 
-		// $this->output->enable_profiler(TRUE);
+		//$this->output->enable_profiler(TRUE);
 		$this->load->model('M_cms', 'cms');
 
-		$id = $this->input->post('hiddenID');
+		$id = $this->input->post('id');
 		$pass = $this->input->post('hiddenPass');
 
 		$this->cms->updatePass($id, $pass);
-		redirect('cms/member');
+		// redirect('cms/member');
 	}
 
 	public function deleteMember(){

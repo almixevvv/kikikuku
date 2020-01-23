@@ -93,6 +93,7 @@ class Margin_cms extends CI_Controller {
 		// $quantity = $this->input->post('txt_quantity');
 
 		$this->cms->updateMargin($recID, $id, $value, $updated, $description);
+		$this->session->set_flashdata('updatemargin', 'updatemargin');
 
 		redirect('cms/margin');
 	}
@@ -115,6 +116,7 @@ class Margin_cms extends CI_Controller {
 		// $quantity = $this->input->post('txt_quantity');
 
 		$this->cms->updateRate($recID, $id, $value, $updated, $description);
+		$this->session->set_flashdata('updaterate', 'updaterate');
 
 		redirect('cms/margin');
 	}
@@ -149,6 +151,8 @@ class Margin_cms extends CI_Controller {
         $this->cms->updateStatus();
 
 		$this->cms->insert_margin($data);
+		$this->session->set_flashdata('addmargin', 'addmargin');
+
 
 		redirect('cms/margin');
 	}
@@ -183,6 +187,9 @@ class Margin_cms extends CI_Controller {
         $this->cms->updateStatusRate();
 
 		$this->cms->insert_rate($data);
+
+		$this->session->set_flashdata('addrate', 'addrate');
+
 
 		redirect('cms/margin');
 	}

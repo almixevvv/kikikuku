@@ -56,15 +56,34 @@
         </div> -->
       </li>
       <li class="nav-item dropdown no-arrow">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-sign-out-alt" style="color: #2db4d6;font-size: 20px;margin-top: 0.38em;"></i>
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="modal" data-target="#changePass" data-id="<?php echo $this->session->userdata('id'); ?>">
+          <i class="fas fa-lock fa-lg fa-fw mr-2" style="color: orange;margin-top: 0.45em;"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <!-- <a class="dropdown-item" href="#">Settings</a>
+      </li>
+
+      <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="buttonLogOut" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-sign-out-alt" style="color: #2db4d6;font-size: 20px;margin-top: 0.38em;" ></i>
+        </a>
+        <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#">Settings</a>
           <a class="dropdown-item" href="#">Activity Log</a>
-          <div class="dropdown-divider"></div> -->
+          <div class="dropdown-divider"></div>
           <a id="buttonLogOut" class="dropdown-item" href="#" >Logout</a>
-        </div>
+        </div> -->
       </li>
     </ul>
+    
+    <!-- Modal Change Password-->
+        <div id="changePass" class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-md">
+            <div class="modal-content">
+              <div class="modal-body" style="padding: 0!important;">
+                <!-- LOAD THE CONTENT -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
   </nav>

@@ -53,7 +53,7 @@
                       <p style='line-height:20px;'>
                         <b style="color: #2db4d6;"><?php echo $id;?></b><br><br>
                         <label>Set as current parameter :</label>
-                        <button data-rec="<?php echo $rec;?>" class="buttonSet btn btn-warning"  style="width: 6em;font-size: 12px;color: white;" type="submit">SET</button>
+                        <button data-rec="<?php echo $rec;?>" class="buttonSet btn btn-warning" id="buttonSet" style="width: 6em;font-size: 12px;color: white;" type="submit">SET</button>
                       </p>                        
                   </td>
 
@@ -490,12 +490,54 @@
           if (result.value) {
             swalWithBootstrapButtons.fire(
               'Success!',
-              'Selected margin has been set to current rate.',
+              'Selected parameter has been set to current rate.',
               'success'
             );
             $.ajax({
                 type: "POST",
                 url:"<?php echo base_url('Margin_cms/setAsCurrentRate'); ?>",
+                data: {hiddenREC:id},
+                success: function(data) {
+                  console.log(data);
+                  location.reload();
+                }
+            });
+        }
+      });
+    });
+
+  });
+
+  $(document).ready(function() {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false,
+    });
+
+    $('.buttonSet').on('click', function() {
+      var id=$(this).attr("data-rec");
+      swal.fire({
+        title:"Set as Current Margin",
+        text:"Are you sure you want to set this rate into current margin?",
+        type: "warning",
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Confirm",
+        confirmButtonColor: '#3085d6'
+      }).then((result) => {
+          if (result.value) {
+            swalWithBootstrapButtons.fire(
+              'Success!',
+              'Selected parameter has been set to current margin.',
+              'success'
+            );
+            $.ajax({
+                type: "POST",
+                url:"<?php echo base_url('Margin_cms/setAsCurrent'); ?>",
                 data: {hiddenREC:id},
                 success: function(data) {
                   console.log(data);

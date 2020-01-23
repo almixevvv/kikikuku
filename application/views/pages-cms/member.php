@@ -98,11 +98,11 @@
                     <button class="btn btn-info" style="width: 6em;font-size: 12px;" type="button" data-toggle="modal" data-target="#memberModal" data-id="<?php echo $id; ?>">EDIT</button><br>
                     
                     <!-- UNTUK RESET PASSWORD -->
-                    <?php echo form_open('Member_cms/resetPassword')?>
-                    <button class="btn btn-warning" style="width: 6em;font-size: 12px;color: white;margin-top: 0.5em;" type="submit">RESET</button><br>
+                    
+                    <button class="btnReset btn btn-warning" data-id="<?php echo $id;?>" style="width: 6em;font-size: 12px;color: white;margin-top: 0.5em;" type="submit">RESET</button><br>
                     <input type="hidden" name="hiddenID" value="<?php echo $id;?>"></input>
                     <input type="hidden" name="hiddenPass" value="<?php echo $pass;?>"></input>
-                    <?php echo form_close()?>
+                   
                      
                     <button data-id="<?php echo $id;?>" class="buttonDelete btn btn-danger" style="width: 6em;font-size: 12px;margin-top: 0.5em;" type="submit">DELETE</button>
                   </td>
@@ -218,6 +218,48 @@
             $.ajax({
                 type: "POST",
                 url:"<?php echo base_url('Member_cms/deleteMember'); ?>",
+                data: {id:id},
+                success: function(data) {
+                  console.log(data);
+                  location.reload();
+                }
+            });
+        }
+      });
+    });
+
+  });
+
+  $(document).ready(function() {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false,
+    });
+
+    $('.btnReset').on('click', function() {
+      var id=$(this).attr("data-id");
+      swal.fire({
+        title:"Reset Password Member",
+        text:"Are you sure you want to reset this member password?",
+        type: "warning",
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Confirm",
+        confirmButtonColor: '#3085d6'
+      }).then((result) => {
+          if (result.value) {
+            swalWithBootstrapButtons.fire(
+              'Reset!',
+              'Selected member password has been reset.',
+              'success'
+            );
+            $.ajax({
+                type: "POST",
+                url:"<?php echo base_url('Member_cms/resetPassword'); ?>",
                 data: {id:id},
                 success: function(data) {
                   console.log(data);

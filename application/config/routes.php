@@ -108,6 +108,8 @@ $route['cms/orders'] = 'Orders_cms';
 $route['cms/margin'] = 'Margin_cms';
 $route['cms/howto'] = 'Howto_cms';
 $route['cms/orders/status'] = 'Orders_cms/status';
+$route['cms/user'] = 'User_cms';
+$route['cms/group'] = 'Group_cms';
 
 /* Basic Part */
 $route['change_pass'] = 'cpassword/view';

@@ -54,6 +54,7 @@
 				if($query->num_rows() > 0) {
 					foreach($query->result() as $data) {
 						$session = array(
+							'id' => $data->ID,
 							'name' => $data->NAME,
 							'user_group' => $data->GROUP_ID
 						);
@@ -65,6 +66,34 @@
 				}
 			} else {
 				redirect(site_url('cms/login?error=2'));
+			}
+		}
+
+		public function getPassword() {
+
+			//$this->output->enable_profiler(TRUE);
+			// echo 'masuk';
+			$this->load->helper('form');
+
+	 		$this->load->view('pages-cms/modal-edit-password');
+	 		//exit;
+		}
+
+		public function updatePassword(){
+			$id=$this->session->userdata('id');
+			$pass=$this->input->post("new_pass");
+			$pass2=$this->input->post("confirm_pass");
+
+			if($pass != $pass2) {
+				$this->session->set_flashdata('error', 'mismatch');
+				redirect('cms/dashboard');
+			} else {
+				$hashPassword = sha1($pass);
+
+				$this->load->model('M_cms');
+				$this->M_cms->changePassword($id,$hashPassword);
+				$this->session->set_flashdata('success', 'match');
+				redirect('cms/dashboard');
 			}
 		}
 
