@@ -6,12 +6,11 @@ class Login extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
+		require_once 'vendor/autoload.php';
 		// $this->output->enable_profiler(TRUE);
 		$this->load->model('M_user', 'user');
 
 		/* LOAD CUSTOM GOOGLE LIBRARY */
-		$this->load->library('google');
 		$this->load->library('incube');
 	}
 
@@ -19,14 +18,25 @@ class Login extends CI_Controller
 	{
 
 		$data['sectionName'] = 'Login';
-		$data['googleURL'] = $this->google->get_login_url();
 		$userData = $this->session->user_data;
 
-		if ($userData['EMAIL'] != null) {
+		$redirectURI 	= base_url('social');
+		$clientID 		= '859433678871-anflub2jg6a0jh61ud0rrvbere0ls29d.apps.googleusercontent.com';
+		$clientSecret 	= 'LowDirwZ6Xrwde0jDG-kt-L3';
 
+		$client 		= new Google_Client();
+		$client->setClientId($clientID);
+		$client->setClientSecret($clientSecret);
+		$client->setRedirectUri($redirectURI);
+
+		$client->addScope('email');
+		$client->addScope('profile');
+
+		$data['googleURL'] = $client->createAuthUrl();
+
+		if ($userData['EMAIL'] != null) {
 			redirect('home');
 		} else {
-
 			$this->load->view('templates/header', $data);
 			$this->load->view('templates/navbar');
 			$this->load->view('pages/account-registration/login', $data);
@@ -36,19 +46,42 @@ class Login extends CI_Controller
 
 	public function social()
 	{
+		$redirectURI 	= base_url('social');
+		$clientID 		= '859433678871-anflub2jg6a0jh61ud0rrvbere0ls29d.apps.googleusercontent.com';
+		$clientSecret 	= 'LowDirwZ6Xrwde0jDG-kt-L3';
 
-		$google_data = $this->google->validate();
-		$pieces = explode(" ", $google_data['name']);
+		$client 		= new Google_Client();
+		$client->setClientId($clientID);
+		$client->setClientSecret($clientSecret);
+		$client->setRedirectUri($redirectURI);
 
-		$dataSess = array(
-			'FIRST_NAME' => $pieces[0],
-			'EMAIL' => $google_data['email'],
-			'LOGGED_IN' => TRUE
-		);
+		$client->addScope('email');
+		$client->addScope('profile');
 
-		$this->session->set_userdata($dataSess);
+		$data['googleURL'] = $client->createAuthUrl();
 
-		redirect(base_url('home'));
+		if (isset($_GET['code'])) {
+			$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+
+			if (isset($token['access_token'])) {
+				$client->setAccessToken($token['access_token']);
+
+				// get profile info
+				$google_oauth = new Google_Service_Oauth2($client);
+				$google_account_info = $google_oauth->userinfo_v2_me->get();
+
+				$this->session->set_userdata('google_email', $google_account_info['email']);
+				$this->session->set_userdata('google_picture', $google_account_info['picture']);
+				$this->session->set_userdata('google_familyName', $google_account_info['familyName']);
+				$this->session->set_userdata('google_givenName', $google_account_info['givenName']);
+				$this->session->set_userdata('google_id', $google_account_info['id']);
+
+				redirect('register?referal=google&rid=' . $google_account_info['id']);
+			} else {
+				$this->session->set_flashdata('google_expired', true);
+				redirect('login');
+			}
+		}
 	}
 
 	public function login_user()
@@ -77,6 +110,7 @@ class Login extends CI_Controller
 
 			if ($checkPassword->num_rows() < 1) {
 				$this->session->set_flashdata('wrong_pass', true);
+				$this->session->set_flashdata('email', $email);
 
 				if ($this->input->get('refer') != null) {
 					redirect(site_url('login?refer=' . $this->input->get('refer')));
@@ -109,6 +143,7 @@ class Login extends CI_Controller
 							'PROVINCE' 		=> $data->PROVINCE,
 							'USERID' 		=> $data->ID,
 							'ZIP' 			=> $data->ZIP,
+							'IMAGE'			=> $data->IMAGE,
 							'LOGGED_IN'		=> TRUE
 						);
 					}
@@ -128,7 +163,6 @@ class Login extends CI_Controller
 
 	function logout()
 	{
-
 		if ($this->incube->logoutAccount()) {
 			redirect(base_url('home'));
 		}

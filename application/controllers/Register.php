@@ -1,45 +1,80 @@
-<?php if(!defined("BASEPATH")) exit("Hack Attempt");
-class Register extends CI_Controller {
+<?php if (!defined("BASEPATH")) exit("Hack Attempt");
+class Register extends CI_Controller
+{
 
-	public function __construct() {
-        
-        parent::__construct();
+	public function __construct()
+	{
 
-        date_default_timezone_set('Asia/Jakarta');
+		parent::__construct();
 
-        $this->load->model('M_user', 'user');
-        $this->load->helper('form');
-        $this->load->library('email');
-        
-        $this->output->enable_profiler(TRUE);
-    }
+		date_default_timezone_set('Asia/Jakarta');
 
-	public function index() {
+		$this->load->model('M_user', 'user');
+		$this->load->helper('form');
+		$this->load->library('email');
+
+		$this->output->enable_profiler(TRUE);
+	}
+
+	public function index()
+	{
 
 		$data['sectionName'] = 'Register';
 
-    	$this->load->view('templates/header', $data);
-		$this->load->view('templates/navbar');
-    	$this->load->view('pages/account-registration/register');
-    	$this->load->view('templates/footer');
+		if ($this->input->get('rid') != null) {
 
-  	}
+			$flashData = $this->session->userdata();
+			$data['socialData']  = array(
+				'email'		=> $flashData['google_email'],
+				'picture'	=> $flashData['google_picture'],
+				'lastName'	=> $flashData['google_familyName'],
+				'firstName'	=> $flashData['google_givenName'],
+				'id'		=> $flashData['google_id']
+			);
+		}
 
-	public function checkExistingEmail() {
+		if (isset($flashData)) {
+
+			$user = $this->user->getMemberData($flashData['google_email']);
+
+			if ($user->num_rows() == 0) {
+				$this->load->view('templates/header', $data);
+				$this->load->view('templates/navbar');
+				$this->load->view('pages/account-registration/register', $data);
+				$this->load->view('templates/footer');
+			} else {
+				foreach ($user->result() as $detail);
+
+				$googleArray = array('google_email', 'google_picture', 'google_familyName', 'google_givenName', 'google_id');
+				$this->session->unset_userdata($googleArray);
+				$this->incube->loginAccount($detail);
+				redirect('home');
+			}
+		} else {
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/navbar');
+			$this->load->view('pages/account-registration/register');
+			$this->load->view('templates/footer');
+		}
+	}
+
+	public function checkExistingEmail()
+	{
 
 		$userEmail = $this->input->get('email');
 
 		$userQuery = $this->user->checkExistingEmail($userEmail);
 
-		if($userQuery->num_rows() == 0) {
-			echo 'ok';
+		if ($userQuery->num_rows() > 0) {
+			echo "existing";
 		} else {
-			echo 'existing';
+			echo "false";
 		}
 	}
 
-	public function input() {
-
+	public function input()
+	{
+		$userImage 	= $this->input->post('uImage');
 		$fName 		= $this->input->post('uFirstName');
 		$lName 		= $this->input->post('uLastName');
 		$phone 		= $this->input->post('uPhone');
@@ -50,7 +85,24 @@ class Register extends CI_Controller {
 		$password 	= $this->input->post('uPass');
 		$state 		= $this->input->post('uProvince');
 		$zip 		= $this->input->post('uZip');
-		$date 		= $this->input->post('uBirthdate'); 
+		$date 		= $this->input->post('uBirthdate');
+
+		$googleData = $this->session->userdata();
+		$this->session->unset_userdata($googleData);
+
+		if (isset($userImage)) {
+			$filename = str_replace(".", "_", $this->input->post('uEmail'));
+			$filename .= '.jpg';
+			$fileLoc = FCPATH . '/img/picture/';
+			$fullDirectory = $fileLoc . '/' . $filename;
+			copy($this->input->post('uImage'), $fullDirectory);
+			$saveDirectory = base_url('/img/picture/' . $filename);
+			$memberType = 1;
+		} else {
+			$fullDirectory = null;
+			$saveDirectory = null;
+			$memberType = 0;
+		}
 
 		$hashPassword = sha1($password);
 		$hashEmail = sha1($email);
@@ -60,8 +112,9 @@ class Register extends CI_Controller {
 		$data = array(
 			'FIRST_NAME' 	=> $fName,
 			'LAST_NAME' 	=> $lName,
+			'MEMBER_TYPE'	=> $memberType,
 			'JOIN_DATE' 	=> date("Y/m/d h:i:s"),
-			'BIRTH_DATE' 	=> date('Y-m-d',$formatDate),
+			'BIRTH_DATE' 	=> date('Y-m-d', $formatDate),
 			'PHONE' 		=> $phone,
 			'ADDRESS' 		=> $address1,
 			'ADDRESS_2' 	=> $address2,
@@ -71,12 +124,13 @@ class Register extends CI_Controller {
 			'EMAIL' 		=> $email,
 			'PASSWORD' 		=> $hashPassword,
 			'STATUS' 		=> 'PENDING',
-			'HASH' 			=> $hashEmail
+			'HASH' 			=> $hashEmail,
+			'IMAGE'			=> $saveDirectory
 		);
 
 		$query = $this->user->registration($data);
 
-		if($query) {
+		if ($query) {
 			$data['email'] = $email;
 			$data['hash'] = sha1($email);
 
@@ -88,7 +142,7 @@ class Register extends CI_Controller {
 			$config['charset']     = 'utf-8';
 			$config['wordwrap']    = TRUE;
 			$config['mailtype']    = 'html';
-			
+
 			$this->email->initialize($config);
 
 			$this->email->from('admin@kikikuku.com', 'Kikikuku Team');
@@ -100,21 +154,18 @@ class Register extends CI_Controller {
 			$this->email->subject('Please confirm your email address');
 			$this->email->message($message);
 
-			if($this->email->send()) {
-				
+			if ($this->email->send()) {
 				$this->session->set_flashdata('verification', 'pending');
-				redirect(base_url());
-
+				redirect('home');
 			}
 		} else {
-
 			$this->session->set_flashdata('verification', 'error');
-			redirect(base_url());
-
+			redirect('home');
 		}
 	}
 
-	public function verification() {
+	public function verification()
+	{
 
 		$hash = $this->input->get('key');
 		$email = $this->input->get('email');
@@ -123,19 +174,16 @@ class Register extends CI_Controller {
 
 		$query = $this->user->verifyAccount($emailHash);
 
-		if($query->num_rows() > 0) {
+		if ($query->num_rows() > 0) {
 			$update = $this->user->updateStatus($email);
-			if($update) {
+			if ($update) {
 				//Account verified
 				echo 'success';
 			} else {
 				echo 'error';
 			}
-
 		} else {
 			echo 'verified';
 		}
-
 	}
-
 }

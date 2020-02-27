@@ -112,11 +112,30 @@ class Incube
 		}
 	}
 
+	public function loginAccount($data)
+	{
+
+		$dataSess = array(
+			'FIRST_NAME' 	=> $data->FIRST_NAME,
+			'LAST_NAME' 	=> $data->LAST_NAME,
+			'PHONE' 		=> $data->PHONE,
+			'EMAIL' 		=> $data->EMAIL,
+			'ADDRESS' 		=> $data->ADDRESS,
+			'COUNTRY' 		=> $data->COUNTRY,
+			'PROVINCE' 		=> $data->PROVINCE,
+			'USERID' 		=> $data->ID,
+			'ZIP' 			=> $data->ZIP,
+			'IMAGE'			=> $data->IMAGE,
+			'LOGGED_IN'		=> TRUE
+		);
+
+		$this->CI->session->set_userdata('user_data', $dataSess);
+	}
+
 	public function logoutAccount()
 	{
 
 		$this->CI->session->unset_userdata('user_data');
-
 		return true;
 	}
 }

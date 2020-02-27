@@ -8,46 +8,13 @@
 
       <?php foreach ($dataproduct['item']['PICTURE_LIST'] as $key) { ?>
 
-        <?php if (isset($key['PICTURE1'])) { ?>
+        <?php if (isset($key['PICTURE']) && strlen($key['PICTURE']) > 1) { ?>
           <div class="detail-border">
             <center>
-              <img data-picture="<?php echo $key['PICTURE1']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE1']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
+              <img data-picture="<?php echo $key['PICTURE']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
             </center>
           </div>
         <?php } ?>
-
-        <?php if (isset($key['PICTURE2'])) { ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $key['PICTURE2']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE2']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-            </center>
-          </div>
-        <?php } ?>
-
-        <?php if (isset($key['PICTURE3'])) { ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $key['PICTURE3']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE3']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-            </center>
-          </div>
-        <?php } ?>
-
-        <?php if (isset($key['PICTURE4'])) { ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $key['PICTURE4']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE4']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-            </center>
-          </div>
-        <?php } ?>
-
-        <?php if (isset($key['PICTURE5'])) { ?>
-          <div class="detail-border">
-            <center>
-              <img data-picture="<?php echo $key['PICTURE5']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE5']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
-            </center>
-          </div>
-        <?php } ?>
-
       <?php } ?>
 
     </div>
@@ -58,46 +25,13 @@
       <div class="d-flex flex-row">
         <?php foreach ($dataproduct['item']['PICTURE_LIST'] as $key) { ?>
 
-          <?php if (isset($key['PICTURE1'])) { ?>
+          <?php if (isset($key['PICTURE']) && strlen($key['PICTURE']) > 1) { ?>
             <div class="detail-border">
               <center>
-                <img data-picture="<?php echo $key['PICTURE1']; ?>" class="row-images" alt="Product Pictures" src="<?php echo $key['PICTURE1']; ?>" />
+                <img data-picture="<?php echo $key['PICTURE']; ?>" class="row-images" alt="Product Picture" src="<?php echo $key['PICTURE']; ?>" onerror="this.onerror=null;this.src='<?php echo base_url('assets/images/no-image-icon.png'); ?>' " />
               </center>
             </div>
           <?php } ?>
-
-          <?php if (isset($key['PICTURE2'])) { ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $key['PICTURE2']; ?>" class="row-images" alt="Product Pictures" src="<?php echo $key['PICTURE2']; ?>" />
-              </center>
-            </div>
-          <?php } ?>
-
-          <?php if (isset($key['PICTURE3'])) { ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $key['PICTURE3']; ?>" class="row-images" alt="Product Pictures" src="<?php echo $key['PICTURE3']; ?>" />
-              </center>
-            </div>
-          <?php } ?>
-
-          <?php if (isset($key['PICTURE4'])) { ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $key['PICTURE4']; ?>" class="row-images" alt="Product Pictures" src="<?php echo $key['PICTURE4']; ?>" />
-              </center>
-            </div>
-          <?php } ?>
-
-          <?php if (isset($key['PICTURE5'])) { ?>
-            <div class="detail-border">
-              <center>
-                <img data-picture="<?php echo $key['PICTURE5']; ?>" class="row-images" alt="Product Pictures" src="<?php echo $key['PICTURE5']; ?>" />
-              </center>
-            </div>
-          <?php } ?>
-
         <?php } ?>
 
       </div>

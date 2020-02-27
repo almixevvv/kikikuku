@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -61,6 +61,7 @@ $route['search'] = "Home/search";
 $route['login'] = 'Login';
 $route['logout'] = 'Login/logout';
 $route['register'] = 'Register';
+$route['social'] = 'Login/social';
 $route['account'] = 'account/view';
 $route['register/verification'] = 'Register/input';
 $route['verification'] = 'Home/index';
@@ -113,11 +114,11 @@ $route['addcart'] = 'Cart/addtocart';
 
 /* Basic Part */
 $route['change_pass'] = 'cpassword/view';
-$route['product']= 'product/view';
-$route['product_detail']= 'product_detail/view';
-$route['mycart']= 'Cart/mycart';
-$route['register_success']= 'page_success/register_success';
-$route['preorder_success']= 'page_success/preorder_success';
-$route['forgot_pass_success']= 'page_success/forgot_pass_success';
-$route['verify']= 'page_success/verify';
-$route['history_order']= 'history_order/view';
+$route['product'] = 'product/view';
+$route['product_detail'] = 'product_detail/view';
+$route['mycart'] = 'Cart/mycart';
+$route['register_success'] = 'page_success/register_success';
+$route['preorder_success'] = 'page_success/preorder_success';
+$route['forgot_pass_success'] = 'page_success/forgot_pass_success';
+$route['verify'] = 'page_success/verify';
+$route['history_order'] = 'history_order/view';

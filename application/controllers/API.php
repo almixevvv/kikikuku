@@ -17,13 +17,40 @@ class API extends REST_Controller
 		$this->load->model('M_category', 'category');
 		$this->load->model('M_profile', 'profile');
 		$this->load->model('M_reset', 'reset');
+		$this->load->model('M_pages', 'pages');
 		$this->load->library('email');
 		$this->load->library('incube');
+		$this->load->library('upload');
 		// $this->output->enable_profiler(TRUE);
 
 		//DEBUG LAST QUERY
 		// echo $this->db->last_query();
 
+	}
+
+	public function howto_get()
+	{
+		$data = $this->pages->HowTo();
+		foreach ($data->result() as $content);
+
+		$this->response([
+			'status' 	=> 'ok',
+			'code' 		=> REST_Controller::HTTP_ACCEPTED,
+			'item'      => $content->CONTENT,
+		], REST_Controller::HTTP_ACCEPTED);
+	}
+
+	public function terms_get()
+	{
+
+		$data = $this->pages->Terms();
+		foreach ($data->result() as $content);
+
+		$this->response([
+			'status' 	=> 'ok',
+			'code' 		=> REST_Controller::HTTP_ACCEPTED,
+			'item'      => $content->CONTENT,
+		], REST_Controller::HTTP_ACCEPTED);
 	}
 
 	public function index_get()
@@ -81,12 +108,21 @@ class API extends REST_Controller
 
 		$jsonResult = json_encode($result);
 
-		$this->response([
-			'status' 	=> 'ok',
-			'pageSize' 	=> $pageSize,
-			'code' 		=> REST_Controller::HTTP_ACCEPTED,
-			'item'      => json_decode($jsonResult, true),
-		], REST_Controller::HTTP_ACCEPTED);
+		if ($jsonResult == null) {
+			$this->response([
+				'status' 	=> 'ok',
+				'pageSize' 	=> $pageSize,
+				'code' 		=> REST_Controller::HTTP_ACCEPTED,
+				'item'      => new \stdClass(),
+			], REST_Controller::HTTP_ACCEPTED);
+		} else {
+			$this->response([
+				'status' 	=> 'ok',
+				'pageSize' 	=> $pageSize,
+				'code' 		=> REST_Controller::HTTP_ACCEPTED,
+				'item'      => json_decode($jsonResult, true),
+			], REST_Controller::HTTP_ACCEPTED);
+		}
 	}
 
 	//SEARCH CUSTOM PAGE
@@ -111,7 +147,7 @@ class API extends REST_Controller
 				'pageSize' 		=> $pageSize,
 				'searchQuery'	=> $searchQuery,
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
-				'item'      	=> 'No Product Found',
+				'item'      	=> new \stdClass(),
 			], REST_Controller::HTTP_ACCEPTED);
 		} else {
 
@@ -171,7 +207,7 @@ class API extends REST_Controller
 				'pageSize' 		=> $pageSize,
 				'categoryID'	=> $categoryID,
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
-				'item'      	=> 'No Product Found',
+				'item'      	=> new \stdClass(),
 			], REST_Controller::HTTP_ACCEPTED);
 		} else {
 
@@ -184,14 +220,14 @@ class API extends REST_Controller
 				$result[$counter]['TITLE']			= $list['title'];
 				$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
 				// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
-				$result[$counter]['START_QUANTITY'] = $list['startNumber'];
+				$result[$counter]['START_QUANTITY'] = strval($list['startNumber']);
 
 				if ($list['priceType'] == '0') {
 					$result[$counter]['PRICE']			= 'Price Negotiable';
 				} else {
 					$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
 					// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
-					$result[$counter]['PRICE']			= $price;
+					$result[$counter]['PRICE']			= strval($price);
 				}
 
 				$counter++;
@@ -215,6 +251,7 @@ class API extends REST_Controller
 
 		$id			= $this->input->get('id');
 		$counter 	= 0;
+		$picCounter = 0;
 		$finalUrl   = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $id;
 		$marginParameter 	= $this->product->getMarginPrice();
 		$convertRate		= $this->product->getConvertRate();
@@ -227,7 +264,7 @@ class API extends REST_Controller
 			$this->response([
 				'status' 		=> 'error',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
-				'item'      	=> 'not found',
+				'item'      	=> new \stdClass(),
 			], REST_Controller::HTTP_ACCEPTED);
 		} else {
 
@@ -239,79 +276,67 @@ class API extends REST_Controller
 			//FIX FOR IMAGE
 			if ($obj['detail']['sdiProductsPicList'] == null) {
 
-				if ($obj['detail']['productForApp']['picture'] != null) {
+				$picCounter = 1;
+
+				if (isset($obj['detail']['productForApp']['picture']) && strlen($obj['detail']['productForApp']['picture']) > 5) {
 					//Use custom library for Image Formating
 					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture']);
-					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture'];
+					$productForApp['PICTURE_LIST'][]['PICTURE'] = $newPath . $obj['detail']['productForApp']['picture'];
 					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture'];
+					$picCounter++;
+				} else {
+					//$productForApp['PICTURE_LIST'][]['PICTURE'] = '';
+					$picCounter++;
 				}
 
-				if ($obj['detail']['productForApp']['picture1'] != null) {
-					//Use custom library for Image Formating
-					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture1']);
-					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture1'];
-					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture1'];
+				//TMP COUNTER FOR THIS LOOP ONLY, WHILE PICCOUNTER IS ONLY ADDED IF THE ABOVE RUNS
+				for ($tmpCounter = 1; $tmpCounter <= 5; $tmpCounter++) {
+					if (isset($obj['detail']['productForApp']['picture' . $tmpCounter]) && strlen($obj['detail']['productForApp']['picture' . $tmpCounter]) > 5) {
+						//Use custom library for Image Formating
+						$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture' . $tmpCounter]);
+						$productForApp['PICTURE_LIST'][]['PICTURE'] = $newPath . $obj['detail']['productForApp']['picture' . $tmpCounter];
+						$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture' . $tmpCounter];
+					} else {
+						//$productForApp['PICTURE_LIST'][]['PICTURE'] = '';
+					}
+					$picCounter++;
 				}
 
-				if ($obj['detail']['productForApp']['picture2'] != null) {
-					//Use custom library for Image Formating
-					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture2']);
-					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture2'];
-					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture2'];
-				}
-
-				if ($obj['detail']['productForApp']['picture3'] != null) {
-					//Use custom library for Image Formating
-					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture3']);
-					$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $obj['detail']['productForApp']['picture3'];
-					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture3'];
-				}
-
-				if ($obj['detail']['productForApp']['picture4'] != null) {
-					//Use custom library for Image Formating
-					$newPath = $this->incube->replaceLink($obj['detail']['productForApp']['picture4']);
-					$productForApp['PICTURE_LIST'][]['PICTURE5'] = $newPath . $obj['detail']['productForApp']['picture4'];
-					$productForApp['MAIN_PICTURE'] = $newPath . $obj['detail']['productForApp']['picture3'];
-				}
+				// $out = array_values($image);
+				// $jsonEncode = json_encode($out);
 			} else {
+
+				$picCounter = 1;
 
 				foreach ($obj['detail']['sdiProductsPicList'] as $picture) {
 
-					if ($picture['picture'] != null) {
+					if (isset($picture['picture']) && strlen($picture['picture']) > 5) {
 						//Use custom library for Image Formating
 						$newPath = $this->incube->replaceLink($picture['picture']);
-						$productForApp['PICTURE_LIST'][]['PICTURE1'] = $newPath . $picture['picture'];
+						$productForApp['PICTURE_LIST'][]['PICTURE'] = $newPath . $picture['picture'];
 						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture'];
+						$picCounter++;
+					} else {
+						//$productForApp['PICTURE_LIST'][]['PICTURE'] = '';
+						$picCounter++;
 					}
 
-					if ($picture['picture1'] != null) {
-						//Use custom library for Image Formating
-						$newPath = $this->incube->replaceLink($picture['picture1']);
-						$productForApp['PICTURE_LIST'][]['PICTURE2'] = $newPath . $picture['picture1'];
-						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture1'];
-					}
-
-					if ($picture['picture2'] != null) {
-						//Use custom library for Image Formating
-						$newPath = $this->incube->replaceLink($picture['picture2']);
-						$productForApp['PICTURE_LIST'][]['PICTURE3'] = $newPath . $picture['picture2'];
-						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture2'];
-					}
-
-					if ($picture['picture3'] != null) {
-						//Use custom library for Image Formating
-						$newPath = $this->incube->replaceLink($picture['picture3']);
-						$productForApp['PICTURE_LIST'][]['PICTURE4'] = $newPath . $picture['picture3'];
-						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture3'];
-					}
-
-					if ($picture['picture4'] != null) {
-						//Use custom library for Image Formating
-						$newPath = $this->incube->replaceLink($picture['picture4']);
-						$productForApp['PICTURE_LIST'][]['PICTURE5'] = $newPath . $picture['picture4'];
-						$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture4'];
+					//TMP COUNTER FOR THIS LOOP ONLY, WHILE PICCOUNTER IS ONLY ADDED IF THE ABOVE RUNS
+					for ($tmpCounter = 1; $tmpCounter <= 5; $tmpCounter++) {
+						if (isset($picture['picture' . $tmpCounter]) && strlen($picture['picture' . $tmpCounter]) > 5) {
+							//Use custom library for Image Formating
+							$newPath = $this->incube->replaceLink($picture['picture' . $tmpCounter]);
+							$productForApp['PICTURE_LIST'][]['PICTURE'] = $newPath . $picture['picture' . $tmpCounter];
+							$productForApp['MAIN_PICTURE'] = $newPath . $picture['picture' . $tmpCounter];
+						} else {
+							//$productForApp['PICTURE_LIST'][]['PICTURE'] = '';
+						}
+						$picCounter++;
 					}
 				}
+
+				// $out = array_values($image);
+				// $jsonEncode = json_encode($out);
 			}
 
 			//CREATE PRICE LIST
@@ -370,6 +395,8 @@ class API extends REST_Controller
 				}
 			}
 
+			// $productForApp['PICTURE_LIST'] = json_decode($jsonEncode);
+
 			$jsonResult = json_encode($productForApp);
 
 			$this->response([
@@ -404,7 +431,7 @@ class API extends REST_Controller
 			$this->response([
 				'status' 		=> 'error',
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
-				'item'      	=> 'not found',
+				'item'      	=> new \stdClass(),
 			], REST_Controller::HTTP_BAD_REQUEST);
 		} else {
 
@@ -450,9 +477,12 @@ class API extends REST_Controller
 	public function message_get()
 	{
 
-		$orderID 	 = $this->input->get('id');
-		$messageData = $this->profile->getOrderMessages($orderID);
-		$counter 	 = 0;
+		$orderID 	 	= $this->input->get('id');
+		$messageData 	= $this->profile->getOrderMessages($orderID);
+		$messageSender  = $this->profile->getMessageSender($orderID);
+		$counter 	 	= 0;
+
+		foreach ($messageSender->result() as $detail);
 
 		if ($messageData->num_rows() > 0) {
 
@@ -475,15 +505,17 @@ class API extends REST_Controller
 				'status' 		=> 'ok',
 				'message' 		=> $messageData->num_rows() . ' messages found',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
+				'sender_email'	=> $detail->MEMBER_EMAIL,
 				'message_data' 	=> json_decode($encode)
 			], REST_Controller::HTTP_ACCEPTED);
 		} else {
 
 			$this->response([
 				'status' 		=> 'ok',
-				'message' 		=> 'no message history',
+				'message' 		=> '0',
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
-				'message_data' 	=> '0'
+				'sender_email'	=> '',
+				'message_data' 	=> $tmpData = array()
 			], REST_Controller::HTTP_ACCEPTED);
 		}
 
@@ -494,7 +526,6 @@ class API extends REST_Controller
 	//SEND MESSAGE
 	public function message_post()
 	{
-
 		$data = array(
 			'SENDER_ID' 		=> 'CUSTOMER',
 			'ORDER_ID' 			=> $this->input->post('orderID'),
@@ -504,28 +535,16 @@ class API extends REST_Controller
 			'ADMIN_READ_FLAG' 	=> '1'
 		);
 
-		$messageData = $this->profile->getOrderMessages($this->input->post('orderID'));
-
-		if ($messageData->num_rows() > 0) {
-
-			if ($this->profile->sendMessages($data)) {
-				$this->response([
-					'status' 		=> 'ok',
-					'message' 		=> 'message send',
-					'code' 			=> REST_Controller::HTTP_ACCEPTED
-				], REST_Controller::HTTP_ACCEPTED);
-			} else {
-				$this->response([
-					'status' 		=> 'error',
-					'message' 		=> 'message not sending',
-					'code' 			=> REST_Controller::HTTP_BAD_REQUEST
-				], REST_Controller::HTTP_BAD_REQUEST);
-			}
+		if ($this->profile->sendMessages($data)) {
+			$this->response([
+				'status' 		=> 'ok',
+				'message' 		=> 'message send',
+				'code' 			=> REST_Controller::HTTP_ACCEPTED
+			], REST_Controller::HTTP_ACCEPTED);
 		} else {
-
 			$this->response([
 				'status' 		=> 'error',
-				'message' 		=> 'invalid order ID',
+				'message' 		=> 'message not sending',
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
@@ -551,6 +570,7 @@ class API extends REST_Controller
 					'PROVINCE' 			=> $data->PROVINCE,
 					'USERID' 			=> $data->ID,
 					'ZIP' 				=> $data->ZIP,
+					'IMAGE'				=> $data->IMAGE
 				);
 
 				$decode = json_encode($dataSess);
@@ -566,53 +586,79 @@ class API extends REST_Controller
 			$this->response([
 				'status' 		=> 'error',
 				'message' 		=> 'no member data',
-				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+				'data'			=> new \stdClass(),
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
 
 		// echo $this->db->last_query();
 	}
 
-	//UPDATE MEMBER PHONE
-	public function profilephone_post()
+	public function finishorder_post()
 	{
+		$checkStatus = $this->profile->getFinishedStatus($this->input->post('orderID'));
 
-		$idQuery = $this->user->getMemberbyID($this->input->post('userID'));
+		if ($checkStatus->num_rows() != 0) {
+			foreach ($checkStatus->result() as $status);
+			if ($status->STATUS == 'PAID') {
+				$this->profile->finishOrder($this->input->post('orderID'));
 
-		if ($idQuery->num_rows() > 0) {
-
-			$data = array(
-				'PHONE' => $this->input->post('phone')
-			);
-
-			$this->profile->updatePhone($this->input->post('userID'), $data);
-
-			$this->response([
-				'status' 		=> 'ok',
-				'message' 		=> 'phone updated',
-				'code' 			=> REST_Controller::HTTP_ACCEPTED
-			], REST_Controller::HTTP_ACCEPTED);
+				$this->response([
+					'status' 		=> 'ok',
+					'message' 		=> 'transaction finished',
+					'code' 			=> REST_Controller::HTTP_ACCEPTED,
+				], REST_Controller::HTTP_ACCEPTED);
+			} else if ($status->STATUS == 'DONE') {
+				$this->response([
+					'status' 		=> 'error',
+					'message' 		=> 'transaction already done',
+					'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+				], REST_Controller::HTTP_BAD_REQUEST);
+			} else {
+				$this->response([
+					'status' 		=> 'error',
+					'message' 		=> 'transaction must be in paid status',
+					'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+				], REST_Controller::HTTP_BAD_REQUEST);
+			}
 		} else {
 			$this->response([
 				'status' 		=> 'error',
-				'message' 		=> 'update error',
-				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+				'message' 		=> 'no transaction found',
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
 	}
 
-	//UPDATE MEMBER IMAGE
-	public function profilephoto_post()
+	//UPDATE MEMBER PHONE AND ADDRESS
+	public function profileupdate_post()
 	{
-	}
-
-	//UPDATE MEMBER ADDRESS
-	public function profileaddress_post()
-	{
-
 		$idQuery = $this->user->getMemberbyID($this->input->post('userID'));
-
 		if ($idQuery->num_rows() > 0) {
+
+			if (isset($_FILES['profileImage'])) {
+				$config['upload_path'] 		= './img/picture/';
+				$config['allowed_types'] 	= 'gif|jpg|png|jpeg';
+				$config['file_name'] 		= $this->input->post('userID');
+				$config['overwrite']		= TRUE;
+
+				$this->upload->initialize($config);
+
+				$path = $_FILES['profileImage']['name'];
+				$ext = pathinfo($path, PATHINFO_EXTENSION);
+
+				$defaultPath = base_url('/img/order/' . $this->input->post('userID') . '.' . $ext);
+
+				if (!$this->upload->do_upload('profileImage')) {
+					$this->response([
+						'status' 		=> 'error',
+						'message' 		=> 'upload process error',
+						'code' 			=> REST_Controller::HTTP_BAD_REQUEST,
+					], REST_Controller::HTTP_BAD_REQUEST);
+				}
+			} else {
+				$defaultPath = null;
+			}
 
 			$data = array(
 				'ADDRESS' 		=> $this->input->post('address1'),
@@ -620,19 +666,30 @@ class API extends REST_Controller
 				'COUNTRY' 		=> $this->input->post('country'),
 				'PROVINCE' 		=> $this->input->post('province'),
 				'ZIP' 			=> $this->input->post('zip'),
+				'PHONE' 		=> $this->input->post('phone'),
+				'IMAGE'			=> $defaultPath
 			);
 
-			$query = $this->profile->updateAddress($this->input->post('userID'), $data);
+			$query = $this->profile->updateDetails($this->input->post('userID'), $data);
 
-			$this->response([
-				'status' 		=> 'ok',
-				'message' 		=> 'address updated',
-				'code' 			=> REST_Controller::HTTP_ACCEPTED
-			], REST_Controller::HTTP_ACCEPTED);
+			if ($query) {
+				$this->response([
+					'status' 		=> 'ok',
+					'message' 		=> 'profile updated',
+					// 'query'			=> $this->db->last_query(),
+					'code' 			=> REST_Controller::HTTP_ACCEPTED
+				], REST_Controller::HTTP_ACCEPTED);
+			} else {
+				$this->response([
+					'status' 		=> 'error',
+					'message' 		=> 'update error',
+					'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+				], REST_Controller::HTTP_BAD_REQUEST);
+			}
 		} else {
 			$this->response([
 				'status' 		=> 'error',
-				'message' 		=> 'update error',
+				'message' 		=> 'no user found',
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
@@ -708,7 +765,6 @@ class API extends REST_Controller
 	//UPLOAD PAYMENT PROOF
 	public function payment_post()
 	{
-
 		$messageData = $this->profile->getPaymentProcess($this->input->post('orderID'));
 
 		if ($messageData->num_rows() > 0) {
@@ -778,9 +834,9 @@ class API extends REST_Controller
 	public function transaction_get()
 	{
 
-		$email 		= $this->input->get('email');
-		$status 	= $this->input->get('status_order');
-		$counter 	= 0;
+		$email 			= $this->input->get('email');
+		$status 		= $this->input->get('status_order');
+		$counterMaster 	= 0;
 
 		if ($status != null) {
 			$transData 	= $this->profile->getOrderMasterData($email, $status);
@@ -792,55 +848,102 @@ class API extends REST_Controller
 		$masterArr  = array();
 
 		if ($transData->num_rows() > 0) {
-
 			foreach ($transData->result() as $data) {
 
-				$masterData = $this->profile->getOrderHistory($email);
+				$counterDetail 	= 0;
+				$details = $this->profile->getOrderHistoryDetails($email, $data->ORDER_NO);
 
-				foreach ($masterData->result() as $master) {
+				foreach ($details->result() as $detail) {
 
-					if ($master->PRODUCT_NAME != null) {
-						$productName 	= $master->PRODUCT_NAME;
-						$productImage 	= $master->PRODUCT_IMAGE;
+					if ($detail->PRODUCT_NAME != null) {
+						$productName 	= $detail->PRODUCT_NAME;
+						$productImage 	= $detail->PRODUCT_IMAGE;
 					} else {
-						$productName 	= null;
-						$productImage 	= null;
+						$productName 	= '';
+						$productImage 	= '';
 					}
 
-					$masterArr[$counter] = array(
-						'order_no'			=> $master->ORDER_NO,
-						'product_id' 		=> $master->PRODUCT_ID,
-						'product_name'		=> $productName,
-						'product_image'		=> $productImage,
-						'product_quantity' 	=> $master->PRODUCT_QUANTITY,
-						'product_price' 	=> $master->PRODUCT_PRICE,
-						'product_notes' 	=> $master->PRODUCT_NOTES,
-						'product_postage' 	=> $master->PRODUCT_POSTAGE,
-						'buyer_email' 		=> $master->MEMBER_EMAIL,
-						'buyer_phone' 		=> $master->MEMBER_PHONE,
-						'buyer_name' 		=> $master->MEMBER_NAME,
-						'buyer_id'			=> $master->ORDER_ID,
+					if ($detail->PRODUCT_FINAL_PRICE != null) {
+						$finalPrice = $detail->PRODUCT_FINAL_PRICE;
+					} else {
+						$finalPrice = '';
+					}
+
+					if ($detail->PRODUCT_QUANTITY != null) {
+						$finalQty = $detail->PRODUCT_QUANTITY;
+					} else {
+						$finalQty = '';
+					}
+
+					if ($detail->PRODUCT_NOTES != null) {
+						$finalNotes = $detail->PRODUCT_NOTES;
+					} else {
+						$finalNotes = '';
+					}
+
+					if ($detail->TOTAL_ORDER != null) {
+						$totalOrder = $detail->TOTAL_ORDER;
+					} else {
+						$totalOrder = '';
+					}
+
+					$transArr[$counterDetail] = array(
+						'product_name' 		=> $productName,
+						'product_image' 	=> $productImage,
+						'product_price' 	=> $finalPrice,
+						'product_quantity' 	=> $finalQty,
+						'product_notes' 	=> $finalNotes,
+						'product_total' 	=> $totalOrder,
 					);
 
-					$masterDecode = json_encode($masterArr);
+					$counterDetail++;
+					$detailDecode = json_encode($transArr);
 				}
 
-				$transArr[$counter] = array(
-					'first_name' 	=> $data->FIRST_NAME,
-					'last_name'  	=> $data->LAST_NAME,
-					'order_no' 	 	=> $data->ORDER_NO,
-					'order_data' 	=> $data->ORDER_DATE,
-					'total_order' 	=> $data->AMOUNT,
-					'total_postage'	=> $data->TOTAL_POSTAGE,
-					'status_order' 	=> $data->STATUS_ORDER,
-					'order_updated' => $data->UPDATED,
-					'order_details' => json_decode($masterDecode),
+				if ($data->ORDER_DATE != null) {
+					$orderDate = $data->ORDER_DATE;
+				} else {
+					$orderDate = '';
+				}
+
+				if ($data->ORDER_NO != null) {
+					$orderNo = $data->ORDER_NO;
+				} else {
+					$orderNo = '';
+				}
+
+				if ($data->AMOUNT != null) {
+					$orderAmount = $data->AMOUNT;
+				} else {
+					$orderAmount = '';
+				}
+
+				if ($data->STATUS_ORDER != null) {
+					$orderStatus = $data->STATUS_ORDER;
+				} else {
+					$orderStatus = '';
+				}
+
+				if ($data->TOTAL_POSTAGE != null) {
+					$orderPostage = $data->TOTAL_POSTAGE;
+				} else {
+					$orderPostage = '';
+				}
+
+
+				$masterArr[$counterMaster] = array(
+					'order_date'    	=> $orderDate,
+					'order_no'	    	=> $orderNo,
+					'order_total'   	=> $orderAmount,
+					'order_status'  	=> $orderStatus,
+					'order_shipping' 	=> $orderPostage,
+					'order_detail' 		=> json_decode($detailDecode)
 				);
 
-				$counter++;
+				$counterMaster++;
 			}
 
-			$transDecode = json_encode($transArr);
+			$transDecode = json_encode($masterArr);
 
 			$this->response([
 				'status' 		=> 'ok',
@@ -852,7 +955,7 @@ class API extends REST_Controller
 
 			$this->response([
 				'status' 		=> 'ok',
-				'message' 		=> 'no transaction found',
+				'message' 		=> new \stdClass(),
 				'code' 			=> REST_Controller::HTTP_ACCEPTED,
 				'transaction' 	=> '0'
 			], REST_Controller::HTTP_ACCEPTED);
@@ -1102,12 +1205,6 @@ class API extends REST_Controller
 				'message' 	=> 'price cannot be empty',
 				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
-		} else if ($this->input->post('product-price') <= 0) {
-			$this->response([
-				'status' 	=> 'error',
-				'message' 	=> 'price cannot be 0 or lower',
-				'code' 		=> REST_Controller::HTTP_BAD_REQUEST
-			], REST_Controller::HTTP_BAD_REQUEST);
 		} else if ($this->input->post('product-buyer') == null) {
 			$this->response([
 				'status' 	=> 'error',
@@ -1217,9 +1314,7 @@ class API extends REST_Controller
 		$data = array();
 
 		$hashTrans = sha1($this->input->get('email'));
-
 		$result = $this->carts->displayCart($hashTrans);
-
 		$count = $result->result_array();
 
 		for ($i = 0; $i < count($count); $i++) {
@@ -1255,7 +1350,7 @@ class API extends REST_Controller
 				'status' 	=> 'ok',
 				'message' 	=> 'no cart history found',
 				'code' 		=> REST_Controller::HTTP_OK,
-				'item'      => json_decode($json, true),
+				'item'      => $tmpEmpty = array(),
 			], REST_Controller::HTTP_OK);
 		}
 	}
@@ -1263,34 +1358,46 @@ class API extends REST_Controller
 	//Get category
 	public function category_get()
 	{
-
-		$childArray 	= array();
 		$parentArray	= array();
 		$parent 		= $this->category->getParentCategory();
+		$parentCounter  = 0;
+
+		if ($this->input->get('category') == null || $this->input->get('category') == '') {
+			$parent = $this->category->getParentCategory();
+		} else {
+			$parent = $this->category->getSingleCategory($this->input->get('category'));
+		}
 
 		foreach ($parent->result() as $parents) {
 
-			$parentArray[] = array(
-				'NAME' 			=> $parents->NAME,
-				'ID'			=> $parents->ID,
-				'PARENT'		=> $parents->PARENT,
-				'PICTURE'		=> $parents->PICTURE
-			);
-		}
+			$childArray 	= array();
 
-		for ($i = 0; $i < count($parentArray); $i++) {
+			$childCounter 	= 0;
+			$childs 		= $this->category->getChildCategory($parents->ID);
 
-			$child 		= $this->category->getChildCategory($parentArray[$i]['ID']);
+			foreach ($childs->result() as $child) {
 
-			foreach ($child->result() as $child) {
+				$childName 	= $child->NAME;
+				$childID	= $child->LINK;
 
-				$childArray[] = array(
-					'CHILD_NAME'	=> $child->NAME,
-					'CHILD_ID'	=> $child->LINK
+				$childArray[$childCounter] = array(
+					'CHILD_NAME'	=> $childName,
+					'CHILD_ID'		=> $childID
 				);
+
+				$childCounter++;
+				$detailDecode = json_encode($childArray);
 			}
 
-			array_push($parentArray[$i], $childArray);
+			$parentArray[$parentCounter] = array(
+				'NAME' 		=> $parents->NAME,
+				'ID'		=> $parents->ID,
+				'PARENT'	=> $parents->PARENT,
+				'PICTURE'	=> $parents->PICTURE,
+				'CHILD'		=> json_decode($detailDecode)
+			);
+
+			$parentCounter++;
 		}
 
 		$json = json_encode($parentArray);

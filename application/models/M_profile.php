@@ -1,11 +1,14 @@
 <?php
-class M_profile extends CI_Model{
+class M_profile extends CI_Model
+{
 
-	function __construct() {
+	function __construct()
+	{
 		parent::__construct();
 	}
 
-	function getMemberDetails($email) {
+	function getMemberDetails($email)
+	{
 
 		$this->db->select('*');
 		$this->db->from('g_order_master');
@@ -16,40 +19,47 @@ class M_profile extends CI_Model{
 		$query = $this->db->get();
 
 		return $query;
-
 	}
 
-	function updateAddress($id, $data){
+	function getMemberfromID($id)
+	{
 
-        $this->db->where('ID', $id);
+		$this->db->select('*');
+		$this->db->from('g_member');
+		$this->db->where('ID', $id);
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	function updateDetails($id, $data)
+	{
+
+		$this->db->where('ID', $id);
 		$this->db->update('g_member', $data);
-		
+
 		return true;
-    }
+	}
 
-    function updatePhone($id, $data){
+	function updatePhoto($id, $defaultPath)
+	{
 
-        $this->db->where('ID', $id);
+		$data = array(
+			'IMAGE' => $defaultPath
+		);
+
+		$this->db->where('ID', $id);
 		$this->db->update('g_member', $data);
-		
-		return true;
-    }
+	}
 
-    function updatePhoto($id, $defaultPath) {
-
-        $data = array(
-            'IMAGE' => $defaultPath
-        );
-        
-        $this->db->where('ID', $id);
-        $this->db->update('g_member', $data);
-    }
-
-	function insert_rules($data){
+	function insert_rules($data)
+	{
 		$this->db->insert('g_rules', $data);
 	}
 
-	function getOrderHistory($email) {
+	function getOrderHistory($email)
+	{
 
 		$this->db->select('*');
 		$this->db->from('v_g_orders');
@@ -60,8 +70,32 @@ class M_profile extends CI_Model{
 		return $query;
 	}
 
-	function getAllOrderMasterData($email) {
+	function getMessageSender($orderID)
+	{
+		$this->db->select('MEMBER_EMAIL');
+		$this->db->from('g_order_master');
+		$this->db->where('ORDER_NO', $orderID);
 
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	function getOrderHistoryDetails($email, $orderID)
+	{
+
+		$this->db->select('*');
+		$this->db->from('v_g_orders');
+		$this->db->where('MEMBER_EMAIL', $email);
+		$this->db->where('ORDER_NO', $orderID);
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	function getAllOrderMasterData($email)
+	{
 		$this->db->select('*');
 		$this->db->from('v_g_order_master');
 		$this->db->where('MEMBER_EMAIL', $email);
@@ -70,10 +104,10 @@ class M_profile extends CI_Model{
 		$query = $this->db->get();
 
 		return $query;
-
 	}
 
-	function getOrderMasterData($email, $status) {
+	function getOrderMasterData($email, $status)
+	{
 
 		$this->db->select('*');
 		$this->db->from('v_g_order_master');
@@ -84,10 +118,10 @@ class M_profile extends CI_Model{
 		$query = $this->db->get();
 
 		return $query;
-
 	}
 
-	function getOrderMessages($orderID) {
+	function getOrderMessages($orderID)
+	{
 
 		$this->db->select('*');
 		$this->db->from('g_message');
@@ -99,23 +133,24 @@ class M_profile extends CI_Model{
 		return $query;
 	}
 
-	function sendMessages($data) {
+	function sendMessages($data)
+	{
 
 		$query = $this->db->insert('g_message', $data);
 
 		return $query;
-
 	}
 
-	function insertImageData($data) {
+	function insertImageData($data)
+	{
 
 		$query = $this->db->insert('g_confirm_payment', $data);
 
 		return $query;
-
 	}
 
-	function getPaymentProcess($orderID) {
+	function getPaymentProcess($orderID)
+	{
 
 		$data = array(
 			'STATUS' 	=> 'UPDATED'
@@ -128,10 +163,10 @@ class M_profile extends CI_Model{
 		$query = $this->db->get();
 
 		return $query;
-
 	}
 
-	function updatePaymentStatus($orderID) {
+	function updatePaymentStatus($orderID)
+	{
 
 		$data = array(
 			'STATUS' => 'CONFIRMED'
@@ -141,21 +176,33 @@ class M_profile extends CI_Model{
 		$query = $this->db->update('g_order_master', $data);
 
 		return $query;
-
 	}
 
-	function finishOrder($orderID) {
-
+	function finishOrder($orderID)
+	{
 		$data = array(
 			'STATUS' => 'DONE'
 		);
 
 		$this->db->where('ORDER_NO', $orderID);
-		$this->db->update('g_order_master', $data);
+		$query = $this->db->update('g_order_master', $data);
 
+		return $query;
 	}
 
-	function getOrderHistoryFromQuery($email, $query) {
+	function getFinishedStatus($orderID)
+	{
+		$this->db->select('*');
+		$this->db->from('g_order_master');
+		$this->db->where('ORDER_NO', $orderID);
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	function getOrderHistoryFromQuery($email, $query)
+	{
 
 		$this->db->select('*');
 		$this->db->from('v_g_orders');
@@ -165,10 +212,10 @@ class M_profile extends CI_Model{
 		$query = $this->db->get();
 
 		return $query;
-
 	}
 
-	function getOrderMasterDataFromQuery($email, $query) {
+	function getOrderMasterDataFromQuery($email, $query)
+	{
 
 		$this->db->select('*');
 		$this->db->from('v_g_order_master');
@@ -179,7 +226,5 @@ class M_profile extends CI_Model{
 		$query = $this->db->get();
 
 		return $query;
-
 	}
-
 }

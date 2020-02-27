@@ -25,6 +25,7 @@ class Product_detail extends CI_Controller
         $data['priceList']       = array();
         $data['recomended']      = $recomended;
         $data['imageCounter']    = 1;
+        $data['imageCounterMobile']    = 1;
 
         if ($obj['status'] == "error") {
 
