@@ -82,7 +82,8 @@ class Cart extends CI_Controller
 					'PRODUCT_NOTES' 	=> $tmpItems['prod_notes'],
 					'PRODUCT_NAME'		=> $tmpItems['prod_name'],
 					'PRODUCT_IMAGES'	=> $tmpItems['prod_image'],
-					'PRODUCT_BUYER'		=> $userData['EMAIL']
+					'PRODUCT_BUYER'		=> $userData['EMAIL'],
+					'CART_FLAG'			=> '0'
 				);
 
 				$this->carts->insertCartData($itemArray);
@@ -99,7 +100,8 @@ class Cart extends CI_Controller
 					'PRODUCT_NOTES' 	=> $this->input->post('customer-notes'),
 					'PRODUCT_IMAGES'	=> $this->input->post('hidden-images'),
 					'PRODUCT_NAME'	  	=> $this->input->post('product-name'),
-					'PRODUCT_BUYER'		=> $userData['EMAIL']
+					'PRODUCT_BUYER'		=> $userData['EMAIL'],
+					'CART_FLAG'			=> '0'
 				);
 
 				//CHECK IF ITEM IS PREVIOUSLY EXISTING

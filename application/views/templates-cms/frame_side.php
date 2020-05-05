@@ -1,5 +1,40 @@
 <ul class="sidebar navbar-nav" style="background-image: linear-gradient(to top, #5bebc3 0%, #a6ffe7 100%);">
 
+<center>
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard" style="margin-top: 1em;">
+    <div class="sidebar-brand-icon">
+        <img class="img-profile rounded-circle" style="width: 40%" src="<?php echo base_url();?>assets/images/user_medium.jpg">
+    </div>
+  </a>
+
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard" style="margin-bottom: 0.5em;">
+    <div class="sidebar-brand-icon">
+      <label style="font-size: 14px; margin-bottom: -1em;color: #2db4d6">
+        User
+      </label><br>
+      <label style="font-size: 15px; margin-bottom: -1em;color: #6c757d">
+        <?php
+          echo $this->session->userdata('name');
+        ?>
+      </label><br>
+    </div>
+  </a>
+
+  <a class=" d-flex align-items-center justify-content-center" href="dashboard" style="margin-bottom: 0.5em;">
+    <div class="sidebar-brand-icon">
+      <label style="font-size: 14px; margin-bottom: -1em;color: #2db4d6">
+        Group
+      </label><br>
+      <label style="font-size: 15px; margin-bottom: -1em;color: #6c757d">
+        <?php
+          echo $this->session->userdata('user_group');
+        ?>
+      </label><br>
+    </div>
+  </a>
+  <hr style="color: #6c757d;margin-bottom: -0.5em;width: 75%" >
+</center>
+
   <li class="nav-item active" style="margin-bottom: -1em;">
     <a class="nav-link" href="<?php echo base_url('cms/dashboard'); ?>">
       <i class="fas fa-fw fa-tachometer-alt" style="color: #2db4d6"></i>

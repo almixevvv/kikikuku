@@ -36,7 +36,146 @@
         $new_ads_id = "DSH".date("ym").str_pad(strval($last_ads_id), 6, "0", STR_PAD_LEFT);
         return $new_ads_id;
     }
+
+    public function changePassword($id,$hashPassword){
+
+        $data = array(
+            'PASS'  => $hashPassword
+        );
+
+        $this->db->where('ID', $id);
+        $this->db->update('s_user', $data);
+    }
 //------------------------------------------------------------------------------------------------------------------- LOGIN CMS
+
+//------------------------------------------------------------------------------------------------------------------- USER
+    public function select_user(){
+        $this->db->select('*');
+        $this->db->from('s_user');
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function singleUser($id) {
+
+      $this->db->select('*');
+      $this->db->from('s_user');
+      $this->db->where('ID', $id);
+
+      $query = $this->db->get();
+
+      return $query;
+    }
+
+    public function updateUser($hidden_id, $name, $group, $status){
+
+        $data = array(
+            'NAME'  => $name,
+            'GROUP_ID' => $group,
+            'STATUS' => $status
+        );
+
+        $this->db->where('ID', $hidden_id);
+        $this->db->update('s_user', $data);
+    }
+
+    public function addUser($data){
+        $insert = $this->db->insert('s_user', $data);
+             
+        return $insert;
+
+    }
+
+    public function delete_user($recID, $name){
+             
+        $this->db->where('ID', $recID);
+        $this->db->delete($name);
+    
+    }
+
+
+//------------------------------------------------------------------------------------------------------------------- USER
+
+//------------------------------------------------------------------------------------------------------------------- GROUP
+    public function select_group(){
+        $this->db->select('*');
+        $this->db->from('s_group');
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function singleGroup($id) {
+
+      $this->db->select('*');
+      $this->db->from('s_group');
+      $this->db->where('ID', $id);
+
+      $query = $this->db->get();
+
+      return $query;
+    }
+
+    public function delete_group($recID, $name){
+             
+        $this->db->where('ID', $recID);
+        $this->db->delete($name);
+    
+    }
+
+    public function delete_group_appl($recID, $name){
+             
+        $this->db->where('GROUP_ID', $recID);
+        $this->db->delete($name);
+    
+    }
+
+    public function updateUserGroup($hidden_id, $name, $desc){
+
+        $data = array(
+            'NAME'  => $name,
+            'DESCRIPTION' => $desc
+        );
+
+        $this->db->where('ID', $hidden_id);
+        $this->db->update('s_group', $data);
+    }
+
+    public function deleteGroupapp($hidden_id){
+        $this->db->where('GROUP_ID', $hidden_id);
+        $this->db->delete('s_group_appl');
+    }
+
+    public function selectAppl(){
+        $this->db->select('*');
+        $this->db->from('s_appl');
+        $query= $this->db->get();
+
+        return $query;
+    }
+
+    public function InsertGroupAppl($hidden_id,$appl_id,$role){
+       $data = array(
+            'GROUP_ID' => $hidden_id,
+            'APPL_ID' => $appl_id,
+            'ROLE' => $role
+        ); 
+
+      return  $this->db->insert('s_group_appl',$data);
+
+    }
+
+    public function addGroup($data){
+        $insert = $this->db->insert('s_group', $data);
+             
+        return $insert;
+
+    }
+
+//------------------------------------------------------------------------------------------------------------------- GROUP
 
 //-------------------------------------------------------------------------------------------------------------------  BANNER
         function select_banner(){
@@ -457,10 +596,19 @@
         }
 //-------------------------------------------------------------------------------------------------------------------  MESSAGE
 
-//-------------------------------------------------------------------------------------------------------------------  MARGIN
+//-------------------------------------------------------------------------------------------------------------------  MARGIN & RATE
         function select_margin(){
             $this->db->select('*');
             $this->db->from('g_convert');
+
+            $query = $this->db->get();
+
+            return $query;
+        }
+
+        function select_rate(){
+            $this->db->select('*');
+            $this->db->from('g_rate');
 
             $query = $this->db->get();
 
@@ -471,6 +619,17 @@
 
           $this->db->select('*');
           $this->db->from('g_convert');
+          $this->db->where('REC_ID', $id);
+
+          $query = $this->db->get();
+
+          return $query;
+        }
+
+        function singleRate($id) {
+
+          $this->db->select('*');
+          $this->db->from('g_rate');
           $this->db->where('REC_ID', $id);
 
           $query = $this->db->get();
@@ -492,8 +651,29 @@
             $this->db->update('g_convert', $data);
         }
 
+        function updateRate($recID, $id, $value, $updated, $description){
+
+            $data = array(
+
+                'ID'  => $id,
+                'VALUE' => $value,
+                'UPDATED_TIME' => $updated,
+                'DESCRIPTION' => $description
+            );
+
+            $this->db->where('REC_ID', $recID);
+            $this->db->update('g_rate', $data);
+        }
+
         function insert_margin($data){
              $insert = $this->db->insert('g_convert', $data);
+             
+            return $insert;
+
+        }
+
+        function insert_rate($data){
+             $insert = $this->db->insert('g_rate', $data);
              
             return $insert;
 
@@ -510,7 +690,25 @@
 
         }
 
+        function set_as_current_rate($recID){
+            $data = array(
+
+                'STATUS'  => 'CURRENT'
+            );
+
+            $this->db->where('REC_ID', $recID);
+            $this->db->update('g_rate', $data);
+
+        }
+
         function delete_margin($recID, $id){
+             
+            $this->db->where('REC_ID', $recID);
+            $this->db->delete($id);
+        
+        }
+
+        function delete_rate($recID, $id){
              
             $this->db->where('REC_ID', $recID);
             $this->db->delete($id);
@@ -525,6 +723,17 @@
 
             $this->db->where('STATUS', 'CURRENT');
             $this->db->update('g_convert', $data);
+
+        }
+
+        function updateStatusRate() {
+
+            $data = array(
+                'STATUS' => 'HISTORY'
+            );
+
+            $this->db->where('STATUS', 'CURRENT');
+            $this->db->update('g_rate', $data);
 
         }
 

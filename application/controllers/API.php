@@ -448,7 +448,9 @@ class API extends REST_Controller
 				$this->response([
 					'status' => 'ok',
 					'price'	 => strval($startingPrice),
-					'code' 	=> REST_Controller::HTTP_OK,
+					'startingQuantity'	=> 'none',
+					'endingQUantity'	=> 'none',
+					'code' 				=> REST_Controller::HTTP_OK,
 				], REST_Controller::HTTP_OK);
 			} else {
 				//Get the Pricing from Library
@@ -844,14 +846,14 @@ class API extends REST_Controller
 			$transData 	= $this->profile->getAllOrderMasterData($email);
 		}
 
-		$transArr 	= array();
-		$masterArr  = array();
-
 		if ($transData->num_rows() > 0) {
+			$masterArr  = array();
 			foreach ($transData->result() as $data) {
 
 				$counterDetail 	= 0;
 				$details = $this->profile->getOrderHistoryDetails($email, $data->ORDER_NO);
+
+				$transArr 	= array();
 
 				foreach ($details->result() as $detail) {
 
@@ -1072,86 +1074,155 @@ class API extends REST_Controller
 				], REST_Controller::HTTP_ACCEPTED);
 			} else {
 				$this->response([
-					'status' 	=> 'error',
-					'message' 	=> 'bad request',
-					'code' 		=> REST_Controller::HTTP_BAD_REQUEST
-				], REST_Controller::HTTP_BAD_REQUEST);
+					'status' 	=> 'success',
+					'message' 	=> 'registration successful',
+					'code' 		=> REST_Controller::HTTP_ACCEPTED
+				], REST_Controller::HTTP_ACCEPTED);
 			}
 		}
 	}
 
-	public function login_post()
+	public function checkEmail_post()
 	{
 
-		//HASHING DI BACKEND
-		$email = trim($this->input->post('email'));
-		$password = $this->input->post('password');
+		$email  	= $this->input->post('email');
+		$checkEmail = $this->api->checkExistingEmail($email);
 
-		//CHECK IF EMAIL IS USED OR NOT
-		$emailQuery = $this->api->checkExistingEmail($email);
-		$emptyArray = array();
-
-		//Check if email exists
-		if ($emailQuery->num_rows() == 0) {
+		if ($checkEmail->num_rows() > 0) {
 
 			$this->response([
-				'status' 	=> 'error',
-				'message' 	=> "this email doesn't exist",
-				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
-				'user_data' => new \stdClass(),
-			], REST_Controller::HTTP_BAD_REQUEST);
+				'status' 		=> 'success',
+				'message' 		=> 'user already exists',
+				'result'		=> 'user found',
+				'code' 			=> REST_Controller::HTTP_ACCEPTED
+			], REST_Controller::HTTP_ACCEPTED);
 		} else {
 
-			//Check if password is correct
-			$checkPassword = $this->user->checkPassword($email, $password);
+			$this->response([
+				'status' 		=> 'success',
+				'message' 		=> 'no user found, register now',
+				'result'		=> 'register user',
+				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+			], REST_Controller::HTTP_BAD_REQUEST);
+		}
+	}
 
-			if ($checkPassword->num_rows() == 0) {
-				//Wrong Password
+
+	public function login_post()
+	{
+		$email = trim($this->input->post('email'));
+		$password = $this->input->post('password');
+		$loginType = $this->input->post('type');
+
+		if ($loginType == '1') {
+
+			$userQuery = $this->user->getMemberData($email);
+			if ($userQuery->num_rows() == 0) {
+
 				$this->response([
 					'status' 	=> 'error',
-					'message' 	=> "wrong password",
+					'message' 	=> "no account found",
 					'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
 					'user_data' => new \stdClass(),
 				], REST_Controller::HTTP_BAD_REQUEST);
 			} else {
 
-				$checkVerified = $this->user->checkVerified($email);
+				foreach ($userQuery->result() as $data) {
+					$dataSess = array(
+						'FIRST_NAME' => $data->FIRST_NAME,
+						'LAST_NAME' => $data->LAST_NAME,
+						'PHONE' => $data->PHONE,
+						'EMAIL' => $data->EMAIL,
+						'ADDRESS' => $data->ADDRESS,
+						'ADDRESS_2'  => $data->ADDRESS_2,
+						'COUNTRY' => $data->COUNTRY,
+						'PROVINCE' => $data->PROVINCE,
+						'USERID' => $data->ID,
+						'ZIP' => $data->ZIP,
+						'LOGGED_IN' => TRUE,
+						'TYPE'  => $data->MEMBER_TYPE
+					);
+				}
 
-				if ($checkVerified->num_rows() == 0) {
+				$encode = json_encode($dataSess);
 
+				$this->response([
+					'status' 	=> 'success',
+					'message' 	=> "success login with google",
+					'code' 		=> REST_Controller::HTTP_ACCEPTED,
+					'user_data' => json_decode($encode),
+				], REST_Controller::HTTP_ACCEPTED);
+			}
+		} else if ($loginType == '2') {
+
+			if (strlen($password) == 0) {
+				$this->response([
+					'status' 	=> 'error',
+					'message' 	=> "password cannot be empty",
+					'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
+					'user_data' => new \stdClass(),
+				], REST_Controller::HTTP_BAD_REQUEST);
+			} else {
+
+				//Check if password is correct
+				$checkPassword = $this->user->checkPassword($email, $password);
+
+				if ($checkPassword->num_rows() == 0) {
 					$this->response([
-						'status' 	=> 'error',
-						'message' 	=> "this account is not verified",
-						'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
+						'status'   => 'error',
+						'message'   => "wrong password",
+						'code'     => REST_Controller::HTTP_BAD_REQUEST,
 						'user_data' => new \stdClass(),
 					], REST_Controller::HTTP_BAD_REQUEST);
 				} else {
-					foreach ($checkPassword->result() as $data) {
 
-						$dataSess = array(
-							'FIRST_NAME' => $data->FIRST_NAME,
-							'LAST_NAME' => $data->LAST_NAME,
-							'PHONE' => $data->PHONE,
-							'EMAIL' => $data->EMAIL,
-							'ADDRESS' => $data->ADDRESS,
-							'ADDRESS_2'	=> $data->ADDRESS_2,
-							'COUNTRY' => $data->COUNTRY,
-							'PROVINCE' => $data->PROVINCE,
-							'USERID' => $data->ID,
-							'ZIP' => $data->ZIP,
-							'LOGGED_IN' => TRUE,
-							'TYPE'	=> $data->MEMBER_TYPE
-						);
+					$checkVerified = $this->user->checkVerified($email);
+
+					if ($checkVerified->num_rows() == 0) {
+
+						$this->response([
+							'status'   => 'error',
+							'message'   => "this account is not verified",
+							'code'     => REST_Controller::HTTP_BAD_REQUEST,
+							'user_data' => new \stdClass(),
+						], REST_Controller::HTTP_BAD_REQUEST);
+					} else {
+						foreach ($checkPassword->result() as $data) {
+
+							$dataSess = array(
+								'FIRST_NAME' => $data->FIRST_NAME,
+								'LAST_NAME' => $data->LAST_NAME,
+								'PHONE' => $data->PHONE,
+								'EMAIL' => $data->EMAIL,
+								'ADDRESS' => $data->ADDRESS,
+								'ADDRESS_2'  => $data->ADDRESS_2,
+								'COUNTRY' => $data->COUNTRY,
+								'PROVINCE' => $data->PROVINCE,
+								'USERID' => $data->ID,
+								'ZIP' => $data->ZIP,
+								'LOGGED_IN' => TRUE,
+								'TYPE'  => $data->MEMBER_TYPE
+							);
+						}
+
+						$encode = json_encode($dataSess);
+
+						$this->response([
+							'status'   => 'ok',
+							'message'   => "user found",
+							'code'     => REST_Controller::HTTP_ACCEPTED,
+							'user_data' => json_decode($encode),
+						], REST_Controller::HTTP_ACCEPTED);
 					}
-
-					$this->response([
-						'status' 	=> 'ok',
-						'message' 	=> "user found",
-						'code' 		=> REST_Controller::HTTP_ACCEPTED,
-						'user_data' => $dataSess
-					], REST_Controller::HTTP_ACCEPTED);
 				}
 			}
+		} else {
+			$this->response([
+				'status' 	=> 'error',
+				'message' 	=> "invalid login type",
+				'code' 		=> REST_Controller::HTTP_BAD_REQUEST,
+				'user_data' => new \stdClass(),
+			], REST_Controller::HTTP_BAD_REQUEST);
 		}
 	}
 

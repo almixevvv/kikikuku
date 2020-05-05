@@ -494,6 +494,10 @@
 <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.js'); ?>"></script>
 
 <script type="text/javascript">
+  $('.account-position-fix').on('click', function() {
+    console.log('trans ke klik');
+  });
+
   /* SET THE CURRENT ORDER STATUS TO FINISHED */
   $('.receive-button').on('click', function() {
     var id = $(this).attr("data-id");

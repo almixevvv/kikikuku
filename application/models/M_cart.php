@@ -61,6 +61,7 @@
 
         $this->db->set('CART_FLAG', '1');
         $this->db->where('CART_ID', $productBuyer);
+        $this->db->where('PRODUCT_ID', $productID);
 
         $query = $this->db->update('g_cart');
 

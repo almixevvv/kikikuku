@@ -172,9 +172,13 @@
 								<?php echo $userData['FIRST_NAME']; ?>
 							</span>
 						</a>
+						<span class="badge badge-secondary" style="background-color: #24ca9d;">2</span>
 					</span>
 					<div class="dropdown-menu" aria-labelledby="dropdown-account">
-						<a class="dropdown-item" href="<?php echo base_url('profile/transaction'); ?>">Transaction History</a>
+						<a class="dropdown-item" href="<?php echo base_url('profile/transaction'); ?>">
+							Transaction History
+							<span class="badge badge-secondary" style="background-color: #24ca9d;">2</span>
+						</a>
 						<a class="dropdown-item" href="<?php echo base_url('profile/myprofile'); ?>">My Profile</a>
 						<a class="dropdown-item" href="<?php echo base_url('logout'); ?>">Logout</a>
 					</div>

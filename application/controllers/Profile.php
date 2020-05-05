@@ -16,7 +16,6 @@ class Profile extends CI_Controller
 
 	public function transaction()
 	{
-
 		$userData 	 = $this->session->user_data;
 
 		$loginStatus = $userData['LOGGED_IN'];

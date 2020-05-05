@@ -119,42 +119,48 @@ $subqty 	= 0;
 										<?php $currentPrice['price'] = 0; ?>
 
 										<!-- CHECK IF THE SDIPRICELIST IS EMPTY -->
-									<?php } else { ?>
-										<?
+									<?php } else {
 										$pricingUrl = 'http://kikikuku.com/API/pricing?key=c549303dcef12a687e9077a21e1a51fb67851efb&id=' . $item->PRODUCT_ID . '&quantity=' . $item->PRODUCT_QUANTITY;
 										$json 		= file_get_contents($pricingUrl);
 										$pricing 	= json_decode($json, true);
-										?>
+									?>
 
 										<div class="d-flex justify-content-center">
 											<span class="font-weight-bold">IDR <?php echo number_format($pricing['price'], 2, '.', ','); ?></span>
 										</div>
 
-										<div class="exw-container d-md-none d-lg-block d-xl-block mt-lg-3 mt-xl-3" id="cart-exw-container">
-											<div class="cart-exw">
-												<label>EXW Price:</label>
-											</div>
-
-											<div class="cart-exw pt-2 pb-3">
-												<div class="float-left">
-													<?php if ($pricing['endingQUantity'] == 0) { ?>
-														<span class="pl-1"><?php echo $pricing['startingQuantity'] . ' ' . $obj['matrics'] . ' and Above'; ?></span>
-													<?php } else { ?>
-														<span class="pl-1">
-															<?php echo $pricing['startingQuantity'] . ' ' . $obj['matrics']; ?> ~ <?php echo $pricing['endingQUantity'] . ' ' . $obj['matrics']; ?>
-														</span>
-													<?php } ?>
+										<?php if ($pricing['endingQUantity'] != 'none') { ?>
+											<div class="exw-container d-md-none d-lg-block d-xl-block mt-lg-3 mt-xl-3" id="cart-exw-container">
+												<div class="cart-exw">
+													<label>EXW Price:</label>
 												</div>
-												<div class="float-right">
-													<span class="pl-1" style="font-weight: bold; color: #24ca9d;">IDR <?php echo number_format($pricing['startingQuantity'], 2, '.', ','); ?></span>/<?php echo $obj['matrics']; ?>
+
+												<div class="cart-exw pt-2 pb-3">
+													<div class="row">
+														<div class="col-12">
+															<?php if ($pricing['endingQUantity'] == 0) { ?>
+																<span class="pl-1"><?php echo number_format($pricing['startingQuantity']) . ' ' . $obj['matrics'] . ' and Above'; ?></span>
+															<?php } else { ?>
+																<span class="pl-1">
+																	<?php echo $pricing['startingQuantity'] . ' ' . $obj['matrics']; ?> ~ <?php echo $pricing['endingQUantity'] . ' ' . $obj['matrics']; ?>
+																</span>
+															<?php } ?>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-12">
+															<span class="pl-1" style="font-weight: bold; color: #24ca9d;">IDR <?php echo number_format($pricing['price'], 2, '.', ','); ?></span>/<?php echo $obj['matrics']; ?>
+														</div>
+													</div>
+													<!-- <div class="float-left">
+													</div>
+													<div class="float-right">
+
+													</div> -->
 												</div>
+
 											</div>
-
-											<div class="cart-exw pt-2">
-											</div>
-
-										</div>
-
+										<?php } ?>
 									<? } ?>
 									<!-- IF THE PRICELIST IS NOT EMPTY, CHECK FOR CORRECT VALUE -->
 
@@ -166,7 +172,7 @@ $subqty 	= 0;
 						<!-- QUANTITY SECTION -->
 						<div class="col-1 col-md-1">
 							<div class="d-flex justify-content-center">
-								<span class="font-weight-bold"><?php echo $item->PRODUCT_QUANTITY; ?></span>
+								<span class="font-weight-bold"><?php echo number_format($item->PRODUCT_QUANTITY); ?></span>
 							</div>
 						</div>
 						<!-- END OF QUANTITY SECTION -->

@@ -1,3 +1,23 @@
+<script>
+	//LISTEN TO ANY CHANGES IN FIREBASE
+	db.collection('transactions').onSnapshot((snapshot) => {
+		let changes = snapshot.docChanges();
+		let counterMessage = 0;
+		console.log(changes);
+		changes.forEach((change) => {
+			if (change.type == 'added') {
+				if (change.doc.data().customerEmail == 'al.mixev@gmail.com' && change.doc.data().flag == '1') {
+					counterMessage++;
+					console.log('Ini pesan buat lu loh');
+				}
+			}
+		});
+
+		console.log('ada total ' + counterMessage + ' buat lu nih');
+	});
+</script>
+
+
 </body>
 
 <footer id="footer-separator">
