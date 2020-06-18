@@ -3,6 +3,9 @@
 require APPPATH . 'libraries/REST_Controller.php';
 require APPPATH . 'libraries/Format.php';
 
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+
 class API extends REST_Controller
 {
 
@@ -26,6 +29,12 @@ class API extends REST_Controller
 		//DEBUG LAST QUERY
 		// echo $this->db->last_query();
 
+	}
+
+	public function firebaseMessage_get()
+	{
+		$factory = (new Factory)
+			->withDatabaseUri("https://kikikuku-7369f.firebaseio.com");
 	}
 
 	public function howto_get()

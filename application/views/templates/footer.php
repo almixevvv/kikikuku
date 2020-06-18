@@ -1,22 +1,19 @@
 <script>
-	//LISTEN TO ANY CHANGES IN FIREBASE
-	db.collection('transactions').onSnapshot((snapshot) => {
-		let changes = snapshot.docChanges();
-		let counterMessage = 0;
-		console.log(changes);
-		changes.forEach((change) => {
-			if (change.type == 'added') {
-				if (change.doc.data().customerEmail == 'al.mixev@gmail.com' && change.doc.data().flag == '1') {
-					counterMessage++;
-					console.log('Ini pesan buat lu loh');
-				}
-			}
+	// Retrieve Firebase Messaging object.
+	const messaging = firebase.messaging();
+
+	messaging.requestPermission()
+		.then(function() {
+			console.log('permsission granted');
+			return messaging.getToken();
+		})
+		.then(function(token) {
+			console.log(token);
+		})
+		.catch(function(err) {
+			console.log(err);
 		});
-
-		console.log('ada total ' + counterMessage + ' buat lu nih');
-	});
 </script>
-
 
 </body>
 

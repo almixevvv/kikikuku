@@ -59,31 +59,27 @@
     <script src="<?php echo base_url('assets/sweet-alert/sweetalert2.all.min.js'); ?>" type="text/javascript"></script>
 
     <!-- FIREBASE JS -->
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"></script>
-
-    <!-- TODO: Add SDKs for Firebase products that you want to use
-        https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-messaging.js"></script>
 </head>
 
 <body>
     <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
-            apiKey: "AIzaSyAWpNORIt55E7rbG616FpM2LTq7RG4DPaU",
-            authDomain: "kikikuku-268704.firebaseapp.com",
-            databaseURL: "https://kikikuku-268704.firebaseio.com",
-            projectId: "kikikuku-268704",
-            storageBucket: "kikikuku-268704.appspot.com",
-            messagingSenderId: "956181121950",
-            appId: "1:956181121950:web:d5293a63a2afb6c712a48f",
-            measurementId: "G-V8QYETYQDG"
+            apiKey: "AIzaSyBU7EYAQ3DueJkhkoTDeaSLk0jvw7JZ2QA",
+            authDomain: "kikikuku-7369f.firebaseapp.com",
+            databaseURL: "https://kikikuku-7369f.firebaseio.com",
+            projectId: "kikikuku-7369f",
+            storageBucket: "kikikuku-7369f.appspot.com",
+            messagingSenderId: "567062640186",
+            appId: "1:567062640186:web:5e18009587b6dfe7abe703",
+            measurementId: "G-6NNNR0EF02"
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
-
-        const db = firebase.firestore();
     </script>
