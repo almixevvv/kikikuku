@@ -4,7 +4,7 @@
 
     <!-- PRODUCT LEFT PART -->
     <div class="col-1 col-md-1 col-lg-1 col-xl-1 order-0 order-md-1 order-lg-1 order-xl-1 d-none d-md-block d-lg-block d-xl-block">
-      <?php echo form_open('Cart/addtoCart'); ?>
+      <?php echo form_open('General/Cart/addtoCart'); ?>
 
       <?php foreach ($dataproduct['item']['PICTURE_LIST'] as $key) { ?>
 

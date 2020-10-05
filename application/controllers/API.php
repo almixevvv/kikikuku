@@ -31,12 +31,6 @@ class API extends REST_Controller
 
 	}
 
-	public function firebaseMessage_get()
-	{
-		$factory = (new Factory)
-			->withDatabaseUri("https://kikikuku-7369f.firebaseio.com");
-	}
-
 	public function howto_get()
 	{
 		$data = $this->pages->HowTo();
@@ -84,53 +78,78 @@ class API extends REST_Controller
 		$convertRate		= $this->product->getConvertRate();
 
 		if ($pageSize != null) {
-			$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $randomPage);
+			$url = "http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $randomPage;
 		} else {
-			$json 	= file_get_contents("https://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $pageCounter);
+			$url = "http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $pageCounter;
 		}
 
-		$obj 	= json_decode($json, true);
+		//set your own error handler before the call
+		set_error_handler(function ($err_severity, $err_msg, $err_file, $err_line, array $err_context) {
+			throw new ErrorException($err_msg, 0, $err_severity, $err_file, $err_line);
+		}, E_WARNING);
 
-		$result = array();
-
-		foreach ($obj['prslist'] as $list) {
-
-			//Use custom library for Image Formating
-			$newPath = $this->incube->replaceLink($list['picture2']);
-
-			$result[$counter]['ID'] 			= strval($list['id']);
-			$result[$counter]['TITLE']			= $list['title'];
-			$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
-			// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
-			$result[$counter]['START_QUANTITY'] = strval($list['startNumber']);
-
-			if ($list['priceType'] == '0') {
-				$result[$counter]['PRICE']			= 'Price Negotiable';
-			} else {
-				$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
-				// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
-				$result[$counter]['PRICE']			= strval($price);
-			}
-
-			$counter++;
+		try {
+			$json 	= file_get_contents($url);
+			$obj = json_decode($json, true);
+		} catch (Exception $e) {
+			// echo 'Error Caught';
+			$obj = $e;
 		}
 
-		$jsonResult = json_encode($result);
+		//restore the previous error handler
+		restore_error_handler();
 
-		if ($jsonResult == null) {
+		if (!is_array($obj)) {
 			$this->response([
 				'status' 	=> 'ok',
-				'pageSize' 	=> $pageSize,
+				'pageSize' 	=> 0,
 				'code' 		=> REST_Controller::HTTP_ACCEPTED,
 				'item'      => new \stdClass(),
 			], REST_Controller::HTTP_ACCEPTED);
 		} else {
-			$this->response([
-				'status' 	=> 'ok',
-				'pageSize' 	=> $pageSize,
-				'code' 		=> REST_Controller::HTTP_ACCEPTED,
-				'item'      => json_decode($jsonResult, true),
-			], REST_Controller::HTTP_ACCEPTED);
+
+			$result = array();
+
+			foreach ($obj['prslist'] as $list) {
+
+				//Use custom library for Image Formating
+				$newPath = $this->incube->replaceLink($list['picture2']);
+
+				$result[$counter]['ID'] 			= strval($list['id']);
+				$result[$counter]['TITLE']			= $list['title'];
+				$result[$counter]['PICTURE']		= $newPath . $list['picture2'];
+				// $result[$counter]['ORIGINAL_PRICE']	= $list['sellPrice'];
+				$result[$counter]['START_QUANTITY'] = strval($list['startNumber']);
+
+				if ($list['priceType'] == '0') {
+					$result[$counter]['PRICE']			= 'Price Negotiable';
+				} else {
+					$price = $this->incube->setPrice($convertRate, $marginParameter, $list['sellPrice']);
+					// $result[$counter]['PRICE']			= number_format($price, 2, '.', ',');
+					$result[$counter]['PRICE']			= strval($price);
+				}
+
+				$counter++;
+			}
+
+			$jsonResult = json_encode($result);
+
+			if ($jsonResult == null) {
+				$this->response([
+					'status' 	=> 'ok',
+					'pageSize' 	=> $pageSize,
+					'code' 		=> REST_Controller::HTTP_ACCEPTED,
+					'item'      => new \stdClass(),
+				], REST_Controller::HTTP_ACCEPTED);
+			} else {
+				$this->response([
+					'status' 	=> 'ok',
+					'pageSize' 	=> $pageSize,
+					'url'		=> "http://en.yiwugo.com/ywg/productlist.html?account=Wien.suh@gmail.com&pageSize=" . $pageSize . "&cpage=" . $randomPage,
+					'code' 		=> REST_Controller::HTTP_ACCEPTED,
+					'item'      => json_decode($jsonResult, true),
+				], REST_Controller::HTTP_ACCEPTED);
+			}
 		}
 	}
 
@@ -774,77 +793,208 @@ class API extends REST_Controller
 
 
 	//UPLOAD PAYMENT PROOF
-	public function payment_post()
+	// public function payment_post()
+	// {
+	// 	$messageData = $this->profile->getPaymentProcess($this->input->post('orderID'));
+
+	// 	if ($messageData->num_rows() > 0) {
+
+	// 		$config['upload_path'] 		= './img/order/';
+	// 		$config['allowed_types'] 	= 'gif|jpg|png|jpeg';
+	// 		$config['file_name'] 		= $this->input->post('orderID');
+
+	// 		$this->load->library('upload', $config);
+
+	// 		//GET THE FILE EXTENSION FOR SAVING THE DATA TO DATABASE
+	// 		$path = $_FILES['paymentImage']['name'];
+	// 		$ext = pathinfo($path, PATHINFO_EXTENSION);
+
+	// 		$defaultPath = '/img/order/' . $this->input->post('orderID') . '.' . $ext;
+
+	// 		if (!$this->upload->do_upload('paymentImage')) {
+
+	// 			$this->response([
+	// 				'status' 		=> 'error',
+	// 				'message' 		=> 'payment process error',
+	// 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+	// 			], REST_Controller::HTTP_BAD_REQUEST);
+	// 		} else {
+
+	// 			$data = array(
+	// 				'ORDER_ID'        => $this->input->post('orderID'),
+	// 				'ACCOUNT_NAME'    => $this->input->post('accountName'),
+	// 				'ACCOUNT_NUMBER'  => $this->input->post('accountNumber'),
+	// 				'ACCOUNT_BANK'    => $this->input->post('bankName'),
+	// 				'PAYMENT_AMOUNT'  => $this->input->post('paymentAmount'),
+	// 				'PAYMENT_DATE'    => date('Y-m-d H:m:s'),
+	// 				'PAYMENT_IMAGE'   => $defaultPath,
+	// 				'FLAG'            => '1'
+	// 			);
+
+	// 			$query1 = $this->profile->insertImageData($data);
+	// 			$query2 = $this->profile->updatePaymentStatus($this->input->post('orderID'));
+
+	// 			if ($query1 && $query2) {
+	// 				$this->response([
+	// 					'status' 		=> 'ok',
+	// 					'message' 		=> 'payment process completed',
+	// 					'code' 			=> REST_Controller::HTTP_ACCEPTED,
+	// 				], REST_Controller::HTTP_ACCEPTED);
+	// 			} else {
+	// 				$this->response([
+	// 					'status' 		=> 'error',
+	// 					'message' 		=> 'payment process not completed',
+	// 					'code' 			=> REST_Controller::HTTP_BAD_GATEWAY,
+	// 				], REST_Controller::HTTP_BAD_GATEWAY);
+	// 			}
+
+	// 			// echo $this->db->last_query();
+
+	// 		}
+	// 	} else {
+	// 		$this->response([
+	// 			'status' 		=> 'error',
+	// 			'message' 		=> 'invalid order ID',
+	// 			'code' 			=> REST_Controller::HTTP_BAD_REQUEST
+	// 		], REST_Controller::HTTP_BAD_REQUEST);
+	// 	}
+	// }
+
+	public function startPayment_post()
 	{
-		$messageData = $this->profile->getPaymentProcess($this->input->post('orderID'));
+		$detailsQuery = $this->profile->getOrderDetails($this->input->post('orderID'));
+		$queryUser    = $this->profile->getDetailFromOrderNo($this->input->post('orderID'));
+		$detailCounter = 0;
+		$finalPrice = 0;
 
-		if ($messageData->num_rows() > 0) {
+		foreach ($queryUser->result() as $master) {
 
-			$config['upload_path'] 		= './img/order/';
-			$config['allowed_types'] 	= 'gif|jpg|png|jpeg';
-			$config['file_name'] 		= $this->input->post('orderID');
+			$billingName = explode(" ", $master->MEMBER_NAME, 2);
 
-			$this->load->library('upload', $config);
+			$billingArray = array(
+				'first_name'	=> (isset($billingName[0]) ? $billingName[0] : ''),
+				'last_name'		=> (isset($billingName[1]) ? $billingName[1] : ''),
+				'email'			=> $master->MEMBER_EMAIL,
+				'phone'			=> $master->MEMBER_PHONE,
+				'address'		=> $master->ADDRESSO_1 . ' ' . $master->ADDRESSO_2,
+				'city'			=> $master->STATE
+			);
 
-			//GET THE FILE EXTENSION FOR SAVING THE DATA TO DATABASE
-			$path = $_FILES['paymentImage']['name'];
-			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			$shippingArray = array(
+				'first_name'	=> $master->FIRST_NAME,
+				'last_name'		=> $master->LAST_NAME,
+				'email'			=> $master->EMAIL,
+				'phone'			=> $master->PHONE,
+				'address'		=> $master->ADDRESS_2 . ' ' . $master->ADDRESS_2,
+				'city'			=> $master->PROVINCE,
+				'postal_code'	=> $master->ZIP,
+				'country_code'	=> 'IDN'
+			);
 
-			$defaultPath = '/img/order/' . $this->input->post('orderID') . '.' . $ext;
+			$jsonBilling  = json_encode($billingArray);
+			$jsonShipping = json_encode($shippingArray);
 
-			if (!$this->upload->do_upload('paymentImage')) {
-
-				$this->response([
-					'status' 		=> 'error',
-					'message' 		=> 'payment process error',
-					'code' 			=> REST_Controller::HTTP_BAD_REQUEST
-				], REST_Controller::HTTP_BAD_REQUEST);
-			} else {
-
-				$data = array(
-					'ORDER_ID'        => $this->input->post('orderID'),
-					'ACCOUNT_NAME'    => $this->input->post('accountName'),
-					'ACCOUNT_NUMBER'  => $this->input->post('accountNumber'),
-					'ACCOUNT_BANK'    => $this->input->post('bankName'),
-					'PAYMENT_AMOUNT'  => $this->input->post('paymentAmount'),
-					'PAYMENT_DATE'    => date('Y-m-d H:m:s'),
-					'PAYMENT_IMAGE'   => $defaultPath,
-					'FLAG'            => '1'
-				);
-
-				$query1 = $this->profile->insertImageData($data);
-				$query2 = $this->profile->updatePaymentStatus($this->input->post('orderID'));
-
-				if ($query1 && $query2) {
-					$this->response([
-						'status' 		=> 'ok',
-						'message' 		=> 'payment process completed',
-						'code' 			=> REST_Controller::HTTP_ACCEPTED,
-					], REST_Controller::HTTP_ACCEPTED);
-				} else {
-					$this->response([
-						'status' 		=> 'error',
-						'message' 		=> 'payment process not completed',
-						'code' 			=> REST_Controller::HTTP_BAD_GATEWAY,
-					], REST_Controller::HTTP_BAD_GATEWAY);
-				}
-
-				// echo $this->db->last_query();
-
-			}
-		} else {
-			$this->response([
-				'status' 		=> 'error',
-				'message' 		=> 'invalid order ID',
-				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
-			], REST_Controller::HTTP_BAD_REQUEST);
+			$customerDetails = array(
+				'first_name'		=> $master->FIRST_NAME,
+				'last_name'			=> $master->LAST_NAME,
+				'email'				=> $master->MEMBER_EMAIL,
+				'phone'				=> $master->MEMBER_PHONE,
+				'billing_address'	=> json_decode($jsonBilling),
+				'shipping_address'	=> json_decode($jsonShipping)
+			);
 		}
+
+		$customerDecode = json_encode($customerDetails);
+
+		foreach ($detailsQuery->result() as $detail) {
+
+			$tmpArray[$detailCounter++] = array(
+				'id'			=> $detail->PRODUCT_ID,
+				'price'			=> round($detail->PRODUCT_FINAL_PRICE),
+				'quantity'		=> $detail->PRODUCT_QUANTITY,
+				'name'			=> substr($detail->PRODUCT_NAME, 0, 50),
+				'brand'			=> 'Kikikuku',
+				'merchant_name'	=> 'Kikikuku'
+			);
+
+			$finalPrice = $finalPrice + round($detail->PRODUCT_FINAL_PRICE);
+			$detailDecode = json_encode($tmpArray);
+		}
+
+		$randomSalt = md5(uniqid(rand(), true));
+		$salt = substr($randomSalt, 0, PAYMENT_KEY_LENGTH);
+
+		$transDetails = array(
+			'order_id'		=> $this->input->post('orderID') . '-' . $salt,
+			'gross_amount'	=> round($master->AMOUNT),
+		);
+
+		$transDecode = json_encode($transDetails);
+
+		$callbackDetails = array(
+			'finish'	=> base_url('API/completePayment?process=payment&status=complete&key=c549303dcef12a687e9077a21e1a51fb67851efb')
+		);
+
+		$callbackDecode = json_encode($callbackDetails);
+
+		$expiredDetail = array(
+			'start_time'	=> date('Y-m-d H:m:s') . ' +0700',
+			'unit'			=> "hour",
+			'duration'		=> 1
+		);
+
+		$expiredDecode = json_encode($expiredDetail);
+
+		$serverKey = 'SB-Mid-server-dnzrb0MnkTKZDxEJ5v5w203I';
+		$authString = base64_encode($serverKey . ':');
+
+		$mainArray = array(
+			"transaction_details"   => json_decode($transDecode),
+			"item_details"     		=> json_decode($detailDecode),
+			"customer_details"      => json_decode($customerDecode),
+			"callbacks"				=> json_decode($callbackDecode),
+			"enabled_payments"		=> json_decode($transDecode),
+			"expiry"				=> json_decode($expiredDecode),
+		);
+
+		// echo $finalPrice;
+		$mainDecode = json_encode($mainArray);
+
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://app.sandbox.midtrans.com/snap/v1/transactions",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "POST",
+			CURLOPT_POSTFIELDS => $mainDecode,
+			CURLOPT_HTTPHEADER => array(
+				"Authorization: BASIC " . $authString,
+				"Content-Type: application/json"
+			),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+
+		$convertJson = json_decode($response, true);
+
+		$this->response([
+			'status' 		=> 'success',
+			'message' 		=> $convertJson,
+			'result'		=> 'payment process started',
+			'code' 			=> REST_Controller::HTTP_ACCEPTED
+		], REST_Controller::HTTP_ACCEPTED);
 	}
 
 	//TRANSACTION STATUS 
 	public function transaction_get()
 	{
-
 		$email 			= $this->input->get('email');
 		$status 		= $this->input->get('status_order');
 		$counterMaster 	= 0;
@@ -1114,6 +1264,12 @@ class API extends REST_Controller
 				'code' 			=> REST_Controller::HTTP_BAD_REQUEST
 			], REST_Controller::HTTP_BAD_REQUEST);
 		}
+	}
+
+	public function convert_get()
+	{
+
+		// AUTH_STRING = Base64("VT-server-Cpo03kYDOc0cNUKgt6hnLkKg:")
 	}
 
 

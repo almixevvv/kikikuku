@@ -1,3 +1,29 @@
+<style>
+  a {
+    cursor: pointer;
+  }
+
+  #paymentModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, .8) url('../assets/images/loader.gif') 50% 50% no-repeat;
+  }
+
+  body.loading #paymentModal {
+    overflow: hidden;
+  }
+
+  body.loading #paymentModal {
+    display: block;
+  }
+</style>
+
+
 <div class="trans-container">
 
   <div class="trans-inner-container">
@@ -18,89 +44,44 @@
 
       <div class="trans-filter-container-right" id="trans-scrollbar">
 
-        <?php if ($this->input->get('transaction') == 'created') : ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <span class="text-uppercase trans-filter-active">Inquiry Created</span>
-            </a>
-          </div>
-        <?php else : ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=created'); ?>">
-              <span class="text-uppercase main-color">Inquiry Created</span>
-            </a>
-          </div>
-        <?php endif; ?>
+        <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'created' ? '-active' : ''); ?>">
+          <a href="<?php echo ($this->input->get('transaction') == 'created' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=created')); ?>">
+            <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'created' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Created</span>
+          </a>
+        </div>
 
-        <?php if ($this->input->get('transaction') == 'updated') : ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <span class="text-uppercase trans-filter-active">Inquiry Updated</span>
-            </a>
-          </div>
-        <?php else : ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=updated'); ?>">
-              <span class="text-uppercase main-color">Inquiry Updated</span>
-            </a>
-          </div>
-        <?php endif; ?>
+        <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'updated' ? '-active' : ''); ?>">
+          <a href="<?php echo ($this->input->get('transaction') == 'updated' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=updated')); ?>">
+            <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'updated' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Updated</span>
+          </a>
+        </div>
 
-        <?php if ($this->input->get('transaction') == 'confirmed') : ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <span class="text-uppercase trans-filter-active">Confirm Payment</span>
-            </a>
-          </div>
-        <?php else : ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=confirmed'); ?>">
-              <span class="text-uppercase main-color">Confirm Payment</span>
-            </a>
-          </div>
-        <?php endif; ?>
+        <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'confirmed' ? '-active' : ''); ?>">
+          <a href="<?php echo ($this->input->get('transaction') == 'confirmed' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=confirmed')); ?>">
+            <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'confirmed' ? 'trans-filter-active' : 'main-color'); ?>">Confirm Payment</span>
+          </a>
+        </div>
 
-        <?php if ($this->input->get('transaction') == 'paid') : ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <span class="text-uppercase trans-filter-active">Inquiry Paid</span>
-            </a>
-          </div>
-        <?php else : ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=paid'); ?>">
-              <span class="text-uppercase main-color">Inquiry Paid</span>
-            </a>
-          </div>
-        <?php endif; ?>
 
-        <?php if ($this->input->get('transaction') == 'canceled') : ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <span class="text-uppercase trans-filter-active">Inquiry Canceled</span>
-            </a>
-          </div>
-        <?php else : ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=canceled'); ?>">
-              <span class="text-uppercase main-color">Inquiry Canceled</span>
-            </a>
-          </div>
-        <?php endif; ?>
+        <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'paid' ? '-active' : ''); ?>">
+          <a href="<?php echo ($this->input->get('transaction') == 'paid' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=paid')); ?>">
+            <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'paid' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Paid</span>
+          </a>
+        </div>
 
-        <?php if ($this->input->get('transaction') == 'done') : ?>
-          <div class="trans-filter-button-active">
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <span class="text-uppercase trans-filter-active">Inquiry Done</span>
-            </a>
-          </div>
-        <?php else : ?>
-          <div class="trans-filter-button">
-            <a href="<?php echo base_url('profile/transaction?transaction=done'); ?>">
-              <span class="text-uppercase main-color">Inquiry Done</span>
-            </a>
-          </div>
-        <?php endif; ?>
+
+        <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'canceled' ? '-active' : ''); ?>">
+          <a href="<?php echo ($this->input->get('transaction') == 'canceled' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=canceled')); ?>">
+            <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'paid' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Canceled</span>
+          </a>
+        </div>
+
+
+        <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'done' ? '-active' : ''); ?>">
+          <a href="<?php echo ($this->input->get('transaction') == 'done' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=done')); ?>">
+            <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'done' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Done</span>
+          </a>
+        </div>
 
       </div>
 
@@ -119,89 +100,44 @@
       <div class="row" style="width: 99%;">
         <div class="col-12 pl-1 pr-1 pt-2" id="trans-scrollbar">
 
-          <?php if ($this->input->get('transaction') == 'created') : ?>
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <div class="trans-filter-button-active">
-                <span class="text-uppercase trans-filter-active">Inquiry Created</span>
-              </div>
+          <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'created' ? '-active' : ''); ?>">
+            <a href="<?php echo ($this->input->get('transaction') == 'created' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=created')); ?>">
+              <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'created' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Created</span>
             </a>
-          <?php else : ?>
-            <a href="<?php echo base_url('profile/transaction?transaction=created'); ?>">
-              <div class="trans-filter-button">
-                <span class="text-uppercase main-color">Inquiry Created</span>
-              </div>
-            </a>
-          <?php endif; ?>
+          </div>
 
-          <?php if ($this->input->get('transaction') == 'updated') : ?>
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <div class="trans-filter-button-active">
-                <span class="text-uppercase trans-filter-active">Inquiry Updated</span>
-              </div>
+          <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'updated' ? '-active' : ''); ?>">
+            <a href="<?php echo ($this->input->get('transaction') == 'updated' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=updated')); ?>">
+              <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'updated' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Updated</span>
             </a>
-          <?php else : ?>
-            <a href="<?php echo base_url('profile/transaction?transaction=updated'); ?>">
-              <div class="trans-filter-button">
-                <span class="text-uppercase main-color">Inquiry Updated</span>
-              </div>
-            </a>
-          <?php endif; ?>
+          </div>
 
-          <?php if ($this->input->get('transaction') == 'confirmed') : ?>
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <div class="trans-filter-button-active">
-                <span class="text-uppercase trans-filter-active">Confirm Payment</span>
-              </div>
+          <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'confirmed' ? '-active' : ''); ?>">
+            <a href="<?php echo ($this->input->get('transaction') == 'confirmed' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=confirmed')); ?>">
+              <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'confirmed' ? 'trans-filter-active' : 'main-color'); ?>">Confirm Payment</span>
             </a>
-          <?php else : ?>
-            <a href="<?php echo base_url('profile/transaction?transaction=confirmed'); ?>">
-              <div class="trans-filter-button">
-                <span class="text-uppercase main-color">Confirm Payment</span>
-              </div>
-            </a>
-          <?php endif; ?>
+          </div>
 
-          <?php if ($this->input->get('transaction') == 'paid') : ?>
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <div class="trans-filter-button-active">
-                <span class="text-uppercase trans-filter-active">Inquiry Paid</span>
-              </div>
-            </a>
-          <?php else : ?>
-            <a href="<?php echo base_url('profile/transaction?transaction=paid'); ?>">
-              <div class="trans-filter-button">
-                <span class="text-uppercase main-color">Inquiry Paid</span>
-              </div>
-            </a>
-          <?php endif; ?>
 
-          <?php if ($this->input->get('transaction') == 'canceled') : ?>
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <div class="trans-filter-button-active">
-                <span class="text-uppercase trans-filter-active">Inquiry Canceled</span>
-              </div>
+          <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'paid' ? '-active' : ''); ?>">
+            <a href="<?php echo ($this->input->get('transaction') == 'paid' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=paid')); ?>">
+              <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'paid' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Paid</span>
             </a>
-          <?php else : ?>
-            <a href="<?php echo base_url('profile/transaction?transaction=canceled'); ?>">
-              <div class="trans-filter-button">
-                <span class="text-uppercase main-color">Inquiry Canceled</span>
-              </div>
-            </a>
-          <?php endif; ?>
+          </div>
 
-          <?php if ($this->input->get('transaction') == 'done') : ?>
-            <a href="<?php echo base_url('profile/transaction'); ?>">
-              <div class="trans-filter-button-active">
-                <span class="text-uppercase trans-filter-active">Inquiry Done</span>
-              </div>
+
+          <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'canceled' ? '-active' : ''); ?>">
+            <a href="<?php echo ($this->input->get('transaction') == 'canceled' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=canceled')); ?>">
+              <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'paid' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Canceled</span>
             </a>
-          <?php else : ?>
-            <a href="<?php echo base_url('profile/transaction?transaction=done'); ?>">
-              <div class="trans-filter-button">
-                <span class="text-uppercase main-color">Inquiry Done</span>
-              </div>
+          </div>
+
+
+          <div class="trans-filter-button<?php echo ($this->input->get('transaction') == 'done' ? '-active' : ''); ?>">
+            <a href="<?php echo ($this->input->get('transaction') == 'done' ? base_url('profile/transaction') : base_url('profile/transaction?transaction=done')); ?>">
+              <span class="text-uppercase <?php echo ($this->input->get('transaction') == 'done' ? 'trans-filter-active' : 'main-color'); ?>">Inquiry Done</span>
             </a>
-          <?php endif; ?>
+          </div>
 
         </div>
 
@@ -210,7 +146,7 @@
     </div>
 
     <!-- END OF FILTER BUTTON MOBILE -->
-    <?php if ($masterData->num_rows() == 0) : ?>
+    <?php if ($masterData->num_rows() == 0) { ?>
       <div class="row">
         <div class="col-12">
           <div class="d-flex justify-content-center">
@@ -220,8 +156,8 @@
           </div>
         </div>
       </div>
-    <?php else : ?>
-      <?php foreach ($masterData->result() as $master) : ?>
+    <?php } else { ?>
+      <?php foreach ($masterData->result() as $master) { ?>
         <!-- MAIN TRANSACTION -->
         <div class="trans-main-container">
 
@@ -287,19 +223,10 @@
               </div>
 
               <?php
-              $this->db->select('*');
-              $this->db->from('v_g_orders');
-              $this->db->where('ORDER_NO', $master->ORDER_NO);
 
-              $userHistory = $this->db->get();
+              $userHistory = $this->profile->getOrderDetails($master->ORDER_NO);
 
-              foreach ($userHistory->result() as $history) :
-
-                //CALL THE API FOR PRODUCT TITLE AND IMAGE
-                $finalUrl = 'http://en.yiwugo.com/ywg/productdetail.html?account=Wien.suh@gmail.com&productId=' . $history->PRODUCT_ID;
-
-                $json = file_get_contents($finalUrl);
-                $obj = json_decode($json, true);
+              foreach ($userHistory->result() as $history) {
               ?>
                 <div class="row container-border-order-number pt-0 pt-md-2 pt-lg-2 pt-xl-2">
 
@@ -310,11 +237,7 @@
                       <div class="col-4 col-md-3 col-lg-3 col-xl-2 mt-2 mt-md-2 mt-lg-2 mt-xl-2">
                         <a href="<?php echo base_url() . 'product_detail?id=' . $history->PRODUCT_ID; ?>">
 
-                          <?php if ($obj['detail']['productForApp']['picture'] == null) : ?>
-                            <img src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture2']; ?>" alt="<?php echo $obj['detail']['productForApp']['title']; ?>" class="transaction-image">
-                          <?php else : ?>
-                            <img src="http://img1.yiwugou.com/<?php echo $obj['detail']['productForApp']['picture']; ?>" alt="<?php echo $obj['detail']['productForApp']['title']; ?>" class="transaction-image">
-                          <?php endif; ?>
+                          <img src="<?php echo $history->PRODUCT_IMAGE; ?>" alt="<?php echo $history->PRODUCT_NAME; ?>" onerror="this.onerror=null;this.src=' . '\'' . base_url('assets/images/no-image-icon.png') . ' \'' . '" class="transaction-image">
 
                         </a>
                       </div>
@@ -322,9 +245,9 @@
                       <div class="col-8 col-md-9 col-lg-9 col-xl-9 mt-2 mt-md-2 mt-lg-2 mt-xl-2">
                         <div class="row">
                           <div class="col-12">
-                            <a href="<?php echo base_url() . 'product_detail?id=' . $history->PRODUCT_ID; ?>">
+                            <a href="<?php echo base_url('product_detail?id=' . $history->PRODUCT_ID); ?>">
                               <span class="text-capitalize" style="color: #212529;">
-                                <?php echo ucwords(mb_strimwidth($obj['detail']['productForApp']['title'], 0, 100, "...")); ?>
+                                <?php echo ucwords(mb_strimwidth($history->PRODUCT_NAME, 0, 100, "...")); ?>
                               </span>
                             </a>
                           </div>
@@ -339,11 +262,7 @@
 
                           <div class="col-6">
                             <span class="main-color">
-                              <?php if ($obj['detail']['productForApp']['matrisingular'] == '个') : ?>
-                                <?php echo number_format($history->PRODUCT_QUANTITY) . ' pc'; ?>
-                              <?php else : ?>
-                                <?php echo number_format($history->PRODUCT_QUANTITY) . ' pc'; ?>
-                              <?php endif; ?>
+                              <?php echo number_format($history->PRODUCT_QUANTITY) . ' pc'; ?>
                             </span>
                           </div>
                         </div>
@@ -388,11 +307,11 @@
 
                         <div class="row">
                           <div class="col-12">
-                            <?php if ($history->PRODUCT_NOTES == null) : ?>
+                            <?php if ($history->PRODUCT_NOTES == null) { ?>
                               <span class="main-color font-weight-bold"> - </span>
-                            <?php else : ?>
+                            <?php } else { ?>
                               <span class="main-color font-weight-bold"><?php echo $history->PRODUCT_NOTES; ?></span>
-                            <?php endif; ?>
+                            <?php } ?>
                           </div>
                         </div>
 
@@ -403,7 +322,7 @@
                   </div>
 
                 </div>
-              <?php endforeach; ?>
+              <?php } ?>
 
               <div class="row mt-1 mt-md-1 mt-lg-1 mt-xl-1">
 
@@ -419,7 +338,7 @@
 
                 <?php
                 //DONT'S SHOW THE PAYMENT BUTTON IF THE STATUS IS NEW ORDER AND UPDATED
-                if ($master->STATUS_ORDER == 'UPDATED') :
+                if ($master->STATUS_ORDER == 'UPDATED') {
 
                   $attributes = array('id' => 'myform' . $counter);
                   echo form_open('order/payment', $attributes);
@@ -427,30 +346,22 @@
                   //GENERATE RANDOM NUMBER TO HELP CONFIRM THE TRANSFER
                   $transID = rand(100, 1000);
                 ?>
-                  <form class="form-inline" action="<?php echo base_url('order/payment'); ?>" method="POST" id="myform<?php echo $counter; ?>">
+                  <div class="trans-container-footer-payment">
+                    <a class="proc-payment" data-ordertotal="<?php echo $master->AMOUNT + $master->TOTAL_POSTAGE; ?>" data-orderid="<?php echo $master->ORDER_NO; ?>" style="color: black;">
+                      <span><i class="fas fa-money-check-alt"></i> Order Payment</span>
+                    </a>
+                  </div>
 
-                    <input type="hidden" name="orderID" value="<?php echo $master->ORDER_NO; ?>">
-                    <input type="hidden" name="orderTotal" value="<?php echo $master->AMOUNT + $master->TOTAL_POSTAGE + $transID; ?>">
-                    <input type="hidden" name="transactionID" value="<?php echo $transID; ?>">
+                <?php } ?>
 
-                    <div class="trans-container-footer-payment">
-                      <a href="javascript:{}" onclick="document.getElementById('myform<?php echo $counter; ?>').submit();" style="color: black;">
-                        <span><i class="fas fa-money-check-alt"></i> Order Payment</span>
-                      </a>
-                    </div>
-
-                  <?php endif; ?>
-
-                  <!-- SHOW IF THE STATUS IS CONFIRMED -->
-                  <?php if ($master->STATUS_ORDER == 'PAID') : ?>
-                    <div class="trans-container-footer-receive">
-                      <a href="#" class="receive-button" data-id="<?php echo $master->ORDER_NO; ?>" style="color: black;">
-                        <span><i class="far fa-check-square pr-2"></i> Receive Order</span>
-                      </a>
-                    </div>
-                  <?php endif; ?>
-
-                  </form>
+                <!-- SHOW IF THE STATUS IS CONFIRMED -->
+                <?php if ($master->STATUS_ORDER == 'PAID') { ?>
+                  <div class="trans-container-footer-receive">
+                    <a href="#" class="receive-button" data-id="<?php echo $master->ORDER_NO; ?>" style="color: black;">
+                      <span><i class="far fa-check-square pr-2"></i> Receive Order</span>
+                    </a>
+                  </div>
+                <?php } ?>
 
               </div>
               <!-- END OF MAIN TRANS PART -->
@@ -460,8 +371,8 @@
         </div>
         <!-- END OF MAIN TRANSACTION -->
         <?php $counter++; ?>
-      <?php endforeach; ?>
-    <?php endif; ?>
+      <?php } ?>
+    <?php } ?>
 
   </div>
 
@@ -488,15 +399,75 @@
     </div>
   </div>
 </div>
+
+<div class="modal" id="paymentModal">
+
+</div>
 <!-- END OF MODAL PART -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="<?php echo base_url('assets/bootstrap-4/js/bootstrap.js'); ?>"></script>
 
 <script type="text/javascript">
+  var showLoadingBar = function() {
+    $body = $('body');
+    $body.addClass('loading');
+  };
+
+  var removeLoadingBar = function() {
+    $body = $('body');
+    $body.removeClass('loading');
+  };
+
+
   $('.account-position-fix').on('click', function() {
-    console.log('trans ke klik');
+    // console.log('trans ke klik');
   });
+
+  $('.proc-payment').click(function(resp) {
+
+    let id = $(this).data('orderid');
+
+    snap.show();
+
+    $.post(baseUrl + 'API/startPayment', {
+      orderID: id,
+      key: 'c549303dcef12a687e9077a21e1a51fb67851efb'
+    }, function(resp) {
+      console.log(resp);
+
+      if (resp.status == 'error') {
+        snap.hide();
+      } else {
+        snap.pay(resp.message.token, {
+          onSuccess: function(result) {
+            console.log('success');
+            console.log(result);
+            $.post(baseUrl + 'API/finishPayment', {
+              data: result,
+              key: 'c549303dcef12a687e9077a21e1a51fb67851efb'
+            }, function(resp) {
+              console.log(resp);
+            });
+          },
+          onPending: function(result) {
+            console.log('pending');
+            console.log(result);
+          },
+          onError: function(result) {
+            console.log('error');
+            console.log(result);
+          },
+          onClose: function() {
+            console.log('customer closed the popup without finishing the payment');
+          }
+        });
+      }
+    });
+
+  });
+
+
 
   /* SET THE CURRENT ORDER STATUS TO FINISHED */
   $('.receive-button').on('click', function() {
@@ -513,19 +484,10 @@
       if (result.value) {
         console.log('clicked');
         console.log(id);
-        $.ajax({
-          url: "<?php echo base_url('Profile/finishOrder'); ?>",
-          type: "POST",
-          data: {
-            id: id
-          },
-          success: function(response) {
-            console.log(response);
-            location.reload(true);
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.log(textStatus, errorThrown);
-          }
+        $.post(baseUrl + 'General/Profile/finishOrder', {
+          id: id
+        }, function(resp) {
+          console.log(resp);
         });
       }
     });
@@ -539,7 +501,7 @@
     var recipient = button.data('transaction');
 
     //Create the URL for Controller
-    var url = '<?php echo base_url('Profile/getMessages?id='); ?>' + recipient;
+    var url = baseUrl + 'General/Profile/getMessages?id=' + recipient;
 
     $('.modal-body').load(url, function() {
       $(".message-holder").animate({
@@ -560,33 +522,22 @@
     var transactionID = $("#hidden-id").val();
     var sender = 'CUSTOMER';
 
-    $.ajax({
-      url: "<?php echo base_url('Profile/customerSendMessages'); ?>",
-      type: "GET",
-      data: {
-        sender: sender,
-        id: transactionID,
-        message: message
-      },
-      success: function(response) {
+    $.get(baseUrl + 'General/Profile/customerSendMessages', {
+      sender: sender,
+      id: transactionID,
+      message: message
+    }, function(resp) {
+      var url = baseUrl + 'General/Profile/getMessages?id=' + transactionID;
 
-        //Create the URL for Controller
-        var url = '<?php echo base_url('Profile/getMessages?id='); ?>' + transactionID;
-
-        $('.modal-body').load(url, function() {
-          $('#messageModal').modal({
-            show: true
-          });
-          $(".message-holder").animate({
-            scrollTop: $('.message-holder').prop("scrollHeight")
-          }, 1000);
+      $('.modal-body').load(url, function() {
+        $('#messageModal').modal({
+          show: true
         });
-
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        console.log(textStatus, errorThrown);
-      }
-    });
+        $(".message-holder").animate({
+          scrollTop: $('.message-holder').prop("scrollHeight")
+        }, 1000);
+      });
+    })
 
   });
 </script>

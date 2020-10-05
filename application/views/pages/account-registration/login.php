@@ -3,7 +3,7 @@
 	<?php if ($this->input->get('refer') != null) : ?>
 		<form method="POST" action="<?php echo base_url('Login/login_user?refer=' . $this->input->get('refer')); ?>" class="needs-validation" novalidate>
 		<?php else : ?>
-			<form method="POST" action="<?php echo base_url('Login/login_user'); ?>" class="needs-validation" novalidate>
+			<form method="POST" action="<?php echo base_url('General/Login/login_user'); ?>" class="needs-validation" novalidate>
 			<?php endif; ?>
 
 			<div class="row" id="login-inner-container">

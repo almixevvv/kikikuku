@@ -39,6 +39,15 @@ body {
 	width: 20%;
 }
 
+.cart-badge {
+	background-color: #ffffff;
+	color: #24ca9d;
+	border: 1px #24ca9d solid;
+	position: relative;
+	left: -10px;
+	top: -10px;
+}
+
 #login-list-container {
 	padding-top: 0;
 }

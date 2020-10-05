@@ -13,6 +13,17 @@
 		return $query;
 	}
 
+	function getMemberSalt($email)
+	{
+		$this->db->select('SALT');
+		$this->db->from('g_member');
+		$this->db->where('EMAIL', $email);
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
 	function getMemberData($email)
 	{
 

@@ -154,6 +154,7 @@
 					<a href="<?php echo base_url('mycart'); ?>">
 						<i class="fas fa-shopping-cart" id="icon-shopping-cart"></i>
 					</a>
+					<span class="badge badge-secondary" style="background-color: #24ca9d;">2</span>
 				</span>
 
 				<?php

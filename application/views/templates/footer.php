@@ -1,20 +1,3 @@
-<script>
-	// Retrieve Firebase Messaging object.
-	const messaging = firebase.messaging();
-
-	messaging.requestPermission()
-		.then(function() {
-			console.log('permsission granted');
-			return messaging.getToken();
-		})
-		.then(function(token) {
-			console.log(token);
-		})
-		.catch(function(err) {
-			console.log(err);
-		});
-</script>
-
 </body>
 
 <footer id="footer-separator">

@@ -9,7 +9,7 @@
   <div class="container">
     <div class="card card-login mx-auto mt-5" style="background-color: transparent;border:transparent;">
       <div class="card-body">
-        <?php echo form_open('CMS/login_process'); ?>
+        <?php echo form_open('CMS/CMS/login_process'); ?>
         <div class="d-flex justify-content-center">
           <img src="<?php echo base_url('assets/images/logo.png'); ?>" alt="Kikikuku Logo" style="width: 100%;">
         </div>

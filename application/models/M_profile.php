@@ -58,6 +58,17 @@ class M_profile extends CI_Model
 		$this->db->insert('g_rules', $data);
 	}
 
+	function getOrderDetails($id)
+	{
+		$this->db->select('*');
+		$this->db->from('v_g_orders');
+		$this->db->where('ORDER_NO', $id);
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
 	function getOrderHistory($email)
 	{
 
@@ -87,6 +98,17 @@ class M_profile extends CI_Model
 		$this->db->select('*');
 		$this->db->from('v_g_orders');
 		$this->db->where('MEMBER_EMAIL', $email);
+		$this->db->where('ORDER_NO', $orderID);
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	function getDetailFromOrderNo($orderID)
+	{
+		$this->db->select('*');
+		$this->db->from('v_g_order_master');
 		$this->db->where('ORDER_NO', $orderID);
 
 		$query = $this->db->get();
@@ -141,9 +163,8 @@ class M_profile extends CI_Model
 		return $query;
 	}
 
-	function insertImageData($data)
+	function insertPaymentProcess($data)
 	{
-
 		$query = $this->db->insert('g_confirm_payment', $data);
 
 		return $query;

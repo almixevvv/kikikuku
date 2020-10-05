@@ -64,8 +64,6 @@ $route['cms/orders/status'] = 'CMS/Orders_cms/status';
 /* ROUTES FOR PROCESS */
 $route['addcart'] = 'Cart/addtocart';
 
-$route['API/completePayment'] = 'General/Checkout/postPaymentProcess';
-
 /* Basic Part */
 $route['change_pass'] = 'cpassword/view';
 $route['product'] = 'product/view';
